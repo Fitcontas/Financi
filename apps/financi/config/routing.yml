@@ -1,0 +1,56 @@
+inicio:
+    method: get
+    route: Home:index
+    url: /
+login:
+    method: get
+    route: Home:login
+    url: /login
+logar:
+    method: post
+    route: Home:logar
+    url: /logar
+logout:
+    method: get
+    route: Home:sair
+    url: /sair
+
+cliente:
+    method: get
+    route: Cliente:index
+    url: /cliente
+
+cliente_cadastro_pf:
+    method: get
+    route: Cliente:cadastroPf
+    url: /cliente/cadastro/pf
+
+cliente_cadastro_pj:
+    method: get
+    route: Cliente:cadastroPj
+    url: /cliente/cadastro/pj
+
+cidades:
+    method: get
+    route: Cliente:cidades
+    url: /cidades/:uf
+
+salvar_pf:
+    method: post
+    route: Cliente:salvarPf
+    url: /cliente/pf/salvar
+
+usuario:
+    method: get
+    route: Usuario:index
+    url: /usuario
+
+usuario_all:
+    method: get
+    route: Usuario:all
+    url: /usuario/all(/:id)
+
+usuario_novo:
+    method: post
+    route: Usuario:novo
+    url: /usuario/novo(/:id)

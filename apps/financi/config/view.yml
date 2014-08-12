@@ -1,0 +1,4 @@
+default:
+    title: Finaci Imóveis - Gestão de Vendas
+    stylesheets: [ js/bootstrap/dist/css/bootstrap, print: { media: print }, style, fonts/font-awesome-4/css/font-awesome.min ]
+    javascripts: [ jquery, js/bootstrap/dist/js/bootstrap.min, bower_components/typeahead.js/dist/typeahead.bundle.min, bower_components/angular/angular.min, bower_components/angular-resource/angular-resource.min, bower_components/angular-ngMask/dist/ngMask.min, bower_components/angular-typeahead/angular-typeahead.min, handlebars, datepicker, datepicker.config, main, messages, services ]

@@ -1,0 +1,414 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "9b426aefa797902859ca3ae54df8bca2",
+    "packages": [
+        {
+            "name": "leeoniya/dump-r",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/leeoniya/dump_r.php.git",
+                "reference": "7f96104bc1b34c0a6d534a6175d2fd1ae4573e7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/leeoniya/dump_r.php/zipball/7f96104bc1b34c0a6d534a6175d2fd1ae4573e7d",
+                "reference": "7f96104bc1b34c0a6d534a6175d2fd1ae4573e7d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "suggest": {
+                "jdorn/sql-formatter": "Pretty-print dumped SQL strings"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "dump_r.php"
+                ],
+                "psr-0": {
+                    "dump_r": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Leon Sorokin",
+                    "email": "leeoniya@gmail.com",
+                    "homepage": "https://github.com/leeoniya",
+                    "role": "Developer"
+                }
+            ],
+            "description": "a cleaner, leaner mix of print_r() and var_dump()",
+            "homepage": "https://github.com/leeoniya/dump_r.php",
+            "keywords": [
+                "debug",
+                "dump",
+                "pretty",
+                "print",
+                "print_r",
+                "var_dump"
+            ],
+            "time": "2014-05-07 18:19:19"
+        },
+        {
+            "name": "opis/database",
+            "version": "1.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/opis/database.git",
+                "reference": "94ebc341de6278e5e2c0469f5a76fcfd64ac7bd2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/opis/database/zipball/94ebc341de6278e5e2c0469f5a76fcfd64ac7bd2",
+                "reference": "94ebc341de6278e5e2c0469f5a76fcfd64ac7bd2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Opis\\Database\\": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Marius Sarca",
+                    "email": "marius.sarca@gmail.com"
+                }
+            ],
+            "description": "Database abstraction layer",
+            "homepage": "http://opis.io",
+            "keywords": [
+                "abstraction",
+                "database",
+                "db2",
+                "firebird",
+                "mysql",
+                "nuodb",
+                "oracle",
+                "postgre",
+                "query",
+                "sql",
+                "sql server",
+                "sqlite"
+            ],
+            "time": "2014-07-03 19:00:58"
+        },
+        {
+            "name": "opis/session",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/opis/session.git",
+                "reference": "20b2389ce21776132c49693e52bfe0bbd41b7d6a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/opis/session/zipball/20b2389ce21776132c49693e52bfe0bbd41b7d6a",
+                "reference": "20b2389ce21776132c49693e52bfe0bbd41b7d6a",
+                "shasum": ""
+            },
+            "require": {
+                "opis/database": "1.3.*",
+                "php": ">=5.3.0",
+                "predis/predis": "0.8.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Opis\\Session\\": "lib/"
+                },
+                "classmap": [
+                    "lib/PHP"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Marius Sarca",
+                    "email": "marius.sarca@gmail.com"
+                }
+            ],
+            "description": "Opis Session",
+            "homepage": "http://opis.io",
+            "keywords": [
+                "opis",
+                "session"
+            ],
+            "time": "2014-06-26 10:57:04"
+        },
+        {
+            "name": "php-activerecord/php-activerecord",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jpfuentes2/php-activerecord.git",
+                "reference": "3c4331ddc9ec963fdd4c689a854b4a21b64ba2af"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jpfuentes2/php-activerecord/zipball/3c4331ddc9ec963fdd4c689a854b4a21b64ba2af",
+                "reference": "3c4331ddc9ec963fdd4c689a854b4a21b64ba2af",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "pear/log": "dev-master",
+                "pear/pear_exception": "1.0.*@dev",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "ActiveRecord.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "php-activerecord is an open source ORM library based on the ActiveRecord pattern.",
+            "homepage": "http://www.phpactiverecord.org/",
+            "keywords": [
+                "activerecord",
+                "orm"
+            ],
+            "time": "2014-07-19 21:27:26"
+        },
+        {
+            "name": "predis/predis",
+            "version": "v0.8.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nrk/predis.git",
+                "reference": "4123fcd85d61354c6c9900db76c9597dbd129bf6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nrk/predis/zipball/4123fcd85d61354c6c9900db76c9597dbd129bf6",
+                "reference": "4123fcd85d61354c6c9900db76c9597dbd129bf6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "ext-curl": "Allows access to Webdis when paired with phpiredis",
+                "ext-phpiredis": "Allows faster serialization and deserialization of the Redis protocol"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Predis": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniele Alessandri",
+                    "email": "suppakilla@gmail.com",
+                    "homepage": "http://clorophilla.net"
+                }
+            ],
+            "description": "Flexible and feature-complete PHP client library for Redis",
+            "homepage": "http://github.com/nrk/predis",
+            "keywords": [
+                "nosql",
+                "predis",
+                "redis"
+            ],
+            "time": "2014-08-01 09:43:10"
+        },
+        {
+            "name": "slim/slim",
+            "version": "2.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codeguy/Slim.git",
+                "reference": "4906b77a07c7bd6ff1a99aea903e940a2d4fa106"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codeguy/Slim/zipball/4906b77a07c7bd6ff1a99aea903e940a2d4fa106",
+                "reference": "4906b77a07c7bd6ff1a99aea903e940a2d4fa106",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "suggest": {
+                "ext-mcrypt": "Required for HTTP cookie encryption"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Slim": "."
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Lockhart",
+                    "email": "info@joshlockhart.com",
+                    "homepage": "http://www.joshlockhart.com/"
+                }
+            ],
+            "description": "Slim Framework, a PHP micro framework",
+            "homepage": "http://github.com/codeguy/Slim",
+            "keywords": [
+                "microframework",
+                "rest",
+                "router"
+            ],
+            "time": "2014-04-05 18:33:59"
+        },
+        {
+            "name": "slimcontroller/slimcontroller",
+            "version": "0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fortrabbit/slimcontroller.git",
+                "reference": "f9306eac173671544025b3febe3c5f146ac973e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fortrabbit/slimcontroller/zipball/f9306eac173671544025b3febe3c5f146ac973e8",
+                "reference": "f9306eac173671544025b3febe3c5f146ac973e8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0",
+                "slim/slim": "~2.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.8.*",
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "SlimController": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ulrich Kautz",
+                    "email": "uk@fortrabbit.de",
+                    "homepage": "http://fortrabbit.com/"
+                }
+            ],
+            "description": "Controller extensions for the Slim Framework",
+            "homepage": "http://github.com/fortrabbit/slimcontroller",
+            "keywords": [
+                "controller",
+                "microframework"
+            ],
+            "time": "2014-04-14 19:26:29"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "dev-master",
+            "target-dir": "Symfony/Component/Yaml",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Yaml.git",
+                "reference": "d84b97a12046b2c34e8457626b9f2b72dec0c183"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/d84b97a12046b2c34e8457626b9f2b72dec0c183",
+                "reference": "d84b97a12046b2c34e8457626b9f2b72dec0c183",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Yaml\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-08-05 09:07:51"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "php-activerecord/php-activerecord": 20,
+        "symfony/yaml": 20,
+        "leeoniya/dump-r": 20
+    },
+    "prefer-stable": false,
+    "platform": [],
+    "platform-dev": []
+}

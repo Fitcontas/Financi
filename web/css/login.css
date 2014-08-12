@@ -1,0 +1,134 @@
+body{
+    background: #f0f0f0;
+}
+.modal-backdrop.in{
+    display: none;
+}
+#login{
+    width: 320px;
+    margin: 0 auto;
+}
+#login .login-body{
+    border-bottom: 1px solid #d5d5d5;
+    padding-bottom: 40px;
+}
+#login .login-footer{
+    border-top: 1px solid #fcfcfc;
+    padding: 30px;
+    text-align: center;
+}
+#login .form-group{
+    margin-left: 0px;
+    margin-right: 0px;
+}
+#login input{
+    width: 100%;
+    border: none;
+    padding: 6px 6px 7px;
+    background: none;
+    box-shadow: none;
+}
+#login select{
+    width: 100%;
+    border: none;
+    padding: 6px 6px 7px;
+    background: none;
+    box-shadow: none;
+}
+#login .login_input-wrapper {
+    color: #666666;
+    border-right: 1px solid #F5F5F5;
+    border-bottom: 1px solid #F5F5F5;
+    padding: 2px;
+    background: #E5E5E5;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1) inset;
+}
+#login .input-group-addon {
+    background: none;
+    border: none;
+    color: #B5B5B5;
+    padding: 6px 6px 6px 12px;
+}
+#login .has-error .input-group-addon {
+    color: #B5B5B5;
+    background: none;
+    border: none;
+}
+#login .text-center{
+    text-align: center;
+}
+/**************/
+#login .logo{
+    color: #2494F2;
+    padding: 100px 0px 20px 0px;
+    text-transform: uppercase;
+}
+#login .logo h1 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 2.2em;
+    line-height: 0.5em;
+}
+#login .inset-text {
+    color: rgba(38,148,240, 0.8);
+    text-shadow: 1px 4px 6px #def, 0 0 0 #000, 1px 4px 6px #def;
+}
+#login .inset-text span{
+    color: rgba(160,160,160, 0.8);
+}
+/* Don't show shadows when selecting text */
+::-moz-selection { background: #5af; color: #fff; text-shadow: none; }
+::selection { background: #5af; color: #fff; text-shadow: none; }
+
+#login .logo p{
+    color: #999;
+    padding: 5px 0;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: none;
+}
+
+#login .photo i{
+    background: #d5d5d5;
+    border: 1px solid #fff;
+    text-align: center;
+    padding: 25px;
+    border-radius: 50%;
+    font-size: 68px;
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+#login .btn{
+    border-radius: 0;
+    min-width: 80px;
+    margin-left: 10px;
+}
+#login .btn-primary{
+    color: #fff;
+    background: #2494F2;
+}
+#login .btn-primary:hover{
+    color: #fff;
+    background: #2082D5;
+}
+#login .recovery{
+    padding: 10px 0;
+}
+#login .create{
+    padding: 20px 0;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+#login .create p{
+    color: #999;
+}
+#login #logado .content{
+    margin: 0 -80px;
+    color: #666;
+}
+#login .btn-full{
+    width: 100%;
+    margin: 0;
+}

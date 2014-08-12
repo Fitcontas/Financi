@@ -1,0 +1,18 @@
+{
+    "require": {
+    	"slim/slim": "2.*",
+        "slimcontroller/slimcontroller": "0.4.*",
+        "php-activerecord/php-activerecord": "dev-master",
+        "symfony/yaml": "2.6.*@dev",
+        "leeoniya/dump-r": "dev-master",
+        "opis/session": "2.1.*"
+    },
+    "autoload": {
+        
+        "psr-0": {
+            "": "apps/financi/",
+            "Financi": "src/",
+            "Controllers": "apps/"
+        }
+    }
+}

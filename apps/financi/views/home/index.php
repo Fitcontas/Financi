@@ -1,0 +1,1 @@
+<?php dump_r(\Financi\Auth::getUser()); ?>

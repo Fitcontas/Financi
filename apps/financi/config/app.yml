@@ -1,0 +1,10 @@
+menunav:
+    cadastros:
+        descricao: Cadastros
+        items:
+            clientes:
+                descricao: Clientes
+                link: /cliente
+            usuarios:
+                descricao: Usuários
+                link: /usuario
