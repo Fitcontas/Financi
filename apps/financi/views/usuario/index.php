@@ -19,16 +19,16 @@
             </div>
             <div class="block-flat">
                 <div class="header">
-                    <h3>Relação de Clientes</h3>
+                    <h3>Relação de Usuários</h3>
                 </div>
                 <div class="content spacer0 process">
                     <div class="toobar">
                         <div class="pull-left">
                         <div class="btn-group pull-left" id="buttons-grid">
                             <button type="button" class="btn btn-default" ng-click="showForm(false)"> Novo</button>
-                            <button type="button" class="btn btn-default " action="excluir"> Excluir</button>
-                            <button type="button" class="btn btn-default " action="habilitar"> Habilitar</button>
-                            <button type="button" class="btn btn-default " action="desabilitar"> Desabilitar</button></div>
+                            <button type="button" class="btn btn-default" ng-click="acao('excluir')"> Excluir</button>
+                            <button type="button" class="btn btn-default" ng-click="acao('habilitar')"> Habilitar</button>
+                            <button type="button" class="btn btn-default" ng-click="acao('desabilitar')"> Desabilitar</button></div>
                         </div>
                         <div class="pull-right">
                             <input class="form-control" type="text" aria-controls="tb_usuario" placeholder="Pesquisar" style="width:250px">
@@ -41,23 +41,36 @@
                                 <tr>
                                     <th>
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="checkall" class="checkall"/></label>
+                                            <label><input type="checkbox" name="checkall" ng-model="checkall"/></label>
                                         </div>
                                     </th>
                                     <th>Nome</th>
                                     <th>E-mail</th>
                                     <th>Tipo</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="u in usuarios">
-                                    <td><input type="checkbox" value="<?php echo $c->id ?>" name="check[]"></td>
+                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(u)" ng-checked="checkall"/></td>
                                     <td><a ng-click="showForm(u)">{{u.nome}}</a></td>
                                     <td>{{u.email}}</td>
                                     <td>{{u.grupo}}</td>
+                                    <td>{{u.status == 1 ? 'Ativo' : 'Desabilitado'}}</td>
                                 </tr>
                             </tbody>
                         </table>              
+                    </div>
+                    <div class="row-fluid" ng-show="paginas.length>1">
+                      <div class="span12">
+                         <div>
+                          <ul class="pagination pull-right">
+                            <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}">
+                              <a ng-click="start($index+1)" href="javascript:void(0)">{{$index+1}}</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
                 </div>
             </div>

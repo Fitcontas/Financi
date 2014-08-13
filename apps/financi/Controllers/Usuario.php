@@ -8,22 +8,45 @@ use Opis\Session\Session,
 class Usuario extends \SlimController\SlimController 
 {
     public function indexAction()
-    {
+    {   
+
         $usuario = \Usuario::find('all');
 
         $this->render('usuario/index.php', [
                 'usuario' => $usuario,
-                'foot_js' => ['js/cadastros/usuario.js']
+                'head_js' => [ 'bower_components/angular-route/angular-route.min.js' ],
+                'foot_js' => [ 'js/cadastros/usuario.js', 'bower_components/lodash/dist/lodash.min.js']
             ]);
     }
 
     public function allAction()
     {
         $this->app->contentType('application/json');
-        
+
+        $get = $this->app->request->get();
+
+        $usuarios_total = \Usuario::find('all', [
+                'select' => 'usuario.id, usuario.usuario, usuario.nome, usuario.apelido, usuario.email, usuario.grupo_id, usuario.status, grupo_usuario.descricao as grupo',
+                'joins' => ['grupo_usuario'],
+                'conditions' => ['usuario.status = ? OR usuario.status = ?', 1, 2]
+            ]);
+
+        $pagina = $get['pagina'];
+
+        $limite = 10;
+
+        $total = count($usuarios_total);
+
+        $total_paginas = ceil($total/$limite);
+
+        $inicio = ($limite*$pagina)-$limite;
+
         $usuarios = \Usuario::find('all', [
-                'select' => 'usuario.*, grupo_usuario.descricao as grupo',
-                'joins' => ['grupo_usuario']
+                'select' => 'usuario.id, usuario.usuario, usuario.nome, usuario.apelido, usuario.email, usuario.grupo_id, usuario.status, grupo_usuario.descricao as grupo',
+                'joins' => ['grupo_usuario'],
+                'conditions' => ['usuario.status = ? OR usuario.status = ?', 1, 2],
+                'limit' => $limite,
+                'offset' => $inicio
             ]);
 
         $arr = [];
@@ -35,7 +58,7 @@ class Usuario extends \SlimController\SlimController
             $arr[] = $u_arr;
         }
 
-        return $this->app->response->setBody(json_encode( ['usuarios' => $arr] ));
+        return $this->app->response->setBody(json_encode( ['usuarios' => $arr, 'paginas' => $total_paginas] ));
     }
 
     public function novoAction()
@@ -72,5 +95,39 @@ class Usuario extends \SlimController\SlimController
         }
 
         return $this->app->response->setBody(json_encode( ['success' => false] ));
+    }
+
+    public function acoesAction($acao) 
+    {
+        $this->app->contentType('application/json');
+        $data = json_decode($this->app->request->getBody());
+
+        if($acao == 'excluir') {
+            foreach ($data as $d) {
+                $usuario = \Usuario::find($d->id);
+                $usuario->status = 0;
+                $usuario->save();
+            }
+            return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] )); 
+        }
+
+        if($acao == 'desabilitar') {
+            foreach ($data as $d) {
+                $usuario = \Usuario::find($d->id);
+                $usuario->status = 2;
+                $usuario->save();
+            }
+            return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 4] )); 
+        }
+
+        if($acao == 'habilitar') {
+            foreach ($data as $d) {
+                $usuario = \Usuario::find($d->id);
+                $usuario->status = 1;
+                $usuario->save();
+            }
+            return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 4] )); 
+        }
+
     }
 }

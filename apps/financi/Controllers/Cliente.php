@@ -13,8 +13,46 @@ class Cliente extends \SlimController\SlimController
 
 		$this->render('cliente/index.php', [
                 'clientes' => $clientes,
+                'foot_js' => [ 'js/cadastros/cliente_index.js' ]
             ]);
 	}
+
+    public function allAction()
+    {
+        $this->app->contentType('application/json');
+
+        $get = $this->app->request->get();
+
+        $clientes_total = \Clientes::find('all', [
+                'select' => 'cliente.id',
+                'conditions' => ['cliente.status = ? OR cliente.status = ?', 1, 2]
+            ]);
+
+        $pagina = $get['pagina'];
+
+        $limite = 5;
+
+        $total = count($clientes_total);
+
+        $total_paginas = ceil($total/$limite);
+
+        $inicio = ($limite*$pagina)-$limite;
+
+        $clientes = \Clientes::find('all', [
+                'select' => 'cliente.id, cliente.nome, cliente.cpf, cliente.status',
+                'conditions' => ['cliente.status = ? OR cliente.status = ?', 1, 2],
+                'limit' => $limite,
+                'offset' => $inicio
+            ]);
+
+        $arr = [];
+
+        foreach ($clientes as $c) {
+            $arr[] = $c->to_array();
+        }
+
+        return $this->app->response->setBody(json_encode( ['clientes' => $arr, 'paginas' => $total_paginas] ));
+    }
 
     public function cadastroPfAction()
     {
@@ -24,6 +62,17 @@ class Cliente extends \SlimController\SlimController
         $this->render('cliente/pf.php', [
                 'ufs' => is_array($ufs) ? $ufs : [],
                 'foot_js' => [ 'js/cadastros/clientes.js' ]
+            ]);
+    }
+
+    public function editaPfAction($id)
+    {
+        $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
+
+        $this->render('cliente/pf.php', [
+                'id' => $id,
+                'ufs' => is_array($ufs) ? $ufs : [],
+                'foot_js' => [ 'js/cadastros/cliente.edita.pf.js' ]
             ]);
     }
 
@@ -43,6 +92,24 @@ class Cliente extends \SlimController\SlimController
         return $this->app->response->setBody(json_encode( $cidades )); 
     }
 
+    public function buscaAction($id)
+    {
+        $this->app->contentType('application/json');
+
+        $cliente = \Clientes::find($id);
+
+        $enderecos = \ClienteEndereco::find('all', [
+                'conditions' => ['cliente_id = ?', $cliente->id]
+            ]);
+
+        $principal = isset($enderecos[0]) ? $enderecos[0]->to_array() : [];
+        $secundario = isset($enderecos[1]) ? $enderecos[1]->to_array() : [];
+
+        $array = array_merge($cliente->to_array(), ['endereco' => [$principal, $secundario]]);
+
+        return $this->app->response->setBody(json_encode( ['cliente' => $array ] )); 
+    }
+
 
     public function salvarPfAction()
     {
@@ -54,7 +121,7 @@ class Cliente extends \SlimController\SlimController
 
         unset($data->endereco);
 
-        $cliente = new Clientes($data);
+        $cliente = new \Clientes($data);
         
         if($cliente->save())
         {
@@ -63,7 +130,7 @@ class Cliente extends \SlimController\SlimController
                 foreach ($endereco as $e) {
                     $e->cliente_id = $cliente->id;
                     
-                    $cliente_endereco = new ClienteEndereco($e);
+                    $cliente_endereco = new \ClienteEndereco($e);
                     $cliente_endereco->save();
                 }
             }

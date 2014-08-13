@@ -25,10 +25,25 @@ cliente_cadastro_pf:
     route: Cliente:cadastroPf
     url: /cliente/cadastro/pf
 
+cliente_edita_pf:
+    method: get
+    route: Cliente:editaPf
+    url: /cliente/edita/pf/:id
+
 cliente_cadastro_pj:
     method: get
     route: Cliente:cadastroPj
     url: /cliente/cadastro/pj
+
+cliente_all:
+    method: get
+    route: Cliente:all
+    url: /cliente/all(/:id)
+
+cliente_busca:
+    method: get
+    route: Cliente:busca
+    url: /cliente/busca/:id
 
 cidades:
     method: get
@@ -39,6 +54,8 @@ salvar_pf:
     method: post
     route: Cliente:salvarPf
     url: /cliente/pf/salvar
+
+
 
 usuario:
     method: get
@@ -54,3 +71,18 @@ usuario_novo:
     method: post
     route: Usuario:novo
     url: /usuario/novo(/:id)
+
+usuario_acoes:
+    method: post
+    route: Usuario:acoes
+    url: /usuario/acoes/:acao
+
+corretor:
+    method: get
+    route: Corretor:index
+    url: /corretor
+
+corretor_novo:
+    method: get
+    route: Corretor:novo
+    url: /corretor/novo

@@ -30,7 +30,7 @@ class Home extends \SlimController\SlimController
 		$senha 	 = $request->params('senha');
 
 		if($usuario && $senha) {
-			$query = Usuario::find('one', [
+			$query = \Usuario::find('one', [
 					'select' => 'usuario.*, instituicao.*, grupo_usuario.*',
 					'joins' => ['instituicao', 'grupo_usuario'],
 					'conditions' => ['email = ? OR usuario = ? and senha = ?', $usuario, $usuario, sha1($senha)]

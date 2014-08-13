@@ -9,24 +9,12 @@
         </div>
 
         <div class="header">
-            <h3>Cadastro de Cliente</h3>    
+            <h3>Cadastro de Corretor</h3>    
         </div>
         <div class="content" ng-controller="FormCtrl">
             
             <form style="border-radius: 0px;" action="#" name="ClienteForm" id="ClienteForm" class="group-border-dashed">
-                <div class="tab-container">
-                        <ul class="nav nav-tabs flat-tabs">
-                          <li class="active"><a data-toggle="tab" href="#home">Identificação</a></li>
-                          <li class=""><a data-toggle="tab" href="#conjuge">Cônjuge</a></li>
-                          <!--<li class=""><a data-toggle="tab" href="#messages">Profissional</a></li>-->
-                        </ul>
-                        <!-- Início tab-content -->
-                        <div class="tab-content">
-                            <!-- Início tab-content -->
-                            <input type="hidden" id="cliente-id" value="<?php echo $id ?>">
-                            <!-- Início home -->
-                            <div id="home" class="tab-pane cont active">
-                                <div class="spacer2">
+                
                                     <?php 
 
                                     \Financi\HTMLHelper::renderRow([
@@ -54,7 +42,6 @@
                                                 'F' => 'Feminino'
                                             ],
                                             'ng-model' => 'cliente.sexo',
-                                            'attributes' => 'required req'
                                         ],
                                         [
                                             'label' => 'Data de Cadastro',
@@ -71,7 +58,6 @@
                                             'block' => 'input-group-datepicker',
                                             'name' => 'cliente[data_nascimento]',
                                             'ng-model' => 'cliente.data_nascimento',
-                                            'attributes' => 'required req',
                                             'class' => ''
                                         ],
                                          [
@@ -79,7 +65,6 @@
                                             'block_class' => 'col-sm-4',
                                             'name' => 'cliente[nacionalidade]',
                                             'ng-model' => 'cliente.nacionalidade',
-                                            'attributes' => 'required req'
                                         ],
                                         [
                                             'label' => 'UF',
@@ -89,7 +74,7 @@
                                             'name' => 'cliente[naturalidade_uf]',
                                             'id' => 'naturalidade_uf',
                                             'ng-model' => 'cliente.naturalidade_uf',
-                                            'attributes' => 'required req ng-change="get_cidade(\'naturalidade_uf\', \'cidades\')"'
+                                            'attributes' => 'ng-change="get_cidade(\'naturalidade_uf\', \'cidades\')"'
                                         ],
                                         [
                                             'label' => 'Naturalidade',
@@ -97,7 +82,6 @@
                                             'block_class' => 'col-sm-10',
                                             'name' => 'cliente[naturalidade]',
                                             'ng-model' => 'cliente.naturalidade',
-                                            'attributes' => 'required req',
                                             'ng-option' => '<option ng-repeat="cidade in cidades" value="{{ cidade.id }}">{{ cidade.nome }}</option>'
                                         ],
                                         [
@@ -112,7 +96,6 @@
                                             ],
                                             'name' => 'cliente[estado_civil]',
                                             'ng-model' => 'cliente.estado_civil',
-                                            'attributes' => 'required req'
                                         ]
                                     ]);
 
@@ -214,17 +197,6 @@
                                                 </div>
                                             </div>
                                         <?php 
-                                            /*\Financi\HTMLHelper::renderRow([
-                                                [
-                                                    'label' => 'CEP',
-                                                    'block' => 'input-group-buttom',
-                                                    'block_class' => 'col-sm-4',
-                                                    'input_group_symbol' => '<i class="fa fa-search"></i>',
-                                                    'input_group_btn_class' => 'busca-cep',
-                                                    'name' => 'cliente[endereco][0][cep]',
-                                                    'ng-model' => 'cliente.endereco.0.cep'
-                                                ]
-                                            ]);*/
 
                                             \Financi\HTMLHelper::renderRow([
                                                 [
@@ -410,131 +382,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                   
-                                </div>
-                            </div>
-                            <!-- Fim /home -->
-
-                            <!-- Início conjuge -->
-                            <div id="conjuge" class="tab-pane cont">
-                                <div class="spacer2">
-                                    <?php 
-                                        \Financi\HTMLHelper::renderRow([
-                                        [
-                                            'label' => 'CPF',
-                                            'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[conjuge][cpf]'
-                                        ],
-                                        [
-                                            'label' => 'Nome',
-                                            'block_class' => 'col-sm-17',
-                                            'name' => 'cliente[conjuge][nome]'
-                                        ],
-                                        [
-                                            'label' => 'Sexo',
-                                            'name' => 'cliente[conjuge][sexo]',
-                                            'block' => 'default-select',
-                                            'block_class' => 'col-sm-3',
-                                            'options' => [
-                                                'M' => 'Masculino',
-                                                'F' => 'Feminino'
-                                            ]
-                                        ]
-                                    ]); 
-
-                                    \Financi\HTMLHelper::renderRow([
-                                        [
-                                            'label' => 'Data de Nascimento',
-                                            'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[conjuge][data_nascimento]'
-                                        ],
-                                         [
-                                            'label' => 'Nacionalidade',
-                                            'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[conjuge][nacionalidade]'
-                                        ],
-                                        [
-                                            'label' => 'UF',
-                                            'block' => 'default-select',
-                                            'block_class' => 'col-sm-2',
-                                            'options' => [
-                                                'BA' => 'BA'
-                                            ],
-                                            'name' => 'cliente[conjuge][naturalidade_uf]'
-                                        ],
-                                        [
-                                            'label' => 'Naturalidade',
-                                            'block_class' => 'col-sm-14',
-                                            'name' => 'cliente[conjuge][naturalidade]'
-                                        ]
-                                    ]);
-
-                                    \Financi\HTMLHelper::renderRow([
-                                        [
-                                            'label' => 'Registro Geral (RG)',
-                                            'block_class' => 'col-sm-8',
-                                            'name' => 'cliente[conjuge][registro_geral]'
-                                        ],
-                                        [
-                                            'label' => 'Data de expedição',
-                                            'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[conjuge][expedicao]'
-                                        ],
-                                        [
-                                            'label' => 'CTPS',
-                                            'block_class' => 'col-sm-8',
-                                            'name' => 'ctps',
-                                            'name' => 'cliente[conjuge][ctps]'
-                                        ],
-                                        [
-                                            'label' => 'Residência',
-                                            'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[conjuge][residencia]',
-                                            'block' => 'default-select',
-                                            'options' => [
-                                                '1' => 'Própria',
-                                                '2' => 'Alugada'
-                                            ]
-                                        ]
-                                    ]);
-                                        
-                                    \Financi\HTMLHelper::renderRow([
-                                        [
-                                            'label' => 'Escolaridade',
-                                        ],
-                                        [
-                                            'label' => 'CBO',
-                                            'block' => 'default-select',
-                                            'block_class' => 'col-sm-12',
-                                            'options' => [],
-                                            'name' => 'cliente[conjuge][cbo]'
-                                        ],
-                                        [
-                                            'label' => 'Registro Profissional',
-                                            'name' => 'cliente[conjuge][registro_profissional]'
-                                        ],
-                                    ]);
-
-                                    \Financi\HTMLHelper::renderRow([
-                                        [
-                                            'label' => 'Pai',
-                                            'block_class' => 'col-sm-12',
-                                            'name' => 'cliente[conjuge][pai]'
-                                        ],
-                                        [
-                                            'label' => 'Mãe',
-                                            'block_class' => 'col-sm-12',
-                                            'name' => 'cliente[conjuge][mae]'
-                                        ],
-                                    ]);     
-                                    ?>
-                                </div>
-                            </div>
-                            <!-- Fim /conjuge -->
-
-                        </div>
-                        <!-- Fim /tab-content -->
-                </div>
+                                
 
                 <hr>
                 <div class="form-footer row text-right vmargin-0">
