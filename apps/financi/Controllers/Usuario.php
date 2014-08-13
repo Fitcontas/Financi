@@ -9,7 +9,6 @@ class Usuario extends \SlimController\SlimController
 {
     public function indexAction()
     {   
-
         $usuario = \Usuario::find('all');
 
         $this->render('usuario/index.php', [
