@@ -41,7 +41,14 @@
                             <button type="button" class="btn btn-default " action="desabilitar"> Desabilitar</button></div>
                         </div>
                         <div class="pull-right">
-                            <input class="form-control" type="text" aria-controls="tb_cliente" placeholder="Pesquisar" style="width:250px">
+                            <div class="input-group">
+                              <input class="form-control" type="text" aria-controls="tb_cliente" placeholder="Pesquisar" style="width:250px"  ng-model="search">
+                              <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" ng-click="start()">Buscar</button>
+                              </span>
+                            </div>
+                            
+
                         </div>
                         
                     </div>

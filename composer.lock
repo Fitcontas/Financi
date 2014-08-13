@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "9b426aefa797902859ca3ae54df8bca2",
+    "hash": "c30b69e3ba2501b4c480e1691b820aed",
     "packages": [
         {
             "name": "leeoniya/dump-r",
@@ -398,6 +398,160 @@
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
             "time": "2014-08-05 09:07:51"
+        },
+        {
+            "name": "zf1/zend-exception",
+            "version": "1.12.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zf1/zend-exception.git",
+                "reference": "ee61f139d1ad7070c1ff4d0f4bd7ccd441172f11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zf1/zend-exception/zipball/ee61f139d1ad7070c1ff4d0f4bd7ccd441172f11",
+                "reference": "ee61f139d1ad7070c1ff4d0f4bd7ccd441172f11",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.11"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Zend_Exception": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Zend Framework 1 Exception package",
+            "homepage": "http://framework.zend.com/",
+            "keywords": [
+                "ZF1",
+                "exception",
+                "framework",
+                "zend"
+            ],
+            "time": "2014-05-21 15:17:51"
+        },
+        {
+            "name": "zf1/zend-search",
+            "version": "1.12.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zf1/zend-search.git",
+                "reference": "0a9f471d0611694ccc82a6d8c963bcf58aef9842"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zf1/zend-search/zipball/0a9f471d0611694ccc82a6d8c963bcf58aef9842",
+                "reference": "0a9f471d0611694ccc82a6d8c963bcf58aef9842",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.11",
+                "zf1/zend-exception": "self.version"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Zend_Search": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Zend Framework 1 Search package",
+            "homepage": "http://framework.zend.com/",
+            "keywords": [
+                "ZF1",
+                "framework",
+                "search",
+                "zend"
+            ],
+            "time": "2014-05-21 15:17:49"
+        },
+        {
+            "name": "zf1/zend-search-lucene",
+            "version": "1.12.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zf1/zend-search-lucene.git",
+                "reference": "aceee80a4b7c197f7fa573a77e84cd55e7f30a43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zf1/zend-search-lucene/zipball/aceee80a4b7c197f7fa573a77e84cd55e7f30a43",
+                "reference": "aceee80a4b7c197f7fa573a77e84cd55e7f30a43",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.11",
+                "zf1/zend-exception": "self.version",
+                "zf1/zend-search": "self.version",
+                "zf1/zend-xml": "self.version"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Zend_Search_Lucene": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Zend Framework 1 Search Lucene package",
+            "homepage": "http://framework.zend.com/",
+            "keywords": [
+                "ZF1",
+                "framework",
+                "lucene",
+                "search",
+                "zend"
+            ],
+            "time": "2014-05-21 15:17:49"
+        },
+        {
+            "name": "zf1/zend-xml",
+            "version": "1.12.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zf1/zend-xml.git",
+                "reference": "f24c8b2e53c9bd67177d77c3e976f01fe806a079"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zf1/zend-xml/zipball/f24c8b2e53c9bd67177d77c3e976f01fe806a079",
+                "reference": "f24c8b2e53c9bd67177d77c3e976f01fe806a079",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.11",
+                "zf1/zend-exception": "self.version"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Zend_Xml": "library/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Zend Framework 1 Xml package",
+            "homepage": "http://framework.zend.com/",
+            "keywords": [
+                "ZF1",
+                "framework",
+                "xml",
+                "zend"
+            ],
+            "time": "2014-05-21 15:52:59"
         }
     ],
     "packages-dev": [],

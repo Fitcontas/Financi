@@ -11,6 +11,7 @@ AppFinanci.controller('FormClinteGridCtrl', function($scope, $http, Clientes) {
     //Paginação
     $scope.pagina = 1;
     $scope.paginas = 0;
+    $scope.search = '';
 
     $scope.checkAll = function(item) {
 
@@ -54,7 +55,14 @@ AppFinanci.controller('FormClinteGridCtrl', function($scope, $http, Clientes) {
             $scope.pagina = pagina;
         }
 
-        Clientes.get({ pagina: $scope.pagina }).$promise.then(function(data){
+        if($scope.search.length > 0)
+        {
+            var termos = { pagina: $scope.pagina, query: $scope.search };
+        } else {
+            var termos = { pagina: $scope.pagina };
+        }
+
+        Clientes.get(termos).$promise.then(function(data){
             $scope.clientes = data.clientes;
             $scope.paginas = new Array(data.paginas);
         });

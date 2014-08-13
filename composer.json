@@ -5,7 +5,8 @@
         "php-activerecord/php-activerecord": "dev-master",
         "symfony/yaml": "2.6.*@dev",
         "leeoniya/dump-r": "dev-master",
-        "opis/session": "2.1.*"
+        "opis/session": "2.1.*",
+        "zf1/zend-search-lucene": "~1.12"
     },
     "autoload": {
         

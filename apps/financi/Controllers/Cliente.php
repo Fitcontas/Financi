@@ -11,6 +11,12 @@ class Cliente extends \SlimController\SlimController
 	{
         $clientes = \Clientes::find('all');
 
+        foreach ($clientes as $c) {
+            $find = \Clientes::find($c->id);
+            $find->status = 1;
+            $find->save();
+        }
+
 		$this->render('cliente/index.php', [
                 'clientes' => $clientes,
                 'foot_js' => [ 'js/cadastros/cliente_index.js' ]
@@ -23,9 +29,17 @@ class Cliente extends \SlimController\SlimController
 
         $get = $this->app->request->get();
 
+        if($get['query']) {
+            $query = new \Clientes();
+            $pks = $query->search($get['query']);
+            $conditions = ['cliente.id in(?) AND cliente.status = ? OR cliente.status = ?', $pks, 1, 2];
+        } else {
+            $conditions = ['cliente.status = ? OR cliente.status = ?', 1, 2];
+        }
+
         $clientes_total = \Clientes::find('all', [
                 'select' => 'cliente.id',
-                'conditions' => ['cliente.status = ? OR cliente.status = ?', 1, 2]
+                'conditions' => $conditions
             ]);
 
         $pagina = $get['pagina'];
@@ -40,7 +54,7 @@ class Cliente extends \SlimController\SlimController
 
         $clientes = \Clientes::find('all', [
                 'select' => 'cliente.id, cliente.nome, cliente.cpf, cliente.status',
-                'conditions' => ['cliente.status = ? OR cliente.status = ?', 1, 2],
+                'conditions' => $conditions,
                 'limit' => $limite,
                 'offset' => $inicio
             ]);
