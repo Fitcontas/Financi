@@ -29,12 +29,16 @@ class Cliente extends \SlimController\SlimController
 
         $get = $this->app->request->get();
 
+        $conditions = ['cliente.status = ? OR cliente.status = ?', 1, 2];
+
         if($get['query']) {
             $query = new \Clientes();
             $pks = $query->search($get['query']);
-            $conditions = ['cliente.id in(?) AND cliente.status = ? OR cliente.status = ?', $pks, 1, 2];
-        } else {
-            $conditions = ['cliente.status = ? OR cliente.status = ?', 1, 2];
+            if(count($pks)) {
+                $conditions = ['cliente.id in(?) AND cliente.status = ? OR cliente.status = ?', $pks, 1, 2];
+            } else {
+                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1] )); 
+            }
         }
 
         $clientes_total = \Clientes::find('all', [
@@ -65,7 +69,7 @@ class Cliente extends \SlimController\SlimController
             $arr[] = $c->to_array();
         }
 
-        return $this->app->response->setBody(json_encode( ['clientes' => $arr, 'paginas' => $total_paginas] ));
+        return $this->app->response->setBody(json_encode( [ 'search'=>true, 'clientes' => $arr, 'paginas' => $total_paginas] ));
     }
 
     public function cadastroPfAction()
@@ -92,8 +96,11 @@ class Cliente extends \SlimController\SlimController
 
     public function cadastroPjAction()
     {
+        $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
+
         $this->render('cliente/pj.php', [
-               
+                'ufs' => is_array($ufs) ? $ufs : [],
+                'foot_js' => [ 'js/cadastros/clientes.js' ]
             ]);
     }
 
@@ -116,10 +123,29 @@ class Cliente extends \SlimController\SlimController
                 'conditions' => ['cliente_id = ?', $cliente->id]
             ]);
 
-        $principal = isset($enderecos[0]) ? $enderecos[0]->to_array() : [];
-        $secundario = isset($enderecos[1]) ? $enderecos[1]->to_array() : [];
+        $conjuge = \ClienteConjuge::find('one', [
+                'conditions' => ['cliente_id = ?', $cliente->id]
+            ]);
 
-        $array = array_merge($cliente->to_array(), ['endereco' => [$principal, $secundario]]);
+        $principal = isset($enderecos[0]) ? $enderecos[0]->to_array() : [];
+        $secundario = isset($enderecos[1]) ? $enderecos[1]->to_array() : false;
+
+        $cliente_array = $cliente->to_array();
+        $cliente_array['data_nascimento'] = isset($cliente_array['data_nascimento']) ? $cliente->data_nascimento->format('d/m/Y') : false;
+
+        if(!$cliente_array['data_nascimento']) {
+            unset($cliente_array['data_nascimento']);
+        }
+
+        if(count($conjuge)) {
+            $cliente_array = array_merge($cliente_array, ['conjuge' => $conjuge->to_array()]);
+        }
+
+        if($secundario) {
+            $array = array_merge($cliente_array, ['endereco' => [$principal, $secundario]]);
+        } else {
+            $array = array_merge($cliente_array, ['endereco' => [$principal]]);
+        }
 
         return $this->app->response->setBody(json_encode( ['cliente' => $array ] )); 
     }
@@ -129,27 +155,85 @@ class Cliente extends \SlimController\SlimController
     {
         $this->app->contentType('application/json');
         $data = json_decode($this->app->request->getBody('cliente'));
-        $data->instituicao_id = 1;
 
-        $endereco = isset($data->endereco) ? $data->endereco : [];
-
-        unset($data->endereco);
-
-        $cliente = new \Clientes($data);
+        if(!isset($data->id)) {
         
-        if($cliente->save())
-        {
+            $data->instituicao_id = 1;
 
-            if(isset($endereco)) {
-                foreach ($endereco as $e) {
-                    $e->cliente_id = $cliente->id;
-                    
-                    $cliente_endereco = new \ClienteEndereco($e);
-                    $cliente_endereco->save();
+            $endereco = isset($data->endereco) ? $data->endereco : false;
+            $conjuge = isset($data->conjuge) ? $data->conjuge : false;
+
+            unset($data->endereco);
+            unset($data->conjuge);
+
+            $cliente = new \Clientes($data);
+            
+            if($cliente->save())
+            {
+
+                if($endereco) {
+                    foreach ($endereco as $e) {
+                        $e->cliente_id = $cliente->id;
+                        
+                        $cliente_endereco = new \ClienteEndereco($e);
+                        $cliente_endereco->save();
+                    }
                 }
+
+                if($conjuge) {
+                    $conjuge->cliente_id = $cliente->id;
+                    //$conjuge->data_cadastro = date('Y-m-d H:i:S');
+                    unset($conjuge->residencia);
+                    $cliente_conjuge = new \ClienteConjuge($conjuge);
+                    $cliente_conjuge->save();
+                }
+
+                return $this->app->response->setBody(json_encode( ['success' => true] )); 
             }
 
-            return $this->app->response->setBody(json_encode( ['success' => true] )); 
+        } else {
+
+            $endereco = isset($data->endereco) ? $data->endereco : false;
+            $conjuge = isset($data->conjuge) ? $data->conjuge : false;
+
+            unset($data->endereco);
+            unset($data->conjuge);
+
+            $cliente = \Clientes::find($data->id);
+
+            if($cliente->update_attributes($data)) {
+
+                if($endereco) {
+                    foreach ($endereco as $e) {
+                        if(isset($e->id)) {
+                            $cliente_endereco = \ClienteEndereco::find($e->id);
+                            if(count($cliente_endereco)) {
+                                $cliente_endereco->update_attributes($e);
+                            }
+                        } else {
+                            $e->cliente_id = $data->id;
+                            $cliente_endereco = new \ClienteEndereco($e);
+                            $cliente_endereco->save();
+                        }
+                    }
+                }
+
+                if($conjuge) {
+                    if($conjuge->id) {
+                        $cliente_conjuge = \Clientes::find($conjuge->id);
+                        $cliente_conjuge->update_attributes($conjuge);
+                    } else {
+                        $conjuge->cliente_id = $cliente->id;
+                        $cliente_conjuge = new \ClienteConjuge($conjuge);
+                        $cliente_conjuge->save();
+                    }
+                }
+
+                return $this->app->response->setBody(json_encode( ['success' => true] ));
+
+            }
+
+
         }
         
     }

@@ -48,9 +48,9 @@
                                             <label><input type="checkbox" name="checkall" class="checkall"/></label>
                                         </div>
                                     </th>
-                                    <th>Nome/Razão Social</th>
-                                    <th>Natureza</th>
-                                    <th>CPF/CNPJ</th>
+                                    <th>Nome</th>
+                                    <th>CPF</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -61,7 +61,6 @@
                                         <td><input type="checkbox" value="<?php echo $c->id ?>" name="check[]"></td>
                                         <td><?php echo $c->nome ?></td>
                                         <td><?php echo $c->cpf ? 'PF' : 'PJ' ?></td>
-                                        <td><?php echo $c->cpf ? $c->cpf : $c->cnpj ?></td>
                                         <td><?php echo $c->status == 1 ? 'Ativo' : 'Inativo' ?></td>
                                     </tr>
                                     <?php endif ?>

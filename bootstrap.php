@@ -17,6 +17,10 @@ define('HOST', 'http://' . $_SERVER['HTTP_HOST']);
 
 require 'vendor/autoload.php';
 
+Zend_Search_Lucene_Search_QueryParser::setDefaultEncoding("UTF-8");
+Zend_Search_Lucene_Analysis_Analyzer::setDefault(new Zend_Search_Lucene_Analysis_Analyzer_Common_Utf8Num_CaseInsensitive());
+
+
 // Inciando o PHPActiveRecord
 ActiveRecord\Config::initialize(function($cfg)
 {
@@ -30,6 +34,8 @@ ActiveRecord\Config::initialize(function($cfg)
     );
     $cfg->set_default_connection('development');
 });
+
+ActiveRecord\DateTime::$DEFAULT_FORMAT = 'db';
 
 // Iniando Slim Controller
 $app = New \SlimController\Slim(array(

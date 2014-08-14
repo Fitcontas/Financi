@@ -11,3 +11,8 @@ menunav:
             corretores:
                 descricao: Corretores
                 link: /corretor
+            empreendimentos:
+                descricao: Empreendimentos
+                link: /empreendimento
+    lancamentos:
+        descricao: Lançamentos

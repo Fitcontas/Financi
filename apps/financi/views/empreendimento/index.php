@@ -19,7 +19,7 @@
             </div>
             <div class="block-flat">
                 <div class="header">
-                    <h3>Relação de Usuários</h3>
+                    <h3>Relação de Empreendimentos</h3>
                 </div>
                 <div class="content spacer0 process">
                     <div class="toobar">
@@ -44,16 +44,15 @@
                                             <label><input type="checkbox" name="checkall" ng-model="checkall"/></label>
                                         </div>
                                     </th>
-                                    <th>Nome</th>
-                                    <th>E-mail</th>
-                                    <th>Tipo</th>
+                                    <th>Empreendimento</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="u in usuarios">
-                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(u)" ng-checked="checkall"/></td>
-                                    
+                                <tr ng-repeat="e in empreendimentos">
+                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(e)" ng-checked="checkall"/></td>
+                                    <td><a ng-click="showForm(e)">{{e.empreendimento}}</a></td>
+                                    <td width="5%">{{e.status == 1 ? 'Ativo' : 'Desabilitado'}}</td>
                                 </tr>
                             </tbody>
                         </table>              
@@ -89,75 +88,175 @@
                 <div class="mensagem-modal">
                 </div>
 
-                <div class="form-group">
-                    <label class="col-sm-6 control-label" for="id_grupo_empreendimentos">Tipo </label>
-                    <div class="col-sm-14">
-                        <select class="form-control" req="" id="grupo_id" name="grupo_id" ng-model="usuario.grupo_id" required>
-                            <option value=""></option>
-                                <option value="1">Administrador</option>
-                            </select>
-                    </div>
+                <div class="tab-container">
+                        <ul class="nav nav-tabs flat-tabs">
+                          <li class="active"><a data-toggle="tab" href="#home">Principal</a></li>
+                          <li class=""><a data-toggle="tab" href="#endereco">Endereço</a></li>
+                          <li class=""><a data-toggle="tab" href="#corretores">Corretores Autorizados</a></li>
+                        </ul>
+                        <!-- Início tab-content -->
+                        <div class="tab-content">
+                            <!-- Início tab-content -->
+                            <input type="hidden" id="cliente-id" value="<?php //echo $id ?>">
+                            <!-- Início home -->
+                            <div id="home" class="tab-pane cont active">
+                                <div class="spacer2">
+                                    
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="nome">Empreendimento  </label>
+                                        <div class="col-sm-18">
+                                            <input type="text" value="" name="nome" req="" class="form-control" ng-model="empreendimento.empreendimento" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="nome">Matrícula CRI  </label>
+                                        <div class="col-sm-18">
+                                            <input type="text" value="" name="nome" req="" class="form-control" ng-model="empreendimento.cri" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="nome">Comissão  </label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group no-margin-bottom">
+                                                <input type="text" class="form-control" req="" ng-model="empreendimento.comissao" mask="99,99" required>
+                                                <span class="input-group-addon">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="nome">Intermediárias  </label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group no-margin-bottom">
+                                                <input type="text" class="form-control" req="" ng-model="empreendimento.intermediarias" required>
+                                                <span class="input-group-addon">%</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <select class="form-control" ng-model="empreendimento.periodo" req required>
+                                                <option value="1">Mensal</option>
+                                                <option value="2">Bimestral</option>
+                                                <option value="3">Trimestral</option>
+                                                <option value="5">Quatrimestral</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="nome">Qtd. Parcelas  </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" value="" name="nome" req="" class="form-control" ng-model="empreendimento.qtd_parcelas" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="nome">Taxa do Financiamento  </label>
+                                        <div class="col-sm-8">
+                                            <div class="input-group no-margin-bottom">
+                                                <input type="text" class="form-control" req="" ng-model="empreendimento.taxa_financimento" required>
+                                                <span class="input-group-addon">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="nome">Índice de Correção  </label>
+                                        <div class="col-sm-8">
+                                            <input type="text" value="" name="nome" req="" class="form-control" ng-model="empreendimento.qtd_parcelas" required>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+                            <div id="endereco" class="tab-pane cont">
+                                <div class="spacer2">
+                                    
+                                    <div class="form-group">
+                                        <label  class="col-sm-6 control-label" for="">CEP</label>
+                                         <div class="col-sm-8">
+                                            <div class="input-group no-margin-bottom">
+                                                <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" ng-model="cliente.endereco.1.cep" id="endereco-secundario" ng-blur="completaEndereco(false)">
+                                                <span class="input-group-btn">
+                                                    <button title="Pesquisar CEP" type="button" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10">
+                                            <div class="form-group">
+                                                <div class="input-group no-margin-bottom">
+                                                    <button class="btn-link completa" type="button" ng-click="completaEndereco(false)">Completar endereço</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="nome">Logradouro  </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" value="" name="empreendimento[logradouro]" req="" class="form-control" ng-model="empreendimento.logradouro" required>
+                                        </div>
+                                        <label class="col-sm-4 control-label" for="empreendimento[numero]">Número  </label>
+                                        <div class="col-sm-4">
+                                            <input type="text" value="" name="empreendimento[numero]" req="" class="form-control" ng-model="empreendimento.numero" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="empreendimento[complemento]">Complemento  </label>
+                                        <div class="col-sm-18">
+                                            <input type="text" value="" name="empreendimento[complemento]" req="" class="form-control" ng-model="empreendimento.complemento" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="empreendimento[bairro]">Bairro  </label>
+                                        <div class="col-sm-10">
+                                            <input type="text" value="" name="empreendimento[bairro]" req="" class="form-control" ng-model="empreendimento.bairro" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label" for="empreendimento[uf]">UF</label>
+                                        <div class="col-sm-3">
+                                            <select class="form-control" name="empreendimento[uf]" ng-model="empreendimento.uf" req required>
+                                                <option value="BA">BA</option>
+                                            </select>
+                                        </div>
+                                        <label class="col-sm-4 control-label" for="empreendimento[cidade]">Cidade  </label>
+                                        <div class="col-sm-11">
+                                            <select class="form-control" name="empreendimento[cidade]" ng-model="empreendimento.cidade" req required>
+                                                <option value="2753">Teixeira de Freitas</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div id="corretores" class="tab-pane cont">
+                                <div class="spacer2">
+                                    
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label" for="nome">Nome  </label>
+                                        <div class="col-sm-18">
+                                            <input type="text" value="" name="nome" req="" class="form-control" ng-model="empreendimento.empreendimento" required>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <button class="btn btn-default">Adicionar</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-sm-6 control-label" for="nome">Nome  </label>
-                    <div class="col-sm-18">
-                        <input type="text" value="" name="nome" req="" class="form-control" ng-model="usuario.nome" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-6 control-label" for="nome">Apelido  </label>
-                    <div class="col-sm-12">
-                        <input type="text" value="" name="apelido" req="" class="form-control" ng-model="usuario.apelido" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-6 control-label" for="login">Login </label>
-                    <div class="col-sm-12">
-                        <input type="text" value="" maxlength="150" req="" name="usuario" class="form-control" ng-model="usuario.usuario" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-6 control-label" for="email">E-mail </label>
-                    <div class="col-sm-14">
-                        <input type="text" value="" maxlength="150" placeholder="E-mail" req="" name="email" class="email form-control smail" ng-model="usuario.email" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-6 control-label" for="email">Repita o e-mail </label>
-                    <div class="col-sm-14">
-                        <input type="text" value="" maxlength="150" placeholder="E-mail" req="" name="email2" class="email form-control smail" ng-model="usuario.email2" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="col-sm-6 control-label" for="senha">Senha </label>
-                    <div class="col-sm-10">
-                        <input type="password" maxlength="150" req="" minlength="6" name="senha" id="senha" class="form-control" value="" ng-model="usuario.senha" ng-non-bindable>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-sm-6 control-label" for="senha2">Confirme a Senha </label>
-                    <div class="col-sm-10">
-                        <input type="password" maxlength="150" req="" minlength="6" name="senha2" id="senha2" class="form-control" value="" ng-model="usuario.senha2" ng-non-bindable>
-                    </div>
-                </div>
-
-                <div class="form-group obs">
-                    Obs.:
-                    O sistema solicitará a alteração de senha no primeiro acesso.
-                </div>
-                
-                <input type="hidden" value="Usuario" name="controle">
-                <input type="hidden" value="manter" name="acao">
-                                <input type="hidden" value="" name="id_empreendimento">
-                <input type="hidden" value="" name="id">
-                    
             </div>
 
             <div class="modal-footer">

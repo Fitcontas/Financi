@@ -64,8 +64,8 @@
 	    <div class="page-head">
 	        <div class="container main-box">
 	            <ol class="breadcrumb">
-                    <li class="active">Mural</li>
-                    <li class="active">Dashboard</li>
+                    <li class="active">Cadastro</li>
+                    <li class="active">Dev</li>
                 </ol>
 	        </div>
     	</div>

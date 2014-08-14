@@ -42,18 +42,16 @@
                         </div>
                         <div class="pull-right">
                             <div class="input-group">
-                              <input class="form-control" type="text" aria-controls="tb_cliente" placeholder="Pesquisar" style="width:250px"  ng-model="search">
+                              <input class="form-control" type="text" placeholder="Pesquisar" style="width:250px"  ng-model="search">
                               <span class="input-group-btn">
                                 <button class="btn btn-default" type="button" ng-click="start()">Buscar</button>
                               </span>
                             </div>
-                            
-
                         </div>
                         
                     </div>
                     <div class="clearfix"></div>
-                    <div class="table-responsive">
+                    <div class="table-responsive" ng-show="clientes.length>0">
                         <table class="table table-striped table-bordered table-hover spacer2" id="tb_cliente">
                             <thead>
                                 <tr>
@@ -75,19 +73,30 @@
                                     <td>{{c.status == 1 ? 'Ativo' : 'Desabilitado'}}</td>
                                 </tr>
                             </tbody>
-                        </table>                            
-                    </div>
-                    <div class="row-fluid" ng-show="paginas.length>1">
-                      <div class="span12">
-                         <div>
-                          <ul class="pagination pull-right">
-                            <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}">
-                              <a ng-click="start($index+1)" href="javascript:void(0)">{{$index+1}}</a>
-                            </li>
-                          </ul>
+                        </table>
+                        <!-- início da paginação -->
+                        <div class="row-fluid" ng-show="paginas.length>1">
+                          <div class="span12">
+                             <div>
+                              <ul class="pagination pull-right">
+                                <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}">
+                                  <a ng-click="start($index+1)" href="javascript:void(0)">{{$index+1}}</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                        <!-- /fim da paginação -->                          
                     </div>
+                    
+                    <div class="table-responsive" ng-hide="clientes.length>0">
+                        <div class="alert alert-warning alert-white rounded">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <div class="icon"><i class="fa fa-warning"></i></div>
+                            <strong>Desculpe!</strong> A busca não obteve resultados.
+                         </div>
+                    </div>
+
                 </div>
             </div>
         </div>

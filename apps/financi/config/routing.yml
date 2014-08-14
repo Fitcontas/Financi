@@ -55,7 +55,15 @@ salvar_pf:
     route: Cliente:salvarPf
     url: /cliente/pf/salvar
 
+empreendimento:
+    method: get
+    route: Empreendimento:index
+    url: /empreendimento
 
+empreendimento_all:
+    method: get
+    route: Empreendimento:all
+    url: /empreendimento/all(/:id)
 
 usuario:
     method: get

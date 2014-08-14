@@ -423,12 +423,14 @@
                                         [
                                             'label' => 'CPF',
                                             'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[conjuge][cpf]'
+                                            'name' => 'cliente[conjuge][cpf]',
+                                            'ng-model' => 'cliente.conjuge.cpf'
                                         ],
                                         [
                                             'label' => 'Nome',
                                             'block_class' => 'col-sm-17',
-                                            'name' => 'cliente[conjuge][nome]'
+                                            'name' => 'cliente[conjuge][nome]',
+                                            'ng-model' => 'cliente.conjuge.nome'
                                         ],
                                         [
                                             'label' => 'Sexo',
@@ -438,7 +440,8 @@
                                             'options' => [
                                                 'M' => 'Masculino',
                                                 'F' => 'Feminino'
-                                            ]
+                                            ],
+                                            'ng-model' => 'cliente.conjuge.sexo'
                                         ]
                                     ]); 
 
@@ -446,12 +449,14 @@
                                         [
                                             'label' => 'Data de Nascimento',
                                             'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[conjuge][data_nascimento]'
+                                            'name' => 'cliente[conjuge][data_nascimento]',
+                                            'ng-model' => 'cliente.conjuge.data_nascimento'
                                         ],
                                          [
                                             'label' => 'Nacionalidade',
                                             'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[conjuge][nacionalidade]'
+                                            'name' => 'cliente[conjuge][nacionalidade]',
+                                            'ng-model' => 'cliente.conjuge.nacionalidade'
                                         ],
                                         [
                                             'label' => 'UF',
@@ -460,12 +465,14 @@
                                             'options' => [
                                                 'BA' => 'BA'
                                             ],
-                                            'name' => 'cliente[conjuge][naturalidade_uf]'
+                                            'name' => 'cliente[conjuge][naturalidade_uf]',
+                                            'ng-model' => 'cliente.conjuge.naturalidade_uf'
                                         ],
                                         [
                                             'label' => 'Naturalidade',
                                             'block_class' => 'col-sm-14',
-                                            'name' => 'cliente[conjuge][naturalidade]'
+                                            'name' => 'cliente[conjuge][naturalidade]',
+                                            'ng-model' => 'cliente.conjuge.naturalidade'
                                         ]
                                     ]);
 
@@ -473,18 +480,21 @@
                                         [
                                             'label' => 'Registro Geral (RG)',
                                             'block_class' => 'col-sm-8',
-                                            'name' => 'cliente[conjuge][registro_geral]'
+                                            'name' => 'cliente[conjuge][registro_geral]',
+                                            'ng-model' => 'cliente.conjuge.registro_geral'
                                         ],
                                         [
                                             'label' => 'Data de expedição',
                                             'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[conjuge][expedicao]'
+                                            'name' => 'cliente[conjuge][expedicao]',
+                                            'ng-model' => 'cliente.conjuge.expedicao'
                                         ],
                                         [
                                             'label' => 'CTPS',
                                             'block_class' => 'col-sm-8',
                                             'name' => 'ctps',
-                                            'name' => 'cliente[conjuge][ctps]'
+                                            'name' => 'cliente[conjuge][ctps]',
+                                            'ng-model' => 'cliente.conjuge.ctps'
                                         ],
                                         [
                                             'label' => 'Residência',
@@ -494,7 +504,8 @@
                                             'options' => [
                                                 '1' => 'Própria',
                                                 '2' => 'Alugada'
-                                            ]
+                                            ],
+                                            'ng-model' => 'cliente.conjuge.residencia'
                                         ]
                                     ]);
                                         
@@ -507,11 +518,13 @@
                                             'block' => 'default-select',
                                             'block_class' => 'col-sm-12',
                                             'options' => [],
-                                            'name' => 'cliente[conjuge][cbo]'
+                                            'name' => 'cliente[conjuge][cbo]',
+                                            'ng-model' => 'cliente.conjuge.cbo'
                                         ],
                                         [
                                             'label' => 'Registro Profissional',
-                                            'name' => 'cliente[conjuge][registro_profissional]'
+                                            'name' => 'cliente[conjuge][registro_profissional]',
+                                            'ng-model' => 'cliente.conjuge.registro_profissional'
                                         ],
                                     ]);
 
@@ -519,12 +532,14 @@
                                         [
                                             'label' => 'Pai',
                                             'block_class' => 'col-sm-12',
-                                            'name' => 'cliente[conjuge][pai]'
+                                            'name' => 'cliente[conjuge][pai]',
+                                            'ng-model' => 'cliente.conjuge.pai'
                                         ],
                                         [
                                             'label' => 'Mãe',
                                             'block_class' => 'col-sm-12',
-                                            'name' => 'cliente[conjuge][mae]'
+                                            'name' => 'cliente[conjuge][mae]',
+                                            'ng-model' => 'cliente.conjuge.mae'
                                         ],
                                     ]);     
                                     ?>
