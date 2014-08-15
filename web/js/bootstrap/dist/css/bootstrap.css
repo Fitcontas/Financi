@@ -268,12 +268,8 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
+  color: #333333;
   background-color: #ffffff;
-
-  min-width: 640px;
-  min-height: 600px;
-  padding: 90px 0 30px 0 !important;
-  color: #666;
 }
 input,
 button,
@@ -2859,8 +2855,8 @@ input[type="button"].btn-block {
 }
 @font-face {
   font-family: 'Glyphicons Halflings';
-  src: url('/js/bootstrap/dist/fonts/glyphicons-halflings-regular.eot');
-  src: url('/js/bootstrap/dist/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('/js/bootstrap/dist/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/js/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/js/bootstrap/dist/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
+  src: url('/public/js/bootstrap/dist/fonts/glyphicons-halflings-regular.eot');
+  src: url('/public/js/bootstrap/dist/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('/public/js/bootstrap/dist/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/public/js/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/public/js/bootstrap/dist/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;

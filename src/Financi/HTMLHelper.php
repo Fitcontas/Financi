@@ -18,29 +18,34 @@ class HTMLHelper
 
         self::$block = [
                         'default'=>'<div class="%s">
+                        <div class="form-group">
                                     <label>%s</label> 
                                     <input type="text" class="form-control" name="%s" id="%s" value="%s" %s %s>
-                                </div>',
+                                </div></div>',
                         'default-with-hidden'=>'<div class="%s">
+                        <div class="form-group">
                                     <label>%s</label> 
                                     <input type="text" class="form-control" name="%s" id="%s" value="%s" %s %s>
                                     %s
-                                </div>',
+                                </div></div>',
                         'input-group' => '<div class="%s">
+                        <div class="form-group">
                                         <label>%s</label> 
                                         <div class="input-group date">
                                             <input type="text" class="form-control %s" name="%s" id="%s" value="%s" %s %s>
                                             %s
                                         </div>
-                                  </div>',
+                                  </div></div>',
                         'input-group-datepicker' => '<div class="%s">
+                        <div class="form-group">
                                         <label>%s</label> 
                                         <div class="input-group date">
                                             <input type="text" class="form-control %s" name="%s" id="%s" value="%s" %s %s>
                                             <span class="add-on input-group-btn"><button class="btn btn-default" type="button" tabindex="2"><i class="fa fa-calendar" title="Calendário"></i></button></span>
                                         </div>
-                                  </div>',
+                                  </div></div>',
                         'input-group-buttom' => '<div class="%s">
+                        <div class="form-group">
                                         <label>%s</label> 
                                         <div class="input-group">
                                             <input type="text" class="form-control" name="%s" id="%s" value="%s" %s %s>
@@ -48,19 +53,21 @@ class HTMLHelper
                                             <button title="" type="button" name="" class="btn btn-default btn-%s">%s</button>
                                             </span>
                                         </div>
-                                  </div>',
+                                  </div></div>',
                         'default-select'=>'<div class="%s">
+                        <div class="form-group">
                                     <label>%s</label> 
                                     <select class="form-control" name="%s" id="%s" %s %s>
                                         %s
                                     </select>
-                                </div>',
+                                </div></div>',
                         'select-ng-repeat' => '<div class="%s">
+                        <div class="form-group">
                                                     <label>%s</label> 
                                                     <select class="form-control" name="%s" id="%s" %s %s>
                                                         %s
                                                     </select>
-                                                </div>'
+                                                </div></div>'
                     ];  
 
         self::$form_fields = $row;
@@ -77,14 +84,14 @@ class HTMLHelper
             ]
         ];*/
 
-        $html = '<div class="row hpadding cl">
-<div class="form-group">';
+        $html = '<div class="row hpadding">
+';
         
         foreach (self::$form_fields as $field) {
             $html .= self::renderField($field);
         }
 
-        $html .= '</div></div>';
+        $html .= '</div>';
         echo $html;
     }
 

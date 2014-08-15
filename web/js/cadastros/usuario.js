@@ -1,9 +1,8 @@
 'use strict';
 
 AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, UsuarioNovo) {
-    
+
     $scope.usuario = {};
-    $scope.usuarios = [];
     $scope.grupos = [{1: 'Administrador'}];
     $scope.check_ctrl = [];
     $scope.checkall = false;
@@ -11,6 +10,7 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
     //Paginação
     $scope.pagina = 1;
     $scope.paginas = 0;
+    $scope.search = '';
 
     $scope.checkAll = function(item) {
 
@@ -54,7 +54,14 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
             $scope.pagina = pagina;
         }
 
-        Usuarios.get({ pagina: $scope.pagina }).$promise.then(function(data){
+        if($scope.search.length > 0)
+        {
+            var termos = { pagina: $scope.pagina, query: $scope.search };
+        } else {
+            var termos = { pagina: $scope.pagina };
+        }
+
+        Usuarios.get(termos).$promise.then(function(data){
             $scope.usuarios = data.usuarios;
             $scope.paginas = new Array(data.paginas);
         });

@@ -35,14 +35,13 @@ ActiveRecord\Config::initialize(function($cfg)
     $cfg->set_default_connection('development');
 });
 
-ActiveRecord\DateTime::$DEFAULT_FORMAT = 'db';
-
 // Iniando Slim Controller
 $app = New \SlimController\Slim(array(
     'debug' => true,
     'mode' => 'development',
     'templates.path'             => APP_PATH . '/views',
     'controller.class_prefix'    => '\\Controllers',
+    'controller.class_suffix'    => 'Controller',
     'controller.method_suffix'   => 'Action',
     'controller.template_suffix' => 'php',
     'view' => new \Financi\View(),

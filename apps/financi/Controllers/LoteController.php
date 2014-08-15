@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-class Lote extends SlimController\SlimController 
+class LoteController extends SlimController\SlimController 
 {
     public function indexAction()
     {   

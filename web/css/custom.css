@@ -1,0 +1,12 @@
+.input-group .btn {
+    box-shadow: none;
+    line-height: 20px;
+    margin: 0 !important;
+    padding-bottom: 3px !important;
+    padding-top: 3px !important;
+}
+
+.btn-group > .btn + .dropdown-toggle {
+    padding-bottom: 4px;
+    padding-top: 6px;
+}

@@ -1,6 +1,4 @@
-
-
-<div class="row margin-top-50">
+<div class="row row margin-top-50">
 
     <div class="block-flat">
 
@@ -9,17 +7,22 @@
         </div>
 
         <div class="header">
-            <h3>Cadastro de Cliente</h3>    
+                <h3 class="pull-left">Cadastros de Clientes</h3>
+                <div style="margin-top: -7px;" class="tab-container pull-right">
+                    <ul class="nav nav-pills flat-tabs">
+                          <li class="active"><a data-toggle="tab" href="#home"><i class="fa  fa-info-circle"></i> Identificação</a></li>
+                          <li class=""><a data-toggle="tab" href="#conjuge"><i class="fa  fa-male"></i> Cônjuge</a></li>
+                          <!--<li class=""><a data-toggle="tab" href="#messages">Profissional</a></li>-->
+                        </ul>
+                </div>
+                <div class="clearfix"></div>
         </div>
+        
         <div class="content" ng-controller="FormCtrl">
             
             <form style="border-radius: 0px;" action="#" name="ClienteForm" id="ClienteForm" class="group-border-dashed">
                 <div class="tab-container">
-                        <ul class="nav nav-tabs flat-tabs">
-                          <li class="active"><a data-toggle="tab" href="#home">Identificação</a></li>
-                          <li class=""><a data-toggle="tab" href="#conjuge">Cônjuge</a></li>
-                          <!--<li class=""><a data-toggle="tab" href="#messages">Profissional</a></li>-->
-                        </ul>
+                        
                         <!-- Início tab-content -->
                         <div class="tab-content">
                             <!-- Início tab-content -->
@@ -403,7 +406,8 @@
                                             ]);
                                         ?> 
                                         </div>
-                                        <div class="row hpadding cl">
+
+                                        <div class="row hpadding">
                                             <div class="form-group">
                                                 <div class="col-sm-24">
                                                     <a class="btn btn-default" style="margin-left:0" href="javascript://" ng-click="changeEndereco()">{{endereco ? 'Endereço Secundário' : 'Endereço Principal'}}</a>
@@ -412,6 +416,7 @@
                                         </div>
                                    
                                 </div>
+
                             </div>
                             <!-- Fim /home -->
 

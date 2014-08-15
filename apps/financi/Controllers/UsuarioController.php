@@ -5,7 +5,7 @@ namespace Controllers;
 use Opis\Session\Session,
     \Financi\WebServices;
 
-class Usuario extends \SlimController\SlimController 
+class UsuarioController extends \SlimController\SlimController 
 {
     public function indexAction()
     {   
@@ -24,10 +24,22 @@ class Usuario extends \SlimController\SlimController
 
         $get = $this->app->request->get();
 
+        $conditions = ['usuario.status = ? OR usuario.status = ?', 1, 2];
+
+        if($get['query']) {
+            $query = new \Usuario();
+            $pks = $query->search($get['query']);
+            if(count($pks)) {
+                $conditions = ['usuario.id in(?) AND usuario.status = ? OR usuario.status = ?', $pks, 1, 2];
+            } else {
+                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1] )); 
+            }
+        }
+
         $usuarios_total = \Usuario::find('all', [
                 'select' => 'usuario.id, usuario.usuario, usuario.nome, usuario.apelido, usuario.email, usuario.grupo_id, usuario.status, grupo_usuario.descricao as grupo',
                 'joins' => ['grupo_usuario'],
-                'conditions' => ['usuario.status = ? OR usuario.status = ?', 1, 2]
+                'conditions' => $conditions
             ]);
 
         $pagina = $get['pagina'];
@@ -43,7 +55,7 @@ class Usuario extends \SlimController\SlimController
         $usuarios = \Usuario::find('all', [
                 'select' => 'usuario.id, usuario.usuario, usuario.nome, usuario.apelido, usuario.email, usuario.grupo_id, usuario.status, grupo_usuario.descricao as grupo',
                 'joins' => ['grupo_usuario'],
-                'conditions' => ['usuario.status = ? OR usuario.status = ?', 1, 2],
+                'conditions' => $conditions,
                 'limit' => $limite,
                 'offset' => $inicio
             ]);

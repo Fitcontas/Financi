@@ -4,7 +4,7 @@ namespace Controllers;
 
 use Opis\Session\Session;
 
-class Empreendimento extends \SlimController\SlimController
+class EmpreendimentoController extends \SlimController\SlimController
 {
     public function indexAction()
     {

@@ -1,5 +1,5 @@
 <form id="#grid_cliente" class="grid" data-control="Clientes" data-list="dt_cliente(true)">
-    <div class="row margin-top-50">
+    <div class="row">
         <div id="no-reg" class="content" style="display: none">
             <div class="container">
                 <h5>No momento não existe nenhum registro cadastrado. <?php echo true ? 'Para inserir um novo clique em “Adicionar”.' : '' ?></h5>

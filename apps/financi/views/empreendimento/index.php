@@ -1,6 +1,6 @@
 <div ng-controller="FormEmpreendimentoCtrl">
 <form id="#grid_empreendimento" class="grid">
-    <div class="row margin-top-50">
+    <div class="row">
         <div id="no-reg" class="content" style="display: none">
             <div class="container">
                 <h5>No momento não existe nenhum registro cadastrado. <?php echo true ? 'Para inserir um novo clique em “Adicionar”.' : '' ?></h5>
@@ -68,6 +68,7 @@
                         </div>
                       </div>
                     </div>
+                    <div class="clearfix"></div>
                 </div>
             </div>
         </div>

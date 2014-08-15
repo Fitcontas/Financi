@@ -5,7 +5,7 @@ namespace Controllers;
 use Opis\Session\Session,
     \Financi\WebServices;
 
-class Cliente extends \SlimController\SlimController 
+class ClienteController extends \SlimController\SlimController 
 {
 	public function indexAction()
 	{
@@ -19,7 +19,7 @@ class Cliente extends \SlimController\SlimController
 
 		$this->render('cliente/index.php', [
                 'clientes' => $clientes,
-                'foot_js' => [ 'js/cadastros/cliente_index.js' ]
+                'foot_js' => [ 'js/cadastros/cliente_index.js', 'bower_components/lodash/dist/lodash.min.js' ]
             ]);
 	}
 

@@ -36,15 +36,15 @@
                                     <li><a href="/cliente/cadastro/pj" class="no">Cliente PJ</a></li>    
                                 </ul>
                             </div>
-                            <button type="button" class="btn btn-default " action="excluir"> Excluir</button>
-                            <button type="button" class="btn btn-default " action="habilitar"> Habilitar</button>
-                            <button type="button" class="btn btn-default " action="desabilitar"> Desabilitar</button></div>
+                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" action="excluir"> Excluir</button>
+                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" action="habilitar"> Habilitar</button>
+                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" action="desabilitar"> Desabilitar</button></div>
                         </div>
                         <div class="pull-right">
                             <div class="input-group">
                               <input class="form-control" type="text" placeholder="Pesquisar" style="width:250px"  ng-model="search">
                               <span class="input-group-btn">
-                                <button class="btn btn-default" type="button" ng-click="start()">Buscar</button>
+                                <button class="btn btn-default btn-sm" ng-disabled="search.length<=3" type="button" ng-click="start()">Buscar</button>
                               </span>
                             </div>
                         </div>
@@ -57,7 +57,7 @@
                                 <tr>
                                     <th>
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="checkall" class="checkall"/></label>
+                                            <label><input type="checkbox" name="checkall" class="checkall" ng-model="checkall"></label>
                                         </div>
                                     </th>
                                     <th>Nome/Razão Social</th>
@@ -67,7 +67,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="c in clientes">
-                                    <td><input type="checkbox"></td>
+                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(c)" ng-checked="checkall"></td>
                                     <td><a href="/cliente/edita/pf/{{c.id}}">{{c.nome}}</a></a></td>
                                     <td>{{c.cpf}}</td>
                                     <td>{{c.status == 1 ? 'Ativo' : 'Desabilitado'}}</td>
@@ -86,6 +86,7 @@
                             </div>
                           </div>
                         </div>
+                        <div class="clearfix"></div>
                         <!-- /fim da paginação -->                          
                     </div>
                     

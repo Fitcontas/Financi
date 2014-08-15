@@ -26,22 +26,29 @@
                         <div class="pull-left">
                         <div class="btn-group pull-left" id="buttons-grid">
                             <button type="button" class="btn btn-default" ng-click="showForm(false)"> Novo</button>
-                            <button type="button" class="btn btn-default" ng-click="acao('excluir')"> Excluir</button>
-                            <button type="button" class="btn btn-default" ng-click="acao('habilitar')"> Habilitar</button>
-                            <button type="button" class="btn btn-default" ng-click="acao('desabilitar')"> Desabilitar</button></div>
+                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" ng-click="acao('excluir')"> Excluir</button>
+                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" ng-click="acao('habilitar')"> Habilitar</button>
+                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" ng-click="acao('desabilitar')"> Desabilitar</button></div>
                         </div>
                         <div class="pull-right">
-                            <input class="form-control" type="text" aria-controls="tb_usuario" placeholder="Pesquisar" style="width:250px">
+                            <div class="input-group">
+                              <input class="form-control" type="text" placeholder="Pesquisar" style="width:250px"  ng-model="search">
+                              <span class="input-group-btn">
+                                <button class="btn btn-default btn-sm" ng-disabled="search.length<=3" type="button" ng-click="start()">Buscar</button>
+                              </span>
+                            </div>
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="table-responsive">
+
+                    <!-- Início data table content -->
+                    <div class="table-responsive" ng-show="usuarios.length>0">
                         <table class="table table-striped table-bordered spacer2 table-hover">
                             <thead>
                                 <tr>
                                     <th>
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="checkall" ng-model="checkall"/></label>
+                                            <label><input type="checkbox" name="checkall" ng-model="checkall"></label>
                                         </div>
                                     </th>
                                     <th>Nome</th>
@@ -59,19 +66,33 @@
                                     <td>{{u.status == 1 ? 'Ativo' : 'Desabilitado'}}</td>
                                 </tr>
                             </tbody>
-                        </table>              
-                    </div>
-                    <div class="row-fluid" ng-show="paginas.length>1">
-                      <div class="span12">
-                         <div>
-                          <ul class="pagination pull-right">
-                            <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}">
-                              <a ng-click="start($index+1)" href="javascript:void(0)">{{$index+1}}</a>
-                            </li>
-                          </ul>
+                        </table>
+                        <!-- início da paginação -->
+                        <div class="row-fluid" ng-show="paginas.length>1">
+                          <div class="span12">
+                             <div>
+                              <ul class="pagination pull-right">
+                                <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}">
+                                  <a ng-click="start($index+1)" href="javascript:void(0)">{{$index+1}}</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                        <div class="clearfix"></div>
+                        <!-- /fim da paginação -->              
                     </div>
+                    <!-- /Fim data table content -->
+
+                    <!-- Início da mensagem caso não haja registro -->
+                    <div class="table-responsive" ng-show="!usuarios.length && !usuarios.$resolved">
+                        <div class="alert alert-warning alert-white rounded">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <div class="icon"><i class="fa fa-warning"></i></div>
+                            <strong>Desculpe!</strong> A busca não obteve resultados.
+                         </div>
+                    </div>
+                    <!-- /Fim da mensagem caso não haja registro -->
                 </div>
             </div>
         </div>

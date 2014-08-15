@@ -5,7 +5,7 @@ namespace Controllers;
 use Opis\Session\Session,
     \Financi\WebServices;
 
-class Corretor extends \SlimController\SlimController 
+class CorretorController extends \SlimController\SlimController 
 {
     public function indexAction()
     {
