@@ -34,7 +34,7 @@
                             <div class="input-group">
                               <input class="form-control" type="text" placeholder="Pesquisar" style="width:250px"  ng-model="search">
                               <span class="input-group-btn">
-                                <button class="btn btn-default btn-sm" ng-disabled="search.length<=3" type="button" ng-click="start()">Buscar</button>
+                                <button class="btn btn-default btn-sm" type="button" ng-click="start()"><i class="fa fa-search"></i></button>
                               </span>
                             </div>
                         </div>
@@ -89,7 +89,7 @@
                         <div class="alert alert-warning alert-white rounded">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
                             <div class="icon"><i class="fa fa-warning"></i></div>
-                            <strong>Desculpe!</strong> A busca não obteve resultados.
+                            <strong>Opss!</strong> Nenhum registro encontrado!
                          </div>
                     </div>
                     <!-- /Fim da mensagem caso não haja registro -->
@@ -101,7 +101,7 @@
 
 <!-- Modal -->
 <div role="dialog" id="usuario_modal" class="modal fade in" aria-hidden="false"><!-- Modal -->
-    <form autocomplete="off" name="UsuarioForm" id="UsuarioForm" class="form-horizontal" novalidate>
+    <form autocomplete="off" name="UsuarioForm" id="UsuarioForm" class="form-horizontal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -147,28 +147,28 @@
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="email">E-mail </label>
                     <div class="col-sm-14">
-                        <input type="text" value="" maxlength="150" placeholder="E-mail" req="" name="email" class="email form-control smail" ng-model="usuario.email" required>
+                        <input type="email" value="" maxlength="150" placeholder="E-mail" req="" name="email" class="form-control" required data-ng-model="usuario.email">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="email">Repita o e-mail </label>
                     <div class="col-sm-14">
-                        <input type="text" value="" maxlength="150" placeholder="E-mail" req="" name="email2" class="email form-control smail" ng-model="usuario.email2" required>
+                        <input type="email" value="" maxlength="150" placeholder="E-mail" req="" name="email2" class="form-control" ng-model="usuario.email2" required data-password-verify="usuario.email">
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="senha">Senha </label>
                     <div class="col-sm-10">
-                        <input type="password" maxlength="150" req="" minlength="6" name="senha" id="senha" class="form-control" value="" ng-model="usuario.senha" ng-non-bindable>
+                        <input type="password" req ng-minlength="6" ng-maxlength="15" name="senha" id="senha" class="form-control" value="" data-ng-model="usuario.senha">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="senha2">Confirme a Senha </label>
                     <div class="col-sm-10">
-                        <input type="password" maxlength="150" req="" minlength="6" name="senha2" id="senha2" class="form-control" value="" ng-model="usuario.senha2" ng-non-bindable>
+                        <input type="password" req ng-minlength="6" ng-maxlength="15" name="senha2" id="senha2" class="form-control" value="" ng-model="usuario.senha2" data-password-verify="usuario.senha">
                     </div>
                 </div>
 
@@ -176,23 +176,18 @@
                     Obs.:
                     O sistema solicitará a alteração de senha no primeiro acesso.
                 </div>
-                
-                <input type="hidden" value="Usuario" name="controle">
-                <input type="hidden" value="manter" name="acao">
-                                <input type="hidden" value="" name="id_usuario">
-                <input type="hidden" value="" name="id">
-                    
+
             </div>
 
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button class="btn btn-primary" ng-click="salvar(usuario)">Salvar</button>
-                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                    <button class="btn btn-primary" ng-disabled="UsuarioForm.$invalid" ng-click="salvar(usuario)">Salvar</button>
+                    <button data-toggle="dropdown" ng-disabled="UsuarioForm.$invalid" class="btn btn-primary dropdown-toggle" type="button">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul role="menu" class="dropdown-menu">
-                        <li><a href="#" data-action="modal-add">Salvar e Adicionar novo</a></li>
+                        <li><a href="#" data-action="modal-add" ng-disabled="UsuarioForm.$invalid">Salvar e Adicionar novo</a></li>
                     </ul>
                 </div>
                 <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>

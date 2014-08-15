@@ -1,6 +1,6 @@
 'use strict';
 
-var AppFinanci = angular.module('Financi', [ 'ngResource', 'ngMask', 'siyfion.sfTypeahead']);
+var AppFinanci = angular.module('Financi', [ 'ngResource', 'ngMask', 'siyfion.sfTypeahead', 'angular-loading-bar']);
 
 function required(idForm, modal) {
 

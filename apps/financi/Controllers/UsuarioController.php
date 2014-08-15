@@ -117,7 +117,9 @@ class UsuarioController extends \SlimController\SlimController
             foreach ($data as $d) {
                 $usuario = \Usuario::find($d->id);
                 $usuario->status = 0;
-                $usuario->save();
+                if(count($usuario)) {
+                    $usuario->save();
+                }
             }
             return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] )); 
         }
@@ -126,7 +128,9 @@ class UsuarioController extends \SlimController\SlimController
             foreach ($data as $d) {
                 $usuario = \Usuario::find($d->id);
                 $usuario->status = 2;
-                $usuario->save();
+                if(count($usuario)) {
+                    $usuario->save();
+                }
             }
             return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 4] )); 
         }
@@ -135,7 +139,9 @@ class UsuarioController extends \SlimController\SlimController
             foreach ($data as $d) {
                 $usuario = \Usuario::find($d->id);
                 $usuario->status = 1;
-                $usuario->save();
+                if(count($usuario)) {
+                    $usuario->save();
+                }
             }
             return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 4] )); 
         }

@@ -17,8 +17,10 @@ define('HOST', 'http://' . $_SERVER['HTTP_HOST']);
 
 require 'vendor/autoload.php';
 
+
+$case_insensitive = new Zend_Search_Lucene_Analysis_Analyzer_Common_Utf8Num_CaseInsensitive();
 Zend_Search_Lucene_Search_QueryParser::setDefaultEncoding("UTF-8");
-Zend_Search_Lucene_Analysis_Analyzer::setDefault(new Zend_Search_Lucene_Analysis_Analyzer_Common_Utf8Num_CaseInsensitive());
+Zend_Search_Lucene_Analysis_Analyzer::setDefault($case_insensitive);
 
 
 // Inciando o PHPActiveRecord

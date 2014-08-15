@@ -21,22 +21,22 @@ class Usuario extends AppModel {
     {
         $index = $this->getLuceneIndex();
 
-      // remove existing entries
-      foreach ($index->find('pk:'.$this->id) as $hit)
-      {
-        $index->delete($hit->id);
-      }
+        // remove existing entries
+        foreach ($index->find('pk:'.$this->id) as $hit)
+        {
+            $index->delete($hit->id);
+        }
 
-      $doc = new Zend_Search_Lucene_Document();
+        $doc = new Zend_Search_Lucene_Document();
 
-      $doc->addField(Zend_Search_Lucene_Field::Keyword('pk', $this->id));
+        $doc->addField(Zend_Search_Lucene_Field::Keyword('pk', $this->id));
 
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('nome', $this->nome, 'utf-8'));
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('usuario', $this->usuario, 'utf-8'));
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('email', $this->email, 'utf-8'));
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('status', $this->get_status(), 'utf-8'));
+        $doc->addField(Zend_Search_Lucene_Field::UnStored('nome', $this->nome, 'utf-8'));
+        $doc->addField(Zend_Search_Lucene_Field::UnStored('usuario', $this->usuario, 'utf-8'));
+        $doc->addField(Zend_Search_Lucene_Field::UnStored('email', $this->email, 'utf-8'));
+        $doc->addField(Zend_Search_Lucene_Field::UnStored('status', $this->get_status(), 'utf-8'));
 
-      $index->addDocument($doc);
-      $index->commit();
+        $index->addDocument($doc);
+        $index->commit();
     }
 }

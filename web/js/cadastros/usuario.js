@@ -31,7 +31,7 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
             chamaMsg('10', false);
         } else {
 
-            var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.model;
+            var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.model.usuarios;
 
             $http({
                 'method': 'post',
@@ -93,7 +93,9 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
         }*/
         
         if(required('#UsuarioForm', true)) {
+
             chamaMsg('11', true);
+            
         } else {
             UsuarioNovo.save(usuario).$promise.then(function(data) {
                 if(data.success) {
@@ -108,3 +110,35 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
 
     $scope.start();
 })
+
+.directive("passwordVerify", function() {
+   return {
+      require: "ngModel",
+      scope: {
+        passwordVerify: '='
+      },
+      link: function(scope, element, attrs, ctrl) {
+        scope.$watch(function() {
+            var combined;
+
+            if (scope.passwordVerify || ctrl.$viewValue) {
+               combined = scope.passwordVerify + '_' + ctrl.$viewValue; 
+            }                    
+            return combined;
+        }, function(value) {
+            if (value) {
+                ctrl.$parsers.unshift(function(viewValue) {
+                    var origin = scope.passwordVerify;
+                    if (origin !== viewValue) {
+                        ctrl.$setValidity("passwordVerify", false);
+                        return undefined;
+                    } else {
+                        ctrl.$setValidity("passwordVerify", true);
+                        return viewValue;
+                    }
+                });
+            }
+        });
+     }
+   };
+});
