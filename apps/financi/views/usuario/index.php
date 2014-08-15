@@ -42,7 +42,7 @@
                     <div class="clearfix"></div>
 
                     <!-- Início data table content -->
-                    <div class="table-responsive" ng-show="usuarios.length>0">
+                    <div class="table-responsive" ng-show="model.usuarios.length>0">
                         <table class="table table-striped table-bordered spacer2 table-hover">
                             <thead>
                                 <tr>
@@ -58,7 +58,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="u in usuarios">
+                                <tr ng-repeat="u in model.usuarios">
                                     <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(u)" ng-checked="checkall"/></td>
                                     <td><a ng-click="showForm(u)">{{u.nome}}</a></td>
                                     <td>{{u.email}}</td>
@@ -85,7 +85,7 @@
                     <!-- /Fim data table content -->
 
                     <!-- Início da mensagem caso não haja registro -->
-                    <div class="table-responsive" ng-show="!usuarios.length && !usuarios.$resolved">
+                    <div class="table-responsive" ng-show="!model.usuarios.length && model.$resolved">
                         <div class="alert alert-warning alert-white rounded">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
                             <div class="icon"><i class="fa fa-warning"></i></div>

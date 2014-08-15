@@ -31,7 +31,7 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
             chamaMsg('10', false);
         } else {
 
-            var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.usuarios;
+            var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.model;
 
             $http({
                 'method': 'post',
@@ -62,7 +62,7 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
         }
 
         Usuarios.get(termos).$promise.then(function(data){
-            $scope.usuarios = data.usuarios;
+            $scope.model = data;
             $scope.paginas = new Array(data.paginas);
         });
     }
