@@ -2,6 +2,10 @@
 
 class Clientes extends AppModel {
     static $table_name = 'cliente';
+    static $has_many = [
+        ['telefones', 'class_name' => 'ClienteTelefone', 'foreign_key' => 'cliente_id', 'primary_key' => 'id'],
+        ['emails', 'class_name' => 'ClienteEmail', 'foreign_key' => 'cliente_id', 'primary_key' => 'id']
+    ];
 
     public function get_status() 
     {
@@ -17,21 +21,21 @@ class Clientes extends AppModel {
     {
         $index = $this->getLuceneIndex();
 
-      // remove existing entries
-      foreach ($index->find('pk:'.$this->id) as $hit)
-      {
-        $index->delete($hit->id);
-      }
+        // remove existing entries
+        foreach ($index->find('pk:'.$this->id) as $hit)
+        {
+            $index->delete($hit->id);
+        }
 
-      $doc = new Zend_Search_Lucene_Document();
+        $doc = new Zend_Search_Lucene_Document();
 
-      $doc->addField(Zend_Search_Lucene_Field::Keyword('pk', $this->id));
+        $doc->addField(Zend_Search_Lucene_Field::Keyword('pk', $this->id));
 
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('nome', $this->nome, 'utf-8'));
+        $doc->addField(Zend_Search_Lucene_Field::UnStored('nome', $this->nome, 'utf-8'));
 
-      $doc->addField(Zend_Search_Lucene_Field::UnStored('status', $this->get_status(), 'utf-8'));
+        $doc->addField(Zend_Search_Lucene_Field::UnStored('status', $this->get_status(), 'utf-8'));
 
-      $index->addDocument($doc);
-      $index->commit();
+        $index->addDocument($doc);
+        $index->commit();
     }
 }

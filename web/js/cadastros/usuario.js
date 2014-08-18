@@ -1,6 +1,6 @@
 'use strict';
 
-AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, UsuarioNovo) {
+AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, UsuarioNovo, Grupos) {
 
     $scope.usuario = {};
     $scope.grupos = [{1: 'Administrador'}];
@@ -11,6 +11,7 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
     $scope.pagina = 1;
     $scope.paginas = 0;
     $scope.search = '';
+    $scope.grupos = Grupos.get();
 
     $scope.checkAll = function(item) {
 
@@ -110,35 +111,3 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
 
     $scope.start();
 })
-
-.directive("passwordVerify", function() {
-   return {
-      require: "ngModel",
-      scope: {
-        passwordVerify: '='
-      },
-      link: function(scope, element, attrs, ctrl) {
-        scope.$watch(function() {
-            var combined;
-
-            if (scope.passwordVerify || ctrl.$viewValue) {
-               combined = scope.passwordVerify + '_' + ctrl.$viewValue; 
-            }                    
-            return combined;
-        }, function(value) {
-            if (value) {
-                ctrl.$parsers.unshift(function(viewValue) {
-                    var origin = scope.passwordVerify;
-                    if (origin !== viewValue) {
-                        ctrl.$setValidity("passwordVerify", false);
-                        return undefined;
-                    } else {
-                        ctrl.$setValidity("passwordVerify", true);
-                        return viewValue;
-                    }
-                });
-            }
-        });
-     }
-   };
-});

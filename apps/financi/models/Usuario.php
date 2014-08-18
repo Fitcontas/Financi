@@ -35,6 +35,8 @@ class Usuario extends AppModel {
         $doc->addField(Zend_Search_Lucene_Field::UnStored('usuario', $this->usuario, 'utf-8'));
         $doc->addField(Zend_Search_Lucene_Field::UnStored('email', $this->email, 'utf-8'));
         $doc->addField(Zend_Search_Lucene_Field::UnStored('status', $this->get_status(), 'utf-8'));
+        $doc->addField(Zend_Search_Lucene_Field::UnStored('grupo_id', $this->grupo_usuario->descricao, 'utf-8'));
+
 
         $index->addDocument($doc);
         $index->commit();

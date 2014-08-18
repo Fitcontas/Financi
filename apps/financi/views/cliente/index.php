@@ -68,8 +68,8 @@
                             <tbody>
                                 <tr ng-repeat="c in clientes">
                                     <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(c)" ng-checked="checkall"></td>
-                                    <td><a href="/cliente/edita/pf/{{c.id}}">{{c.nome}}</a></a></td>
-                                    <td>{{c.cpf}}</td>
+                                    <td><a href="/cliente/edita/{{ c.cpf ? 'pf' : 'pj' }}/{{c.id}}">{{c.nome}}</a></a></td>
+                                    <td>{{ c.cpf ? c.cpf : c.cnpj }}</td>
                                     <td>{{c.status == 1 ? 'Ativo' : 'Desabilitado'}}</td>
                                 </tr>
                             </tbody>

@@ -15,6 +15,16 @@ logout:
     route: Home:sair
     url: /sair
 
+estados:
+    method: get
+    route: Home:estados
+    url: /estados
+
+cidades:
+    method: get
+    route: Home:cidades
+    url: /cidades/:uf
+
 cliente:
     method: get
     route: Cliente:index
@@ -29,6 +39,11 @@ cliente_edita_pf:
     method: get
     route: Cliente:editaPf
     url: /cliente/edita/pf/:id
+
+cliente_edita_pj:
+    method: get
+    route: Cliente:editaPj
+    url: /cliente/edita/pj/:id
 
 cliente_cadastro_pj:
     method: get
@@ -60,10 +75,20 @@ empreendimento:
     route: Empreendimento:index
     url: /empreendimento
 
+empreendimento_novo:
+    method: post
+    route: Empreendimento:novo
+    url: /empreendimento/novo(/:id)
+
 empreendimento_all:
     method: get
     route: Empreendimento:all
     url: /empreendimento/all(/:id)
+
+empreendimento_acoes:
+    method: post
+    route: Empreendimento:acoes
+    url: /empreendimento/acoes/:acao
 
 usuario:
     method: get
@@ -74,6 +99,11 @@ usuario_all:
     method: get
     route: Usuario:all
     url: /usuario/all(/:id)
+
+usuario_grupos:
+    method: get
+    route: Usuario:grupos
+    url: /usuario/grupos(/:id)
 
 usuario_novo:
     method: post
@@ -94,3 +124,8 @@ corretor_novo:
     method: get
     route: Corretor:novo
     url: /corretor/novo
+
+corretores:
+    method: get
+    route: Corretor:corretores
+    url: /corretores

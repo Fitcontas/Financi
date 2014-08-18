@@ -1,6 +1,4 @@
-
-
-<div class="row">
+<div class="row margin-top-50">
 
     <div class="block-flat">
 
@@ -9,17 +7,21 @@
         </div>
 
         <div class="header">
-            <h3>Cadastro de Cliente</h3>    
+                <h3 class="pull-left">Cadastros de Clientes</h3>
+                <div style="margin-top: -7px;" class="tab-container pull-right">
+                    <ul class="nav nav-pills flat-tabs">
+                          <li class="active"><a data-toggle="tab" href="#home"><i class="fa  fa-info-circle"></i> Identificação</a></li>
+                          <li class=""><a data-toggle="tab" href="#conjuge"><i class="fa  fa-male"></i> Sócio</a></li>
+                          <!--<li class=""><a data-toggle="tab" href="#messages">Profissional</a></li>-->
+                        </ul>
+                </div>
+                <div class="clearfix"></div>
         </div>
         <div class="content" ng-controller="FormCtrl">
             
             <form style="border-radius: 0px;" action="#" name="ClienteForm" id="ClienteForm" class="group-border-dashed">
                 <div class="tab-container">
-                        <ul class="nav nav-tabs flat-tabs">
-                          <li class="active"><a data-toggle="tab" href="#home">Identificação</a></li>
-                          <li class=""><a data-toggle="tab" href="#conjuge">Sócio</a></li>
-                          <!--<li class=""><a data-toggle="tab" href="#messages">Profissional</a></li>-->
-                        </ul>
+                    
                         <!-- Início tab-content -->
                         <div class="tab-content">
                             <!-- Início tab-content -->
@@ -72,15 +74,15 @@
                                         [
                                             'label' => 'Inscrição Municipal',
                                             'block_class' => 'col-sm-5',
-                                            'name' => 'cliente[incricao_municipal]',
-                                            'ng-model' => 'cliente.incricao_municipal',
+                                            'name' => 'cliente[inscricao_municipal]',
+                                            'ng-model' => 'cliente.inscricao_municipal',
                                             'attributes' => 'required req'
                                         ],
                                         [
                                             'label' => 'Inscrição Estadual',
                                             'block_class' => 'col-sm-5',
-                                            'name' => 'cliente[incricao_estadual]',
-                                            'ng-model' => 'cliente.incricao_estadual',
+                                            'name' => 'cliente[inscricao_estadual]',
+                                            'ng-model' => 'cliente.inscricao_estadual',
                                             'attributes' => 'required req'
                                         ]
                                     ]);
@@ -217,7 +219,7 @@
                                                     'label' => 'Referência',
                                                     'block_class' => 'col-sm-24',
                                                     'name' => 'cliente[endereco][0][referencia]',
-                                                    'ng-model' => 'cliente.endereco.0.residencia'
+                                                    'ng-model' => 'cliente.endereco.0.referencia'
                                                 ]
                                             ]);
                                         ?> 
@@ -332,6 +334,80 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="fone col-sm-12 col-lg-12">
+                                                <div class="header">
+                                                    <h4>Telefone</h4>
+                                                </div>
+                                                <div class="content boxadd clearfix">
+
+                                                            
+                                                    <div class="form-group margin" ng-repeat="fone in cliente.telefones">
+
+                                                        <input type="hidden" name="telefones[0][id_fone]">
+                                                        <div class="col-sm-7">
+                                                            <select class="form-control" name="" ng-model="cliente.telefones[$index].tipo">
+                                                                <option value=""></option>
+                                                                <option value="1">Celular</option>
+                                                                <option value="2">Fixo</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" placeholder="DDD" class="form-control ddd" name="cliente[telefones][0][ddd]" ng-model="cliente.telefones[$index].ddd" mask="99">
+                                                        </div>
+                                                        <div class="col-sm-14">
+                                                            <div class="input-group">
+                                                                <input type="text" maxlength="10" placeholder="Telefone" name="" mask="9999-9999" clean="true" class="form-control num vfone" ng-model="cliente.telefones[$index].numero">
+                                                                <span class="input-group-btn">
+                                                                    <button title="Excluir" type="button" name="rem-fone" class="btn btn-default" ng-click="removeTelefone($index)"><i class="fa fa-trash-o"></i></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+
+                                                    
+                                                </div>
+                                                <div class="col-sm-24 no-padding">
+                                                    <button class="btn btn-add btn-default button-auxiliar" type="button" ng-click="addTelefone()"><i class="fa fa-plus"></i> Adicionar</button>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="email col-sm-12 col-lg-12">
+                                                    <div class="header">
+                                                    <h4>E-mail</h4>
+                                                </div>
+                                                    <div style="" class="content boxadd clearfix">
+
+                                                    
+                                                    <div class="form-group margin" ng-repeat="mail in cliente.emails">
+                                                        <div class="col-sm-7">
+                                                            <select class="form-control" name="" ng-model="cliente.emails[$index].tipo">
+                                                                <option value=""></option>
+                                                                <option value="1"> profissional</option>
+                                                                <option value="2">pessoal</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-17">
+                                                            <div class="input-group">
+                                                                <input type="email" placeholder="E-mail" class="form-control smail vmail" name="" ng-model="cliente.emails[$index].email"> 
+                                                                <span class="input-group-btn">
+                                                                    <button title="Excluir" type="button" name="rem-email" class="btn btn-default" ng-click="removeEmail($index)"><i class="fa fa-trash-o"></i></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    
+                                                </div>
+                                                <div class="col-sm-24 no-padding">
+                                                    <button class="btn btn-add btn-default button-auxiliar" name="add-email" type="button" ng-click="addEmail()"><i class="fa fa-plus"></i> Adicionar</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                    
                                 </div>
                             </div>
@@ -401,7 +477,7 @@
                                     \Financi\HTMLHelper::renderRow([
                                         [
                                             'label' => 'Registro Geral (RG)',
-                                            'block_class' => 'col-sm-8',
+                                            'block_class' => 'col-sm-10',
                                             'name' => 'cliente[conjuge][registro_geral]',
                                             'ng-model' => 'cliente.conjuge.registro_geral'
                                         ],
@@ -413,21 +489,10 @@
                                         ],
                                         [
                                             'label' => 'CTPS',
-                                            'block_class' => 'col-sm-8',
+                                            'block_class' => 'col-sm-10',
                                             'name' => 'ctps',
                                             'name' => 'cliente[conjuge][ctps]',
                                             'ng-model' => 'cliente.conjuge.ctps'
-                                        ],
-                                        [
-                                            'label' => 'Residência',
-                                            'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[conjuge][residencia]',
-                                            'block' => 'default-select',
-                                            'options' => [
-                                                '1' => 'Própria',
-                                                '2' => 'Alugada'
-                                            ],
-                                            'ng-model' => 'cliente.conjuge.residencia'
                                         ]
                                     ]);
                                         

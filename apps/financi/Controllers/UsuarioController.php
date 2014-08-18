@@ -24,13 +24,13 @@ class UsuarioController extends \SlimController\SlimController
 
         $get = $this->app->request->get();
 
-        $conditions = ['usuario.status = ? OR usuario.status = ?', 1, 2];
+        $conditions = ['usuario.status <> ?', 0];
 
         if($get['query']) {
             $query = new \Usuario();
             $pks = $query->search($get['query']);
             if(count($pks)) {
-                $conditions = ['usuario.id in(?) AND usuario.status = ? OR usuario.status = ?', $pks, 1, 2];
+                $conditions = ['usuario.id in(?) AND usuario.status <> ?', $pks, 0];
             } else {
                 return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1] )); 
             }
@@ -145,6 +145,21 @@ class UsuarioController extends \SlimController\SlimController
             }
             return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 4] )); 
         }
+    }
 
+    public function gruposAction()
+    {
+        $this->app->contentType('application/json');
+        $grupos = \GrupoUsuario::find('all');
+
+        $grupos_arr = [];
+
+        if(count($grupos)) {
+            foreach ($grupos as $g) {
+                $grupos_arr[] = $g->to_array();
+            }
+        }
+
+        return $this->app->response->setBody(json_encode( ['grupos' => $grupos_arr] )); 
     }
 }

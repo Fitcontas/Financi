@@ -2,7 +2,14 @@
 
 AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
     $scope.endereco = 1;
-    $scope.cliente = {};
+    $scope.cliente = {
+        'telefones': [
+            {},
+        ],
+        'emails': [
+            {},
+        ]
+    };
 
     $scope.selectedCbo = null;
 
@@ -46,11 +53,11 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
             $('.loading').hide();
             
             if(destino == 'cidades') {
-                $scope.cidades = data.rows;
+                $scope.cidades = data.cidades;
             } else if(destino == 'cidades_endereco_principal') {
-                $scope.cidades_endereco_principal = data.rows;
+                $scope.cidades_endereco_principal = data.cidades;
             } else if(destino == 'cidades_endereco_secundario') {
-                $scope.cidades_endereco_secundario = data.rows;
+                $scope.cidades_endereco_secundario = data.cidades;
             }
 
         });
@@ -85,7 +92,7 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
     };
 
     $('.typeahead').on('typeahead:selected', function($e, datum) {
-        $('#cbo_id').val(datum.cbo);
+        $scope.cliente.cbo = datum.cbo;
     });
 
     $scope.completaEndereco = function(endereco) {
@@ -110,6 +117,28 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
             }
 
         });
+    }
+
+    $scope.addTelefone = function() {
+        $scope.cliente.telefones.push({});
+        console.log($scope.cliente.telefones);
+    }
+
+    $scope.removeTelefone = function(index) {
+        if($scope.cliente.telefones.length > 1) {
+            $scope.cliente.telefones.splice(index, 1);
+        }
+    }
+
+    $scope.addEmail = function() {
+        $scope.cliente.emails.push({});
+        console.log($scope.cliente.emails);
+    }
+
+    $scope.removeEmail = function(index) {
+        if($scope.cliente.emails.length > 1) {
+            $scope.cliente.emails.splice(index, 1);
+        }
     }
 
 });

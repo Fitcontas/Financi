@@ -1,4 +1,4 @@
-<div class="row row margin-top-50">
+<div class="row margin-top-50">
 
     <div class="block-flat">
 
@@ -162,10 +162,10 @@
                                             'label' => 'CBO',
                                             'block' => 'default-with-hidden',
                                             'block_class' => 'col-sm-12 typeahead',
-                                            'name' => 'cliente[cbo]',
-                                            'ng-model' => 'cliente.cbo',
+                                            'name' => 'cliente[cbo_descricao]',
+                                            'id' => 'cbo_descricao',
                                             'attributes' => 'sf-typeahead options="cboOptions" datasets="cboDataset" ng-model="selectedCbo"',
-                                            'hidden' => '<input type="hidden" id="cbo_id" name="cliente[cbo_id]">'
+                                            'hidden' => '<input type="hidden" id="cbo" name="cliente[cbo]" ng-model="cliente.cbo">'
                                         ],
                                         [
                                             'label' => 'Registro Profissional',
@@ -200,7 +200,7 @@
                                                     <div class="form-group">
                                                         <label for="cliente[endereco][0][cep]">CEP</label>
                                                         <div class="input-group">
-                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][0][cep]" ng-model="cliente.endereco.0.cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required>
+                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][0][cep]" ng-model="cliente.endereco[0].cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required>
                                                             <span class="input-group-btn">
                                                                 <button title="Pesquisar CEP" type="button" name="enderecos[0][buscar]" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
                                                             </span>
@@ -238,28 +238,28 @@
                                                         '1' => 'Rua'
                                                     ],
                                                     'name' => 'cliente[endereco][0][tipo]',
-                                                    'ng-model' => 'cliente.endereco.0.tipo',
+                                                    'ng-model' => 'cliente.endereco[0].tipo',
                                                     'attributes' => 'req required'
                                                 ],
                                                 [
                                                     'label' => 'Logradouro',
                                                     'block_class' => 'col-sm-10',
                                                     'name' => 'cliente[endereco][0][logradouro]',
-                                                    'ng-model' => 'cliente.endereco.0.logradouro',
+                                                    'ng-model' => 'cliente.endereco[0].logradouro',
                                                     'attributes' => 'req required'
                                                 ],
                                                 [
                                                     'label' => 'Número',
                                                     'block_class' => 'col-sm-2',
                                                     'name' => 'cliente[endereco][0][numero]',
-                                                    'ng-model' => 'cliente.endereco.0.numero',
+                                                    'ng-model' => 'cliente.endereco[0].numero',
                                                     'attributes' => 'req required'
                                                 ],
                                                 [
                                                     'label' => 'Complemento',
                                                     'block_class' => 'col-sm-8',
                                                     'name' => 'cliente[endereco][0][complemento]',
-                                                    'ng-model' => 'cliente.endereco.0.complemento'
+                                                    'ng-model' => 'cliente.endereco[0].complemento'
                                                 ]
                                             ]);
 
@@ -268,7 +268,7 @@
                                                     'label' => 'Bairro',
                                                     'block_class' => 'col-sm-10',
                                                     'name' => 'cliente[endereco][0][bairro]',
-                                                    'ng-model' => 'cliente.endereco.0.bairro',
+                                                    'ng-model' => 'cliente.endereco[0].bairro',
                                                     'attributes' => 'req required'
                                                 ],
                                                 [
@@ -278,7 +278,7 @@
                                                     'options' => $ufs,
                                                     'name' => 'cliente[endereco][0][uf]',
                                                     'id' => 'uf_endereco_principal',
-                                                    'ng-model' => 'cliente.endereco.0.uf',
+                                                    'ng-model' => 'cliente.endereco[0].uf',
                                                     'attributes' => 'req required ng-change="get_cidade(\'uf_endereco_principal\', \'cidades_endereco_principal\')"'
                                                 ],
                                                 [
@@ -287,7 +287,7 @@
                                                     'block' => 'select-ng-repeat',
                                                     'name' => 'cliente[endereco][0][cidade]',
                                                     'id' => 'cidade_principal',
-                                                    'ng-model' => 'cliente.endereco.0.cidade',
+                                                    'ng-model' => 'cliente.endereco[0].cidade',
                                                     'ng-option' => '<option ng-repeat="cidade in cidades_endereco_principal" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>',
                                                     'attributes' => 'req required'
                                                 ],
@@ -298,7 +298,7 @@
                                                     'label' => 'Referência',
                                                     'block_class' => 'col-sm-24',
                                                     'name' => 'cliente[endereco][0][referencia]',
-                                                    'ng-model' => 'cliente.endereco.0.residencia'
+                                                    'ng-model' => 'cliente.endereco[0].residencia'
                                                 ]
                                             ]);
                                         ?> 
@@ -309,7 +309,7 @@
                                                     <div class="form-group">
                                                         <label for="cliente[endereco][1][cep]">CEP</label>
                                                         <div class="input-group">
-                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][1][cep]" ng-model="cliente.endereco.1.cep" id="endereco-secundario" ng-blur="completaEndereco(false)">
+                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][1][cep]" ng-model="cliente.endereco[1].cep" id="endereco-secundario" ng-blur="completaEndereco(false)">
                                                             <span class="input-group-btn">
                                                                 <button title="Pesquisar CEP" type="button" name="enderecos[1][buscar]" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
                                                             </span>
@@ -347,25 +347,25 @@
                                                         '1' => 'Rua'
                                                     ],
                                                     'name' => 'cliente[endereco][1][tipo]',
-                                                    'ng-model' => 'cliente.endereco.1.tipo'
+                                                    'ng-model' => 'cliente.endereco[1].tipo'
                                                 ],
                                                 [
                                                     'label' => 'Logradouro',
                                                     'block_class' => 'col-sm-10',
                                                     'name' => 'cliente[endereco][1][logradouro]',
-                                                    'ng-model' => 'cliente.endereco.1.logradouro'
+                                                    'ng-model' => 'cliente.endereco[1].logradouro'
                                                 ],
                                                 [
                                                     'label' => 'Número',
                                                     'block_class' => 'col-sm-2',
                                                     'name' => 'cliente[endereco][1][numero]',
-                                                    'ng-model' => 'cliente.endereco.1.numero'
+                                                    'ng-model' => 'cliente.endereco[1].numero'
                                                 ],
                                                 [
                                                     'label' => 'Complemento',
                                                     'block_class' => 'col-sm-8',
                                                     'name' => 'cliente[endereco][1][complemento]',
-                                                    'ng-model' => 'cliente.endereco.1.complemento'
+                                                    'ng-model' => 'cliente.endereco[1].complemento'
                                                 ]
                                             ]);
 
@@ -374,7 +374,7 @@
                                                     'label' => 'Bairro',
                                                     'block_class' => 'col-sm-10',
                                                     'name' => 'cliente[endereco][1][bairro]',
-                                                    'ng-model' => 'cliente.endereco.1.bairro'
+                                                    'ng-model' => 'cliente.endereco[1].bairro'
                                                 ],
                                                 [
                                                     'label' => 'UF',
@@ -383,7 +383,7 @@
                                                     'options' => $ufs,
                                                     'name' => 'cliente[endereco][1][uf]',
                                                     'id' => 'uf_endereco_secundario',
-                                                    'ng-model' => 'cliente.endereco.1.uf',
+                                                    'ng-model' => 'cliente.endereco[1].uf',
                                                     'attributes' => 'ng-change="get_cidade(\'uf_endereco_secundario\', \'cidades_endereco_secundario\')"'
                                                 ],
                                                 [
@@ -391,7 +391,7 @@
                                                     'block_class' => 'col-sm-10',
                                                     'block' => 'select-ng-repeat',
                                                     'name' => 'cliente[endereco][1][cidade]',
-                                                    'ng-model' => 'cliente.endereco.1.cidade',
+                                                    'ng-model' => 'cliente.endereco[1].cidade',
                                                     'ng-option' => '<option ng-repeat="cidade in cidades_endereco_secundario" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>'
                                                 ],
                                             ]);
@@ -401,7 +401,7 @@
                                                     'label' => 'Referência',
                                                     'block_class' => 'col-sm-24',
                                                     'name' => 'cliente[endereco][1][referencia]',
-                                                    'ng-model' => 'cliente.endereco.1.referencia'
+                                                    'ng-model' => 'cliente.endereco[1].referencia'
                                                 ]
                                             ]);
                                         ?> 
@@ -414,6 +414,82 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="row">
+                                            <div class="fone col-sm-12 col-lg-12">
+                                                <div class="header">
+                                                    <h4>Telefone</h4>
+                                                </div>
+                                                <div class="content boxadd clearfix">
+
+                                                            
+                                                    <div class="form-group margin" ng-repeat="fone in cliente.telefones">
+
+                                                        <input type="hidden" name="telefones[0][id_fone]">
+                                                        <div class="col-sm-7">
+                                                            <select class="form-control" name="" ng-model="cliente.telefones[$index].tipo">
+                                                                <option value=""></option>
+                                                                <option value="1">Celular</option>
+                                                                <option value="2">Fixo</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" placeholder="DDD" class="form-control ddd" name="cliente[telefones][0][ddd]" ng-model="cliente.telefones[$index].ddd" mask="99">
+                                                        </div>
+                                                        <div class="col-sm-14">
+                                                            <div class="input-group">
+                                                                <input type="text" maxlength="10" placeholder="Telefone" name="" mask="9999-9999" clean="true" class="form-control num vfone" ng-model="cliente.telefones[$index].numero">
+                                                                <span class="input-group-btn">
+                                                                    <button title="Excluir" type="button" name="rem-fone" class="btn btn-default" ng-click="removeTelefone($index)"><i class="fa fa-trash-o"></i></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+
+                                                    
+                                                </div>
+                                                <div class="col-sm-24 no-padding">
+                                                    <button class="btn btn-add btn-default button-auxiliar" type="button" ng-click="addTelefone()"><i class="fa fa-plus"></i> Adicionar</button>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="email col-sm-12 col-lg-12">
+                                                    <div class="header">
+                                                    <h4>E-mail</h4>
+                                                </div>
+                                                    <div style="" class="content boxadd clearfix">
+
+                                                    
+                                                    <div class="form-group margin" ng-repeat="mail in cliente.emails">
+                                                        <div class="col-sm-7">
+                                                            <select class="form-control" name="" ng-model="cliente.emails[$index].tipo">
+                                                                <option value=""></option>
+                                                                <option value="1"> profissional</option>
+                                                                <option value="2">pessoal</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-17">
+                                                            <div class="input-group">
+                                                                <input type="email" placeholder="E-mail" class="form-control smail vmail" name="" ng-model="cliente.emails[$index].email"> 
+                                                                <span class="input-group-btn">
+                                                                    <button title="Excluir" type="button" name="rem-email" class="btn btn-default" ng-click="removeEmail($index)"><i class="fa fa-trash-o"></i></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    
+                                                </div>
+                                                <div class="col-sm-24 no-padding">
+                                                    <button class="btn btn-add btn-default button-auxiliar" name="add-email" type="button" ng-click="addEmail()"><i class="fa fa-plus"></i> Adicionar</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        
                                    
                                 </div>
 
@@ -484,7 +560,7 @@
                                     \Financi\HTMLHelper::renderRow([
                                         [
                                             'label' => 'Registro Geral (RG)',
-                                            'block_class' => 'col-sm-8',
+                                            'block_class' => 'col-sm-10',
                                             'name' => 'cliente[conjuge][registro_geral]',
                                             'ng-model' => 'cliente.conjuge.registro_geral'
                                         ],
@@ -496,21 +572,10 @@
                                         ],
                                         [
                                             'label' => 'CTPS',
-                                            'block_class' => 'col-sm-8',
+                                            'block_class' => 'col-sm-10',
                                             'name' => 'ctps',
                                             'name' => 'cliente[conjuge][ctps]',
                                             'ng-model' => 'cliente.conjuge.ctps'
-                                        ],
-                                        [
-                                            'label' => 'Residência',
-                                            'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[conjuge][residencia]',
-                                            'block' => 'default-select',
-                                            'options' => [
-                                                '1' => 'Própria',
-                                                '2' => 'Alugada'
-                                            ],
-                                            'ng-model' => 'cliente.conjuge.residencia'
                                         ]
                                     ]);
                                         

@@ -57,7 +57,7 @@ class ClienteController extends \SlimController\SlimController
         $inicio = ($limite*$pagina)-$limite;
 
         $clientes = \Clientes::find('all', [
-                'select' => 'cliente.id, cliente.nome, cliente.cpf, cliente.status',
+                'select' => 'cliente.id, cliente.nome, cliente.cpf, cliente.cnpj, cliente.status',
                 'conditions' => $conditions,
                 'limit' => $limite,
                 'offset' => $inicio
@@ -94,6 +94,17 @@ class ClienteController extends \SlimController\SlimController
             ]);
     }
 
+    public function editaPjAction($id)
+    {
+        $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
+
+        $this->render('cliente/pj.php', [
+                'id' => $id,
+                'ufs' => is_array($ufs) ? $ufs : [],
+                'foot_js' => [ 'js/cadastros/cliente.edita.pf.js' ]
+            ]);
+    }
+
     public function cadastroPjAction()
     {
         $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
@@ -111,6 +122,15 @@ class ClienteController extends \SlimController\SlimController
         $cidades = WebServices::service('cidades_por_uf/' . $uf);
 
         return $this->app->response->setBody(json_encode( $cidades )); 
+    }
+
+    public function estadosAction()
+    {
+        $this->app->contentType('application/json');
+
+        $estados = WebServices::service('estados');
+
+        return $this->app->response->setBody(json_encode( $estados )); 
     }
 
     public function buscaAction($id)
@@ -131,14 +151,24 @@ class ClienteController extends \SlimController\SlimController
         $secundario = isset($enderecos[1]) ? $enderecos[1]->to_array() : false;
 
         $cliente_array = $cliente->to_array();
-        $cliente_array['data_nascimento'] = isset($cliente_array['data_nascimento']) ? $cliente->data_nascimento->format('d/m/Y') : false;
+        $cliente_array['data_nascimento'] = isset($cliente_array['data_nascimento']) ? $cliente->data_nascimento->format('d/m/Y') : '';
+
+        $cliente_array['expedicao'] = isset($cliente_array['expedicao']) ? $cliente->expedicao->format('d/m/Y') : '';
 
         if(!$cliente_array['data_nascimento']) {
             unset($cliente_array['data_nascimento']);
         }
 
+        if(!$cliente_array['expedicao']) {
+            unset($cliente_array['expedicao']);
+        }
+
         if(count($conjuge)) {
-            $cliente_array = array_merge($cliente_array, ['conjuge' => $conjuge->to_array()]);
+            $arr_conjuge = $conjuge->to_array();
+            $arr_conjuge['data_nascimento'] = isset($arr_conjuge['data_nascimento']) ? $conjuge->data_nascimento->format('d/m/Y') : '';
+            $arr_conjuge['expedicao'] = isset($arr_conjuge['expedicao']) ? $conjuge->expedicao->format('d/m/Y') : '';
+
+            $cliente_array = array_merge($cliente_array, ['conjuge' => $arr_conjuge]);
         }
 
         if($secundario) {
@@ -146,6 +176,18 @@ class ClienteController extends \SlimController\SlimController
         } else {
             $array = array_merge($cliente_array, ['endereco' => [$principal]]);
         }
+
+        $telefones = [];
+        foreach ($cliente->telefones as $t) {
+            $telefones[] = $t->to_array();
+        }
+
+        $emails = [];
+        foreach ($cliente->emails as $e) {
+            $emails[] = $e->to_array();
+        }
+
+        $array = array_merge($array, ['telefones' => $telefones], ['emails' => $emails]);
 
         return $this->app->response->setBody(json_encode( ['cliente' => $array ] )); 
     }
@@ -158,13 +200,17 @@ class ClienteController extends \SlimController\SlimController
 
         if(!isset($data->id)) {
         
-            $data->instituicao_id = 1;
+            $data->instituicao_id = \Financi\Auth::getUser()['instituicao_id'];
 
             $endereco = isset($data->endereco) ? $data->endereco : false;
             $conjuge = isset($data->conjuge) ? $data->conjuge : false;
+            $telefones = isset($data->telefones) ? $data->telefones : [];
+            $emails = isset($data->emails) ? $data->emails : [];
 
             unset($data->endereco);
             unset($data->conjuge);
+            unset($data->telefones);
+            unset($data->emails);
 
             $cliente = new \Clientes($data);
             
@@ -188,6 +234,22 @@ class ClienteController extends \SlimController\SlimController
                     $cliente_conjuge->save();
                 }
 
+                foreach ($telefones as $t) {
+                    if(isset($t->ddd) && isset($t->tipo) && isset($t->numero)) {
+                        $t->cliente_id = $cliente->id;
+                        $telefone = new \ClienteTelefone($t);
+                        $telefone->save();
+                    }
+                }
+
+                foreach ($emails as $e) {
+                    if(isset($e->tipo) && isset($e->email)) {
+                        $e->cliente_id = $cliente->id;
+                        $email = new \ClienteEmail($e);
+                        $email->save();
+                    }
+                }
+
                 return $this->app->response->setBody(json_encode( ['success' => true] )); 
             }
 
@@ -195,9 +257,13 @@ class ClienteController extends \SlimController\SlimController
 
             $endereco = isset($data->endereco) ? $data->endereco : false;
             $conjuge = isset($data->conjuge) ? $data->conjuge : false;
+            $telefones = isset($data->telefones) ? $data->telefones : [];
+            $emails = isset($data->emails) ? $data->emails : [];
 
             unset($data->endereco);
             unset($data->conjuge);
+            unset($data->telefones);
+            unset($data->emails);
 
             $cliente = \Clientes::find($data->id);
 
@@ -211,7 +277,8 @@ class ClienteController extends \SlimController\SlimController
                                 $cliente_endereco->update_attributes($e);
                             }
                         } else {
-                            $e->cliente_id = $data->id;
+                            $e->cliente_id = $cliente->id;
+                            print_r($e);
                             $cliente_endereco = new \ClienteEndereco($e);
                             $cliente_endereco->save();
                         }
@@ -220,12 +287,33 @@ class ClienteController extends \SlimController\SlimController
 
                 if($conjuge) {
                     if($conjuge->id) {
-                        $cliente_conjuge = \Clientes::find($conjuge->id);
+                        $cliente_conjuge = \ClienteConjuge::find($conjuge->id);
                         $cliente_conjuge->update_attributes($conjuge);
                     } else {
                         $conjuge->cliente_id = $cliente->id;
                         $cliente_conjuge = new \ClienteConjuge($conjuge);
                         $cliente_conjuge->save();
+                    }
+
+                }
+
+                $remove_telefones = \ClienteTelefone::query("DELETE FROM cliente_telefone WHERE cliente_id = ?", [$cliente->id]);
+
+                foreach ($telefones as $t) {
+                    if(isset($t->ddd) && isset($t->tipo) && isset($t->numero)) {
+                        $t->cliente_id = $cliente->id;
+                        $telefone = new \ClienteTelefone($t);
+                        $telefone->save();
+                    }
+                }
+
+                $remove_emails = \ClienteEmail::query("DELETE FROM cliente_email WHERE cliente_id = ?", [$cliente->id]);
+
+                foreach ($emails as $e) {
+                    if(isset($e->tipo) && isset($e->email)) {
+                        $e->cliente_id = $cliente->id;
+                        $email = new \ClienteEmail($e);
+                        $email->save();
                     }
                 }
 

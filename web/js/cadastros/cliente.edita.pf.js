@@ -2,12 +2,29 @@
 
 AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca, $window) {
     $scope.endereco = 1;
-    $scope.cliente = {};
+    $scope.cliente = {
+        'telefones': [
+            {},
+        ],
+        'emails': [
+            {},
+        ]
+    };
 
     $scope.selectedCbo = null;
 
     ClientesBusca.get({ id: $('#cliente-id').val() }).$promise.then(function(data) {
         $scope.cliente = data.cliente;
+
+        $http({
+            'method': 'get',
+            'url': 'http://fitcontas.com.br/fitservices/cbo/' + data.cliente.cbo,
+        }).success(function(data) {
+            if(data.result) {
+                $('#cbo_descricao').val(data.rows.profissao);
+            }
+        });
+
     });
 
     $scope.changeEndereco = function() {
@@ -50,11 +67,11 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
             $('.loading').hide();
             
             if(destino == 'cidades') {
-                $scope.cidades = data.rows;
+                $scope.cidades = data.cidades;
             } else if(destino == 'cidades_endereco_principal') {
-                $scope.cidades_endereco_principal = data.rows;
+                $scope.cidades_endereco_principal = data.cidades;
             } else if(destino == 'cidades_endereco_secundario') {
-                $scope.cidades_endereco_secundario = data.rows;
+                $scope.cidades_endereco_secundario = data.cidades;
             }
 
         });
@@ -89,7 +106,7 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
     };
 
     $('.typeahead').on('typeahead:selected', function($e, datum) {
-        $('#cbo_id').val(datum.cbo);
+        $scope.cliente.cbo = datum.cbo;
     });
 
     $scope.completaEndereco = function(endereco) {
@@ -114,6 +131,28 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
             }
 
         });
+    }
+
+    $scope.addTelefone = function() {
+        $scope.cliente.telefones.push({});
+        console.log($scope.cliente.telefones);
+    }
+
+    $scope.removeTelefone = function(index) {
+        if($scope.cliente.telefones.length > 1) {
+            $scope.cliente.telefones.splice(index, 1);
+        }
+    }
+
+    $scope.addEmail = function() {
+        $scope.cliente.emails.push({});
+        console.log($scope.cliente.emails);
+    }
+
+    $scope.removeEmail = function(index) {
+        if($scope.cliente.emails.length > 1) {
+            $scope.cliente.emails.splice(index, 1);
+        }
     }
 
 });

@@ -1,6 +1,6 @@
 <div ng-controller="FormEmpreendimentoCtrl">
 <form id="#grid_empreendimento" class="grid">
-    <div class="row">
+    <div class="row margin-top-50">
         <div id="no-reg" class="content" style="display: none">
             <div class="container">
                 <h5>No momento não existe nenhum registro cadastrado. <?php echo true ? 'Para inserir um novo clique em “Adicionar”.' : '' ?></h5>
@@ -21,21 +21,25 @@
                 <div class="header">
                     <h3>Relação de Empreendimentos</h3>
                 </div>
+
                 <div class="content spacer0 process">
                     <div class="toobar">
                         <div class="pull-left">
-                        <div class="btn-group pull-left" id="buttons-grid">
-                            <button type="button" class="btn btn-default" ng-click="showForm(false)"> Novo</button>
-                            <button type="button" class="btn btn-default" ng-click="acao('excluir')"> Excluir</button>
-                            <button type="button" class="btn btn-default" ng-click="acao('habilitar')"> Habilitar</button>
-                            <button type="button" class="btn btn-default" ng-click="acao('desabilitar')"> Desabilitar</button></div>
+                            <default:actions:buttons/>
                         </div>
                         <div class="pull-right">
-                            <input class="form-control" type="text" aria-controls="tb_empreendimento" placeholder="Pesquisar" style="width:250px">
+                            <div class="input-group">
+                              <input class="form-control" type="text" placeholder="Pesquisar" style="width:250px"  ng-model="search">
+                              <span class="input-group-btn">
+                                <button class="btn btn-default btn-sm" type="button" ng-click="start()"><i class="fa fa-search"></i></button>
+                              </span>
+                            </div>
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="table-responsive">
+                    
+                    <!-- Início data table content -->
+                    <div class="table-responsive" ng-show="model.empreendimentos.length>0">
                         <table class="table table-striped table-bordered spacer2 table-hover">
                             <thead>
                                 <tr>
@@ -49,26 +53,41 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="e in empreendimentos">
+                                <tr ng-repeat="e in model.empreendimentos">
                                     <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(e)" ng-checked="checkall"/></td>
                                     <td><a ng-click="showForm(e)">{{e.empreendimento}}</a></td>
                                     <td width="5%">{{e.status == 1 ? 'Ativo' : 'Desabilitado'}}</td>
                                 </tr>
                             </tbody>
-                        </table>              
-                    </div>
-                    <div class="row-fluid" ng-show="paginas.length>1">
-                      <div class="span12">
-                         <div>
-                          <ul class="pagination pull-right">
-                            <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}">
-                              <a ng-click="start($index+1)" href="javascript:void(0)">{{$index+1}}</a>
-                            </li>
-                          </ul>
+                        </table>  
+
+                        <!-- início da paginação -->
+                        <div class="row-fluid" ng-show="paginas.length>1">
+                          <div class="span12">
+                             <div>
+                              <ul class="pagination pull-right">
+                                <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}">
+                                  <a ng-click="start($index+1)" href="javascript:void(0)">{{$index+1}}</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
                         </div>
-                      </div>
+                        <div class="clearfix"></div>
+                        <!-- /fim da paginação -->            
                     </div>
-                    <div class="clearfix"></div>
+
+                    <!-- /Fim data table content -->
+
+                    <!-- Início da mensagem caso não haja registro -->
+                    <div class="table-responsive" ng-show="!model.empreendimentos.length && model.$resolved">
+                        <div class="alert alert-warning alert-white rounded">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <div class="icon"><i class="fa fa-warning"></i></div>
+                            <strong>Opss!</strong> Nenhum registro encontrado!
+                         </div>
+                    </div>
+                    <!-- /Fim da mensagem caso não haja registro -->
                 </div>
             </div>
         </div>
@@ -77,7 +96,7 @@
 
 <!-- Modal -->
 <div role="dialog" id="usuario_modal" class="modal fade in" aria-hidden="false"><!-- Modal -->
-    <form autocomplete="off" name="UsuarioForm" id="EmpreendimentoForm" class="form-horizontal" novalidate>
+    <form autocomplete="off" name="EmpreendimentoForm" id="EmpreendimentoForm" class="form-horizontal" novalidate>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -90,13 +109,14 @@
                 </div>
 
                 <div class="tab-container">
-                        <ul class="nav nav-tabs flat-tabs">
+                        <ul class="nav nav-pills">
                           <li class="active"><a data-toggle="tab" href="#home">Principal</a></li>
                           <li class=""><a data-toggle="tab" href="#endereco">Endereço</a></li>
                           <li class=""><a data-toggle="tab" href="#corretores">Corretores Autorizados</a></li>
                         </ul>
                         <!-- Início tab-content -->
                         <div class="tab-content">
+                            <hr>
                             <!-- Início tab-content -->
                             <input type="hidden" id="cliente-id" value="<?php //echo $id ?>">
                             <!-- Início home -->
@@ -121,7 +141,7 @@
                                         <label class="col-sm-6 control-label" for="nome">Comissão  </label>
                                         <div class="col-sm-8">
                                             <div class="input-group no-margin-bottom">
-                                                <input type="text" class="form-control" req="" ng-model="empreendimento.comissao" mask="99,99" required>
+                                                <input type="text" class="form-control mask-money" req="" ng-model="empreendimento.comissao" placeholder="0,00" maxlength="6" required>
                                                 <span class="input-group-addon">%</span>
                                             </div>
                                         </div>
@@ -131,7 +151,7 @@
                                         <label class="col-sm-6 control-label" for="nome">Intermediárias  </label>
                                         <div class="col-sm-8">
                                             <div class="input-group no-margin-bottom">
-                                                <input type="text" class="form-control" req="" ng-model="empreendimento.intermediarias" required>
+                                                <input type="text" class="form-control mask-money" req="" ng-model="empreendimento.intermediarias" placeholder="0,00" maxlength="6" required>
                                                 <span class="input-group-addon">%</span>
                                             </div>
                                         </div>
@@ -140,7 +160,7 @@
                                                 <option value="1">Mensal</option>
                                                 <option value="2">Bimestral</option>
                                                 <option value="3">Trimestral</option>
-                                                <option value="5">Quatrimestral</option>
+                                                <option value="4">Quatrimestral</option>
                                             </select>
                                         </div>
                                     </div>
@@ -148,7 +168,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="nome">Qtd. Parcelas  </label>
                                         <div class="col-sm-8">
-                                            <input type="text" value="" name="nome" req="" class="form-control" ng-model="empreendimento.qtd_parcelas" required>
+                                            <input type="number" value="" name="nome" req="" class="form-control" ng-model="empreendimento.qtd_parcelas" required>
                                         </div>
                                     </div>
 
@@ -156,7 +176,7 @@
                                         <label class="col-sm-6 control-label" for="nome">Taxa do Financiamento  </label>
                                         <div class="col-sm-8">
                                             <div class="input-group no-margin-bottom">
-                                                <input type="text" class="form-control" req="" ng-model="empreendimento.taxa_financimento" required>
+                                                <input type="text" class="form-control mask-money" req="" ng-model="empreendimento.taxa_financiamento" placeholder="0,00" maxlength="6" required>
                                                 <span class="input-group-addon">%</span>
                                             </div>
                                         </div>
@@ -165,7 +185,9 @@
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="nome">Índice de Correção  </label>
                                         <div class="col-sm-8">
-                                            <input type="text" value="" name="nome" req="" class="form-control" ng-model="empreendimento.qtd_parcelas" required>
+                                            <select class="form-control" ng-model="empreendimento.indice_correcao" required>
+                                                <option value="1">IPCA</option>
+                                            </select>
                                         </div>
                                     </div>
 
@@ -181,7 +203,7 @@
                                         <label  class="col-sm-6 control-label" for="">CEP</label>
                                          <div class="col-sm-8">
                                             <div class="input-group no-margin-bottom">
-                                                <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" ng-model="cliente.endereco.1.cep" id="endereco-secundario" ng-blur="completaEndereco(false)">
+                                                <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" ng-model="empreendimento.cep" id="endereco-secundario" ng-blur="completaEndereco()">
                                                 <span class="input-group-btn">
                                                     <button title="Pesquisar CEP" type="button" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
                                                 </span>
@@ -190,7 +212,7 @@
                                         <div class="col-sm-10">
                                             <div class="form-group">
                                                 <div class="input-group no-margin-bottom">
-                                                    <button class="btn-link completa" type="button" ng-click="completaEndereco(false)">Completar endereço</button>
+                                                    <button class="btn-link completa" type="button" ng-click="completaEndereco()">Completar endereço</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -210,7 +232,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="empreendimento[complemento]">Complemento  </label>
                                         <div class="col-sm-18">
-                                            <input type="text" value="" name="empreendimento[complemento]" req="" class="form-control" ng-model="empreendimento.complemento" required>
+                                            <input type="text" value="" name="empreendimento[complemento]" class="form-control" ng-model="empreendimento.complemento">
                                         </div>
                                     </div>
 
@@ -224,14 +246,13 @@
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="empreendimento[uf]">UF</label>
                                         <div class="col-sm-3">
-                                            <select class="form-control" name="empreendimento[uf]" ng-model="empreendimento.uf" req required>
-                                                <option value="BA">BA</option>
+                                            <select class="form-control" name="empreendimento[uf]" ng-model="empreendimento.uf" req required ng-options="uf.uf as uf.uf for uf in ufs.ufs" ng-selected="empreendimento.uf" ng-change="getCidades(empreendimento.uf)">
                                             </select>
                                         </div>
                                         <label class="col-sm-4 control-label" for="empreendimento[cidade]">Cidade  </label>
                                         <div class="col-sm-11">
-                                            <select class="form-control" name="empreendimento[cidade]" ng-model="empreendimento.cidade" req required>
-                                                <option value="2753">Teixeira de Freitas</option>
+                                            <select class="form-control" name="empreendimento[cidade]" ng-model="empreendimento.cidade" req required ng-options="cidade.nome as cidade.nome for cidade in cidades.cidades" ng-selected="empreendimento.cidade">
+                                                
                                             </select>
                                         </div>
                                     </div>
@@ -245,13 +266,25 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label" for="nome">Nome  </label>
                                         <div class="col-sm-18">
-                                            <input type="text" value="" name="nome" req="" class="form-control" ng-model="empreendimento.empreendimento" required>
+                                            <select class="form-control" name="empreendimento[corretores]" ng-model="corretor" ng-options="corretor.id as corretor.nome for corretor in corretores.corretores">
+                                                
+                                            </select>
                                         </div>
                                         <div class="col-sm-4">
-                                            <button class="btn btn-default">Adicionar</button>
+                                            <button class="btn btn-default" ng-click="adicionarCorretor()">Adicionar</button>
                                         </div>
                                     </div>
-
+                                    <div id="scrolling">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                                <tr ng-repeat="corretor in empreendimento.corretores">
+                                                    <td>{{$index +1}}</td>
+                                                    <td>{{corretor.nome}}</td>
+                                                    <td><a href="javascript:void(0)" ng-click="removerCorretor(corretor.id)">Excluir</a></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
 
@@ -262,8 +295,8 @@
 
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button class="btn btn-primary" ng-click="salvar(usuario)">Salvar</button>
-                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                    <button class="btn btn-primary" ng-disabled="EmpreendimentoForm.$invalid" ng-click="salvar(empreendimento)">Salvar</button>
+                    <button data-toggle="dropdown" ng-disabled="EmpreendimentoForm.$invalid" class="btn btn-primary dropdown-toggle" type="button">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>

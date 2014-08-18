@@ -24,11 +24,7 @@
                 <div class="content spacer0 process">
                     <div class="toobar">
                         <div class="pull-left">
-                        <div class="btn-group pull-left" id="buttons-grid">
-                            <button type="button" class="btn btn-default" ng-click="showForm(false)"> Novo</button>
-                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" ng-click="acao('excluir')"> Excluir</button>
-                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" ng-click="acao('habilitar')"> Habilitar</button>
-                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" ng-click="acao('desabilitar')"> Desabilitar</button></div>
+                            <default:actions:buttons/>
                         </div>
                         <div class="pull-right">
                             <div class="input-group">
@@ -52,9 +48,9 @@
                                         </div>
                                     </th>
                                     <th>Nome</th>
-                                    <th>E-mail</th>
-                                    <th>Tipo</th>
-                                    <th>Status</th>
+                                    <th width="25%">E-mail</th>
+                                    <th width="20%">Tipo</th>
+                                    <th width="10%">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -116,10 +112,8 @@
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="id_grupo_usuarios">Tipo </label>
                     <div class="col-sm-14">
-                        <select class="form-control" req="" id="grupo_id" name="grupo_id" ng-model="usuario.grupo_id" required>
-                            <option value=""></option>
-                                <option value="1">Administrador</option>
-                            </select>
+                        <select class="form-control" req="" id="grupo_id" name="grupo_id" ng-model="usuario.grupo_id" required ng-options="grupo.id as grupo.descricao for grupo in grupos.grupos">
+                        </select>
                     </div>
                 </div>
 

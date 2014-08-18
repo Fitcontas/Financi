@@ -1,6 +1,6 @@
 
 
-<div class="row">
+<div class="row margin-top-50">
 
     <div class="block-flat">
 

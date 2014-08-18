@@ -2,7 +2,8 @@
 
 namespace Controllers;
 
-use Opis\Session\Session;
+use Opis\Session\Session,
+    \Financi\WebServices;
 
 class HomeController extends \SlimController\SlimController 
 {
@@ -55,4 +56,22 @@ class HomeController extends \SlimController\SlimController
 			$this->redirect('/');
 		}
 	}
+
+	public function cidadesAction($uf)
+    {
+        $this->app->contentType('application/json');
+
+        $cidades = WebServices::service('cidades_por_uf/' . $uf);
+
+        return $this->app->response->setBody(json_encode( ['cidades' => $cidades->rows] )); 
+    }
+
+    public function estadosAction()
+    {
+        $this->app->contentType('application/json');
+
+        $estados = WebServices::service('estados');
+
+        return $this->app->response->setBody(json_encode( ['ufs' => $estados->rows] )); 
+    }
 }

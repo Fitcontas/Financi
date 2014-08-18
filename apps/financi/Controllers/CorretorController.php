@@ -26,4 +26,24 @@ class CorretorController extends \SlimController\SlimController
                 'foot_js' => [ 'js/cadastros/clientes.js' ]
             ]);
     }
+
+    public function corretoresAction()
+    {
+        $this->app->contentType('application/json');
+
+        $corretores = \Corretor::find('all', [
+                'select' => 'corretor.id, corretor.nome',
+                'conditions' => ['status = 1']
+            ]);
+
+        $array = [];
+
+        if (count($corretores)) {
+            foreach ($corretores as $c) {
+                $array[] = $c->to_array();
+            }
+        }
+
+        $this->app->response->setBody(json_encode( ['corretores' => $array] )); 
+    }
 }

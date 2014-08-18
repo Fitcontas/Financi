@@ -1,9 +1,8 @@
 'use strict';
 
-AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreendimentos, EmpreendimentoNovo) {
+AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreendimentos, EmpreendimentoNovo, Estados, Cidades, Corretores) {
     
     $scope.empreendimento = {};
-    $scope.empreendimentos = [];
     $scope.grupos = [{1: 'Administrador'}];
     $scope.check_ctrl = [];
     $scope.checkall = false;
@@ -11,6 +10,13 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
     //Paginação
     $scope.pagina = 1;
     $scope.paginas = 0;
+    $scope.search = '';
+
+    //Uf
+    $scope.ufs = Estados.get();
+    //$scope.cidades = Cidades.get();
+
+    $scope.corretores = Corretores.get();
 
     $scope.checkAll = function(item) {
 
@@ -31,7 +37,7 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
             chamaMsg('10', false);
         } else {
 
-            var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.empreendimentos;
+            var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.model.empreendimentos;
 
             $http({
                 'method': 'post',
@@ -54,8 +60,15 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
             $scope.pagina = pagina;
         }
 
-        Empreendimentos.get({ pagina: $scope.pagina }).$promise.then(function(data){
-            $scope.empreendimentos = data.empreendimentos;
+        if($scope.search.length > 0)
+        {
+            var termos = { pagina: $scope.pagina, query: $scope.search };
+        } else {
+            var termos = { pagina: $scope.pagina };
+        }
+
+        Empreendimentos.get(termos).$promise.then(function(data){
+            $scope.model = data;
             $scope.paginas = new Array(data.paginas);
         });
     }
@@ -65,8 +78,15 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
     }
 
     $scope.showForm = function(item) {
-        $scope.empreendimento = item ? item : {};
 
+        $('#scrolling').slimScroll({
+            height: '200px',
+            wheelStep: 10
+        });
+
+        $scope.cidades = Cidades.get({ uf: item.uf });
+
+        $scope.empreendimento = item ? item : {};
 
         $('.modal').modal({
             show: true,
@@ -94,5 +114,51 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
 
     };
 
+    $scope.completaEndereco = function(endereco) {
+
+        var cep = $scope.empreendimento.cep;
+        $http({
+            'method': 'get',
+            'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
+        }).success(function(data) {
+            $scope.empreendimento.logradouro = data.logradouro;
+            $scope.empreendimento.bairro = data.bairro;
+
+            $scope.empreendimento.uf = data.uf;
+            $scope.empreendimento.cidade = data.cidade;
+            $scope.cidades = Cidades.get({ uf: data.uf });
+        });
+    };
+
+    $scope.getCidades = function(uf) {
+        $scope.cidades = Cidades.get({uf: uf});
+    }
+
+    $scope.adicionarCorretor = function() {
+
+        var test = _.find($scope.empreendimento.corretores, { 'id': $scope.corretor });
+
+        if(!test) {
+
+            var item = _.find($scope.corretores.corretores, { 'id': $scope.corretor });
+            
+            if(!$scope.empreendimento.corretores) {
+                $scope.empreendimento.corretores = Array();
+            }
+
+            $scope.empreendimento.corretores.push(item);
+        }
+    }
+
+    $scope.removerCorretor = function(id) {
+        _.remove($scope.empreendimento.corretores, function(obj) {
+            return obj.id == id;
+        });
+    }
+
     $scope.start();
+})
+
+$(function() {
+    $('.mask-money').maskMoney({prefix:'', allowNegative: true, thousands:'.', decimal:',', affixesStay: false, allowZero:true});
 })
