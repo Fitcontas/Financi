@@ -48,7 +48,7 @@ class ClienteController extends \SlimController\SlimController
 
         $pagina = $get['pagina'];
 
-        $limite = 5;
+        $limite = PAGE_LIMIT;
 
         $total = count($clientes_total);
 

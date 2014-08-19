@@ -103,7 +103,7 @@ class CorretorController extends \SlimController\SlimController
 
         $pagina = $get['pagina'];
 
-        $limite = 5;
+        $limite = PAGE_LIMIT;
 
         $total = count($corretores_total);
 

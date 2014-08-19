@@ -44,7 +44,7 @@ class LoteController extends \SlimController\SlimController
 
         $pagina = $get['pagina'];
 
-        $limite = 10;
+        $limite = PAGE_LIMIT;
 
         $total = count($lotes_total);
 

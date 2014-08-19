@@ -9,8 +9,24 @@ class HomeController extends \SlimController\SlimController
 {
 	public function indexAction()
 	{
+
+        $clientes = \Clientes::find('one', [
+                'select' => 'count(*) as qtd',
+                'conditions' => [ 'instituicao_id = ? and status <> 0', \Financi\Auth::getUser()['instituicao_id'] ]
+            ]);
+
+        $empreendimentos = \Empreendimento::find('one', [
+                'select' => 'count(*) as qtd',
+                'conditions' => [ 'instituicao_id = ? and status <> 0', \Financi\Auth::getUser()['instituicao_id'] ]
+            ]);
+
+        //dump_r($clientes);
+
 		$this->render('home/index', array(
-            'title' => 'Financi Imóveis'
+            'clientes' => $clientes,
+            'empreendimentos' => $empreendimentos,
+            'title' => 'Financi Imóveis',
+            'foot_css' => ['css/style_.css']
         ));
 	}
 

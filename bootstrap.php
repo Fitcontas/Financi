@@ -78,5 +78,9 @@ foreach($routes as $route) {
     });
 }
 
+$app_config = Yaml::parse( APP_CONFIG_PATH . DS . 'app.yml');
+
+define('PAGE_LIMIT', $app_config['pagination']['limit']);
+
 //Rodamos a aplicação
 $app->run();

@@ -22,3 +22,6 @@ menunav:
                 link: /lote
     lancamentos:
         descricao: Lançamentos
+
+pagination:
+    limit: 10

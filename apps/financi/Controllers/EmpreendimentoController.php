@@ -38,7 +38,7 @@ class EmpreendimentoController extends \SlimController\SlimController
 
         $pagina = $get['pagina'];
 
-        $limite = 10;
+        $limite = PAGE_LIMIT;
 
         $total = count($empreendimentos_total);
 
