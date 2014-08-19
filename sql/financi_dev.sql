@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 18/08/2014 às 07:13
+-- Tempo de Geração: 19/08/2014 às 01:09
 -- Versão do servidor: 5.5.38-0ubuntu0.14.04.1
 -- Versão do PHP: 5.5.15-1+deb.sury.org~trusty+1
 
@@ -232,9 +232,10 @@ CREATE TABLE IF NOT EXISTS `corretor` (
   `instituicao_id` int(11) NOT NULL,
   `cpf` varchar(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
+  `sexo` char(1) DEFAULT NULL,
   `data_nascimento` date DEFAULT NULL,
   `nacionalidade` varchar(20) DEFAULT NULL,
-  `uf` char(2) DEFAULT NULL,
+  `naturalidade_uf` char(2) DEFAULT NULL,
   `naturalidade` varchar(45) DEFAULT NULL,
   `estado_civil` char(1) DEFAULT NULL,
   `rg` varchar(45) DEFAULT NULL,
@@ -248,15 +249,16 @@ CREATE TABLE IF NOT EXISTS `corretor` (
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `fk_corretor_instituicao1_idx` (`instituicao_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Fazendo dump de dados para tabela `corretor`
 --
 
-INSERT INTO `corretor` (`id`, `instituicao_id`, `cpf`, `nome`, `data_nascimento`, `nacionalidade`, `uf`, `naturalidade`, `estado_civil`, `rg`, `expedicao`, `ctps`, `cbo`, `registro_profissional`, `pai`, `mae`, `data_cadastro`, `status`) VALUES
-(1, 1, '04788373564', 'Fernando Dutra Neres', '2014-08-13', 'Brasileiro', 'BA', 'Nova Viçosa', '1', '1388769085', '2014-07-07', NULL, NULL, NULL, NULL, NULL, '2014-08-04', 1),
-(2, 1, '62356631534', 'Amaral Azevedo Neto', '2014-08-16', 'brasileiro', 'BA', 'Nova Viçosa', '1', '321456465', '2014-08-16', NULL, NULL, NULL, NULL, NULL, '2014-08-16', 1);
+INSERT INTO `corretor` (`id`, `instituicao_id`, `cpf`, `nome`, `sexo`, `data_nascimento`, `nacionalidade`, `naturalidade_uf`, `naturalidade`, `estado_civil`, `rg`, `expedicao`, `ctps`, `cbo`, `registro_profissional`, `pai`, `mae`, `data_cadastro`, `status`) VALUES
+(1, 1, '04788373564', 'Fernando Dutra Neres', NULL, '2014-08-13', 'Brasileiro', 'BA', 'Nova Viçosa', '1', '1388769085', '2014-07-07', NULL, NULL, NULL, NULL, NULL, '2014-08-04', 1),
+(2, 1, '62356631534', 'Amaral Azevedo Neto', NULL, '2014-08-16', 'brasileiro', 'BA', 'Nova Viçosa', '1', '321456465', '2014-08-16', NULL, NULL, NULL, NULL, NULL, '2014-08-16', 1),
+(4, 1, '04788837356', 'Valvir rodrigues da silva', 'M', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 223124, NULL, NULL, NULL, '0000-00-00', 1);
 
 -- --------------------------------------------------------
 
@@ -271,7 +273,14 @@ CREATE TABLE IF NOT EXISTS `corretor_email` (
   `email` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_corretor_email_corretor1_idx` (`corretor_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Fazendo dump de dados para tabela `corretor_email`
+--
+
+INSERT INTO `corretor_email` (`id`, `corretor_id`, `tipo`, `email`) VALUES
+(1, 4, '1', 'fernando@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -293,14 +302,15 @@ CREATE TABLE IF NOT EXISTS `corretor_endereco` (
   `referencia` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_corretor_endereco_corretor1_idx` (`corretor_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Fazendo dump de dados para tabela `corretor_endereco`
 --
 
 INSERT INTO `corretor_endereco` (`id`, `corretor_id`, `cep`, `tipo`, `logradouro`, `numero`, `complemento`, `bairro`, `uf`, `cidade`, `referencia`) VALUES
-(1, 1, '45985160', 1, 'Rua teste sa silva', '273', NULL, 'Centro', 'BA', 'Teixeira de Freitas', NULL);
+(1, 1, '45985160', 1, 'Rua teste sa silva', '273', NULL, 'Centro', 'BA', 'Teixeira de Freitas', NULL),
+(2, 4, '45985-16', 1, 'Avenida Marechal Castelo Branco - atÃ© 549 - lado Ã­mpar', '273', NULL, 'Centro', 'DF', '1778', NULL);
 
 -- --------------------------------------------------------
 
@@ -316,7 +326,15 @@ CREATE TABLE IF NOT EXISTS `corretor_telefone` (
   `numero` varchar(12) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_corretor_telefone_corretor1_idx` (`corretor_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Fazendo dump de dados para tabela `corretor_telefone`
+--
+
+INSERT INTO `corretor_telefone` (`id`, `corretor_id`, `tipo`, `ddd`, `numero`) VALUES
+(1, 4, '1', '73', '99141430'),
+(2, 4, '2', '73', '30134559');
 
 -- --------------------------------------------------------
 
@@ -447,14 +465,23 @@ CREATE TABLE IF NOT EXISTS `lote` (
   `lateral_esquerda_metro` decimal(10,2) NOT NULL,
   `cep` varchar(8) DEFAULT NULL,
   `logradouro` varchar(100) DEFAULT NULL,
-  `numero_copy1` varchar(10) DEFAULT NULL,
+  `num` varchar(10) DEFAULT NULL,
   `complemento` varchar(100) DEFAULT NULL,
   `bairro` varchar(30) DEFAULT NULL,
   `cidade` varchar(45) DEFAULT NULL,
   `uf` char(2) DEFAULT NULL,
+  `status` int(11) DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `fk_lote_empreendimento1_idx` (`empreendimento_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Fazendo dump de dados para tabela `lote`
+--
+
+INSERT INTO `lote` (`id`, `empreendimento_id`, `numero`, `quadra`, `valor`, `area_total`, `matricula`, `inscricao_municipal`, `frente`, `frente_metro`, `fundo`, `fundo_metro`, `lateral_direita`, `lateral_direita_metro`, `lateral_esquerda`, `lateral_esquerda_metro`, `cep`, `logradouro`, `num`, `complemento`, `bairro`, `cidade`, `uf`, `status`) VALUES
+(1, 1, '0001', 'A9', 250000.00, '1500', '12345687', '468798789', 'fd', 2.00, 'fd', 2.00, 'fd', 3.00, 'fd', 2.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(2, 3, '001', 'a5', 450000.00, '2500', '65656', '56565', 'fdfsfds', 2.00, 'fsdfsd', 4.00, 'fsdsd', 4.00, 'fsdfds', 5.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
