@@ -25,6 +25,7 @@ cidades:
     route: Home:cidades
     url: /cidades/:uf
 
+#Rotas de cadastro de clientes
 cliente:
     method: get
     route: Cliente:index
@@ -70,6 +71,7 @@ salvar_pf:
     route: Cliente:salvarPf
     url: /cliente/pf/salvar
 
+#Rotas de cadastro de Empreendimentos
 empreendimento:
     method: get
     route: Empreendimento:index
@@ -90,6 +92,8 @@ empreendimento_acoes:
     route: Empreendimento:acoes
     url: /empreendimento/acoes/:acao
 
+
+#Rotas de cadastro de Usuários
 usuario:
     method: get
     route: Usuario:index
@@ -115,6 +119,7 @@ usuario_acoes:
     route: Usuario:acoes
     url: /usuario/acoes/:acao
 
+#Rotas de cadastro de corretores
 corretor:
     method: get
     route: Corretor:index
@@ -125,7 +130,53 @@ corretor_novo:
     route: Corretor:novo
     url: /corretor/novo
 
+corretor_all:
+    method: get
+    route: Corretor:all
+    url: /corretor/all(/:id)
+
 corretores:
     method: get
     route: Corretor:corretores
     url: /corretores
+
+corretor_busca:
+    method: get
+    route: Corretor:busca
+    url: /corretor/busca/:id
+
+corretor_edita:
+    method: get
+    route: Corretor:edita
+    url: /corretor/edita/:id
+
+corretor_salvar:
+    method: post
+    route: Corretor:salvar
+    url: /corretor/salvar
+
+corretor_acoes:
+    method: post
+    route: Corretor:acoes
+    url: /corretor/acoes/:acao
+
+#Rotas de cadastro de Lotes
+lote:
+    method: get
+    route: Lote:index
+    url: /lote
+
+lote_novo:
+    method: post
+    route: Lote:novo
+    url: /lote/novo(/:id)
+
+lote_all:
+    method: get
+    route: Lote:all
+    url: /lote/all(/:id)
+
+lote_acoes:
+    method: post
+    route: Lote:acoes
+    url: /lote/acoes/:acao

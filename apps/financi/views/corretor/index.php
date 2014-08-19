@@ -1,4 +1,5 @@
-<form id="#grid_cliente" class="grid" data-control="Clientes" data-list="dt_cliente(true)">
+<div ng-controller="FormCorretorGridCtrl">
+<form id="#grid_corretor" class="grid">
     <div class="row margin-top-50">
         <div id="no-reg" class="content" style="display: none">
             <div class="container">
@@ -27,52 +28,79 @@
                 <div class="content spacer0 process">
                     <div class="toobar">
                         <div class="pull-left">
-                        <div class="btn-group pull-left" id="buttons-grid">
-                            <a class="btn btn-default" href="/corretor/novo"> Novo</a>
-                            <button type="button" class="btn btn-default" ng-click="acao('excluir')"> Excluir</button>
-                            <button type="button" class="btn btn-default" ng-click="acao('habilitar')"> Habilitar</button>
-                            <button type="button" class="btn btn-default" ng-click="acao('desabilitar')"> Desabilitar</button></div>
+                            <default:actions:buttons/>
                         </div>
-                        <div class="pull-right">
-                            <input class="form-control" type="text" aria-controls="tb_cliente" placeholder="Pesquisar" style="width:250px">
+                       <div class="pull-right">
+                            <div class="input-group">
+                              <input class="form-control" type="text" placeholder="Pesquisar" style="width:250px"  ng-model="search">
+                              <span class="input-group-btn">
+                                <button class="btn btn-default btn-sm" type="button" ng-click="start()"><i class="fa fa-search"></i></button>
+                              </span>
+                            </div>
                         </div>
-                        
                     </div>
                     <div class="clearfix"></div>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered table-hover spacer2" id="tb_cliente">
+
+                    <div class="table-responsive" ng-show="model.corretores.length>0">
+                        <table class="table table-striped table-bordered table-hover spacer2" id="tb_corretor">
                             <thead>
                                 <tr>
                                     <th>
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="checkall" class="checkall"/></label>
+                                            <label><input type="checkbox" name="checkall" ng-model="checkall"></label>
                                         </div>
                                     </th>
                                     <th>Nome</th>
                                     <th>CPF</th>
+                                    <th>Telefones</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                
-                                <?php foreach ($corretores as $c): ?>
-                                    <?php if ($c->cpf): ?>
-                                    <tr>
-                                        <td><input type="checkbox" value="<?php echo $c->id ?>" name="check[]"></td>
-                                        <td><?php echo $c->nome ?></td>
-                                        <td><?php echo $c->cpf ? 'PF' : 'PJ' ?></td>
-                                        <td><?php echo $c->status == 1 ? 'Ativo' : 'Inativo' ?></td>
-                                    </tr>
-                                    <?php endif ?>
-                                <?php endforeach ?>
-
+                                <tr ng-repeat="c in model.corretores">
+                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(c)" ng-checked="checkall"></td>
+                                    <td><a href="/corretor/edita/{{c.id}}">{{c.nome}}</a></a></td>
+                                    <td>{{ c.cpf }}</td>
+                                    <td>
+                                        <span ng-repeat="telefone in c.telefones">
+                                            <i class="fa {{ telefone.tipo == 1 ? 'fa-mobile-phone' : 'fa-phone-square' }}"></i> {{ telefone.ddd }} {{ telefone.numero }}
+                                        </span>
+                                    </td>
+                                    <td>{{c.status == 1 ? 'Ativo' : 'Desabilitado'}}</td>
+                                </tr>
                             </tbody>
-                        </table>                            
+                        </table>
+                        <!-- início da paginação -->
+                        <div class="row-fluid" ng-show="paginas.length>1">
+                          <div class="span12">
+                             <div>
+                              <ul class="pagination pull-right">
+                                <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}">
+                                  <a ng-click="start($index+1)" href="javascript:void(0)">{{$index+1}}</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <!-- /fim da paginação -->                                     
                     </div>
+
+                    <!-- Início da mensagem caso não haja registro -->
+                    <div class="table-responsive" ng-show="!model.corretores.length && model.$resolved">
+                        <div class="alert alert-warning alert-white rounded">
+                            <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+                            <div class="icon"><i class="fa fa-warning"></i></div>
+                            <strong>Opss!</strong> Nenhum registro encontrado!
+                         </div>
+                    </div>
+                    <!-- /Fim da mensagem caso não haja registro -->
+
                 </div>
             </div>
         </div>
     </div>
 </form>
 <!-- Modal -->
-<div class="modal fade" id="cliente_modal"   role="dialog"></div>
+<div class="modal fade" id="corretor_modal"   role="dialog"></div>
+</div>

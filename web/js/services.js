@@ -30,10 +30,26 @@ AppFinanci.factory('Cidades', function($resource) {
     return $resource('/corretores');
 })
 
+.factory('getCorretores', function($resource) {
+    return $resource('/corretor/all/:id', {'id' : '@id'});
+})
+
+.factory('CorretoresBusca', function($resource) {
+    return $resource('/corretor/busca/:id', {'id':'@id'});
+})
+
 .factory('Grupos', function($resource) {
     return $resource('/usuario/grupos/:id', {'id':'@id'});
 })
 
 .factory('Estados', function($resource) {
     return $resource('/estados');
+})
+
+.factory('Lotes', function($resource) {
+    return $resource('/lote/all/:id', {'id':'@id'});
+})
+
+.factory('LoteNovo', function($resource) {
+    return $resource('/lote/novo/:id', {'id':'@id'});
 })

@@ -98,7 +98,7 @@ class DataFormat
         return number_format($money, 2, ',', '.');
     }
 
-    static function Money($money)
+    static function money($money)
     {
         // 345.345,90
         

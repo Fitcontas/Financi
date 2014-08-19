@@ -13,35 +13,35 @@
         </div>
         <div class="content" ng-controller="FormCtrl">
             
-            <form style="border-radius: 0px;" action="#" name="ClienteForm" id="ClienteForm" class="group-border-dashed">
-                
+            <form style="border-radius: 0px;" action="#" name="CorretorForm" id="CorretorForm" class="group-border-dashed">
+                                    <input type="hidden" id="corretor-id" value="<?php echo $id ?>">
                                     <?php 
 
                                     \Financi\HTMLHelper::renderRow([
                                         [
                                             'label' => 'CPF',
                                             'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[cpf]',
-                                            'ng-model' => 'cliente.cpf',
+                                            'name' => 'corretor[cpf]',
+                                            'ng-model' => 'corretor.cpf',
                                             'attributes' => 'required mask="999.999.999-99" clean="true" req'
                                         ],
                                         [
                                             'label' => 'Nome',
                                             'block_class' => 'col-sm-14',
-                                            'name' => 'cliente[nome]',
-                                            'ng-model' => 'cliente.nome',
+                                            'name' => 'corretor[nome]',
+                                            'ng-model' => 'corretor.nome',
                                             'attributes' => 'required req'
                                         ],
                                         [
                                             'label' => 'Sexo',
-                                            'name' => 'cliente[sexo]',
+                                            'name' => 'corretor[sexo]',
                                             'block' => 'default-select',
                                             'block_class' => 'col-sm-3',
                                             'options' => [
                                                 'M' => 'Masculino',
                                                 'F' => 'Feminino'
                                             ],
-                                            'ng-model' => 'cliente.sexo',
+                                            'ng-model' => 'corretor.sexo',
                                         ],
                                         [
                                             'label' => 'Data de Cadastro',
@@ -56,32 +56,32 @@
                                             'label' => 'Data de Nascimento',
                                             'block_class' => 'col-sm-4',
                                             'block' => 'input-group-datepicker',
-                                            'name' => 'cliente[data_nascimento]',
-                                            'ng-model' => 'cliente.data_nascimento',
+                                            'name' => 'corretor[data_nascimento]',
+                                            'ng-model' => 'corretor.data_nascimento',
                                             'class' => ''
                                         ],
                                          [
                                             'label' => 'Nacionalidade',
                                             'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[nacionalidade]',
-                                            'ng-model' => 'cliente.nacionalidade',
+                                            'name' => 'corretor[nacionalidade]',
+                                            'ng-model' => 'corretor.nacionalidade',
                                         ],
                                         [
                                             'label' => 'UF',
                                             'block' => 'default-select',
                                             'block_class' => 'col-sm-2',
                                             'options' => $ufs,
-                                            'name' => 'cliente[naturalidade_uf]',
+                                            'name' => 'corretor[naturalidade_uf]',
                                             'id' => 'naturalidade_uf',
-                                            'ng-model' => 'cliente.naturalidade_uf',
+                                            'ng-model' => 'corretor.naturalidade_uf',
                                             'attributes' => 'ng-change="get_cidade(\'naturalidade_uf\', \'cidades\')"'
                                         ],
                                         [
                                             'label' => 'Naturalidade',
                                             'block' => 'select-ng-repeat',
                                             'block_class' => 'col-sm-10',
-                                            'name' => 'cliente[naturalidade]',
-                                            'ng-model' => 'cliente.naturalidade',
+                                            'name' => 'corretor[naturalidade]',
+                                            'ng-model' => 'corretor.naturalidade',
                                             'ng-option' => '<option ng-repeat="cidade in cidades" value="{{ cidade.id }}">{{ cidade.nome }}</option>'
                                         ],
                                         [
@@ -94,8 +94,8 @@
                                                 '3' => 'Viúvo',
                                                 '4' => 'Divorciado'
                                             ],
-                                            'name' => 'cliente[estado_civil]',
-                                            'ng-model' => 'cliente.estado_civil',
+                                            'name' => 'corretor[estado_civil]',
+                                            'ng-model' => 'corretor.estado_civil',
                                         ]
                                     ]);
 
@@ -103,34 +103,34 @@
                                         [
                                             'label' => 'Registro Geral (RG)',
                                             'block_class' => 'col-sm-8',
-                                            'name' => 'cliente[registro_geral]',
-                                            'ng-model' => 'cliente.registro_geral'
+                                            'name' => 'corretor[registro_geral]',
+                                            'ng-model' => 'corretor.registro_geral'
                                         ],
                                         [
                                             'label' => 'Data de expedição',
                                             'block' => 'input-group-datepicker',
                                             'block_class' => 'col-sm-4 date',
-                                            'name' => 'cliente[expedicao]',
-                                            'ng-model' => 'cliente.expedicao',
+                                            'name' => 'corretor[expedicao]',
+                                            'ng-model' => 'corretor.expedicao',
                                             'class' => '',
                                         ],
                                         [
                                             'label' => 'CTPS',
                                             'block_class' => 'col-sm-8',
                                             'name' => 'ctps',
-                                            'name' => 'cliente[ctps]',
-                                            'ng-model' => 'cliente.ctps'
+                                            'name' => 'corretor[ctps]',
+                                            'ng-model' => 'corretor.ctps'
                                         ],
                                         [
                                             'label' => 'Residência',
                                             'block_class' => 'col-sm-4',
-                                            'name' => 'cliente[residencia]',
+                                            'name' => 'corretor[residencia]',
                                             'block' => 'default-select',
                                             'options' => [
                                                 '1' => 'Própria',
                                                 '2' => 'Alugada'
                                             ],
-                                            'ng-model' => 'cliente.residencia'
+                                            'ng-model' => 'corretor.residencia'
                                         ]
                                     ]);
                                         
@@ -142,15 +142,15 @@
                                             'label' => 'CBO',
                                             'block' => 'default-with-hidden',
                                             'block_class' => 'col-sm-12 typeahead',
-                                            'name' => 'cliente[cbo]',
-                                            'ng-model' => 'cliente.cbo',
+                                            'name' => 'corretor[cbo_descricao]',
+                                            'id' => 'cbo_descricao',
                                             'attributes' => 'sf-typeahead options="cboOptions" datasets="cboDataset" ng-model="selectedCbo"',
-                                            'hidden' => '<input type="hidden" id="cbo_id" name="cliente[cbo_id]">'
+                                            'hidden' => '<input type="hidden" id="cbo" name="corretor[cbo]" ng-model="corretor.cbo">'
                                         ],
                                         [
                                             'label' => 'Registro Profissional',
-                                            'name' => 'cliente[registro_profissional]',
-                                            'ng-model' => 'cliente.registro_profissional'
+                                            'name' => 'corretor[registro_profissional]',
+                                            'ng-model' => 'corretor.registro_profissional'
                                         ],
                                     ]);
 
@@ -158,14 +158,14 @@
                                         [
                                             'label' => 'Pai',
                                             'block_class' => 'col-sm-12',
-                                            'name' => 'cliente[pai]',
-                                            'ng-model' => 'cliente.pai'
+                                            'name' => 'corretor[pai]',
+                                            'ng-model' => 'corretor.pai'
                                         ],
                                         [
                                             'label' => 'Mãe',
                                             'block_class' => 'col-sm-12',
-                                            'name' => 'cliente[mae]',
-                                            'ng-model' => 'cliente.mae'
+                                            'name' => 'corretor[mae]',
+                                            'ng-model' => 'corretor.mae'
                                         ],
                                     ]);     
                                     ?>
@@ -178,9 +178,9 @@
                                             <div class="row hpadding">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label for="cliente[endereco][0][cep]">CEP</label>
+                                                        <label for="corretor[endereco][0][cep]">CEP</label>
                                                         <div class="input-group">
-                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][0][cep]" ng-model="cliente.endereco.0.cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required>
+                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="corretor[endereco][0][cep]" ng-model="corretor.endereco.0.cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required>
                                                             <span class="input-group-btn">
                                                                 <button title="Pesquisar CEP" type="button" name="enderecos[0][buscar]" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
                                                             </span>
@@ -206,29 +206,29 @@
                                                     'options' => [
                                                         '1' => 'Rua'
                                                     ],
-                                                    'name' => 'cliente[endereco][0][tipo]',
-                                                    'ng-model' => 'cliente.endereco.0.tipo',
+                                                    'name' => 'corretor[endereco][0][tipo]',
+                                                    'ng-model' => 'corretor.endereco.0.tipo',
                                                     'attributes' => 'req required'
                                                 ],
                                                 [
                                                     'label' => 'Logradouro',
                                                     'block_class' => 'col-sm-10',
-                                                    'name' => 'cliente[endereco][0][logradouro]',
-                                                    'ng-model' => 'cliente.endereco.0.logradouro',
+                                                    'name' => 'corretor[endereco][0][logradouro]',
+                                                    'ng-model' => 'corretor.endereco.0.logradouro',
                                                     'attributes' => 'req required'
                                                 ],
                                                 [
                                                     'label' => 'Número',
                                                     'block_class' => 'col-sm-2',
-                                                    'name' => 'cliente[endereco][0][numero]',
-                                                    'ng-model' => 'cliente.endereco.0.numero',
+                                                    'name' => 'corretor[endereco][0][numero]',
+                                                    'ng-model' => 'corretor.endereco.0.numero',
                                                     'attributes' => 'req required'
                                                 ],
                                                 [
                                                     'label' => 'Complemento',
                                                     'block_class' => 'col-sm-8',
-                                                    'name' => 'cliente[endereco][0][complemento]',
-                                                    'ng-model' => 'cliente.endereco.0.complemento'
+                                                    'name' => 'corretor[endereco][0][complemento]',
+                                                    'ng-model' => 'corretor.endereco.0.complemento'
                                                 ]
                                             ]);
 
@@ -236,8 +236,8 @@
                                                 [
                                                     'label' => 'Bairro',
                                                     'block_class' => 'col-sm-10',
-                                                    'name' => 'cliente[endereco][0][bairro]',
-                                                    'ng-model' => 'cliente.endereco.0.bairro',
+                                                    'name' => 'corretor[endereco][0][bairro]',
+                                                    'ng-model' => 'corretor.endereco.0.bairro',
                                                     'attributes' => 'req required'
                                                 ],
                                                 [
@@ -245,18 +245,18 @@
                                                     'block_class' => 'col-sm-4',
                                                     'block' => 'default-select',
                                                     'options' => $ufs,
-                                                    'name' => 'cliente[endereco][0][uf]',
+                                                    'name' => 'corretor[endereco][0][uf]',
                                                     'id' => 'uf_endereco_principal',
-                                                    'ng-model' => 'cliente.endereco.0.uf',
+                                                    'ng-model' => 'corretor.endereco.0.uf',
                                                     'attributes' => 'req required ng-change="get_cidade(\'uf_endereco_principal\', \'cidades_endereco_principal\')"'
                                                 ],
                                                 [
                                                     'label' => 'cidade',
                                                     'block_class' => 'col-sm-10',
                                                     'block' => 'select-ng-repeat',
-                                                    'name' => 'cliente[endereco][0][cidade]',
+                                                    'name' => 'corretor[endereco][0][cidade]',
                                                     'id' => 'cidade_principal',
-                                                    'ng-model' => 'cliente.endereco.0.cidade',
+                                                    'ng-model' => 'corretor.endereco.0.cidade',
                                                     'ng-option' => '<option ng-repeat="cidade in cidades_endereco_principal" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>',
                                                     'attributes' => 'req required'
                                                 ],
@@ -266,8 +266,8 @@
                                                 [
                                                     'label' => 'Referência',
                                                     'block_class' => 'col-sm-24',
-                                                    'name' => 'cliente[endereco][0][referencia]',
-                                                    'ng-model' => 'cliente.endereco.0.residencia'
+                                                    'name' => 'corretor[endereco][0][referencia]',
+                                                    'ng-model' => 'corretor.endereco.0.residencia'
                                                 ]
                                             ]);
                                         ?> 
@@ -276,9 +276,9 @@
                                             <div class="row hpadding">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
-                                                        <label for="cliente[endereco][1][cep]">CEP</label>
+                                                        <label for="corretor[endereco][1][cep]">CEP</label>
                                                         <div class="input-group">
-                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][1][cep]" ng-model="cliente.endereco.1.cep" id="endereco-secundario" ng-blur="completaEndereco(false)">
+                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="corretor[endereco][1][cep]" ng-model="corretor.endereco.1.cep" id="endereco-secundario" ng-blur="completaEndereco(false)">
                                                             <span class="input-group-btn">
                                                                 <button title="Pesquisar CEP" type="button" name="enderecos[1][buscar]" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
                                                             </span>
@@ -302,8 +302,8 @@
                                                     'block_class' => 'col-sm-4',
                                                     'input_group_symbol' => '<i class="fa fa-search"></i>',
                                                     'input_group_btn_class' => 'busca-cep',
-                                                    'name' => 'cliente[endereco][1][cep]',
-                                                    'ng-model' => 'cliente.endereco.1.cep'
+                                                    'name' => 'corretor[endereco][1][cep]',
+                                                    'ng-model' => 'corretor.endereco.1.cep'
                                                 ]
                                             ]);*/
 
@@ -315,26 +315,26 @@
                                                     'options' => [
                                                         '1' => 'Rua'
                                                     ],
-                                                    'name' => 'cliente[endereco][1][tipo]',
-                                                    'ng-model' => 'cliente.endereco.1.tipo'
+                                                    'name' => 'corretor[endereco][1][tipo]',
+                                                    'ng-model' => 'corretor.endereco.1.tipo'
                                                 ],
                                                 [
                                                     'label' => 'Logradouro',
                                                     'block_class' => 'col-sm-10',
-                                                    'name' => 'cliente[endereco][1][logradouro]',
-                                                    'ng-model' => 'cliente.endereco.1.logradouro'
+                                                    'name' => 'corretor[endereco][1][logradouro]',
+                                                    'ng-model' => 'corretor.endereco.1.logradouro'
                                                 ],
                                                 [
                                                     'label' => 'Número',
                                                     'block_class' => 'col-sm-2',
-                                                    'name' => 'cliente[endereco][1][numero]',
-                                                    'ng-model' => 'cliente.endereco.1.numero'
+                                                    'name' => 'corretor[endereco][1][numero]',
+                                                    'ng-model' => 'corretor.endereco.1.numero'
                                                 ],
                                                 [
                                                     'label' => 'Complemento',
                                                     'block_class' => 'col-sm-8',
-                                                    'name' => 'cliente[endereco][1][complemento]',
-                                                    'ng-model' => 'cliente.endereco.1.complemento'
+                                                    'name' => 'corretor[endereco][1][complemento]',
+                                                    'ng-model' => 'corretor.endereco.1.complemento'
                                                 ]
                                             ]);
 
@@ -342,25 +342,25 @@
                                                 [
                                                     'label' => 'Bairro',
                                                     'block_class' => 'col-sm-10',
-                                                    'name' => 'cliente[endereco][1][bairro]',
-                                                    'ng-model' => 'cliente.endereco.1.bairro'
+                                                    'name' => 'corretor[endereco][1][bairro]',
+                                                    'ng-model' => 'corretor.endereco.1.bairro'
                                                 ],
                                                 [
                                                     'label' => 'UF',
                                                     'block_class' => 'col-sm-4',
                                                     'block' => 'default-select',
                                                     'options' => $ufs,
-                                                    'name' => 'cliente[endereco][1][uf]',
+                                                    'name' => 'corretor[endereco][1][uf]',
                                                     'id' => 'uf_endereco_secundario',
-                                                    'ng-model' => 'cliente.endereco.1.uf',
+                                                    'ng-model' => 'corretor.endereco.1.uf',
                                                     'attributes' => 'ng-change="get_cidade(\'uf_endereco_secundario\', \'cidades_endereco_secundario\')"'
                                                 ],
                                                 [
                                                     'label' => 'cidade',
                                                     'block_class' => 'col-sm-10',
                                                     'block' => 'select-ng-repeat',
-                                                    'name' => 'cliente[endereco][1][cidade]',
-                                                    'ng-model' => 'cliente.endereco.1.cidade',
+                                                    'name' => 'corretor[endereco][1][cidade]',
+                                                    'ng-model' => 'corretor.endereco.1.cidade',
                                                     'ng-option' => '<option ng-repeat="cidade in cidades_endereco_secundario" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>'
                                                 ],
                                             ]);
@@ -369,12 +369,13 @@
                                                 [
                                                     'label' => 'Referência',
                                                     'block_class' => 'col-sm-24',
-                                                    'name' => 'cliente[endereco][1][referencia]',
-                                                    'ng-model' => 'cliente.endereco.1.referencia'
+                                                    'name' => 'corretor[endereco][1][referencia]',
+                                                    'ng-model' => 'corretor.endereco.1.referencia'
                                                 ]
                                             ]);
                                         ?> 
                                         </div>
+
                                         <div class="row hpadding cl">
                                             <div class="form-group">
                                                 <div class="col-sm-24">
@@ -383,20 +384,93 @@
                                             </div>
                                         </div>
                                 
+                                        <div class="row">
+                                            <div class="fone col-sm-12 col-lg-12">
+                                                <div class="header">
+                                                    <h4>Telefone</h4>
+                                                </div>
+                                                <div class="content boxadd clearfix">
+
+                                                            
+                                                    <div class="form-group margin" ng-repeat="fone in corretor.telefones">
+
+                                                        <input type="hidden" name="telefones[0][id_fone]">
+                                                        <div class="col-sm-7">
+                                                            <select class="form-control" name="" ng-model="corretor.telefones[$index].tipo">
+                                                                <option value=""></option>
+                                                                <option value="1">Celular</option>
+                                                                <option value="2">Fixo</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="text" placeholder="DDD" class="form-control ddd" name="corretor[telefones][0][ddd]" ng-model="corretor.telefones[$index].ddd" mask="99">
+                                                        </div>
+                                                        <div class="col-sm-14">
+                                                            <div class="input-group">
+                                                                <input type="text" maxlength="10" placeholder="Telefone" name="" mask="9999-9999" clean="true" class="form-control num vfone" ng-model="corretor.telefones[$index].numero">
+                                                                <span class="input-group-btn">
+                                                                    <button title="Excluir" type="button" name="rem-fone" class="btn btn-default" ng-click="removeTelefone($index)"><i class="fa fa-trash-o"></i></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="clearfix"></div>
+                                                    </div>
+
+                                                    
+                                                </div>
+                                                <div class="col-sm-24 no-padding">
+                                                    <button class="btn btn-add btn-default button-auxiliar" type="button" ng-click="addTelefone()"><i class="fa fa-plus"></i> Adicionar</button>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="email col-sm-12 col-lg-12">
+                                                    <div class="header">
+                                                    <h4>E-mail</h4>
+                                                </div>
+                                                    <div style="" class="content boxadd clearfix">
+
+                                                    
+                                                    <div class="form-group margin" ng-repeat="mail in corretor.emails">
+                                                        <div class="col-sm-7">
+                                                            <select class="form-control" name="" ng-model="corretor.emails[$index].tipo">
+                                                                <option value=""></option>
+                                                                <option value="1"> profissional</option>
+                                                                <option value="2">pessoal</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-sm-17">
+                                                            <div class="input-group">
+                                                                <input type="email" placeholder="E-mail" class="form-control smail vmail" name="" ng-model="corretor.emails[$index].email"> 
+                                                                <span class="input-group-btn">
+                                                                    <button title="Excluir" type="button" name="rem-email" class="btn btn-default" ng-click="removeEmail($index)"><i class="fa fa-trash-o"></i></button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    
+                                                </div>
+                                                <div class="col-sm-24 no-padding">
+                                                    <button class="btn btn-add btn-default button-auxiliar" name="add-email" type="button" ng-click="addEmail()"><i class="fa fa-plus"></i> Adicionar</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
 
                 <hr>
                 <div class="form-footer row text-right vmargin-0">
                     <div class="btn-group">
-                        <button class="btn btn-primary" data-action="form-save" type="button" ng-click="salvar(cliente, false)">Salvar</button>
-                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                        <button class="btn btn-primary" type="button" ng-disabled="CorretorForm.$invalid" ng-click="salvar(corretor, false)">Salvar</button>
+                        <button data-toggle="dropdown" ng-disabled="CorretorForm.$invalid" class="btn btn-primary dropdown-toggle" type="button">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>
                         <ul role="menu" class="dropdown-menu">
-                            <li><a href="#" data-action="form-add" ng-click="salvar(cliente, true)">Salvar e Adicionar novo</a></li>
+                            <li><a href="#" data-action="form-add" ng-click="salvar(corretor, true)">Salvar e Adicionar novo</a></li>
                         </ul>
                     </div>
-                    <a class="btn btn-default" id="cancelar-cadastro-pessoa" href="/cliente">Cancelar</a>
+                    <a class="btn btn-default" id="cancelar-cadastro-pessoa" href="/corretor">Cancelar</a>
                 </div>
             </form>
 

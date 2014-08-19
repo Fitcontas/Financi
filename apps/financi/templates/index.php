@@ -50,6 +50,27 @@
 	            <?php echo \Financi\Menu::render('menunav') ?>
 
 	            <ul class="nav navbar-nav navbar-right user-nav">
+
+
+					<li class="button dropdown">
+				        <a data-toggle="dropdown" class="dropdown-toggle" href="javascript:;"><i class="fa fa-globe"></i><span class="bubble">2</span></a>
+				        <ul class="dropdown-menu">
+				          <li>
+				            <div class="nano nscroller has-scrollbar">
+				              <div class="content" tabindex="0" style="right: -13px;">
+				                <ul>
+				                  <li><a href="#"><i class="fa fa-building-o info"></i><b>Lote</b> disponível <span class="date">2 minutos atrás.</span></a></li>
+				                   <li><a href="#"><i class="fa fa-building-o info"></i><b>Lote</b> disponível <span class="date">3 minutos atrás.</span></a></li>
+				                   <li><a href="#"><i class="fa fa-building-o info"></i><b>Lote</b> disponível <span class="date">10 minutos atrás.</span></a></li>
+				                   
+				                </ul>
+				              </div>
+				            <div class="pane" style="display: block;"><div class="slider" style="height: 163px; top: 0px;"></div></div></div>
+				            <ul class="foot"><li><a href="#">Ver todas as atualizações </a></li></ul>           
+				          </li>
+				        </ul>
+				    </li>
+
 	                <li class="dropdown profile_menu">
 	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img alt="Avatar" width="30px" height="30px" src="<?php echo HOST . DS ?>images/avatar2.jpg" /><?php echo $user['usuario'] ?> <b class="caret"></b></a>
 	                    <ul class="dropdown-menu">

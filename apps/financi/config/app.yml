@@ -1,4 +1,7 @@
 menunav:
+    inicio:
+        descricao: Início
+        link: /
     cadastros:
         descricao: Cadastros
         items:
@@ -14,5 +17,8 @@ menunav:
             empreendimentos:
                 descricao: Empreendimentos
                 link: /empreendimento
+            lotes:
+                descricao: Lotes
+                link: /lote
     lancamentos:
         descricao: Lançamentos

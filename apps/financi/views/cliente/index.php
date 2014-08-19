@@ -44,7 +44,9 @@
                             <div class="input-group">
                               <input class="form-control" type="text" placeholder="Pesquisar" style="width:250px"  ng-model="search">
                               <span class="input-group-btn">
-                                <button class="btn btn-default btn-sm" ng-disabled="search.length<=3" type="button" ng-click="start()">Buscar</button>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default btn-sm" type="button" ng-click="start()"><i class="fa fa-search"></i></button>
+                                 </span>
                               </span>
                             </div>
                         </div>
