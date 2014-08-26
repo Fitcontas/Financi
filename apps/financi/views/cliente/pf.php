@@ -6,12 +6,12 @@
 
         </div>
 
-        <div class="header">
+        <div class="header padding-bottom">
                 <h3 class="pull-left">Cadastros de Clientes</h3>
                 <div style="margin-top: -7px;" class="tab-container pull-right">
                     <ul class="nav nav-pills flat-tabs">
-                          <li class="active"><a data-toggle="tab" href="#home"><i class="fa  fa-info-circle"></i> Identificação</a></li>
-                          <li class=""><a data-toggle="tab" href="#conjuge"><i class="fa  fa-male"></i> Cônjuge</a></li>
+                          <li class="active"><a data-toggle="tab" href="#home">Identificação</a></li>
+                          <li class=""><a data-toggle="tab" href="#conjuge">Cônjuge</a></li>
                           <!--<li class=""><a data-toggle="tab" href="#messages">Profissional</a></li>-->
                         </ul>
                 </div>
@@ -74,7 +74,7 @@
                                             'block' => 'input-group-datepicker',
                                             'name' => 'cliente[data_nascimento]',
                                             'ng-model' => 'cliente.data_nascimento',
-                                            'attributes' => 'required req',
+                                            'attributes' => 'mask="99/99/9999" required req',
                                             'class' => ''
                                         ],
                                          [
@@ -100,8 +100,7 @@
                                             'block_class' => 'col-sm-10',
                                             'name' => 'cliente[naturalidade]',
                                             'ng-model' => 'cliente.naturalidade',
-                                            'attributes' => 'required req',
-                                            'ng-option' => '<option ng-repeat="cidade in cidades" value="{{ cidade.id }}">{{ cidade.nome }}</option>'
+                                            'attributes' => 'ng-selected="cliente.naturalidade" ng-options="c.id as c.nome for c in cidades" required req',
                                         ],
                                         [
                                             'label' => 'Estado Civil',
@@ -133,6 +132,7 @@
                                             'name' => 'cliente[expedicao]',
                                             'ng-model' => 'cliente.expedicao',
                                             'class' => '',
+                                            'attributes' => 'mask="99/99/9999"'
                                         ],
                                         [
                                             'label' => 'CTPS',
@@ -190,10 +190,10 @@
                                     ]);     
                                     ?>
 
-                                    <div class="header">
-                                        <h3>Endereço</h3>
+                                    <div class="header margin-bottom">
+                                        <h4>Endereço</h4>
                                     </div>
-                                    
+                                        <br/>
                                         <div id="endereco-principal" ng-show="endereco">
                                             <div class="row hpadding">
                                                 <div class="col-sm-4">
@@ -201,9 +201,6 @@
                                                         <label for="cliente[endereco][0][cep]">CEP</label>
                                                         <div class="input-group">
                                                             <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][0][cep]" ng-model="cliente.endereco[0].cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required>
-                                                            <span class="input-group-btn">
-                                                                <button title="Pesquisar CEP" type="button" name="enderecos[0][buscar]" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
-                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -211,7 +208,7 @@
                                                     <div class="form-group">
                                                         <label for="enderecos[0][completar]">&nbsp;</label>
                                                         <div class="input-group no-margin-bottom">
-                                                            <button class="btn-link completa" type="button" ng-click="completaEndereco(true)">Completar endereço</button>
+                                                            <button class="btn-link buscar-cep" type="button">Buscar CEP!</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -235,7 +232,9 @@
                                                     'block_class' => 'col-sm-4',
                                                     'block' => 'default-select',
                                                     'options' => [
-                                                        '1' => 'Rua'
+                                                        '1' => 'Residencial',
+                                                        '2' => 'Comercial',
+                                                        '3' => 'Recado'
                                                     ],
                                                     'name' => 'cliente[endereco][0][tipo]',
                                                     'ng-model' => 'cliente.endereco[0].tipo',
@@ -279,17 +278,16 @@
                                                     'name' => 'cliente[endereco][0][uf]',
                                                     'id' => 'uf_endereco_principal',
                                                     'ng-model' => 'cliente.endereco[0].uf',
-                                                    'attributes' => 'req required ng-change="get_cidade(\'uf_endereco_principal\', \'cidades_endereco_principal\')"'
+                                                    'attributes' => 'req required ng-change="get_cidade(\'uf_endereco_principal\', \'cidades_endereco_principal\')" ng-selected="cliente.endereco[0].uf"'
                                                 ],
                                                 [
-                                                    'label' => 'cidade',
+                                                    'label' => 'Cidade',
                                                     'block_class' => 'col-sm-10',
                                                     'block' => 'select-ng-repeat',
                                                     'name' => 'cliente[endereco][0][cidade]',
                                                     'id' => 'cidade_principal',
                                                     'ng-model' => 'cliente.endereco[0].cidade',
-                                                    'ng-option' => '<option ng-repeat="cidade in cidades_endereco_principal" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>',
-                                                    'attributes' => 'req required'
+                                                    'attributes' => 'ng-selected="cliente.endereco[0].cidade" ng-options="c.id as c.sub_nome for c in cidades_endereco_principal" req required'
                                                 ],
                                             ]);
 
@@ -309,10 +307,8 @@
                                                     <div class="form-group">
                                                         <label for="cliente[endereco][1][cep]">CEP</label>
                                                         <div class="input-group">
-                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][1][cep]" ng-model="cliente.endereco[1].cep" id="endereco-secundario" ng-blur="completaEndereco(false)">
-                                                            <span class="input-group-btn">
-                                                                <button title="Pesquisar CEP" type="button" name="enderecos[1][buscar]" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
-                                                            </span>
+                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][1][cep]" ng-model="cliente.endereco[1].cep" id="endereco-secundario" ng-blur="completaEndereco(false)" clean="true">
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -320,7 +316,7 @@
                                                     <div class="form-group">
                                                         <label for="enderecos[1][completar]">&nbsp;</label>
                                                         <div class="input-group no-margin-bottom">
-                                                            <button class="btn-link completa" type="button" ng-click="completaEndereco(false)">Completar endereço</button>
+                                                            <button class="btn-link buscar-cep" type="button">Buscar CEP!</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -344,7 +340,9 @@
                                                     'block_class' => 'col-sm-4',
                                                     'block' => 'default-select',
                                                     'options' => [
-                                                        '1' => 'Rua'
+                                                        '1' => 'Residencial',
+                                                        '2' => 'Comercial',
+                                                        '3' => 'Recado'
                                                     ],
                                                     'name' => 'cliente[endereco][1][tipo]',
                                                     'ng-model' => 'cliente.endereco[1].tipo'
@@ -387,12 +385,13 @@
                                                     'attributes' => 'ng-change="get_cidade(\'uf_endereco_secundario\', \'cidades_endereco_secundario\')"'
                                                 ],
                                                 [
-                                                    'label' => 'cidade',
+                                                    'label' => 'Cidade',
                                                     'block_class' => 'col-sm-10',
                                                     'block' => 'select-ng-repeat',
                                                     'name' => 'cliente[endereco][1][cidade]',
                                                     'ng-model' => 'cliente.endereco[1].cidade',
-                                                    'ng-option' => '<option ng-repeat="cidade in cidades_endereco_secundario" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>'
+                                                    'ng-option' => '',
+                                                    'attributes' => 'ng-disabled="!cidades_endereco_secundario" ng-selected="cliente.endereco[1].cidade" ng-options="c.id as c.nome for c in cidades_endereco_secundario"'
                                                 ],
                                             ]);
 
@@ -417,7 +416,7 @@
 
                                         <div class="row">
                                             <div class="fone col-sm-12 col-lg-12">
-                                                <div class="header">
+                                                <div class="header margin-bottom">
                                                     <h4>Telefone</h4>
                                                 </div>
                                                 <div class="content boxadd clearfix">
@@ -456,7 +455,7 @@
 
 
                                             <div class="email col-sm-12 col-lg-12">
-                                                    <div class="header">
+                                                    <div class="header margin-bottom">
                                                     <h4>E-mail</h4>
                                                 </div>
                                                     <div style="" class="content boxadd clearfix">
@@ -505,7 +504,8 @@
                                             'label' => 'CPF',
                                             'block_class' => 'col-sm-4',
                                             'name' => 'cliente[conjuge][cpf]',
-                                            'ng-model' => 'cliente.conjuge.cpf'
+                                            'ng-model' => 'cliente.conjuge.cpf',
+                                            'attributes' => 'mask="999.999.999-99" clean="true"'
                                         ],
                                         [
                                             'label' => 'Nome',
@@ -530,8 +530,10 @@
                                         [
                                             'label' => 'Data de Nascimento',
                                             'block_class' => 'col-sm-4',
+                                            'block' => 'input-group-datepicker',
                                             'name' => 'cliente[conjuge][data_nascimento]',
-                                            'ng-model' => 'cliente.conjuge.data_nascimento'
+                                            'ng-model' => 'cliente.conjuge.data_nascimento',
+                                            'attributes' => 'mask="99/99/9999"'
                                         ],
                                          [
                                             'label' => 'Nacionalidade',
@@ -543,17 +545,18 @@
                                             'label' => 'UF',
                                             'block' => 'default-select',
                                             'block_class' => 'col-sm-2',
-                                            'options' => [
-                                                'BA' => 'BA'
-                                            ],
+                                            'options' => $ufs,
                                             'name' => 'cliente[conjuge][naturalidade_uf]',
-                                            'ng-model' => 'cliente.conjuge.naturalidade_uf'
+                                            'ng-model' => 'cliente.conjuge.naturalidade_uf',
+                                            'attributes' => 'ng-change="get_cidade(\'conjuge_naturalidade_uf\', \'cidades_conjuge\')"'
                                         ],
                                         [
                                             'label' => 'Naturalidade',
+                                            'block' => 'select-ng-repeat',
                                             'block_class' => 'col-sm-14',
                                             'name' => 'cliente[conjuge][naturalidade]',
-                                            'ng-model' => 'cliente.conjuge.naturalidade'
+                                            'ng-model' => 'cliente.conjuge.naturalidade',
+                                            'attributes' => 'ng-selected="cliente.conjuge.naturalidade" ng-options="c.id as c.nome for c in cidades_conjuge"',
                                         ]
                                     ]);
 
@@ -567,8 +570,10 @@
                                         [
                                             'label' => 'Data de expedição',
                                             'block_class' => 'col-sm-4',
+                                            'block' => 'input-group-datepicker',
                                             'name' => 'cliente[conjuge][expedicao]',
-                                            'ng-model' => 'cliente.conjuge.expedicao'
+                                            'ng-model' => 'cliente.conjuge.expedicao',
+                                            'attributes' => 'mask="99/99/9999"'
                                         ],
                                         [
                                             'label' => 'CTPS',

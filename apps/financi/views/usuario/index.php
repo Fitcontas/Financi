@@ -28,7 +28,7 @@
                         </div>
                         <div class="pull-right">
                             <div class="input-group">
-                              <input class="form-control" type="text" placeholder="Pesquisar" style="width:250px"  ng-model="search">
+                              <input class="form-control" type="text" placeholder="Pesquisar" ng-model="search" ng-enter="start()">
                               <span class="input-group-btn">
                                 <button class="btn btn-default btn-sm" type="button" ng-click="start()"><i class="fa fa-search"></i></button>
                               </span>
@@ -55,7 +55,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="u in model.usuarios">
-                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(u)" ng-checked="checkall"/></td>
+                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(u)" ng-checked="checkall" x-ng-click="{cursor:pointer}"/></td>
                                     <td><a ng-click="showForm(u)">{{u.nome}}</a></td>
                                     <td>{{u.email}}</td>
                                     <td>{{u.grupo}}</td>
@@ -67,6 +67,9 @@
                         <div class="row-fluid" ng-show="paginas.length>1">
                           <div class="span12">
                              <div>
+                             <div class="pagination pull-left">
+                                 Exibindo de {{pagination.inicio + 1}} a {{ pagination.inicio+pagination.limite > pagination.total_geral ? pagination.total_geral : pagination.inicio+pagination.limite }} de {{pagination.total_geral}} registros 
+                             </div>
                               <ul class="pagination pull-right">
                                 <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}">
                                   <a ng-click="start($index+1)" href="javascript:void(0)">{{$index+1}}</a>
@@ -111,7 +114,7 @@
 
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="id_grupo_usuarios">Tipo </label>
-                    <div class="col-sm-14">
+                    <div class="col-sm-18">
                         <select class="form-control" req="" id="grupo_id" name="grupo_id" ng-model="usuario.grupo_id" required ng-options="grupo.id as grupo.descricao for grupo in grupos.grupos">
                         </select>
                     </div>
@@ -126,42 +129,35 @@
 
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="nome">Apelido  </label>
-                    <div class="col-sm-12">
+                    <div class="col-sm-18">
                         <input type="text" value="" name="apelido" req="" class="form-control" ng-model="usuario.apelido" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-6 control-label" for="login">Login </label>
-                    <div class="col-sm-12">
-                        <input type="text" value="" maxlength="150" req="" name="usuario" class="form-control" ng-model="usuario.usuario" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <label class="col-sm-6 control-label" for="email">E-mail </label>
-                    <div class="col-sm-14">
+                    <div class="col-sm-18">
                         <input type="email" value="" maxlength="150" placeholder="E-mail" req="" name="email" class="form-control" required data-ng-model="usuario.email">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-6 control-label" for="email">Repita o e-mail </label>
-                    <div class="col-sm-14">
+                    <label class="col-sm-6 control-label" for="email">Confirme o E-mail </label>
+                    <div class="col-sm-18">
                         <input type="email" value="" maxlength="150" placeholder="E-mail" req="" name="email2" class="form-control" ng-model="usuario.email2" required data-password-verify="usuario.email">
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="senha">Senha </label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-18">
                         <input type="password" req ng-minlength="6" ng-maxlength="15" name="senha" id="senha" class="form-control" value="" data-ng-model="usuario.senha">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="senha2">Confirme a Senha </label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-18">
                         <input type="password" req ng-minlength="6" ng-maxlength="15" name="senha2" id="senha2" class="form-control" value="" ng-model="usuario.senha2" data-password-verify="usuario.senha">
                     </div>
                 </div>

@@ -170,7 +170,7 @@
                                     ]);     
                                     ?>
 
-                                    <div class="header">
+                                    <div class="header margin-bottom">
                                         <h3>Endereço</h3>
                                     </div>
                                     
@@ -179,19 +179,16 @@
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label for="corretor[endereco][0][cep]">CEP</label>
-                                                        <div class="input-group">
-                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="corretor[endereco][0][cep]" ng-model="corretor.endereco.0.cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required>
-                                                            <span class="input-group-btn">
-                                                                <button title="Pesquisar CEP" type="button" name="enderecos[0][buscar]" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
-                                                            </span>
-                                                        </div>
+    
+                                                        <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="corretor[endereco][0][cep]" ng-model="corretor.endereco.0.cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required>
+    
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-19">
                                                     <div class="form-group">
                                                         <label for="enderecos[0][completar]">&nbsp;</label>
                                                         <div class="input-group no-margin-bottom">
-                                                            <button class="btn-link completa" type="button" ng-click="completaEndereco(true)">Completar endereço</button>
+                                                            <button class="btn-link buscar-cep" type="button">Buscar CEP!</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -277,19 +274,16 @@
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label for="corretor[endereco][1][cep]">CEP</label>
-                                                        <div class="input-group">
-                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="corretor[endereco][1][cep]" ng-model="corretor.endereco.1.cep" id="endereco-secundario" ng-blur="completaEndereco(false)">
-                                                            <span class="input-group-btn">
-                                                                <button title="Pesquisar CEP" type="button" name="enderecos[1][buscar]" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
-                                                            </span>
-                                                        </div>
+  
+                                                        <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="corretor[endereco][1][cep]" ng-model="corretor.endereco.1.cep" id="endereco-secundario" ng-blur="completaEndereco(false)">
+
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-19">
                                                     <div class="form-group">
                                                         <label for="enderecos[1][completar]">&nbsp;</label>
                                                         <div class="input-group no-margin-bottom">
-                                                            <button class="btn-link completa" type="button" ng-click="completaEndereco(false)">Completar endereço</button>
+                                                            <button class="btn-link buscar-cep" type="button">Buscar CEP!</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -386,7 +380,7 @@
                                 
                                         <div class="row">
                                             <div class="fone col-sm-12 col-lg-12">
-                                                <div class="header">
+                                                <div class="header margin-bottom">
                                                     <h4>Telefone</h4>
                                                 </div>
                                                 <div class="content boxadd clearfix">
@@ -425,7 +419,7 @@
 
 
                                             <div class="email col-sm-12 col-lg-12">
-                                                    <div class="header">
+                                                    <div class="header margin-bottom">
                                                     <h4>E-mail</h4>
                                                 </div>
                                                     <div style="" class="content boxadd clearfix">

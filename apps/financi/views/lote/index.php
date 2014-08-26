@@ -32,7 +32,7 @@
                         </div>
                         <div class="pull-right">
                             <div class="input-group">
-                              <input class="form-control" type="text" placeholder="Pesquisar" style="width:250px"  ng-model="search">
+                              <input class="form-control" type="text" placeholder="Pesquisar" ng-model="search" ng-enter="start()">
                               <span class="input-group-btn">
                                 <button class="btn btn-default btn-sm" type="button" ng-click="start()"><i class="fa fa-search"></i></button>
                               </span>
@@ -122,11 +122,14 @@
                 </div>
 
                 <div class="tab-container">
-                        <ul class="nav nav-pills">
+                        <div style="margin-top: -7px;" class="tab-container pull-right">
+                        <ul class="nav nav-pills ">
                           <li class="active"><a data-toggle="tab" href="#home">Principal</a></li>
                           <li class=""><a data-toggle="tab" href="#confrontante">Confrontante</a></li>
                           <li class=""><a data-toggle="tab" href="#endereco">Endereço</a></li>
                         </ul>
+                        </div>
+                        <div class="clearfix"></div>
                         <!-- Início tab-content -->
                         <div class="tab-content">
                             <hr>
@@ -150,14 +153,14 @@
 
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="numero">Número  </label>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-8">
                                             <input type="text" value="" name="lote[numero]" req="" class="form-control" ng-model="lote.numero" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="quadra">Quadra  </label>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-8">
                                             <input type="text" value="" name="lote[quadra]" req="" class="form-control" ng-model="lote.quadra" required>
                                         </div>
                                     </div>
@@ -165,12 +168,15 @@
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="valor">Valor  </label>
                                         <div class="col-sm-8">
-                                            <input type="text" value="" name="lote[valor]" req="" class="form-control mask-money" ng-model="lote.valor" required>
+                                            <div class="input-group no-margin-bottom">
+                                                <span class="input-group-addon">R$</span>
+                                                <input type="text" value="" name="lote[valor]" req="" class="form-control mask-money" ng-model="lote.valor" required>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-6 control-label" for="area_total">Àrea Total (M2)  </label>
+                                        <label class="col-sm-6 control-label" for="area_total">Àrea Total (M²)  </label>
                                         <div class="col-sm-8">
                                             <input type="text" value="" name="lote[area_total]" req="" class="form-control" ng-model="lote.area_total" required>
                                         </div>
@@ -198,20 +204,18 @@
                             <div id="endereco" class="tab-pane cont">
                                 <div class="spacer2">
                                     
-                                    <div class="form-group">
+                                    <div class="form-group no-margin-bottom">
                                         <label  class="col-sm-6 control-label" for="">CEP</label>
                                          <div class="col-sm-8">
                                             <div class="input-group no-margin-bottom">
                                                 <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" ng-model="empreendimento.cep" id="endereco-secundario" ng-blur="completaEndereco()">
-                                                <span class="input-group-btn">
-                                                    <button title="Pesquisar CEP" type="button" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
-                                                </span>
+
                                             </div>
                                         </div>
                                         <div class="col-sm-10">
                                             <div class="form-group">
                                                 <div class="input-group no-margin-bottom">
-                                                    <button class="btn-link completa" type="button" ng-click="completaEndereco()">Completar endereço</button>
+                                                    <button class="btn-link buscar-cep" type="button">Buscar CEP!</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -219,10 +223,10 @@
 
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="nome">Logradouro  </label>
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-11">
                                             <input type="text" value="" name="lote[logradouro]" class="form-control" ng-model="lote.logradouro">
                                         </div>
-                                        <label class="col-sm-4 control-label" for="lote[num]">Número  </label>
+                                        <label class="col-sm-3 control-label" for="lote[num]">Número  </label>
                                         <div class="col-sm-4">
                                             <input type="text" value="" name="lote[num]" class="form-control" ng-model="lote.num">
                                         </div>
@@ -237,7 +241,7 @@
 
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="lote[bairro]">Bairro  </label>
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-18">
                                             <input type="text" value="" name="lote[bairro]" class="form-control" ng-model="lote.bairro">
                                         </div>
                                     </div>
@@ -248,8 +252,8 @@
                                             <select class="form-control" name="lote[uf]" ng-model="lote.uf" ng-options="uf.uf as uf.uf for uf in ufs.ufs" ng-selected="lote.uf" ng-change="getCidades(lote.uf)">
                                             </select>
                                         </div>
-                                        <label class="col-sm-4 control-label" for="lote[cidade]">Cidade  </label>
-                                        <div class="col-sm-11">
+                                        <label class="col-sm-3 control-label" for="lote[cidade]">Cidade  </label>
+                                        <div class="col-sm-12">
                                             <select class="form-control" name="lote[cidade]" ng-model="lote.cidade" ng-options="cidade.nome as cidade.nome for cidade in cidades.cidades" ng-selected="lote.cidade">
                                                 
                                             </select>
@@ -267,11 +271,11 @@
                                         <div class="col-sm-12">
                                             <input type="text" value="" name="lote[frente]" req="" class="form-control" ng-model="lote.frente" required>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <input type="text" value="" name="lote[frente_metro]" req="" class="form-control" ng-model="lote.frente_metro" required> 
                                         </div>
                                         <div class="col-sm-2">
-                                            <span>M</span>
+                                            <span>Metros</span>
                                         </div>
                                     </div>
 
@@ -280,11 +284,11 @@
                                         <div class="col-sm-12">
                                             <input type="text" value="" name="lote[fundo]" req="" class="form-control" ng-model="lote.fundo" required>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <input type="text" value="" name="lote[fundo_metro]" req="" class="form-control" ng-model="lote.fundo_metro" required> 
                                         </div>
                                         <div class="col-sm-2">
-                                            <span>M</span>
+                                            <span>Metros</span>
                                         </div>
                                     </div>
 
@@ -293,11 +297,11 @@
                                         <div class="col-sm-12">
                                             <input type="text" value="" name="lote[lateral_direita]" req="" class="form-control" ng-model="lote.lateral_direita" required>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <input type="text" value="" name="lote[lateral_direita_metro]" req="" class="form-control" ng-model="lote.lateral_direita_metro" required> 
                                         </div>
                                         <div class="col-sm-2">
-                                            <span>M</span>
+                                            <span>Metros</span>
                                         </div>
                                     </div>
 
@@ -306,11 +310,11 @@
                                         <div class="col-sm-12">
                                             <input type="text" value="" name="lote[lateral_esquerda]" req="" class="form-control" ng-model="lote.lateral_esquerda" required>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-3">
                                             <input type="text" value="" name="lote[lateral_esquerda_metro]" req="" class="form-control" ng-model="lote.lateral_esquerda_metro" required> 
                                         </div>
                                         <div class="col-sm-2">
-                                            <span>M</span>
+                                            <span>Metros</span>
                                         </div>
                                     </div>
 

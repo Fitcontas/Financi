@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 19/08/2014 às 01:09
+-- Tempo de Geração: 25/08/2014 às 22:48
 -- Versão do servidor: 5.5.38-0ubuntu0.14.04.1
 -- Versão do PHP: 5.5.15-1+deb.sury.org~trusty+1
 
@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `naturalidade_uf` char(2) DEFAULT NULL,
   `naturalidade` varchar(45) DEFAULT NULL,
   `estado_civil` char(1) DEFAULT NULL,
+  `residencia` int(11) DEFAULT NULL,
   `registro_geral` varchar(45) DEFAULT NULL,
   `expedicao` date DEFAULT NULL,
   `ctps` varchar(45) DEFAULT NULL,
@@ -52,34 +53,17 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `cnae` varchar(45) DEFAULT NULL,
   `regime_tributario` varchar(45) DEFAULT NULL,
   `data_cadastro` date NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '1',
+  `status` int(2) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `fk_cliente_instituicao1_idx` (`instituicao_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=19 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Fazendo dump de dados para tabela `cliente`
 --
 
-INSERT INTO `cliente` (`id`, `instituicao_id`, `cpf`, `cnpj`, `nome`, `data_nascimento`, `sexo`, `nacionalidade`, `naturalidade_uf`, `naturalidade`, `estado_civil`, `registro_geral`, `expedicao`, `ctps`, `cbo`, `registro_profissional`, `pai`, `mae`, `nome_fantasia`, `inscricao_estadual`, `inscricao_municipal`, `capital_social`, `cnae`, `regime_tributario`, `data_cadastro`, `status`) VALUES
-(1, 1, '04788373564', NULL, 'Fernando Dutra Neres', '1987-04-03', 'M', 'Brasileiro', 'BA', '2377', '1', '1388769085', '2014-07-07', NULL, NULL, NULL, 'Nelson Ferreira Neres', 'Ednalva Dutra Neres', NULL, NULL, NULL, NULL, NULL, NULL, '2014-08-13', 1),
-(2, 1, '04788373564', NULL, 'fernando dutra neres', '2014-09-08', 'M', 'brasileiro', 'BA', '330', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(3, 1, '56465465465', NULL, 'pedro amaral', '2014-09-08', 'M', 'brasileio', 'BA', '336', '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(4, 1, '54654654665', NULL, 'vania pereira dutra', '2014-09-08', 'F', 'brasiliero', 'MA', '2377', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(5, 1, '56468749846', NULL, 'george cabral', '2014-09-08', 'M', 'brasileiro', 'BA', '1078', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(6, 1, '56465465465', NULL, 'pedro azevendo', '2014-09-08', 'M', 'brasileiro', 'AP', '287', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(7, 1, '56465465465', NULL, 'Fernando amral neto vamos ver', '2014-08-09', 'M', 'brasileiro', 'BA', '335', '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(8, 1, '46546546546', NULL, 'manoel neto azevendo', NULL, 'M', 'brasileiro', 'BA', '336', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(9, 1, '46546546546', NULL, 'manoel neto azevendo', NULL, 'M', 'brasileiro', 'BA', '336', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(10, 1, '46546546546', NULL, 'manoel neto azevendo', NULL, 'M', 'brasileiro', 'BA', '336', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(11, 1, '46546546546', NULL, 'manoel neto azevendo', NULL, 'M', 'brasileiro', 'BA', '336', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(12, 1, '46546546546', NULL, 'manoel neto azevendo', NULL, 'M', 'brasileiro', 'BA', '336', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(13, 1, '46546546546', NULL, 'manoel neto azevendo', NULL, 'M', 'brasileiro', 'BA', '336', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(14, 1, '46546546546', NULL, 'manoel neto azevendo', NULL, 'M', 'brasileiro', 'BA', '336', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(15, 1, '46546546546', NULL, 'manoel neto azevendo', NULL, 'M', 'brasileiro', 'BA', '336', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(16, 1, '46546546546', NULL, 'manoel neto azevendo', NULL, 'M', 'brasileiro', 'BA', '336', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(17, 1, '46546546546', NULL, 'manoel neto azevendo', '2014-08-12', 'M', 'brasileiro', 'AP', '284', '2', NULL, NULL, NULL, 141710, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
-(18, 1, NULL, '54654654654654', 'TJD engenharia', '2014-12-08', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'TJD engenharia', '65465465465', '654654654654', NULL, NULL, NULL, '0000-00-00', 1);
+INSERT INTO `cliente` (`id`, `instituicao_id`, `cpf`, `cnpj`, `nome`, `data_nascimento`, `sexo`, `nacionalidade`, `naturalidade_uf`, `naturalidade`, `estado_civil`, `residencia`, `registro_geral`, `expedicao`, `ctps`, `cbo`, `registro_profissional`, `pai`, `mae`, `nome_fantasia`, `inscricao_estadual`, `inscricao_municipal`, `capital_social`, `cnae`, `regime_tributario`, `data_cadastro`, `status`) VALUES
+(20, 1, '04788373564', NULL, 'fernando dutra neres', '2014-08-12', 'M', 'brasileiro', 'BA', '877', '1', 1, '1388769085', NULL, '545646546546', 254310, '234654787', 'nelson Ferreira Neres', 'Ednalva Dutra Neres', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1);
 
 -- --------------------------------------------------------
 
@@ -107,17 +91,14 @@ CREATE TABLE IF NOT EXISTS `cliente_conjuge` (
   `mae` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_cliente_conjuge_cliente1_idx` (`cliente_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Fazendo dump de dados para tabela `cliente_conjuge`
 --
 
 INSERT INTO `cliente_conjuge` (`id`, `cliente_id`, `cpf`, `nome`, `sexo`, `data_nascimento`, `nacionalidade`, `naturalidade_uf`, `naturalidade`, `estado_civil`, `registro_geral`, `expedicao`, `ctps`, `cbo`, `registro_profissional`, `pai`, `mae`) VALUES
-(1, 7, NULL, 'Elivane pereira da silva', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(2, 16, '6546465465', 'joaquina amaral', 'F', '2014-03-04', 'brasileiro', 'BA', NULL, NULL, '54654654', '2014-03-05', '454654654654', NULL, NULL, 'pedro neto', 'joana azevendo'),
-(3, 17, '6546465465', 'joaquina amaral', 'F', '2014-03-04', 'brasileiro', 'BA', NULL, NULL, '54654654', '2014-03-05', '454654654654', NULL, NULL, 'pedro neto', 'joana azevendo'),
-(4, 18, '04788373656', 'fernando dutra neres', 'M', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 20, '23154654654', 'Elivane pereira da silva', NULL, NULL, NULL, 'AP', '284', NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -132,17 +113,14 @@ CREATE TABLE IF NOT EXISTS `cliente_email` (
   `email` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_cliente_email_cliente1_idx` (`cliente_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Fazendo dump de dados para tabela `cliente_email`
 --
 
 INSERT INTO `cliente_email` (`id`, `cliente_id`, `tipo`, `email`) VALUES
-(1, 1, '1', 'fernando@inova2b.com.br'),
-(2, 1, '2', 'contato@inovacidade.com'),
-(3, 17, '2', 'fernando@inova2b.com.br'),
-(5, 18, '1', 'fernando@inova2b.com.br');
+(1, 20, '1', 'fernando@inova2b.com.br');
 
 -- --------------------------------------------------------
 
@@ -164,36 +142,15 @@ CREATE TABLE IF NOT EXISTS `cliente_endereco` (
   `referencia` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_endereco_cliente_cliente1_idx` (`cliente_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Fazendo dump de dados para tabela `cliente_endereco`
 --
 
 INSERT INTO `cliente_endereco` (`id`, `cliente_id`, `cep`, `tipo`, `logradouro`, `numero`, `complemento`, `bairro`, `uf`, `cidade`, `referencia`) VALUES
-(1, 7, '45985-10', 1, 'Rua Marechal Eurico Gaspar Dutra', '273', NULL, 'Centro', 'BA', '331', NULL),
-(2, 7, '45985-10', NULL, 'Rua Marechal Eurico Gaspar Dutra', NULL, NULL, 'Centro', NULL, NULL, NULL),
-(3, 8, '45985-17', 1, 'PraÃ§a Bernardino Andrade Figueiredo', '6565', NULL, 'Centro', 'PA', '4535', NULL),
-(4, 8, '45985-18', NULL, 'Rua Zilda Arns Neumann', '264', NULL, 'Centro', 'ES', '1808', NULL),
-(5, 9, '45985-17', 1, 'PraÃ§a Bernardino Andrade Figueiredo', '6565', NULL, 'Centro', 'PA', '4535', NULL),
-(6, 9, '45985-18', NULL, 'Rua Zilda Arns Neumann', '264', NULL, 'Centro', 'ES', '1808', NULL),
-(7, 10, '45985-17', 1, 'PraÃ§a Bernardino Andrade Figueiredo', '6565', NULL, 'Centro', 'PA', '4535', NULL),
-(8, 10, '45985-18', NULL, 'Rua Zilda Arns Neumann', '264', NULL, 'Centro', 'ES', '1808', NULL),
-(9, 11, '45985-17', 1, 'PraÃ§a Bernardino Andrade Figueiredo', '6565', NULL, 'Centro', 'PA', '4535', NULL),
-(10, 11, '45985-18', NULL, 'Rua Zilda Arns Neumann', '264', NULL, 'Centro', 'ES', '1808', NULL),
-(11, 12, '45985-17', 1, 'PraÃ§a Bernardino Andrade Figueiredo', '6565', NULL, 'Centro', 'PA', '4535', NULL),
-(12, 12, '45985-18', NULL, 'Rua Zilda Arns Neumann', '264', NULL, 'Centro', 'ES', '1808', NULL),
-(13, 13, '45985-17', 1, 'PraÃ§a Bernardino Andrade Figueiredo', '6565', NULL, 'Centro', 'PA', '4535', NULL),
-(14, 13, '45985-18', NULL, 'Rua Zilda Arns Neumann', '264', NULL, 'Centro', 'ES', '1808', NULL),
-(15, 14, '45985-17', 1, 'PraÃ§a Bernardino Andrade Figueiredo', '6565', NULL, 'Centro', 'PA', '4535', NULL),
-(16, 14, '45985-18', NULL, 'Rua Zilda Arns Neumann', '264', NULL, 'Centro', 'ES', '1808', NULL),
-(17, 15, '45985-17', 1, 'PraÃ§a Bernardino Andrade Figueiredo', '6565', NULL, 'Centro', 'PA', '4535', NULL),
-(18, 15, '45985-18', NULL, 'Rua Zilda Arns Neumann', '264', NULL, 'Centro', 'ES', '1808', NULL),
-(19, 16, '45985-17', 1, 'PraÃ§a Bernardino Andrade Figueiredo', '6565', NULL, 'Centro', 'PA', '4535', NULL),
-(20, 16, '45985-18', NULL, 'Rua Zilda Arns Neumann', '264', NULL, 'Centro', 'ES', '1808', NULL),
-(21, 17, '45985-17', 1, 'PraÃ§a Bernardino Andrade Figueiredo', '6565', NULL, 'Centro', 'AM', '196', NULL),
-(22, 17, '45985-18', 1, 'Rua Zilda Arns Neumann', '264', NULL, 'Centro', 'PR', '5743', NULL),
-(23, 18, '45985-20', 1, 'Avenida Presidente GetÃºlio Vargas', '2656', NULL, 'Centro', 'CE', '1130', NULL);
+(1, 20, '45985-16', 1, 'Avenida Marechal Castelo Branco - atÃ© 549 - lado Ã­mpar', '273', NULL, 'Centro', 'BA', '1078', NULL),
+(2, 20, '45985106', 3, 'Rua Marechal Eurico Gaspar Dutra', '6564', NULL, 'Centro', 'BA', '1078', NULL);
 
 -- --------------------------------------------------------
 
@@ -209,17 +166,14 @@ CREATE TABLE IF NOT EXISTS `cliente_telefone` (
   `numero` varchar(12) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_cliente_telefone_cliente1_idx` (`cliente_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Fazendo dump de dados para tabela `cliente_telefone`
 --
 
 INSERT INTO `cliente_telefone` (`id`, `cliente_id`, `tipo`, `ddd`, `numero`) VALUES
-(1, 1, '1', '73', '999261430'),
-(2, 1, '2', '73', '30134559'),
-(5, 17, '2', '73', '48898309'),
-(6, 18, '1', '73', '99914306');
+(8, 20, '1', '73', '99261430');
 
 -- --------------------------------------------------------
 
@@ -246,7 +200,7 @@ CREATE TABLE IF NOT EXISTS `corretor` (
   `pai` varchar(100) DEFAULT NULL,
   `mae` varchar(100) DEFAULT NULL,
   `data_cadastro` date NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '1',
+  `status` int(2) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `fk_corretor_instituicao1_idx` (`instituicao_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
@@ -256,7 +210,7 @@ CREATE TABLE IF NOT EXISTS `corretor` (
 --
 
 INSERT INTO `corretor` (`id`, `instituicao_id`, `cpf`, `nome`, `sexo`, `data_nascimento`, `nacionalidade`, `naturalidade_uf`, `naturalidade`, `estado_civil`, `rg`, `expedicao`, `ctps`, `cbo`, `registro_profissional`, `pai`, `mae`, `data_cadastro`, `status`) VALUES
-(1, 1, '04788373564', 'Fernando Dutra Neres', NULL, '2014-08-13', 'Brasileiro', 'BA', 'Nova Viçosa', '1', '1388769085', '2014-07-07', NULL, NULL, NULL, NULL, NULL, '2014-08-04', 1),
+(1, 1, '04788373564', 'Fernando Dutra Neres', NULL, NULL, 'Brasileiro', 'BA', 'Nova Vicosa', '1', '1388769085', '2014-07-07', NULL, NULL, NULL, NULL, NULL, '2014-04-08', 1),
 (2, 1, '62356631534', 'Amaral Azevedo Neto', NULL, '2014-08-16', 'brasileiro', 'BA', 'Nova Viçosa', '1', '321456465', '2014-08-16', NULL, NULL, NULL, NULL, NULL, '2014-08-16', 1),
 (4, 1, '04788837356', 'Valvir rodrigues da silva', 'M', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 223124, NULL, NULL, NULL, '0000-00-00', 1);
 
@@ -364,7 +318,7 @@ CREATE TABLE IF NOT EXISTS `empreendimento` (
   `status` int(2) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `fk_empreendimento_instituicao1_idx` (`instituicao_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Fazendo dump de dados para tabela `empreendimento`
@@ -372,7 +326,8 @@ CREATE TABLE IF NOT EXISTS `empreendimento` (
 
 INSERT INTO `empreendimento` (`id`, `instituicao_id`, `empreendimento`, `cri`, `comissao`, `entrada`, `intermediarias`, `periodo`, `qtd_parcelas`, `taxa_financiamento`, `indice_correcao`, `cep`, `logradouro`, `numero`, `complemento`, `bairro`, `cidade`, `uf`, `status`) VALUES
 (1, 1, 'Village dos Lagos', '19.560, livro A2', 5.00, 15.00, 3.00, 4, 96, 0.00, 1, '45985160', 'Rua Eurico Gaspar DUtra', '273', NULL, 'Centro', 'Teixeira de Freitas', 'BA', 1),
-(3, 1, 'residencial italia', 'ita ld949. ijkel', 30.00, 0.00, 15.00, 4, 96, 15.00, 1, '45985-16', 'Avenida Marechal Castelo Branco - atÃ© 549 - lado Ã­mpar', '273', NULL, 'Centro', 'Teixeira de Freitas', 'BA', 1);
+(3, 1, 'residencial italia', 'ita ld949. ijkel', 30.00, 0.00, 15.00, 4, 96, 15.00, 1, '45985-16', 'Avenida Marechal Castelo Branco - atÃ© 549 - lado Ã­mpar', '273', NULL, 'Centro', 'Teixeira de Freitas', 'BA', 1),
+(4, 1, 'Vila FEliz', '4554', 15.00, 0.00, 45.00, 4, 45, 1.00, 1, '45985-16', 'Avenida Marechal Castelo Branco - atÃ© 549 - lado Ã­mpar', '273', NULL, 'Centro', 'Teixeira de Freitas', 'BA', 1);
 
 -- --------------------------------------------------------
 
@@ -387,7 +342,7 @@ CREATE TABLE IF NOT EXISTS `empreendimento_corretor` (
   PRIMARY KEY (`id`),
   KEY `fk_empreendimento_corretor_empreendimento1_idx` (`empreendimento_id`),
   KEY `fk_empreendimento_corretor_corretor1_idx` (`corretor_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Fazendo dump de dados para tabela `empreendimento_corretor`
@@ -397,7 +352,10 @@ INSERT INTO `empreendimento_corretor` (`id`, `corretor_id`, `empreendimento_id`)
 (4, 1, 3),
 (5, 2, 3),
 (6, 1, 1),
-(7, 2, 1);
+(7, 2, 1),
+(8, 1, 4),
+(9, 4, 4),
+(10, 2, 4);
 
 -- --------------------------------------------------------
 
@@ -510,7 +468,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `instituicao_id`, `grupo_id`, `usuario`, `nome`, `apelido`, `email`, `senha`, `admin`, `status`) VALUES
-(1, 1, 1, 'nandodutra', 'Fernando Dutra', 'Fernando', 'fernando@inova2b.com.br', '7c4a8d09ca3762af61e59520943dc26494f8941b', 1, 1),
+(1, 1, 1, 'nandodutra', 'Fernando Dutra', 'Fernando', 'fernando@inova2b.com.br', '7c4a8d09ca3762af61e59520943dc26494f8941b', 1, 0),
 (4, 1, 2, 'teste', 'teste blabal ba', 'teste', 'teste@teste.com', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 1),
 (5, 1, 1, 'fsdfsd', 'fsdfds', 'fsdfds', 'fdgdfgdfg', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 0),
 (6, 1, 1, 'fsdfsd', 'fsdfsd', 'fsdfsdf', 'fsdfsdf', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 1),

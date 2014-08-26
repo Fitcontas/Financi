@@ -10,21 +10,27 @@ class HomeController extends \SlimController\SlimController
 	public function indexAction()
 	{
 
+        $conditions = [ 'instituicao_id = ? and status <> 0', \Financi\Auth::getUser()['instituicao_id'] ];
+
         $clientes = \Clientes::find('one', [
                 'select' => 'count(*) as qtd',
-                'conditions' => [ 'instituicao_id = ? and status <> 0', \Financi\Auth::getUser()['instituicao_id'] ]
+                'conditions' => $conditions
             ]);
 
         $empreendimentos = \Empreendimento::find('one', [
                 'select' => 'count(*) as qtd',
-                'conditions' => [ 'instituicao_id = ? and status <> 0', \Financi\Auth::getUser()['instituicao_id'] ]
+                'conditions' => $conditions
             ]);
 
-        //dump_r($clientes);
+        $corretores = \Corretor::find('one', [
+                'select' => 'count(*) as qtd',
+                'conditions' => $conditions
+            ]);
 
 		$this->render('home/index', array(
             'clientes' => $clientes,
             'empreendimentos' => $empreendimentos,
+            'corretores' => $corretores,
             'title' => 'Financi Imóveis',
             'foot_css' => ['css/style_.css']
         ));

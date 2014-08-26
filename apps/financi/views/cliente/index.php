@@ -36,13 +36,13 @@
                                     <li><a href="/cliente/cadastro/pj" class="no">Cliente PJ</a></li>    
                                 </ul>
                             </div>
-                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" action="excluir"> Excluir</button>
-                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" action="habilitar"> Habilitar</button>
-                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" action="desabilitar"> Desabilitar</button></div>
+                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" ng-click="acao('excluir')"> Excluir</button>
+                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" ng-click="acao('habilitar')"> Habilitar</button>
+                            <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" ng-click="acao('desabilitar')"> Desabilitar</button></div>
                         </div>
                         <div class="pull-right">
                             <div class="input-group">
-                              <input class="form-control" type="text" placeholder="Pesquisar" style="width:250px"  ng-model="search">
+                              <input class="form-control" type="search" placeholder="Pesquisar" ng-model="search" ng-enter="start()">
                               <span class="input-group-btn">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default btn-sm" type="button" ng-click="start()"><i class="fa fa-search"></i></button>

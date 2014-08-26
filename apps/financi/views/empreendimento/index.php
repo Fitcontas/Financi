@@ -29,7 +29,7 @@
                         </div>
                         <div class="pull-right">
                             <div class="input-group">
-                              <input class="form-control" type="text" placeholder="Pesquisar" style="width:250px"  ng-model="search">
+                              <input class="form-control" type="text" placeholder="Pesquisar" ng-model="search" ng-enter="start()">
                               <span class="input-group-btn">
                                 <button class="btn btn-default btn-sm" type="button" ng-click="start()"><i class="fa fa-search"></i></button>
                               </span>
@@ -109,11 +109,14 @@
                 </div>
 
                 <div class="tab-container">
+                        <div style="margin-top: -7px;" class="tab-container pull-right">
                         <ul class="nav nav-pills">
                           <li class="active"><a data-toggle="tab" href="#home">Principal</a></li>
                           <li class=""><a data-toggle="tab" href="#endereco">Endereço</a></li>
                           <li class=""><a data-toggle="tab" href="#corretores">Corretores Autorizados</a></li>
                         </ul>
+                        </div>
+                        <div class="clearfix"></div>
                         <!-- Início tab-content -->
                         <div class="tab-content">
                             <hr>
@@ -124,22 +127,22 @@
                                 <div class="spacer2">
                                     
                                     <div class="form-group">
-                                        <label class="col-sm-6 control-label" for="nome">Empreendimento  </label>
-                                        <div class="col-sm-18">
+                                        <label class="col-sm-7 control-label" for="nome">Empreendimento  </label>
+                                        <div class="col-sm-17">
                                             <input type="text" value="" name="nome" req="" class="form-control" ng-model="empreendimento.empreendimento" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-6 control-label" for="nome">Matrícula CRI  </label>
-                                        <div class="col-sm-18">
+                                        <label class="col-sm-7 control-label" for="nome">Matrícula CRI  </label>
+                                        <div class="col-sm-17">
                                             <input type="text" value="" name="nome" req="" class="form-control" ng-model="empreendimento.cri" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-6 control-label" for="nome">Comissão  </label>
-                                        <div class="col-sm-8">
+                                        <label class="col-sm-7 control-label" for="nome">Comissão  </label>
+                                        <div class="col-sm-7">
                                             <div class="input-group no-margin-bottom">
                                                 <input type="text" class="form-control mask-money" req="" ng-model="empreendimento.comissao" placeholder="0,00" maxlength="6" required>
                                                 <span class="input-group-addon">%</span>
@@ -148,33 +151,35 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-6 control-label" for="nome">Intermediárias  </label>
-                                        <div class="col-sm-8">
+                                        <label class="col-sm-7 control-label" for="nome">Intermediárias  </label>
+                                        <div class="col-sm-7">
                                             <div class="input-group no-margin-bottom">
                                                 <input type="text" class="form-control mask-money" req="" ng-model="empreendimento.intermediarias" placeholder="0,00" maxlength="6" required>
                                                 <span class="input-group-addon">%</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-8">
-                                            <select class="form-control" ng-model="empreendimento.periodo" req required>
+                                            <select class="form-control" ng-model="empreendimento.periodo" req required ng-disabled="!empreendimento.intermediarias > 0 || empreendimento.intermediarias == '0,00'">
                                                 <option value="1">Mensal</option>
                                                 <option value="2">Bimestral</option>
                                                 <option value="3">Trimestral</option>
                                                 <option value="4">Quatrimestral</option>
+                                                <option value="5">Semestral</option>
+                                                <option value="4">Anual</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-6 control-label" for="nome">Qtd. Parcelas  </label>
-                                        <div class="col-sm-8">
+                                        <label class="col-sm-7 control-label" for="nome">Qtd. Parcelas  </label>
+                                        <div class="col-sm-7">
                                             <input type="number" value="" name="nome" req="" class="form-control" ng-model="empreendimento.qtd_parcelas" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-6 control-label" for="nome">Taxa do Financiamento  </label>
-                                        <div class="col-sm-8">
+                                        <label class="col-sm-7 control-label" for="nome">Taxa do Financiamento  </label>
+                                        <div class="col-sm-7">
                                             <div class="input-group no-margin-bottom">
                                                 <input type="text" class="form-control mask-money" req="" ng-model="empreendimento.taxa_financiamento" placeholder="0,00" maxlength="6" required>
                                                 <span class="input-group-addon">%</span>
@@ -183,8 +188,8 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-sm-6 control-label" for="nome">Índice de Correção  </label>
-                                        <div class="col-sm-8">
+                                        <label class="col-sm-7 control-label" for="nome">Índice de Correção  </label>
+                                        <div class="col-sm-7">
                                             <select class="form-control" ng-model="empreendimento.indice_correcao" required>
                                                 <option value="1">IPCA</option>
                                             </select>
@@ -199,20 +204,15 @@
                             <div id="endereco" class="tab-pane cont">
                                 <div class="spacer2">
                                     
-                                    <div class="form-group">
+                                    <div class="form-group no-margin-bottom">
                                         <label  class="col-sm-6 control-label" for="">CEP</label>
-                                         <div class="col-sm-8">
-                                            <div class="input-group no-margin-bottom">
+                                        <div class="col-sm-8">
                                                 <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" ng-model="empreendimento.cep" id="endereco-secundario" ng-blur="completaEndereco()">
-                                                <span class="input-group-btn">
-                                                    <button title="Pesquisar CEP" type="button" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
-                                                </span>
-                                            </div>
                                         </div>
                                         <div class="col-sm-10">
                                             <div class="form-group">
                                                 <div class="input-group no-margin-bottom">
-                                                    <button class="btn-link completa" type="button" ng-click="completaEndereco()">Completar endereço</button>
+                                                    <button class="btn-link buscar-cep" type="button">Buscar CEP!</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -220,10 +220,10 @@
 
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="nome">Logradouro  </label>
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-11">
                                             <input type="text" value="" name="empreendimento[logradouro]" req="" class="form-control" ng-model="empreendimento.logradouro" required>
                                         </div>
-                                        <label class="col-sm-4 control-label" for="empreendimento[numero]">Número  </label>
+                                        <label class="col-sm-3 control-label" for="empreendimento[numero]">Número  </label>
                                         <div class="col-sm-4">
                                             <input type="text" value="" name="empreendimento[numero]" req="" class="form-control" ng-model="empreendimento.numero" required>
                                         </div>
@@ -238,7 +238,7 @@
 
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="empreendimento[bairro]">Bairro  </label>
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-18">
                                             <input type="text" value="" name="empreendimento[bairro]" req="" class="form-control" ng-model="empreendimento.bairro" required>
                                         </div>
                                     </div>
@@ -249,8 +249,8 @@
                                             <select class="form-control" name="empreendimento[uf]" ng-model="empreendimento.uf" req required ng-options="uf.uf as uf.uf for uf in ufs.ufs" ng-selected="empreendimento.uf" ng-change="getCidades(empreendimento.uf)">
                                             </select>
                                         </div>
-                                        <label class="col-sm-4 control-label" for="empreendimento[cidade]">Cidade  </label>
-                                        <div class="col-sm-11">
+                                        <label class="col-sm-3 control-label" for="empreendimento[cidade]">Cidade  </label>
+                                        <div class="col-sm-12">
                                             <select class="form-control" name="empreendimento[cidade]" ng-model="empreendimento.cidade" req required ng-options="cidade.nome as cidade.nome for cidade in cidades.cidades" ng-selected="empreendimento.cidade">
                                                 
                                             </select>
@@ -275,12 +275,12 @@
                                         </div>
                                     </div>
                                     <div id="scrolling">
-                                        <table class="table table-bordered">
+                                        <table class="table-corretor">
                                             <tbody>
-                                                <tr ng-repeat="corretor in empreendimento.corretores">
-                                                    <td>{{$index +1}}</td>
-                                                    <td>{{corretor.nome}}</td>
-                                                    <td><a href="javascript:void(0)" ng-click="removerCorretor(corretor.id)">Excluir</a></td>
+                                                <tr ng-repeat="corretor in empreendimento.corretores" ng-mouseleave="count=0" ng-mouseover="count=1" ng-init="count=0" ng-class-odd="'odd'" ng-class-even="'even'">
+                                                    <td width="10%">{{$index +1}}</td>
+                                                    <td width="80%">{{corretor.nome}}</td>
+                                                    <td width="10%"> <a ng-show="count==1" href="javascript:void(0)" ng-click="removerCorretor(corretor.id)">Excluir</a></td>
                                                 </tr>
                                             </tbody>
                                         </table>

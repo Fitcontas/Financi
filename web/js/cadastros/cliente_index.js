@@ -32,11 +32,11 @@ AppFinanci.controller('FormClinteGridCtrl', function($scope, $http, Clientes) {
             chamaMsg('10', false);
         } else {
 
-            var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.usuarios;
+            var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.clientes;
 
             $http({
                 'method': 'post',
-                'url': '/usuario/acoes/' + acao_name,
+                'url': '/cliente/acoes/' + acao_name,
                 'data': itens,
             }).success(function(data) {
                 console.log(data);

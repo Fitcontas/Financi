@@ -89,8 +89,10 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
             wheelStep: 10
         });
 
-        $scope.cidades = Cidades.get({ uf: item.uf });
-
+        if(item.uf) {
+            $scope.cidades = Cidades.get({ uf: item.uf });
+        }
+        
         $scope.lote = item ? item : {};
 
         $('.modal').modal({
@@ -122,17 +124,20 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
     $scope.completaEndereco = function(endereco) {
 
         var cep = $scope.lote.cep;
-        $http({
-            'method': 'get',
-            'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
-        }).success(function(data) {
-            $scope.lote.logradouro = data.logradouro;
-            $scope.lote.bairro = data.bairro;
 
-            $scope.lote.uf = data.uf;
-            $scope.lote.cidade = data.cidade;
-            $scope.cidades = Cidades.get({ uf: data.uf });
-        });
+        if(cep != undefined) {
+            $http({
+                'method': 'get',
+                'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
+            }).success(function(data) {
+                $scope.lote.logradouro = data.logradouro;
+                $scope.lote.bairro = data.bairro;
+
+                $scope.lote.uf = data.uf;
+                $scope.lote.cidade = data.cidade;
+                $scope.cidades = Cidades.get({ uf: data.uf });
+            });
+        }
     };
 
     $scope.getCidades = function(uf) {

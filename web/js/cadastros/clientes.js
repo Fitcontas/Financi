@@ -3,6 +3,7 @@
 AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
     $scope.endereco = 1;
     $scope.cliente = {
+        'endereco': [{}, {}],
         'telefones': [
             {},
         ],
@@ -17,9 +18,10 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
         $scope.endereco = $scope.endereco ? 0 : 1;
     }
 
-    $scope.cidades = [{"id":null,"nome":null}];
-    $scope.cidades_endereco_principal = [{"id":null,"nome":null}];
-    $scope.cidades_endereco_secundario = [{"id":null,"nome":null}];
+    $scope.cidades = [];
+    $scope.cidades_endereco_principal = [];
+    $scope.cidades_endereco_secundario = [];
+    $scope.cidades_conjuge = [];
 
     $scope.salvar = function(form, add) {
         console.log($scope.cliente);
@@ -43,24 +45,38 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
     }
 
     $scope.get_cidade = function(id, destino, cidade = false) {
-        $('.loading').show();        
+             
         
-        var uf = $('#'+id).val();
+        if(destino == 'cidades_endereco_principal') {
+            var uf = $scope.cliente.endereco[0].uf;
+        } else if(destino == 'cidades_endereco_secundario') {
+            var uf = $scope.cliente.endereco[1].uf;
+        } else if(destino == 'cidades') {
+            var uf = $scope.cliente.naturalidade_uf;
+        } else if(destino == 'cidades_conjuge') {
+            var uf = $scope.cliente.conjuge.naturalidade_uf;
+        }
         
         var destino = destino;
+        if(uf != undefined && uf.length > 0) {
+            $('.loading').show();  
+            Cidades.get({'uf': uf }).$promise.then(function(data) {
+                $('.loading').hide();
+                console.log($scope.cliente.endereco[0].cidade);
+                if(destino == 'cidades') {
+                    $scope.cidades = data.cidades;
+                } else if(destino == 'cidades_endereco_principal') {
+                    $scope.cidades_endereco_principal = data.cidades;
+                    console.log(data.cidades);
+                } else if(destino == 'cidades_endereco_secundario') {
+                    $scope.cidades_endereco_secundario = data.cidades;
+                } else if(destino == 'cidades_conjuge') {
+                    $scope.cidades_conjuge = data.cidades;
+                    $scope.cliente.conjuge.naturalidade = parseInt($scope.cliente.conjuge.naturalidade);
+                }
 
-        Cidades.get({'uf': uf }).$promise.then(function(data) {
-            $('.loading').hide();
-            
-            if(destino == 'cidades') {
-                $scope.cidades = data.cidades;
-            } else if(destino == 'cidades_endereco_principal') {
-                $scope.cidades_endereco_principal = data.cidades;
-            } else if(destino == 'cidades_endereco_secundario') {
-                $scope.cidades_endereco_secundario = data.cidades;
-            }
-
-        });
+            });
+        }
         
     }
 
@@ -99,24 +115,23 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
 
         var cep = endereco ? $scope.cliente.endereco[0].cep : $scope.cliente.endereco[1].cep;
         var indice = endereco ? 0 : 1;
-        $http({
-            'method': 'get',
-            'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
-        }).success(function(data) {
-            $scope.cliente.endereco[indice].logradouro = data.logradouro;
-            $scope.cliente.endereco[indice].bairro = data.bairro;
-            
-            if(!indice) {
-                $('#uf_endereco_principal').val(data.uf);
-                $scope.cidades_endereco_principal = [{'id':data.cidade_id, 'nome':data.cidade, 'selected':true}];
-                //$scope.get_cidade('uf_endereco_principal', 'cidades_endereco_principal', data.cidade_id);
-            } else {
-                $('#uf_endereco_secundario').val(data.uf);
-                $scope.cidades_endereco_secundario = [{'id':data.cidade_id, 'nome':data.cidade, 'selected':true}];
-                //$scope.get_cidade('uf_endereco_secundario', 'cidades_endereco_secundario', data.cidade_id);
-            }
+        if(cep != undefined && cep.length >= 8) {
+            $http({
+                'method': 'get',
+                'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
+            }).success(function(data) {
+                $scope.cliente.endereco[indice].logradouro = data.logradouro;
+                $scope.cliente.endereco[indice].bairro = data.bairro;
+                $scope.cliente.endereco[indice].uf = data.uf;
+                $scope.cliente.endereco[indice].cidade = data.cidade_id;
+                if(!indice) {
+                    $scope.get_cidade('uf_endereco_principal', 'cidades_endereco_principal', data.uf);
+                } else {
+                    $scope.get_cidade('uf_endereco_secundario', 'cidades_endereco_secundario', data.uf);
+                }
 
-        });
+            });
+        }
     }
 
     $scope.addTelefone = function() {

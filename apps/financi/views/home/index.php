@@ -28,7 +28,7 @@
                     <div class="stat"><span class="spk2"><canvas style="display: inline-block; width: 80px; height: 16px; vertical-align: top;" width="80" height="16"></canvas></span></div>
                 </div>
                 <div class="butpro butstyle">
-                    <div class="sub"><h2>Corretores</h2><span>184</span></div>
+                    <div class="sub"><h2>Corretores</h2><span><?php echo $corretores->qtd ?></span></div>
                     <div class="stat"><span class="spk3"><canvas style="display: inline-block; width: 80px; height: 16px; vertical-align: top;" width="80" height="16"></canvas></span></div>
                 </div>  
 

@@ -64,7 +64,8 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
 
         Usuarios.get(termos).$promise.then(function(data){
             $scope.model = data;
-            $scope.paginas = new Array(data.paginas);
+            $scope.paginas = new Array(data.pagination.paginas);
+            $scope.pagination = data.pagination;
         });
     }
 

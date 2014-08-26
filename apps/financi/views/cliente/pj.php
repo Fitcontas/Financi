@@ -6,12 +6,12 @@
 
         </div>
 
-        <div class="header">
+        <div class="header padding-bottom">
                 <h3 class="pull-left">Cadastros de Clientes</h3>
                 <div style="margin-top: -7px;" class="tab-container pull-right">
                     <ul class="nav nav-pills flat-tabs">
-                          <li class="active"><a data-toggle="tab" href="#home"><i class="fa  fa-info-circle"></i> Identificação</a></li>
-                          <li class=""><a data-toggle="tab" href="#conjuge"><i class="fa  fa-male"></i> Sócio</a></li>
+                          <li class="active"><a data-toggle="tab" href="#home">Identificação</a></li>
+                          <li class=""><a data-toggle="tab" href="#conjuge">Sócio</a></li>
                           <!--<li class=""><a data-toggle="tab" href="#messages">Profissional</a></li>-->
                         </ul>
                 </div>
@@ -111,8 +111,8 @@
 
                                     ?>
 
-                                    <div class="header">
-                                        <h3>Endereço</h3>
+                                    <div class="header margin-bottom">
+                                        <h4>Endereço</h4>
                                     </div>
                                     
                                         <div id="endereco-principal" ng-show="endereco">
@@ -120,19 +120,16 @@
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label for="cliente[endereco][0][cep]">CEP</label>
-                                                        <div class="input-group">
-                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][0][cep]" ng-model="cliente.endereco.0.cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required>
-                                                            <span class="input-group-btn">
-                                                                <button title="Pesquisar CEP" type="button" name="enderecos[0][buscar]" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
-                                                            </span>
-                                                        </div>
+                                                       
+                                                        <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][0][cep]" ng-model="cliente.endereco.0.cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required>
+                                                      
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-19">
                                                     <div class="form-group">
                                                         <label for="enderecos[0][completar]">&nbsp;</label>
                                                         <div class="input-group no-margin-bottom">
-                                                            <button class="btn-link completa" type="button" ng-click="completaEndereco(true)">Completar endereço</button>
+                                                            <button class="btn-link buscar-cep" type="button">Buscar CEP!</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -229,19 +226,14 @@
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label for="cliente[endereco][1][cep]">CEP</label>
-                                                        <div class="input-group">
-                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][1][cep]" ng-model="cliente.endereco.1.cep" id="endereco-secundario" ng-blur="completaEndereco(false)">
-                                                            <span class="input-group-btn">
-                                                                <button title="Pesquisar CEP" type="button" name="enderecos[1][buscar]" class="btn btn-default buscar-cep"><i class="fa fa-search"></i></button>
-                                                            </span>
-                                                        </div>
+                                                         <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][1][cep]" ng-model="cliente.endereco.1.cep" id="endereco-secundario" ng-blur="completaEndereco(false)">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-19">
                                                     <div class="form-group">
                                                         <label for="enderecos[1][completar]">&nbsp;</label>
                                                         <div class="input-group no-margin-bottom">
-                                                            <button class="btn-link completa" type="button" ng-click="completaEndereco(false)">Completar endereço</button>
+                                                            <button class="btn-link buscar-cep" type="button">Buscar CEP!</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -337,7 +329,7 @@
 
                                         <div class="row">
                                             <div class="fone col-sm-12 col-lg-12">
-                                                <div class="header">
+                                                <div class="header margin-bottom">
                                                     <h4>Telefone</h4>
                                                 </div>
                                                 <div class="content boxadd clearfix">
@@ -376,7 +368,7 @@
 
 
                                             <div class="email col-sm-12 col-lg-12">
-                                                    <div class="header">
+                                                    <div class="header margin-bottom">
                                                     <h4>E-mail</h4>
                                                 </div>
                                                     <div style="" class="content boxadd clearfix">

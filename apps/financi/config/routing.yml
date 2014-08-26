@@ -56,6 +56,11 @@ cliente_all:
     route: Cliente:all
     url: /cliente/all(/:id)
 
+cliente_acoes:
+    method: post
+    route: Cliente:acoes
+    url: /cliente/acoes/:acao
+
 cliente_busca:
     method: get
     route: Cliente:busca

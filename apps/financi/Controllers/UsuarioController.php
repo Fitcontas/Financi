@@ -69,7 +69,15 @@ class UsuarioController extends \SlimController\SlimController
             $arr[] = $u_arr;
         }
 
-        return $this->app->response->setBody(json_encode( ['usuarios' => $arr, 'paginas' => $total_paginas] ));
+        $pagination = [
+            'paginas' => $total_paginas, 
+            'limite' => $limite, 
+            'inicio' => $inicio, 
+            'total_pagina'=>count($usuarios), 
+            'total_geral'=>count($usuarios_total)
+        ];
+
+        return $this->app->response->setBody(json_encode( ['usuarios' => $arr, 'pagination' => $pagination] ));
     }
 
     public function novoAction()

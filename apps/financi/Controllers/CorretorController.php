@@ -176,9 +176,12 @@ class CorretorController extends \SlimController\SlimController
         $secundario = isset($enderecos[1]) ? $enderecos[1]->to_array() : false;
 
         $corretor_array = $corretor->to_array();
+
         $corretor_array['data_nascimento'] = isset($corretor_array['data_nascimento']) ? $corretor->data_nascimento->format('d/m/Y') : '';
 
         $corretor_array['expedicao'] = isset($corretor_array['expedicao']) ? $corretor->expedicao->format('d/m/Y') : '';
+
+        $corretor_array['data_cadastro'] = isset($corretor_array['data_cadastro']) ? $corretor->data_cadastro->format('d/m/Y') : '';
 
         if(!$corretor_array['data_nascimento']) {
             unset($corretor_array['data_nascimento']);

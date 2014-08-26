@@ -9,16 +9,8 @@ class ClienteController extends \SlimController\SlimController
 {
 	public function indexAction()
 	{
-        $clientes = \Clientes::find('all');
-
-        foreach ($clientes as $c) {
-            $find = \Clientes::find($c->id);
-            $find->status = 1;
-            $find->save();
-        }
 
 		$this->render('cliente/index.php', [
-                'clientes' => $clientes,
                 'foot_js' => [ 'js/cadastros/cliente_index.js', 'bower_components/lodash/dist/lodash.min.js' ]
             ]);
 	}
@@ -320,9 +312,46 @@ class ClienteController extends \SlimController\SlimController
                 return $this->app->response->setBody(json_encode( ['success' => true] ));
 
             }
-
-
         }
         
+    }
+
+    public function acoesAction($acao) 
+    {
+        $this->app->contentType('application/json');
+        $data = json_decode($this->app->request->getBody());
+
+        if($acao == 'excluir') {
+            foreach ($data as $d) {
+                $cliente = \Clientes::find($d->id);
+                $cliente->status = 0;
+                if(count($cliente)) {
+                    $cliente->save();
+                }
+            }
+            return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] )); 
+        }
+
+        if($acao == 'desabilitar') {
+            foreach ($data as $d) {
+                $cliente = \Clientes::find($d->id);
+                $cliente->status = 2;
+                if(count($cliente)) {
+                    $cliente->save();
+                }
+            }
+            return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 4] )); 
+        }
+
+        if($acao == 'habilitar') {
+            foreach ($data as $d) {
+                $cliente = \Clientes::find($d->id);
+                $cliente->status = 1;
+                if(count($cliente)) {
+                    $cliente->save();
+                }
+            }
+            return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 4] )); 
+        }
     }
 }

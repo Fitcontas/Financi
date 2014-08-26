@@ -32,7 +32,7 @@
                         </div>
                        <div class="pull-right">
                             <div class="input-group">
-                              <input class="form-control" type="text" placeholder="Pesquisar" style="width:250px"  ng-model="search">
+                              <input class="form-control" type="text" placeholder="Pesquisar" ng-model="search" ng-enter="start()">
                               <span class="input-group-btn">
                                 <button class="btn btn-default btn-sm" type="button" ng-click="start()"><i class="fa fa-search"></i></button>
                               </span>
