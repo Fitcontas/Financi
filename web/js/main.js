@@ -33,6 +33,36 @@ function required(idForm, modal) {
 
 }
 
+function multiplos(numero, limite) {
+    console.log('Numero: '+numero+' Limite: '+limite)
+    var multiplos = [];
+    var i = 1;
+
+    while( (numero * i) <= limite ) {
+        multiplos.push({ 'qtd': numero * i });
+        i++;
+    }
+
+    return multiplos;
+}
+
+//Retorna um numro float 
+function toFloat(str, toFixed){
+
+     if(str){
+        str = parseFloat(str.replace('.', '').replace('.', '').replace('.', '').replace(',', '.'));
+     }else{
+        str = parseFloat('0');
+     }
+
+     if(toFixed){
+        str.toFixed(2);
+     }
+
+     return str;
+}
+
+
 $(function() {
 
     /**
@@ -58,6 +88,4 @@ $(function() {
 
         event.preventDefault();
     });
-
-
 })

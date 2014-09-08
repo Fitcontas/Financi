@@ -165,7 +165,7 @@
                                                 <option value="3">Trimestral</option>
                                                 <option value="4">Quatrimestral</option>
                                                 <option value="5">Semestral</option>
-                                                <option value="4">Anual</option>
+                                                <option value="6">Anual</option>
                                             </select>
                                         </div>
                                     </div>

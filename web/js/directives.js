@@ -60,4 +60,24 @@ AppFinanci.directive("passwordVerify", function() {
             }
         });
     };
-});
+})
+
+.directive('ngMoney', function() {
+    return {
+      require: '?ngModel',
+      link: function($scope, element, attrs, controller) {
+        element.maskMoney({prefix:'', allowNegative: true, thousands:'.', decimal:',', affixesStay: false, allowZero:true});
+      }
+    };
+})
+
+.directive('ngSelect2', function() {
+    return {
+      require: '?ngModel',
+      link: function($scope, element, attrs, controller) {
+        element.select2();
+      }
+    };
+})
+
+;

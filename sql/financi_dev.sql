@@ -3,9 +3,9 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 25/08/2014 às 22:48
+-- Tempo de Geração: 08/09/2014 às 06:48
 -- Versão do servidor: 5.5.38-0ubuntu0.14.04.1
--- Versão do PHP: 5.5.15-1+deb.sury.org~trusty+1
+-- Versão do PHP: 5.5.16-1+deb.sury.org~trusty+1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -178,6 +178,79 @@ INSERT INTO `cliente_telefone` (`id`, `cliente_id`, `tipo`, `ddd`, `numero`) VAL
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `contrato`
+--
+
+CREATE TABLE IF NOT EXISTS `contrato` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lote_id` int(11) NOT NULL,
+  `instituicao_id` int(11) NOT NULL,
+  `desconto` decimal(10,2) NOT NULL,
+  `entrada` decimal(10,2) NOT NULL,
+  `intermediarias` decimal(10,2) NOT NULL,
+  `intervalo_intermediarias` int(11) NOT NULL,
+  `qtd_parcelas` int(11) NOT NULL,
+  `primeiro_vencimento` date NOT NULL,
+  `data_emissao` datetime NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `fk_contrato_lote1_idx` (`lote_id`),
+  KEY `fk_contrato_instituicao1_idx` (`instituicao_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `contrator_corretor`
+--
+
+CREATE TABLE IF NOT EXISTS `contrator_corretor` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `contrato_id` int(11) NOT NULL,
+  `corretor_id` int(11) NOT NULL,
+  `comissao` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_contrator_corretor_contrato1_idx` (`contrato_id`),
+  KEY `fk_contrator_corretor_corretor1_idx` (`corretor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `contrato_cliente`
+--
+
+CREATE TABLE IF NOT EXISTS `contrato_cliente` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `contrato_id` int(11) NOT NULL,
+  `cliente_id` int(11) NOT NULL,
+  `participacao` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_contrato_cliente_contrato1_idx` (`contrato_id`),
+  KEY `fk_contrato_cliente_cliente1_idx` (`cliente_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `contrato_parcela`
+--
+
+CREATE TABLE IF NOT EXISTS `contrato_parcela` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `contrato_id` int(11) NOT NULL,
+  `numero` varchar(45) NOT NULL,
+  `vencimento` date DEFAULT NULL,
+  `valor` decimal(10,2) NOT NULL,
+  `intermediaria` tinyint(1) DEFAULT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  KEY `fk_contrato_parcela_contrato1_idx` (`contrato_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `corretor`
 --
 
@@ -325,8 +398,8 @@ CREATE TABLE IF NOT EXISTS `empreendimento` (
 --
 
 INSERT INTO `empreendimento` (`id`, `instituicao_id`, `empreendimento`, `cri`, `comissao`, `entrada`, `intermediarias`, `periodo`, `qtd_parcelas`, `taxa_financiamento`, `indice_correcao`, `cep`, `logradouro`, `numero`, `complemento`, `bairro`, `cidade`, `uf`, `status`) VALUES
-(1, 1, 'Village dos Lagos', '19.560, livro A2', 5.00, 15.00, 3.00, 4, 96, 0.00, 1, '45985160', 'Rua Eurico Gaspar DUtra', '273', NULL, 'Centro', 'Teixeira de Freitas', 'BA', 1),
-(3, 1, 'residencial italia', 'ita ld949. ijkel', 30.00, 0.00, 15.00, 4, 96, 15.00, 1, '45985-16', 'Avenida Marechal Castelo Branco - atÃ© 549 - lado Ã­mpar', '273', NULL, 'Centro', 'Teixeira de Freitas', 'BA', 1),
+(1, 1, 'Village dos Lagos', '19.560, livro A2', 5.00, 15.00, 3.00, 6, 96, 1.00, 1, '45985160', 'Rua Eurico Gaspar DUtra', '273', NULL, 'Centro', 'Teixeira de Freitas', 'BA', 1),
+(3, 1, 'residencial italia', 'ita ld949. ijkel', 30.00, 0.00, 15.00, 4, 96, 1.00, 1, '45985-16', 'Avenida Marechal Castelo Branco - atÃ© 549 - lado Ã­mpar', '273', NULL, 'Centro', 'Teixeira de Freitas', 'BA', 1),
 (4, 1, 'Vila FEliz', '4554', 15.00, 0.00, 45.00, 4, 45, 1.00, 1, '45985-16', 'Avenida Marechal Castelo Branco - atÃ© 549 - lado Ã­mpar', '273', NULL, 'Centro', 'Teixeira de Freitas', 'BA', 1);
 
 -- --------------------------------------------------------
@@ -431,7 +504,7 @@ CREATE TABLE IF NOT EXISTS `lote` (
   `status` int(11) DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `fk_lote_empreendimento1_idx` (`empreendimento_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Fazendo dump de dados para tabela `lote`
@@ -439,7 +512,26 @@ CREATE TABLE IF NOT EXISTS `lote` (
 
 INSERT INTO `lote` (`id`, `empreendimento_id`, `numero`, `quadra`, `valor`, `area_total`, `matricula`, `inscricao_municipal`, `frente`, `frente_metro`, `fundo`, `fundo_metro`, `lateral_direita`, `lateral_direita_metro`, `lateral_esquerda`, `lateral_esquerda_metro`, `cep`, `logradouro`, `num`, `complemento`, `bairro`, `cidade`, `uf`, `status`) VALUES
 (1, 1, '0001', 'A9', 250000.00, '1500', '12345687', '468798789', 'fd', 2.00, 'fd', 2.00, 'fd', 3.00, 'fd', 2.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(2, 3, '001', 'a5', 450000.00, '2500', '65656', '56565', 'fdfsfds', 2.00, 'fsdfsd', 4.00, 'fsdsd', 4.00, 'fsdfds', 5.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+(2, 3, '001', 'a5', 450000.00, '2500', '65656', '56565', 'fdfsfds', 2.00, 'fsdfsd', 4.00, 'fsdsd', 4.00, 'fsdfds', 5.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
+(3, 1, '354', 'A95', 40000.00, '250', 'A65455', '6565454', 'fadfsafsd', 5.00, 'fsdfsd', 2.00, 'fdsfsdf', 6.00, 'fsdfsd', 65.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `parcela_entrada`
+--
+
+CREATE TABLE IF NOT EXISTS `parcela_entrada` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `contrato_parcela_id` int(11) NOT NULL,
+  `tipo` int(1) NOT NULL,
+  `forma` char(1) DEFAULT NULL,
+  `numero_cheque` varchar(45) DEFAULT NULL,
+  `vencimento` date DEFAULT NULL,
+  `valor` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_parcela_entrada_contrato_parcela1_idx` (`contrato_parcela_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -521,6 +613,33 @@ ALTER TABLE `cliente_telefone`
   ADD CONSTRAINT `fk_cliente_telefone_cliente1` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
+-- Restrições para tabelas `contrato`
+--
+ALTER TABLE `contrato`
+  ADD CONSTRAINT `fk_contrato_instituicao1` FOREIGN KEY (`instituicao_id`) REFERENCES `instituicao` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_contrato_lote1` FOREIGN KEY (`lote_id`) REFERENCES `lote` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Restrições para tabelas `contrator_corretor`
+--
+ALTER TABLE `contrator_corretor`
+  ADD CONSTRAINT `fk_contrator_corretor_contrato1` FOREIGN KEY (`contrato_id`) REFERENCES `contrato` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_contrator_corretor_corretor1` FOREIGN KEY (`corretor_id`) REFERENCES `corretor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Restrições para tabelas `contrato_cliente`
+--
+ALTER TABLE `contrato_cliente`
+  ADD CONSTRAINT `fk_contrato_cliente_cliente1` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_contrato_cliente_contrato1` FOREIGN KEY (`contrato_id`) REFERENCES `contrato` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Restrições para tabelas `contrato_parcela`
+--
+ALTER TABLE `contrato_parcela`
+  ADD CONSTRAINT `fk_contrato_parcela_contrato1` FOREIGN KEY (`contrato_id`) REFERENCES `contrato` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
 -- Restrições para tabelas `corretor`
 --
 ALTER TABLE `corretor`
@@ -562,6 +681,12 @@ ALTER TABLE `empreendimento_corretor`
 --
 ALTER TABLE `lote`
   ADD CONSTRAINT `fk_lote_empreendimento1` FOREIGN KEY (`empreendimento_id`) REFERENCES `empreendimento` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Restrições para tabelas `parcela_entrada`
+--
+ALTER TABLE `parcela_entrada`
+  ADD CONSTRAINT `fk_parcela_entrada_contrato_parcela1` FOREIGN KEY (`contrato_parcela_id`) REFERENCES `contrato_parcela` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

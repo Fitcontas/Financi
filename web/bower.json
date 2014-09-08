@@ -9,7 +9,8 @@
         "lodash": "2.4.*",
         "angular-ngMask": "*",
         "angular-typeahead": "*",
-        "slimScroll": "1.3.1"
+        "slimScroll": "1.3.1",
+        "accounting": "*"
     },
     "install": {
         "path": {

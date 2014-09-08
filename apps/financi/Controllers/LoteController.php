@@ -134,4 +134,22 @@ class LoteController extends \SlimController\SlimController
             return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 4] )); 
         }
     }
+
+    public function lotesAction($empreendimento_id)
+    {
+
+        $empreendimento = \Empreendimento::find($empreendimento_id);
+
+        $lotes = \Lote::find('all', [
+                'conditions' => [ 'empreendimento_id = ?', $empreendimento_id ]
+            ]);
+
+        $array = [];
+
+        foreach ($lotes as $l) {
+            $array[] = $l->to_array();
+        }
+
+        return $this->app->response->setBody(json_encode( [ 'lotes' => $array, 'empreendimento' => $empreendimento->to_array() ] ));
+    }
 }

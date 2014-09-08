@@ -706,6 +706,11 @@ var FitMessage = (function() {
                 t: 'd',
                 tm: 0
             },
+            150: {
+                b: 'O valor da entrada está abaixo do mínimo permitido',
+                t: 'd',
+                tm: false
+            },
             
             500: {
                 b: 'Erro no processamento no servidor...',

@@ -354,4 +354,19 @@ class ClienteController extends \SlimController\SlimController
             return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 4] )); 
         }
     }
+
+    public function queryAction($query)
+    {
+        $this->app->contentType('application/json');
+        $clientes = \Clientes::find('all', [
+                'conditions' => ['cliente.status = 1 AND cliente.nome like ?', '%'.$query.'%']
+            ]);
+
+        $arr = [];
+        foreach ($clientes as $cliente) {
+            $arr[] = $cliente->to_array();
+        }
+
+        return $this->app->response->setBody(json_encode( $arr ));
+    }
 }

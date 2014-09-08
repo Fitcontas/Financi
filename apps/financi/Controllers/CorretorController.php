@@ -331,5 +331,20 @@ class CorretorController extends \SlimController\SlimController
         }
 
     }
+
+    public function queryAction($query)
+    {
+        $this->app->contentType('application/json');
+        $corretores = \Corretor::find('all', [
+                'conditions' => ['corretor.status = 1 AND corretor.nome like ?', '%'.$query.'%']
+            ]);
+
+        $arr = [];
+        foreach ($corretores as $corretor) {
+            $arr[] = $corretor->to_array();
+        }
+
+        return $this->app->response->setBody(json_encode( $arr ));
+    }
         
 }

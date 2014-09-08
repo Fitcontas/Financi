@@ -50,6 +50,10 @@ AppFinanci.factory('Cidades', function($resource) {
     return $resource('/lote/all/:id', {'id':'@id'});
 })
 
+.factory('LotesEmpreendimento', function($resource) {
+    return $resource('/lote/lotes/:id', {'id':'@id'});
+})
+
 .factory('LoteNovo', function($resource) {
     return $resource('/lote/novo/:id', {'id':'@id'});
 })
