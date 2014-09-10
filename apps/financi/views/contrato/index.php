@@ -459,13 +459,50 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button class="btn btn-primary" ng-disabled="ContratoForm.$invalid" ng-click="abaNext(2)">Salvar</button>
+                        <button class="btn btn-primary" ng-disabled="ContratoForm.$invalid" ng-click="addEntrada()">Salvar</button>
                         <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
                     </div>
 
                 </div>
-                <!-- Fim aba 2 -->
+                <!-- Fim aba 3 -->
                 <div class="clearfix"></div>
+
+                <!-- Aba 4 -->
+                <div ng-show="aba == 4">
+
+                    <div class="header">
+                        <h4>Entrada</h4>
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <div class="btn-group" id="buttons-grid">
+                            <button type="button" class="btn btn-default" ng-click="abaNext(3)"> Novo</button>
+                            <button type="button" class="btn btn-default" ng-disabled=""> Excluir</button>
+                        </div>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox"></th>
+                                <th>Tipo</th>
+                                <th>Valor</th>
+                                <th>Conta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="entrada in contrato.entrada_config.entradas">
+                                <td><input type="checkbox"></td>
+                                <td>{{ entrada.tipo == 1 ? 'Dinherio' : 'Cheque' }}</td>
+                                <td>{{ entrada.valor }}</td>
+                                <td>Carteira</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Fim aba 4 -->
+                <div class="clearfix"></div>
+
+
             </div>
 
             <div class="modal-footer" ng-show="aba == 2">

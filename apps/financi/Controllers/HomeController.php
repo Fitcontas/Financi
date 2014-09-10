@@ -31,7 +31,7 @@ class HomeController extends \SlimController\SlimController
             'clientes' => $clientes,
             'empreendimentos' => $empreendimentos,
             'corretores' => $corretores,
-            'title' => 'Financi Imóveis',
+            //'title' => 'Financi Imóveis',
             'foot_css' => ['css/style_.css']
         ));
 	}
@@ -41,7 +41,7 @@ class HomeController extends \SlimController\SlimController
 
 		$this->render('home/login', array(
 			'layout' => 'login.php',
-			'title' => 'Financi Imóveis - Login',
+			//'title' => 'Financi Imóveis - Login',
 			'head_css' => ['css/login.css']
 		));
 	}

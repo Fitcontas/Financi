@@ -40,7 +40,8 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
             clientes: [{}],
             desconto: 0,
             entrada_config: {
-                meio_pagamento_id: 1
+                meio_pagamento_id: 1,
+                entradas: []
             }
         };
 
@@ -191,7 +192,15 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
             console.log($scope.contrato.entrada_config.parcelas);
 
         }
-    }
+    };
+
+    $scope.addEntrada = function() {
+        $scope.aba = 4;
+        $scope.contrato.entrada_config.entradas.push({
+            tipo: $scope.contrato.entrada_config.meio_pagamento_id,
+            valor: $scope.contrato.entrada_config.valor
+        });
+    };
 
 })
 

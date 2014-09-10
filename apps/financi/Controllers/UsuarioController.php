@@ -89,7 +89,7 @@ class UsuarioController extends \SlimController\SlimController
 
         if(isset($data->id)) {
             $usuario = \Usuario::find($data->id);
-            $usuario->usuario = $data->usuario;
+            $usuario->usuario = $data->email;
             $usuario->email = $data->email;
             $usuario->apelido = $data->apelido;
             $usuario->nome = $data->nome;
@@ -100,7 +100,7 @@ class UsuarioController extends \SlimController\SlimController
             }
         } else {
             $usuario = new \Usuario();
-            $usuario->usuario = $data->usuario;
+            $usuario->usuario = $data->email;
             $usuario->email = $data->email;
             $usuario->apelido = $data->apelido;
             $usuario->nome = $data->nome;
