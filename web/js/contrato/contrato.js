@@ -29,8 +29,8 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
     $scope.parcelas_geradas = [];
     $scope.entrada = null;
 
-    $scope.abaNext = function() {
-        $scope.aba = 2
+    $scope.abaNext = function(aba) {
+        $scope.aba = aba;
     }
 
     $scope.showForm = function(item) {
@@ -38,8 +38,13 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
         $scope.contrato = item ? item : {
             corretores: [{}],
             clientes: [{}],
-            desconto: 0
-        };;
+            desconto: 0,
+            entrada_config: {
+                meio_pagamento_id: 1
+            }
+        };
+
+        $scope.parcelas_geradas = [];
 
         $('#contrato_modal').modal({
             show: true,
@@ -149,9 +154,47 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
         });
     };
 
+    $scope.gerarEntradasCheque = function() {
+
+        var valor = angular.element('input[name="contrato[entrada_config][valor]"]').val();
+
+        if($scope.contrato.entrada_config.meio_pagamento_id == 2 
+            && $scope.contrato.entrada_config.meio_forma_id == 2
+            && valor.length > 3
+            && valor != '00,00') {
+
+            var parcela = toFloat(valor) / toFloat($scope.contrato.entrada_config.qtd_parcelas);
+
+            $scope.contrato.entrada_config.parcelas = [];
+            var numero = 0;
+            var date, i;
+            for(i = 0; i<parseInt($scope.contrato.entrada_config.qtd_parcelas); i++) {
+
+                numero = numero == 0 ? parseInt($scope.contrato.entrada_config.numero_cheque) : numero+1;
+
+                var data_inicial = $scope.contrato.entrada_config.cheque_vencimento;
+
+                var nova_data_inicial = data_inicial.split("/")[2] + '-' + data_inicial.split("/")[1] + '-' + data_inicial.split("/")[0];
+
+                date = moment(nova_data_inicial).add(parseInt($scope.contrato.entrada_config.periodicidade) * i, 'days');
+
+                console.log(date);
+
+                $scope.contrato.entrada_config.parcelas.push({
+                    linha: i+1,
+                    numero: numero,
+                    vencimento: date.format('DD/MM/YYYY'),
+                    valor: accounting.formatMoney(parcela, "", 2, ".", ",")
+                });
+            }
+
+            console.log($scope.contrato.entrada_config.parcelas);
+
+        }
+    }
+
 })
 
 $(function() {
-
     $('.mask-money').maskMoney({prefix:'', allowNegative: false, thousands:'.', decimal:',', affixesStay: false, allowZero:true});
 })

@@ -34,7 +34,7 @@ class ContratoController extends \SlimController\SlimController
                 'empreendimentos' => $empreendimentos,
                 'corretores' => $corretores,
                 'clientes' => $clientes,
-                'foot_js' => [ 'js/maskMoney/jquery.maskMoney.min.js', 'js/mask.js', 'bower_components/lodash/dist/lodash.min.js', 'bower_components/accounting/accounting.min.js', 'js/contrato/contrato.js' ]
+                'foot_js' => [ 'js/maskMoney/jquery.maskMoney.min.js', 'js/mask.js', 'bower_components/lodash/dist/lodash.min.js', 'bower_components/accounting/accounting.min.js', 'bower_components/moment/min/moment.min.js', 'js/contrato/contrato.js' ]
             ]);
 
     }
