@@ -48,12 +48,21 @@
                                             <label><input type="checkbox" name="checkall" ng-model="checkall"></label>
                                         </div>
                                     </th>
+                                    <th>Emissão</th>
+                                    <th>Contrato</th>
+                                    <th>Nome/Razão Social</th>
+                                    <th>Valor R$</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="u in model.contratos">
-                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(u)" ng-checked="checkall" x-ng-click="{cursor:pointer}"/></td>
-                                   
+                                <tr ng-repeat="c in model.contratos">
+                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(c)" ng-checked="checkall" x-ng-click="{cursor:pointer}"/></td>
+                                    <td>{{ c.data_emissao }}</td>
+                                    <td>{{ c.contrato }}</td>
+                                    <td>{{ c.clientes.length == 1 ? c.clientes[0].nome : c.clientes[0].nome + ' e outros' }}</td>
+                                    <td>{{ c.valor }}</td>
+                                    <td><a href="#"><i class="fa fa-print"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>

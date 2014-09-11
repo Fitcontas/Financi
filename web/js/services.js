@@ -57,3 +57,7 @@ AppFinanci.factory('Cidades', function($resource) {
 .factory('LoteNovo', function($resource) {
     return $resource('/lote/novo/:id', {'id':'@id'});
 })
+
+.factory('Contratos', function($resource) {
+    return $resource('/contrato/all/:id', {'id':'@id'});
+})

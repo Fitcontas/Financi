@@ -211,3 +211,13 @@ contrato_parcelas:
     method: post
     route: Contrato:parcelas
     url: /contrato/parcelas
+
+contrato_novo:
+    method: post
+    route: Contrato:novo
+    url: /contrato/novo
+
+contrato_all:
+    method: get
+    route: Contrato:all
+    url: /contrato/all(/:id)

@@ -1,6 +1,6 @@
 'use strict'
 
-AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendimento) {
+AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendimento, Contratos) {
 
     $scope.check_ctrl = [];
     $scope.checkall = false;
@@ -35,7 +35,27 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
 
     $scope.abaNext = function(aba) {
         $scope.aba = aba;
-    }
+    };
+
+    $scope.start = function(pagina) {
+
+        if(pagina) {
+            $scope.pagina = pagina;
+        }
+
+        if($scope.search.length > 0)
+        {
+            var termos = { pagina: $scope.pagina, query: $scope.search };
+        } else {
+            var termos = { pagina: $scope.pagina };
+        }
+
+        Contratos.get(termos).$promise.then(function(data){
+            $scope.model = data;
+            $scope.paginas = new Array(data.pagination.paginas);
+            $scope.pagination = data.pagination;
+        });
+    };
 
     $scope.showForm = function(item) {
         $scope.aba = 1;
@@ -203,10 +223,21 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
     $scope.addEntrada = function() {
         $scope.aba = 4;
 
+        var itens = {
+            meio_form_id: $scope.contrato.entrada_config.meio_form_id,
+            meio_pagamento_id: $scope.contrato.entrada_config.meio_pagamento_id,
+            numero_cheque: $scope.contrato.entrada_config.numero_cheque,
+            cheque_vencimento: $scope.contrato.entrada_config.cheque_vencimento,
+            qtd_parcelas: $scope.contrato.entrada_config.qtd_parcelas,
+            periodicidade: $scope.contrato.entrada_config.periodicidade,
+            valor: $scope.contrato.entrada_config.valor,
+            parcelas: $scope.contrato.entrada_config.parcelas
+        };
+
         $scope.contrato.entrada_config.entradas.push({
             tipo: $scope.contrato.entrada_config.meio_pagamento_id,
             valor: $scope.contrato.entrada_config.valor,
-            itens: $scope.contrato.entrada_config
+            itens: itens
         });
 
         $scope.contrato.entrada_config.total += toFloat($scope.contrato.entrada_config.valor);
@@ -256,8 +287,16 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
     $scope.salveGeral = function() {
         console.log($scope.contrato);
         
-
+        $http({
+            method: 'POST',
+            url: '/contrato/novo',
+            data: $scope.contrato,
+        }).success(function(data) {
+            
+        });
     };
+
+    $scope.start();
 
 })
 
