@@ -5,6 +5,9 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
     $scope.check_ctrl = [];
     $scope.checkall = false;
 
+    $scope.entrada_check_ctrl = [];
+    $scope.entrada_checkall = false;
+
     //Paginação
     $scope.pagina = 1;
     $scope.paginas = 0;
@@ -28,6 +31,7 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
     $scope.parcelas = [];
     $scope.parcelas_geradas = [];
     $scope.entrada = null;
+    $scope.entrada_float = null;
 
     $scope.abaNext = function(aba) {
         $scope.aba = aba;
@@ -41,7 +45,8 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
             desconto: 0,
             entrada_config: {
                 meio_pagamento_id: 1,
-                entradas: []
+                entradas: [],
+                total: 0
             }
         };
 
@@ -124,6 +129,7 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
         var entrada = ( (toFloat($('input[name="contrato[entrada]"]').val()) / 100) * toFloat($scope.contrato.valor_contrato) );
 
         $scope.entrada = accounting.formatMoney(entrada, "", 2, ".", ",");
+        $scope.entrada_float = entrada;
 
     };
 
@@ -196,10 +202,61 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
 
     $scope.addEntrada = function() {
         $scope.aba = 4;
+
         $scope.contrato.entrada_config.entradas.push({
             tipo: $scope.contrato.entrada_config.meio_pagamento_id,
-            valor: $scope.contrato.entrada_config.valor
+            valor: $scope.contrato.entrada_config.valor,
+            itens: $scope.contrato.entrada_config
         });
+
+        $scope.contrato.entrada_config.total += toFloat($scope.contrato.entrada_config.valor);
+
+        $scope.contrato.entrada_config.meio_form_id = 1;
+        $scope.contrato.entrada_config.meio_pagamento_id = 1;
+        $scope.contrato.entrada_config.cheque_vencimento = '';
+        $scope.contrato.entrada_config.qtd_parcelas = '';
+        $scope.contrato.entrada_config.numero_cheque = '';
+        $scope.contrato.entrada_config.periodicidade =  '';
+        $scope.contrato.entrada_config.valor = '';
+        $scope.contrato.entrada_config.parcelas = [];
+    };
+
+    $scope.entradaRemove = function() {
+        var i;
+        console.log($scope.entrada_check_ctrl);
+        
+        for(i = 0; i < $scope.entrada_check_ctrl.length; i++) {
+            console.log(toFloat($scope.contrato.entrada_config.entradas[$scope.entrada_check_ctrl[i].id].valor));
+            $scope.contrato.entrada_config.total -= toFloat($scope.contrato.entrada_config.entradas[$scope.entrada_check_ctrl[i].id].valor);
+            
+            $scope.contrato.entrada_config.entradas.splice($scope.entrada_check_ctrl[i].id, 1);
+
+        }
+
+        if($scope.entrada_checkall) {
+            $scope.contrato.entrada_config.total = 0;
+             $scope.contrato.entrada_config.entradas = [];
+        }
+
+        $scope.entrada_check_ctrl = [];
+    };
+
+    $scope.checkAllEntrada = function(index) {
+        var existe = _.remove($scope.entrada_check_ctrl, function(obj) {
+            return obj.id == index;
+        });
+
+        if(!existe.length) {
+            $scope.entrada_check_ctrl.push({id: index});
+        }
+
+        console.log($scope.entrada_check_ctrl);
+    };
+
+    $scope.salveGeral = function() {
+        console.log($scope.contrato);
+        
+
     };
 
 })

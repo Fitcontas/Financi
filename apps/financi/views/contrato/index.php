@@ -349,7 +349,7 @@
                             <tbody>
                                 <tr>
                                     <td>001</td>
-                                    <td><a href="#" ng-click="abaNext(3)">Entrada</a></td>
+                                    <td><a href="#" ng-click="abaNext(contrato.entrada_config.entradas.length > 0 ? 4 : 3)">Entrada</a></td>
                                     <td>-</td>
                                     <td>{{entrada}}</td>
                                 </tr>
@@ -474,16 +474,17 @@
                         <h4>Entrada</h4>
                     </div>
                     <hr>
-                    <div class="form-group">
+                    <div>
                         <div class="btn-group" id="buttons-grid">
-                            <button type="button" class="btn btn-default" ng-click="abaNext(3)"> Novo</button>
-                            <button type="button" class="btn btn-default" ng-disabled=""> Excluir</button>
+                            <button type="button" class="btn btn-default" ng-click="abaNext(3)" ng-disabled="contrato.entrada_config.total ==  entrada_float"> Novo</button>
+                            <button type="button" class="btn btn-default" ng-click="entradaRemove()"> Excluir</button>
                         </div>
                     </div>
+                    <br>
                     <table class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
-                                <th><input type="checkbox"></th>
+                                <th><input type="checkbox" name="entrada.checkall" ng-model="entrada_checkall"></th>
                                 <th>Tipo</th>
                                 <th>Valor</th>
                                 <th>Conta</th>
@@ -491,13 +492,23 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="entrada in contrato.entrada_config.entradas">
-                                <td><input type="checkbox"></td>
+                                <td><input type="checkbox" ng-model="confirmedEntrada" ng-checked="entrada_checkall" ng-change="checkAllEntrada($index)"></td>
                                 <td>{{ entrada.tipo == 1 ? 'Dinherio' : 'Cheque' }}</td>
                                 <td>{{ entrada.valor }}</td>
                                 <td>Carteira</td>
                             </tr>
                         </tbody>
                     </table>
+                    <br/>
+                    <div class="alert alert-info alert-white rounded">
+                        <div class="icon"><i class="fa fa-info-circle"></i></div>
+                        <strong>Informação!</strong> O valor da entrada é de R$ {{entrada}}.
+                     </div>
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" ng-disabled="contrato.entrada_config.total !=  entrada_float" ng-click="abaNext(2)">Salvar</button>
+                        <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+                    </div>
                 </div>
                 <!-- Fim aba 4 -->
                 <div class="clearfix"></div>
@@ -506,7 +517,7 @@
             </div>
 
             <div class="modal-footer" ng-show="aba == 2">
-                <button class="btn btn-primary" ng-disabled="ContratoForm.$invalid" ng-click="abaNext()">Salvar</button>
+                <button class="btn btn-primary" type="button" ng-disabled="false" ng-click="salveGeral()">Salvar</button>
                 <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
             </div>
         </div><!-- /.modal-content -->
