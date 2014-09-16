@@ -20,10 +20,6 @@
     font-weight: normal !important;
 }
 
-.margin-bottom {
-    padding-bottom: 15px !important;
-}
-
 .table-corretor {
     border: none !important;
 }
@@ -35,4 +31,74 @@
 
 .table-corretor tr.odd td {
     background: #E9F6FC !important;
+}
+
+.search-group {
+    width: 300px;
+}
+
+.breadcrumb li {
+    font-size: 13px;
+}
+
+.header {
+    padding-bottom: 0 !important;
+    margin-bottom: 10px;
+}
+
+.header h3 {
+    line-height: 24px !important;
+}
+
+.table {
+    margin-top: 12px !important;
+}
+
+tr.desabilitado td, tr.desabilitado td a {
+    color: #999 !important;
+}
+
+tr td a {
+    cursor: pointer;
+}
+
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+    float: left;
+    margin-left: 0px;
+}
+
+.table-responsive table .checkbox {
+    padding-left: 0 !important;
+}
+
+tr td input[type="checkbox"] {
+    margin-left: 2px;
+}
+
+.search-group input {
+    height: 32px !important;
+}
+
+.search-group .input-group-btn button {
+    height: 32px !important;
+    margin-left: -2px !important;
+}
+
+.spacer2 {
+    margin-top: -5px !important;
+}
+
+.margin-bottom {
+    padding-bottom: 5px !important;
+}
+
+.bloco {
+    margin-top: 20px !important;
+}
+
+.fone .boxadd, .email .boxadd {
+    padding-top: 15px !important;
 }

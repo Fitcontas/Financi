@@ -17,12 +17,22 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
         $scope.endereco = $scope.endereco ? 0 : 1;
     }
 
-    $scope.cidades = [{"id":null,"nome":null}];
-    $scope.cidades_endereco_principal = [{"id":null,"nome":null}];
-    $scope.cidades_endereco_secundario = [{"id":null,"nome":null}];
+    $scope.cidades = [];
+    $scope.cidades_endereco_principal = [];
+    $scope.cidades_endereco_secundario = [];
 
     $scope.salvar = function(form, add) {
-        console.log($scope.corretor);
+        
+        if($scope.corretor.cpf && !validaCpf($scope.corretor.cpf)) {
+            chamaMsg('27', true);
+            return false;
+        }
+
+        if($scope.corretor.cnpj && !validaCnpj($scope.corretor.cnpj)) {
+            chamaMsg('29', true);
+            return false;
+        }
+
         if($(CorretorForm).hasClass('ng-invalid')) {
             required('#CorretorForm', false);
             chamaMsg('11', true);
@@ -42,7 +52,19 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
 
     }
 
-    $scope.get_cidade = function(id, destino, cidade = false) {
+    $scope.validaCpf = function() {
+        if($scope.corretor.cpf && !validaCpf($scope.corretor.cpf)) {
+            chamaMsg('27', true);
+        }
+    }
+
+    $scope.validaCnpj = function() {
+        if($scope.corretor.cnpj && !validaCnpj($scope.corretor.cnpj)) {
+            chamaMsg('29', true);
+        }
+    }
+
+    $scope.get_cidade = function(id, destino) {
         $('.loading').show();        
         
         var uf = $('#'+id).val();

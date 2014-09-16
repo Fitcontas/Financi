@@ -27,11 +27,11 @@
                         <div class="pull-left">
                             <div class="btn-group pull-left" id="buttons-grid">
                                 <button type="button" class="btn btn-default" ng-click="showForm(false)"> Novo</button>
-                                <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" ng-click="acao('excluir')"> Excluir</button>
+                                <button type="button" class="btn btn-default" ng-click="acao('excluir')"> Excluir</button>
                             </div>
                         </div>
                         <div class="pull-right">
-                            <div class="input-group">
+                            <div class="input-group search-group">
                               <input class="form-control" type="text" placeholder="Pesquisar" ng-model="search" ng-enter="start()">
                               <span class="input-group-btn">
                                 <button class="btn btn-default btn-sm" type="button" ng-click="start()"><i class="fa fa-search"></i></button>
@@ -43,10 +43,10 @@
                     
                     <!-- Início data table content -->
                     <div class="table-responsive" ng-show="model.lotes.length>0">
-                        <table class="table table-striped table-bordered spacer2 table-hover">
+                        <table class="table  table-bordered spacer2 table-hover">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th class="checkbox-control">
                                         <div class="checkbox">
                                             <label><input type="checkbox" name="checkall" ng-model="checkall"/></label>
                                         </div>
@@ -69,7 +69,7 @@
                                     <td>{{l.valor}}</td>
                                     <td>{{l.area_total}}</td>
                                     <td><a href="">Detalhes</a></td>
-                                    <td width="5%">{{ status[l.status] }}</td>
+                                    <td width="5%">{{ l.situacao == null ? 'Disponível' : status[l.situacao] }}</td>
                                 </tr>
                             </tbody>
                         </table>  

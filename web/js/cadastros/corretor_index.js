@@ -37,18 +37,38 @@ AppFinanci.controller('FormCorretorGridCtrl', function($scope, $http, getCorreto
 
             var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.model.corretores;
 
-            $http({
-                'method': 'post',
-                'url': '/corretor/acoes/' + acao_name,
-                'data': itens,
-            }).success(function(data) {
-                console.log(data);
-                if(data.success) {
-                    chamaMsg(data.msg, true);
-                    $scope.start();
-                    $scope.check_ctrl = [];
-                }
-            })
+            if(acao_name == 'excluir') {
+                chamaMsg('20', true, false, {'id':'excluir-registro'});
+                
+                $('button[data-id="excluir-registro"]').click(function() {
+                    $http({
+                        'method': 'post',
+                        'url': '/corretor/acoes/' + acao_name,
+                        'data': itens,
+                    }).success(function(data) {
+                        console.log(data);
+                        if(data.success) {
+                            chamaMsg(data.msg, true);
+                            $scope.start();
+                            $scope.check_ctrl = [];
+                        }
+                    });
+                });
+                
+            } else {
+                $http({
+                    'method': 'post',
+                    'url': '/corretor/acoes/' + acao_name,
+                    'data': itens,
+                }).success(function(data) {
+                    console.log(data);
+                    if(data.success) {
+                        chamaMsg(data.msg, true);
+                        $scope.start();
+                        $scope.check_ctrl = [];
+                    }
+                });
+            }
         }
     }
 

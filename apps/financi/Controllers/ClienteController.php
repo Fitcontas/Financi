@@ -58,7 +58,25 @@ class ClienteController extends \SlimController\SlimController
         $arr = [];
 
         foreach ($clientes as $c) {
-            $arr[] = $c->to_array();
+            $ar = $c->to_array();
+
+            $telefones = [];
+            
+            foreach ($c->telefones as $t) {
+                $telefones[] = $t->to_array();
+            }
+
+             $array_contatos = ['telefones' => $telefones];
+            
+            if($ar['cnpj']) {
+                //$ar['cnpj'] = \Financi\DataFormat::mask($ar['cnpj'], '##.###.###/###-##');
+            } else {
+                //$ar['cpf'] = \Financi\DataFormat::mask($ar['cpf'], '###.###.###-##');
+            }
+
+            $final_array = array_merge($ar, $array_contatos);
+            
+            $arr[] = $final_array;
         }
 
         return $this->app->response->setBody(json_encode( [ 'search'=>true, 'clientes' => $arr, 'paginas' => $total_paginas] ));

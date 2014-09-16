@@ -141,7 +141,7 @@ class LoteController extends \SlimController\SlimController
         $empreendimento = \Empreendimento::find($empreendimento_id);
 
         $lotes = \Lote::find('all', [
-                'conditions' => [ 'empreendimento_id = ?', $empreendimento_id ]
+                'conditions' => [ 'empreendimento_id = ? and situacao IS NULL', $empreendimento_id ]
             ]);
 
         $array = [];

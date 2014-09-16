@@ -16,6 +16,18 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, CorretoresBus
     CorretoresBusca.get({ id: $('#corretor-id').val() }).$promise.then(function(data) {
         $scope.corretor = data.corretor;
 
+        if(data.corretor.telefones.length == 0) {
+            $scope.corretor.telefones = [{}];
+        }
+
+        if(data.corretor.emails.length == 0) {
+            $scope.corretor.emails = [{}];
+        }
+
+        $scope.get_cidade('uf_endereco_principal', 'cidades_endereco_principal');
+        $scope.get_cidade('uf_endereco_secundario', 'cidades_endereco_secundario');
+        $scope.get_cidade('naturalidade_uf', 'cidades');
+
         $http({
             'method': 'get',
             'url': 'http://fitcontas.com.br/fitservices/cbo/' + data.corretor.cbo,
@@ -31,9 +43,9 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, CorretoresBus
         $scope.endereco = $scope.endereco ? 0 : 1;
     }
 
-    $scope.cidades = [{"id":null,"nome":null}];
-    $scope.cidades_endereco_principal = [{"id":null,"nome":null}];
-    $scope.cidades_endereco_secundario = [{"id":null,"nome":null}];
+    $scope.cidades = [];
+    $scope.cidades_endereco_principal = [];
+    $scope.cidades_endereco_secundario = [];
 
     $scope.salvar = function(form, add) {
         console.log($scope.corretor);
@@ -56,25 +68,36 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, CorretoresBus
 
     }
 
-    $scope.get_cidade = function(id, destino, cidade = false) {
-        $('.loading').show();        
-        
-        var uf = $('#'+id).val();
-        
+    $scope.get_cidade = function(id, destino) {
+        var uf = false;
+        if(destino == 'cidades_endereco_principal') {
+            var uf = $scope.corretor.endereco[0].uf;
+        } else if(destino == 'cidades_endereco_secundario') {
+            var uf = $scope.corretor.endereco[1] ? $scope.corretor.endereco[1].uf: false;
+        } else if(destino == 'cidades') {
+            var uf = $scope.corretor.naturalidade_uf;
+        }
+
         var destino = destino;
 
-        Cidades.get({'uf': uf }).$promise.then(function(data) {
-            $('.loading').hide();
-            
-            if(destino == 'cidades') {
-                $scope.cidades = data.cidades;
-            } else if(destino == 'cidades_endereco_principal') {
-                $scope.cidades_endereco_principal = data.cidades;
-            } else if(destino == 'cidades_endereco_secundario') {
-                $scope.cidades_endereco_secundario = data.cidades;
-            }
-
-        });
+        if(uf && uf.length > 0) {
+            $('.loading').show();  
+            Cidades.get({'uf': uf }).$promise.then(function(data) {
+                $('.loading').hide();
+                
+                if(destino == 'cidades') {
+                    $scope.cidades = data.cidades;
+                    $scope.corretor.naturalidade = parseInt($scope.corretor.naturalidade);
+                } else if(destino == 'cidades_endereco_principal') {
+                    $scope.cidades_endereco_principal = data.cidades;
+                    $scope.corretor.endereco[0].cidade = parseInt($scope.corretor.endereco[0].cidade);
+                } else if(destino == 'cidades_endereco_secundario') {
+                    $scope.cidades_endereco_secundario = data.cidades;
+                    $scope.corretor.endereco[1].cidade = parseInt($scope.corretor.endereco[1].cidade);
+                }
+                
+            });
+        }
         
     }
 

@@ -38,7 +38,7 @@
                                             'block_class' => 'col-sm-4',
                                             'name' => 'cliente[cpf]',
                                             'ng-model' => 'cliente.cpf',
-                                            'attributes' => 'required mask="999.999.999-99" clean="true" req'
+                                            'attributes' => 'required mask="999.999.999-99" clean="true" req ng-blur="validaCpf()"'
                                         ],
                                         [
                                             'label' => 'Nome',
@@ -157,6 +157,21 @@
                                     \Financi\HTMLHelper::renderRow([
                                         [
                                             'label' => 'Escolaridade',
+                                            'block_class' => 'col-sm-6',
+                                            'name' => 'cliente[escolaridade]',
+                                            'block' => 'default-select',
+                                            'options' => [
+                                                '1' => 'Analfabeto',
+                                                '2' => 'Alfabetizado',
+                                                '3' => 'Médio Incompleto',
+                                                '4' => 'Médio Completo',
+                                                '5' => 'Superior Incompleto',
+                                                '6' => 'Superior Completo',
+                                                '7' => 'Pos-graduado',
+                                                '8' => 'Mestre',
+                                                '9' => 'Doutor'
+                                            ],
+                                            'ng-model' => 'cliente.escolaridade'
                                         ],
                                         [
                                             'label' => 'CBO',
@@ -193,14 +208,14 @@
                                     <div class="header margin-bottom">
                                         <h4>Endereço</h4>
                                     </div>
-                                        <br/>
-                                        <div id="endereco-principal" ng-show="endereco">
+
+                                        <div id="endereco-principal" class="bloco" ng-show="endereco">
                                             <div class="row hpadding">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label for="cliente[endereco][0][cep]">CEP</label>
                                                         <div class="input-group">
-                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][0][cep]" ng-model="cliente.endereco[0].cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required>
+                                                            <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][0][cep]" ng-model="cliente.endereco[0].cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required clean="true">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -265,14 +280,14 @@
                                             \Financi\HTMLHelper::renderRow([
                                                 [
                                                     'label' => 'Bairro',
-                                                    'block_class' => 'col-sm-10',
+                                                    'block_class' => 'col-sm-12',
                                                     'name' => 'cliente[endereco][0][bairro]',
                                                     'ng-model' => 'cliente.endereco[0].bairro',
                                                     'attributes' => 'req required'
                                                 ],
                                                 [
                                                     'label' => 'UF',
-                                                    'block_class' => 'col-sm-4',
+                                                    'block_class' => 'col-sm-2',
                                                     'block' => 'default-select',
                                                     'options' => $ufs,
                                                     'name' => 'cliente[endereco][0][uf]',
@@ -301,7 +316,7 @@
                                             ]);
                                         ?> 
                                         </div>
-                                        <div class="endereco-secundario" ng-show="!endereco">
+                                        <div class="endereco-secundario bloco" ng-show="!endereco">
                                             <div class="row hpadding">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
@@ -370,13 +385,13 @@
                                             \Financi\HTMLHelper::renderRow([
                                                 [
                                                     'label' => 'Bairro',
-                                                    'block_class' => 'col-sm-10',
+                                                    'block_class' => 'col-sm-12',
                                                     'name' => 'cliente[endereco][1][bairro]',
                                                     'ng-model' => 'cliente.endereco[1].bairro'
                                                 ],
                                                 [
                                                     'label' => 'UF',
-                                                    'block_class' => 'col-sm-4',
+                                                    'block_class' => 'col-sm-2',
                                                     'block' => 'default-select',
                                                     'options' => $ufs,
                                                     'name' => 'cliente[endereco][1][uf]',
@@ -406,8 +421,8 @@
                                         ?> 
                                         </div>
 
-                                        <div class="row hpadding">
-                                            <div class="form-group">
+                                        <div class="row hpadding" style="margin-bottom:9px">
+                                            <div class="form-group" style="margin-top:8px">
                                                 <div class="col-sm-24">
                                                     <a class="btn btn-default" style="margin-left:0" href="javascript://" ng-click="changeEndereco()">{{endereco ? 'Endereço Secundário' : 'Endereço Principal'}}</a>
                                                 </div>
@@ -419,9 +434,7 @@
                                                 <div class="header margin-bottom">
                                                     <h4>Telefone</h4>
                                                 </div>
-                                                <div class="content boxadd clearfix">
-
-                                                            
+                                                <div class="content boxadd clearfix">   
                                                     <div class="form-group margin" ng-repeat="fone in cliente.telefones">
 
                                                         <input type="hidden" name="telefones[0][id_fone]">
@@ -587,14 +600,30 @@
                                     \Financi\HTMLHelper::renderRow([
                                         [
                                             'label' => 'Escolaridade',
+                                            'block_class' => 'col-sm-6',
+                                            'name' => 'cliente[conjuge][escolaridade]',
+                                            'block' => 'default-select',
+                                            'options' => [
+                                                '1' => 'Analfabeto',
+                                                '2' => 'Alfabetizado',
+                                                '3' => 'Médio Incompleto',
+                                                '4' => 'Médio Completo',
+                                                '5' => 'Superior Incompleto',
+                                                '6' => 'Superior Completo',
+                                                '7' => 'Pos-graduado',
+                                                '8' => 'Mestre',
+                                                '9' => 'Doutor'
+                                            ],
+                                            'ng-model' => 'cliente.conjuge.escolaridade'
                                         ],
                                         [
                                             'label' => 'CBO',
-                                            'block' => 'default-select',
-                                            'block_class' => 'col-sm-12',
-                                            'options' => [],
-                                            'name' => 'cliente[conjuge][cbo]',
-                                            'ng-model' => 'cliente.conjuge.cbo'
+                                            'block' => 'default-with-hidden',
+                                            'block_class' => 'col-sm-12 typeahead',
+                                            'name' => 'cliente[conjuge][cbo_descricao]',
+                                            'id' => 'cbo_conjuge_descricao',
+                                            'attributes' => 'sf-typeahead options="cboOptions" datasets="cboDataset" ng-model="selectedCbo"',
+                                            'hidden' => '<input type="hidden" id="cbo_conjuge" name="cliente[cbo]" ng-model="cliente.conjuge.cbo">'
                                         ],
                                         [
                                             'label' => 'Registro Profissional',

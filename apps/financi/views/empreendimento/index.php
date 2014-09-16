@@ -28,7 +28,7 @@
                             <default:actions:buttons/>
                         </div>
                         <div class="pull-right">
-                            <div class="input-group">
+                            <div class="input-group search-group">
                               <input class="form-control" type="text" placeholder="Pesquisar" ng-model="search" ng-enter="start()">
                               <span class="input-group-btn">
                                 <button class="btn btn-default btn-sm" type="button" ng-click="start()"><i class="fa fa-search"></i></button>
@@ -40,23 +40,21 @@
                     
                     <!-- Início data table content -->
                     <div class="table-responsive" ng-show="model.empreendimentos.length>0">
-                        <table class="table table-striped table-bordered spacer2 table-hover">
+                        <table class="table table-bordered spacer2 table-hover">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th class="checkbox-control">
                                         <div class="checkbox">
                                             <label><input type="checkbox" name="checkall" ng-model="checkall"/></label>
                                         </div>
                                     </th>
                                     <th>Empreendimento</th>
-                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="e in model.empreendimentos">
+                                <tr ng-repeat="e in model.empreendimentos" ng-class="e.status == 2 ? 'desabilitado' : 'habilitado' ">
                                     <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(e)" ng-checked="checkall"/></td>
                                     <td><a ng-click="showForm(e)">{{e.empreendimento}}</a></td>
-                                    <td width="5%">{{e.status == 1 ? 'Ativo' : 'Desabilitado'}}</td>
                                 </tr>
                             </tbody>
                         </table>  

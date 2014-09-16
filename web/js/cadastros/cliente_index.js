@@ -31,21 +31,42 @@ AppFinanci.controller('FormClinteGridCtrl', function($scope, $http, Clientes) {
         if(!$scope.check_ctrl.length && !$scope.checkall) {
             chamaMsg('10', false);
         } else {
-
+            
             var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.clientes;
 
-            $http({
-                'method': 'post',
-                'url': '/cliente/acoes/' + acao_name,
-                'data': itens,
-            }).success(function(data) {
-                console.log(data);
-                if(data.success) {
-                    chamaMsg(data.msg, true);
-                    $scope.start();
-                    $scope.check_ctrl = [];
-                }
-            })
+            if(acao_name == 'excluir') {
+                chamaMsg('20', true, false, {'id':'excluir-registro'});
+                
+                $('button[data-id="excluir-registro"]').click(function() {
+                    $http({
+                        'method': 'post',
+                        'url': '/cliente/acoes/' + acao_name,
+                        'data': itens,
+                    }).success(function(data) {
+                        console.log(data);
+                        if(data.success) {
+                            chamaMsg(data.msg, true);
+                            $scope.start();
+                            $scope.check_ctrl = [];
+                        }
+                    })
+                });
+            } else {
+                var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.clientes;
+
+                $http({
+                    'method': 'post',
+                    'url': '/cliente/acoes/' + acao_name,
+                    'data': itens,
+                }).success(function(data) {
+                    console.log(data);
+                    if(data.success) {
+                        chamaMsg(data.msg, true);
+                        $scope.start();
+                        $scope.check_ctrl = [];
+                    }
+                })
+            }
         }
     }
 

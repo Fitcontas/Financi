@@ -837,7 +837,7 @@ var FitMessage = (function() {
             if (m.ask) {
                 html += '<div class="text-right">';
                 html += '<button class="btn btn-primary btn-flat  " ' + str_paramns + ' action="' + action + '" type="button">Sim</button>';
-                html += '<button class="btn btn-default btn-flat  " action="nao-' + action + '" type="button" data-dismiss="alert">Não</button>';
+                html += '<button class="btn btn-default btn-flat no-ask" type="button">Não</button>';
                 html += '</div>';
             }else{
                 html += '<div class="text-right">';

@@ -59,10 +59,13 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
 
     $scope.showForm = function(item) {
         $scope.aba = 1;
-        $scope.contrato = item ? item : {
+        $scope.contrato = {
             corretores: [{}],
             clientes: [{}],
             desconto: 0,
+            tipo_intermediarias: 1,
+            tipo_entrada: 1,
+            tipo_desconto: 1,
             entrada_config: {
                 meio_pagamento_id: 1,
                 entradas: [],
@@ -76,7 +79,37 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
             show: true,
             backdrop: 'static'
         });
-    }
+    };
+
+    $scope.alteraTipoIntermediaria = function(num) {
+        if(num == 1) {
+            $('input[name="contrato[intermediarias]"]').attr({ maxLength: 6 }).val('');
+        } else {
+            $('input[name="contrato[intermediarias]"]').attr({ maxLength: 11 }).val('');
+        }
+
+        $scope.contrato.tipo_intermediarias = num;
+    };
+
+    $scope.alteraTipoEntrada = function(num) {
+        if(num == 1) {
+            $('input[name="contrato[entrada]"]').attr({ maxLength: 6 }).val('');
+        } else {
+            $('input[name="contrato[entrada]"]').attr({ maxLength: 11 }).val('');
+        }
+
+        $scope.contrato.tipo_entrada = num;
+    };
+
+    $scope.alteraTipoDesconto = function(num) {
+        if(num == 1) {
+            $('input[name="contrato[desconto]"]').attr({ maxLength: 6 }).val('');
+        } else {
+            $('input[name="contrato[desconto]"]').attr({ maxLength: 11 }).val('');
+        }
+
+        $scope.contrato.tipo_desconto = num;
+    };
 
     $scope.getLotes = function(empreendimento_id) {
         LotesEmpreendimento.get({id: empreendimento_id}).$promise.then(function(data) {     
@@ -131,9 +164,14 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
     $scope.calcValorContrato = function(that) {
 
         var valor_lote = toFloat($scope.contrato.valor);
-        var porcentagem_desconto = toFloat($('input[name="contrato[desconto]"]').val());
         
-        var valor_desconto = (porcentagem_desconto * valor_lote) / 100;
+        //Se tipo de desconto for em %
+        if($scope.contrato.tipo_desconto == 1) {
+            var porcentagem_desconto = toFloat($('input[name="contrato[desconto]"]').val());
+            var valor_desconto = (porcentagem_desconto * valor_lote) / 100;
+        } else {
+            var valor_desconto = toFloat($('input[name="contrato[desconto]"]').val());
+        }
 
 
         var valor_contrato = valor_lote - valor_desconto;
@@ -141,16 +179,22 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
     }
 
     $scope.validaEntrada = function() {
-        if(toFloat($('input[name="contrato[entrada]"]').val()) < $scope.min_entrada)
-        {
-            chamaMsg('150', false);
+        if($scope.contrato.tipo_entrada == 1) {
+            if(toFloat($('input[name="contrato[entrada]"]').val()) < $scope.min_entrada) {
+                chamaMsg('150', false);
+            }
+        } else if($scope.contrato.tipo_entrada == 2) {
+            var pct = (toFloat($('input[name="contrato[entrada]"]').val()) * 100) / toFloat($scope.contrato.valor_contrato);
+            
+            if(pct < $scope.min_entrada) {
+                chamaMsg('150', false);
+            }
         }
 
-        var entrada = ( (toFloat($('input[name="contrato[entrada]"]').val()) / 100) * toFloat($scope.contrato.valor_contrato) );
+        var entrada = $scope.contrato.tipo_entrada == 1 ? ((toFloat($('input[name="contrato[entrada]"]').val()) / 100) * toFloat($scope.contrato.valor_contrato) ) : toFloat($('input[name="contrato[entrada]"]').val());
 
         $scope.entrada = accounting.formatMoney(entrada, "", 2, ".", ",");
         $scope.entrada_float = entrada;
-
     };
 
     $scope.validaIntermediarias = function() {
@@ -292,7 +336,11 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
             url: '/contrato/novo',
             data: $scope.contrato,
         }).success(function(data) {
-            
+            if(data.success) {
+                chamaMsg('1', true);
+                $('#contrato_modal').modal('hide');
+                $scope.start();
+            }
         });
     };
 
@@ -302,4 +350,6 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
 
 $(function() {
     $('.mask-money').maskMoney({prefix:'', allowNegative: false, thousands:'.', decimal:',', affixesStay: false, allowZero:true});
+
+    $('.modal-dialog').css({ width: 800 });
 })

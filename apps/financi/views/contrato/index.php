@@ -6,11 +6,9 @@
             <div class="container">
                 <h5>No momento não existe nenhum registro cadastrado. <?php echo true ? 'Para inserir um novo clique em “Adicionar”.' : '' ?></h5>
                 <div class="table-responsive hide">
-
                         <button class="btn btn-default dropdown-toggle no-margin" data-toggle="dropdown" type="button">
                             Adicionar &nbsp; <span class="caret"></span>
                         </button>
-
                 </div>
             </div>
         </div>
@@ -25,10 +23,14 @@
                 <div class="content spacer0 process">
                     <div class="toobar">
                         <div class="pull-left">
-                            <default:actions:buttons/>
+                            <div class="btn-group pull-left" id="buttons-grid">
+                                <button type="button" class="btn btn-default" ng-click="showForm(false)"> Novo</button>
+                                <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" ng-click="acao('excluir')"> Excluir</button>
+                                <button type="button" class="btn btn-default"> Pesquisa</button>
+                            </div>
                         </div>
                         <div class="pull-right">
-                            <div class="input-group">
+                            <div class="input-group search-group">
                               <input class="form-control" type="text" placeholder="Pesquisar" ng-model="search" ng-enter="start()">
                               <span class="input-group-btn">
                                 <button class="btn btn-default btn-sm" type="button" ng-click="start()"><i class="fa fa-search"></i></button>
@@ -40,10 +42,10 @@
 
                     <!-- Início data table content -->
                     <div class="table-responsive" ng-show="model.contratos.length>0">
-                        <table class="table table-striped table-bordered spacer2 table-hover">
+                        <table class="table table-bordered spacer2 table-hover">
                             <thead>
                                 <tr>
-                                    <th>
+                                    <th class="checkbox-control">
                                         <div class="checkbox">
                                             <label><input type="checkbox" name="checkall" ng-model="checkall"></label>
                                         </div>
@@ -136,7 +138,7 @@
                     <div class="form-group">
                         <label class="col-sm-6 control-label" for="nome">Empreendimento  </label>
                         <div class="col-sm-18">
-                            <select name="empreendimento_id" id="contrato[empreendimento_id]" ng-model="contrato.empreendimento_id" class="form-control" ng-change="getLotes(contrato.empreendimento_id)" req required>
+                            <select name="empreendimento_id" id="contrato[empreendimento_id]" ng-model="contrato.empreendimento_id" class="form-control" ng-change="getLotes(contrato.empreendimento_id)" req required ng-select2>
                                 <option value=""></option>
                                 <?php foreach ($empreendimentos as $e): ?>
                                     <option value="<?php echo $e->id ?>"><?php echo $e->empreendimento ?></option>
@@ -148,7 +150,7 @@
                     <div class="form-group">
                         <label class="col-sm-6 control-label" for="contrato[lote_id]">Lote  </label>
                         <div class="col-sm-18">
-                            <select name="contrato[lote_id]" id="contrato[lote_id]" ng-model="contrato.lote_id" class="form-control" ng-options="lote.id as 'Lote ' + lote.numero + ' - Quadra ' + lote.quadra for lote in lotes" ng-change="setLote()" ng-money>
+                            <select name="contrato[lote_id]" id="contrato[lote_id]" ng-model="contrato.lote_id" class="form-control" ng-options="lote.id as 'Lote ' + lote.numero + ' - Quadra ' + lote.quadra for lote in lotes" ng-change="setLote()" ng-select2>
                                 
                             </select>
                         </div>
@@ -203,12 +205,13 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <button tabindex="2" type="button" class="btn btn-default btn-sm" ng-click="removeCorretor($index)"><i class="fa fa-trash-o"></i></button>
+                            <button tabindex="2" type="button" class="btn btn-default btn-sm pull-right" ng-click="removeCorretor($index)"><i class="fa fa-trash-o"></i></button>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-12">
+                            <label for="" class="col-sm-12 control-label"></label>
                             <button tabindex="2" type="button" class="btn btn-default btn-sm" ng-click="addCorretor()">Adicionar</button>
                         </div>
                     </div>
@@ -216,6 +219,7 @@
                     <div class="header">
                         <h4>Comprador(es)</h4>
                     </div>
+                    <hr>
 
                      <!-- Compradores -->
                     <div class="form-group no-margin-bottom" ng-repeat="cliente in contrato.clientes">
@@ -240,12 +244,13 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <button tabindex="2" type="button" class="btn btn-default btn-sm" ng-click="removeCliente($index)"><i class="fa fa-trash-o"></i></button>
+                            <button tabindex="2" type="button" class="btn btn-default btn-sm pull-right" ng-click="removeCliente($index)"><i class="fa fa-trash-o"></i></button>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-12">
+                            <label for="" class="col-sm-12 control-label"></label>
                             <button tabindex="2" type="button" class="btn btn-default btn-sm" ng-click="addCliente()">Adicionar</button>
                         </div>
                     </div>
@@ -280,9 +285,11 @@
                         <label class="col-sm-6 control-label" for="desconto">Desconto </label>
                         <div class="col-sm-9">
                             <div class="input-group">
-                                
+                                <span class="input-group-addon" ng-show="contrato.tipo_desconto == 2" ng-click="alteraTipoDesconto(1)">R$</span>
+
                                 <input type="text" name="contrato[desconto]" class="form-control mask-money" required ng-model="contrato.desconto" ng-money ng-keyup="calcValorContrato(this)">
-                                <span class="input-group-addon">%</span>
+
+                                <span class="input-group-addon" ng-show="contrato.tipo_desconto == 1" ng-click="alteraTipoDesconto(2)">%</span>
                             </div>
                         </div>
                     </div>
@@ -301,9 +308,11 @@
                         <label class="col-sm-6 control-label" for="contrato.entrada">Entrada </label>
                         <div class="col-sm-9">
                             <div class="input-group">
-                                
+                                <span class="input-group-addon" ng-show="contrato.tipo_entrada == 2" ng-click="alteraTipoEntrada(1)">R$</span>
+
                                 <input type="text" name="contrato[entrada]" class="form-control mask-money" required ng-model="contrato.entrada" ng-money ng-blur="validaEntrada()">
-                                <span class="input-group-addon">%</span>
+                                
+                                <span class="input-group-addon" ng-show="contrato.tipo_entrada == 1" ng-click="alteraTipoEntrada(2)">%</span>
                             </div>
                         </div>
                         <div class="col-sm-8">
@@ -315,9 +324,11 @@
                         <label class="col-sm-6 control-label" for="contrato.intermediarias">Intermediarias </label>
                         <div class="col-sm-9">
                             <div class="input-group">
-                                <input type="text" name="contrato[intermediarias]" class="form-control mask-money" required ng-model="contrato.intermediarias" ng-money ng-blur="validaIntermediarias()">
+                                <span class="input-group-addon" ng-show="contrato.tipo_intermediarias == 2" ng-click="alteraTipoIntermediaria(1)">R$</span>
 
-                                <span class="input-group-addon">%</span>
+                                <input type="text" name="contrato[intermediarias]" class="form-control mask-money" required ng-model="contrato.intermediarias" ng-money ng-blur="validaIntermediarias()" maxlength="6">
+
+                                <span class="input-group-addon" ng-show="contrato.tipo_intermediarias == 1" ng-click="alteraTipoIntermediaria(2)">%</span>
                             </div>
                         </div>
                         <div class="col-sm-8">
@@ -346,7 +357,7 @@
                     </div>
 
                     <div class="col-sm-24">
-                        <table class="table table-bordered table-striped table-hover" ng-show="parcelas_geradas.length > 0">
+                        <table class="table table-bordered  table-hover" ng-show="parcelas_geradas.length > 0">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -447,7 +458,7 @@
 
                     <div class="row" ng-show="contrato.entrada_config.parcelas.length > 0">
                         <hr>
-                        <table class="table table-striped table-bordered table-hover">
+                        <table class="table  table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>Linha</th>
@@ -490,7 +501,7 @@
                         </div>
                     </div>
                     <br>
-                    <table class="table table-striped table-bordered table-hover">
+                    <table class="table  table-bordered table-hover">
                         <thead>
                             <tr>
                                 <th><input type="checkbox" name="entrada.checkall" ng-model="entrada_checkall"></th>

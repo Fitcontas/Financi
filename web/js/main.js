@@ -8,7 +8,7 @@ function required(idForm, modal) {
         if ($(this).attr('req') != null) {
 
 
-            if ($.trim($(this).val()) == '' || $.trim($(this).val()) == '? undefined:undefined ?') {
+            if ($.trim($(this).val()) == '' || $.trim($(this).val()) == '? undefined:undefined ?' || $(this).hasClass('ng-invalid')) {
 
 
                 if ($(this).attr('name')) {

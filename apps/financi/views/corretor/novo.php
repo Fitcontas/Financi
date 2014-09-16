@@ -23,7 +23,7 @@
                                             'block_class' => 'col-sm-4',
                                             'name' => 'corretor[cpf]',
                                             'ng-model' => 'corretor.cpf',
-                                            'attributes' => 'required mask="999.999.999-99" clean="true" req'
+                                            'attributes' => 'required mask="999.999.999-99" clean="true" req ng-blur="validaCpf()"'
                                         ],
                                         [
                                             'label' => 'Nome',
@@ -58,7 +58,7 @@
                                             'block' => 'input-group-datepicker',
                                             'name' => 'corretor[data_nascimento]',
                                             'ng-model' => 'corretor.data_nascimento',
-                                            'class' => ''
+                                            'attributes' => 'required req'
                                         ],
                                          [
                                             'label' => 'Nacionalidade',
@@ -82,7 +82,7 @@
                                             'block_class' => 'col-sm-10',
                                             'name' => 'corretor[naturalidade]',
                                             'ng-model' => 'corretor.naturalidade',
-                                            'ng-option' => '<option ng-repeat="cidade in cidades" value="{{ cidade.id }}">{{ cidade.nome }}</option>'
+                                            'attributes' => 'ng-selected="corretor.naturalidade" ng-options="c.id as c.nome for c in cidades" required req',
                                         ],
                                         [
                                             'label' => 'Estado Civil',
@@ -137,6 +137,21 @@
                                     \Financi\HTMLHelper::renderRow([
                                         [
                                             'label' => 'Escolaridade',
+                                            'block_class' => 'col-sm-6',
+                                            'name' => 'corretor[escolaridade]',
+                                            'block' => 'default-select',
+                                            'options' => [
+                                                '1' => 'Analfabeto',
+                                                '2' => 'Alfabetizado',
+                                                '3' => 'Médio Incompleto',
+                                                '4' => 'Médio Completo',
+                                                '5' => 'Superior Incompleto',
+                                                '6' => 'Superior Completo',
+                                                '7' => 'Pos-graduado',
+                                                '8' => 'Mestre',
+                                                '9' => 'Doutor'
+                                            ],
+                                            'ng-model' => 'corretor.escolaridade'
                                         ],
                                         [
                                             'label' => 'CBO',
@@ -171,16 +186,16 @@
                                     ?>
 
                                     <div class="header margin-bottom">
-                                        <h3>Endereço</h3>
+                                        <h4>Endereço</h4>
                                     </div>
                                     
-                                        <div id="endereco-principal" ng-show="endereco">
+                                        <div id="endereco-principal" class="bloco" ng-show="endereco">
                                             <div class="row hpadding">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label for="corretor[endereco][0][cep]">CEP</label>
     
-                                                        <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="corretor[endereco][0][cep]" ng-model="corretor.endereco.0.cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required>
+                                                        <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="corretor[endereco][0][cep]" ng-model="corretor.endereco.0.cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required clean="true">
     
                                                     </div>
                                                 </div>
@@ -232,14 +247,14 @@
                                             \Financi\HTMLHelper::renderRow([
                                                 [
                                                     'label' => 'Bairro',
-                                                    'block_class' => 'col-sm-10',
+                                                    'block_class' => 'col-sm-12',
                                                     'name' => 'corretor[endereco][0][bairro]',
                                                     'ng-model' => 'corretor.endereco.0.bairro',
                                                     'attributes' => 'req required'
                                                 ],
                                                 [
                                                     'label' => 'UF',
-                                                    'block_class' => 'col-sm-4',
+                                                    'block_class' => 'col-sm-2',
                                                     'block' => 'default-select',
                                                     'options' => $ufs,
                                                     'name' => 'corretor[endereco][0][uf]',
@@ -248,7 +263,7 @@
                                                     'attributes' => 'req required ng-change="get_cidade(\'uf_endereco_principal\', \'cidades_endereco_principal\')"'
                                                 ],
                                                 [
-                                                    'label' => 'cidade',
+                                                    'label' => 'Cidade',
                                                     'block_class' => 'col-sm-10',
                                                     'block' => 'select-ng-repeat',
                                                     'name' => 'corretor[endereco][0][cidade]',
@@ -269,13 +284,13 @@
                                             ]);
                                         ?> 
                                         </div>
-                                        <div class="endereco-secundario" ng-show="!endereco">
+                                        <div class="endereco-secundario bloco" ng-show="!endereco">
                                             <div class="row hpadding">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label for="corretor[endereco][1][cep]">CEP</label>
   
-                                                        <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="corretor[endereco][1][cep]" ng-model="corretor.endereco.1.cep" id="endereco-secundario" ng-blur="completaEndereco(false)">
+                                                        <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="corretor[endereco][1][cep]" ng-model="corretor.endereco.1.cep" id="endereco-secundario" ng-blur="completaEndereco(false)" clean="true">
 
                                                     </div>
                                                 </div>
@@ -335,13 +350,13 @@
                                             \Financi\HTMLHelper::renderRow([
                                                 [
                                                     'label' => 'Bairro',
-                                                    'block_class' => 'col-sm-10',
+                                                    'block_class' => 'col-sm-12',
                                                     'name' => 'corretor[endereco][1][bairro]',
                                                     'ng-model' => 'corretor.endereco.1.bairro'
                                                 ],
                                                 [
                                                     'label' => 'UF',
-                                                    'block_class' => 'col-sm-4',
+                                                    'block_class' => 'col-sm-2',
                                                     'block' => 'default-select',
                                                     'options' => $ufs,
                                                     'name' => 'corretor[endereco][1][uf]',
@@ -350,7 +365,7 @@
                                                     'attributes' => 'ng-change="get_cidade(\'uf_endereco_secundario\', \'cidades_endereco_secundario\')"'
                                                 ],
                                                 [
-                                                    'label' => 'cidade',
+                                                    'label' => 'Cidade',
                                                     'block_class' => 'col-sm-10',
                                                     'block' => 'select-ng-repeat',
                                                     'name' => 'corretor[endereco][1][cidade]',
@@ -370,8 +385,8 @@
                                         ?> 
                                         </div>
 
-                                        <div class="row hpadding cl">
-                                            <div class="form-group">
+                                        <div class="row hpadding" style="margin-bottom:9px">
+                                            <div class="form-group" style="margin-top:8px">
                                                 <div class="col-sm-24">
                                                     <a class="btn btn-default" style="margin-left:0" href="javascript://" ng-click="changeEndereco()">{{endereco ? 'Endereço Secundário' : 'Endereço Principal'}}</a>
                                                 </div>

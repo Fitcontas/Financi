@@ -85,7 +85,7 @@ class ContratoController extends \SlimController\SlimController
             $final_arr = $e->to_array();
             $final_arr['valor'] = number_format($final_arr['valor'], 2, ',', '.');
             $final_arr['data_emissao'] = \Financi\DataFormat::showDate($final_arr['data_emissao']);
-            $final_arr['contrato'] = str_pad( $final_arr['id'].date('Y', $data_emissao), 9, 0, STR_PAD_LEFT);
+            $final_arr['contrato'] = str_pad( $final_arr['id'].$data_emissao, 9, 0, STR_PAD_LEFT);
             
             foreach($e->contrato_cliente as $cliente) {
                 $final_arr['clientes'][] = $cliente->cliente->to_array();
@@ -121,29 +121,47 @@ class ContratoController extends \SlimController\SlimController
         $data = json_decode($this->app->request->getBody());
 
         $valor_contrato = \Financi\DataFormat::money($data->valor_contrato);
-        $pct_entrada = \Financi\DataFormat::money($data->entrada) / 100;
-        $pct_intermediarias = \Financi\DataFormat::money($data->intermediarias) / 100;
+        
+        $pct_entrada = $data->tipo_entrada == 1 ? \Financi\DataFormat::money($data->entrada) / 100 : \Financi\DataFormat::money($data->entrada);
+        
+        $pct_intermediarias = $data->tipo_intermediarias == 1 ? \Financi\DataFormat::money($data->intermediarias) / 100 : \Financi\DataFormat::money($data->intermediarias);
+        
         $qtd_parcelas = $data->parcelas;
         $periodo = $data->periodo;
 
         $empreendimento = \Empreendimento::find($data->empreendimento_id);
         $taxa = $empreendimento->taxa_financiamento / 100;
 
-        $valor_financiado = $valor_contrato - ( ($valor_contrato * $pct_entrada) + ($valor_contrato * $pct_intermediarias) );
+        $vl_entrada = $data->tipo_entrada == 1 ? ($valor_contrato * $pct_entrada) : $pct_entrada;
+
+        $vl_intermediarias = $data->tipo_intermediarias == 1 ? ($valor_contrato * $pct_intermediarias) : $pct_intermediarias;
+
+        $valor_financiado = $valor_contrato - ( $vl_entrada + $vl_intermediarias );
 
         $fase1 = 1 - pow((1+$taxa), ($qtd_parcelas * -1));
         $parcelas = $valor_financiado / ($fase1 / $taxa);
 
         //Intermerdiárias
-        $valor_intermediarias = ($valor_contrato * $pct_intermediarias);
+        $valor_intermediarias = $data->tipo_intermediarias == 1 ? ($valor_contrato * $pct_intermediarias) : $pct_intermediarias;
         $qtd_periodos = $qtd_parcelas /  $meses_periodo[$periodo];
         
         //taxa equivalente
         $taxa_equivalente = pow((1 + $taxa), $meses_periodo[$periodo]) - 1;
         
-        $fase2 = 1 - pow((1 + $taxa_equivalente), ($qtd_periodos * -1));
+        if($data->tipo_intermediarias == 1) {
+
+            $fase2 = 1 - pow((1 + $taxa_equivalente), ($qtd_periodos * -1));
         
-        $intermediarias = $valor_intermediarias / ($fase2 / $taxa_equivalente);
+            $intermediarias = $valor_intermediarias / ($fase2 / $taxa_equivalente);
+
+        } else {
+            $fase2 = 1 - pow((1 + $taxa), ($qtd_periodos * -1));
+
+            $intermediarias = ($valor_intermediarias/$qtd_periodos) * ($fase2 / $taxa_equivalente);
+            print_r($fase2 / $taxa_equivalente);
+            exit();
+
+        }
 
         $primeiro_vencimento = implode("-", array_reverse(explode("/", $data->primeiro_vencimento)));
         $primeiro_vencimento = new \DateTime($primeiro_vencimento);
@@ -189,11 +207,16 @@ class ContratoController extends \SlimController\SlimController
             'qtd_parcelas' => $data->parcelas,
             'primeiro_vencimento' => \Financi\DataFormat::DateDB($data->primeiro_vencimento),
             'data_emissao' => \Financi\DataFormat::DateDB($data->emissao),
+            'valor' => \Financi\DataFormat::money($data->valor_contrato)
         ];
 
         $contrato = new \Contrato($contrato_data);
 
         if($contrato->save()) {
+
+            $lote = \Lote::find($data->lote_id);
+            $lote->situacao = 'V';
+            $lote->save();
 
             foreach ($data->corretores as $c) {
                 $corretor = new \ContratoCorretor();

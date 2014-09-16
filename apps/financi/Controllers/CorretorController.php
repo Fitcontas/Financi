@@ -122,6 +122,8 @@ class CorretorController extends \SlimController\SlimController
 
         foreach ($corretores as $c) {
 
+            $ar = $c->to_array();
+
             $telefones = [];
             foreach ($c->telefones as $t) {
                 $telefones[] = $t->to_array();
@@ -134,7 +136,13 @@ class CorretorController extends \SlimController\SlimController
 
             $array_contatos = ['emails'=>$emails, 'telefones' => $telefones];
 
-            $final_array = array_merge($c->to_array(), $array_contatos);
+            if($ar['cnpj']) {
+                $ar['cnpj'] = \Financi\DataFormat::mask($ar['cnpj'], '##.###.###/###-##');
+            } else {
+                $ar['cpf'] = \Financi\DataFormat::mask($ar['cpf'], '###.###.###-##');
+            }
+
+            $final_array = array_merge($ar, $array_contatos);
 
             $arr[] = $final_array;
         }
@@ -220,6 +228,8 @@ class CorretorController extends \SlimController\SlimController
         if(!isset($data->id)) {
         
             $data->instituicao_id = \Financi\Auth::getUser()['instituicao_id'];
+            $data->data_cadastro = date('Y-m-d H:i:s');
+            $data->data_nascimento = \Financi\DataFormat::DatetimeBd($data->data_nascimento);
 
             $endereco = isset($data->endereco) ? $data->endereco : false;
             $telefones = isset($data->telefones) ? $data->telefones : [];
@@ -276,6 +286,8 @@ class CorretorController extends \SlimController\SlimController
             $conjuge = isset($data->conjuge) ? $data->conjuge : false;
             $telefones = isset($data->telefones) ? $data->telefones : [];
             $emails = isset($data->emails) ? $data->emails : [];
+
+            $data->data_nascimento = \Financi\DataFormat::DatetimeBd($data->data_nascimento);
 
             unset($data->endereco);
             unset($data->conjuge);

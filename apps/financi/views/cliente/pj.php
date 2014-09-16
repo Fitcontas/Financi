@@ -115,13 +115,13 @@
                                         <h4>Endereço</h4>
                                     </div>
                                     
-                                        <div id="endereco-principal" ng-show="endereco">
+                                        <div id="endereco-principal" class="bloco" ng-show="endereco">
                                             <div class="row hpadding">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label for="cliente[endereco][0][cep]">CEP</label>
                                                        
-                                                        <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][0][cep]" ng-model="cliente.endereco.0.cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required>
+                                                        <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][0][cep]" ng-model="cliente.endereco.0.cep" id="endereco-principal" ng-blur="completaEndereco(true)" req required clean="true">
                                                       
                                                     </div>
                                                 </div>
@@ -184,14 +184,14 @@
                                             \Financi\HTMLHelper::renderRow([
                                                 [
                                                     'label' => 'Bairro',
-                                                    'block_class' => 'col-sm-10',
+                                                    'block_class' => 'col-sm-12',
                                                     'name' => 'cliente[endereco][0][bairro]',
                                                     'ng-model' => 'cliente.endereco.0.bairro',
                                                     'attributes' => 'req required'
                                                 ],
                                                 [
                                                     'label' => 'UF',
-                                                    'block_class' => 'col-sm-4',
+                                                    'block_class' => 'col-sm-2',
                                                     'block' => 'default-select',
                                                     'options' => $ufs,
                                                     'name' => 'cliente[endereco][0][uf]',
@@ -221,12 +221,12 @@
                                             ]);
                                         ?> 
                                         </div>
-                                        <div class="endereco-secundario" ng-show="!endereco">
+                                        <div class="endereco-secundario bloco" ng-show="!endereco">
                                             <div class="row hpadding">
                                                 <div class="col-sm-4">
                                                     <div class="form-group">
                                                         <label for="cliente[endereco][1][cep]">CEP</label>
-                                                         <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][1][cep]" ng-model="cliente.endereco.1.cep" id="endereco-secundario" ng-blur="completaEndereco(false)">
+                                                         <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" name="cliente[endereco][1][cep]" ng-model="cliente.endereco.1.cep" id="endereco-secundario" ng-blur="completaEndereco(false)" clean="true">
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-19">
@@ -285,13 +285,13 @@
                                             \Financi\HTMLHelper::renderRow([
                                                 [
                                                     'label' => 'Bairro',
-                                                    'block_class' => 'col-sm-10',
+                                                    'block_class' => 'col-sm-12',
                                                     'name' => 'cliente[endereco][1][bairro]',
                                                     'ng-model' => 'cliente.endereco.1.bairro'
                                                 ],
                                                 [
                                                     'label' => 'UF',
-                                                    'block_class' => 'col-sm-4',
+                                                    'block_class' => 'col-sm-2',
                                                     'block' => 'default-select',
                                                     'options' => $ufs,
                                                     'name' => 'cliente[endereco][1][uf]',
@@ -319,8 +319,8 @@
                                             ]);
                                         ?> 
                                         </div>
-                                        <div class="row hpadding cl">
-                                            <div class="form-group">
+                                        <div class="row hpadding" style="margin-bottom:9px">
+                                            <div class="form-group" style="margin-top:8px">
                                                 <div class="col-sm-24">
                                                     <a class="btn btn-default" style="margin-left:0" href="javascript://" ng-click="changeEndereco()">{{endereco ? 'Endereço Secundário' : 'Endereço Principal'}}</a>
                                                 </div>

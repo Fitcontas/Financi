@@ -38,4 +38,6 @@ class Clientes extends AppModel {
         $index->addDocument($doc);
         $index->commit();
     }
+
+    
 }

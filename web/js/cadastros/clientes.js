@@ -24,7 +24,16 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
     $scope.cidades_conjuge = [];
 
     $scope.salvar = function(form, add) {
-        console.log($scope.cliente);
+        if($scope.cliente.cpf && !validaCpf($scope.cliente.cpf)) {
+            chamaMsg('27', true);
+            return false;
+        }
+
+        if($scope.cliente.cnpj && !validaCnpj($scope.cliente.cnpj)) {
+            chamaMsg('29', true);
+            return false;
+        }
+
         if($(ClienteForm).hasClass('ng-invalid')) {
             required('#ClienteForm', false);
             chamaMsg('11', true);
@@ -44,7 +53,19 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
 
     }
 
-    $scope.get_cidade = function(id, destino, cidade = false) {
+    $scope.validaCpf = function() {
+        if($scope.cliente.cpf && !validaCpf($scope.cliente.cpf)) {
+            chamaMsg('27', true);
+        }
+    }
+
+    $scope.validaCnpj = function() {
+        if($scope.cliente.cnpj && !validaCnpj($scope.cliente.cnpj)) {
+            chamaMsg('29', true);
+        }
+    }
+
+    $scope.get_cidade = function(id, destino) {
              
         
         if(destino == 'cidades_endereco_principal') {

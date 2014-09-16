@@ -141,7 +141,7 @@ class HTMLHelper
 
     static function renderSelectOption($value, $options)
     {
-        $html_select_options = '<option value=""></option>';
+        $html_select_options = '';
         foreach ($options as $key => $option_value) {
             $selected = ($value == $option_value) ? 'selected' : '';
             $html_select_options .= '<option ' . $selected . ' value="' . $key . '">' . $option_value . '</option>';
