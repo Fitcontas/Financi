@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tempo de Geração: 08/09/2014 às 06:48
+-- Tempo de Geração: 16/09/2014 às 07:26
 -- Versão do servidor: 5.5.38-0ubuntu0.14.04.1
 -- Versão do PHP: 5.5.16-1+deb.sury.org~trusty+1
 
@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `registro_geral` varchar(45) DEFAULT NULL,
   `expedicao` date DEFAULT NULL,
   `ctps` varchar(45) DEFAULT NULL,
+  `escolaridade` int(11) DEFAULT NULL,
   `cbo` int(11) DEFAULT NULL,
   `registro_profissional` varchar(70) DEFAULT NULL,
   `pai` varchar(100) DEFAULT NULL,
@@ -56,14 +57,18 @@ CREATE TABLE IF NOT EXISTS `cliente` (
   `status` int(2) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `fk_cliente_instituicao1_idx` (`instituicao_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
 
 --
 -- Fazendo dump de dados para tabela `cliente`
 --
 
-INSERT INTO `cliente` (`id`, `instituicao_id`, `cpf`, `cnpj`, `nome`, `data_nascimento`, `sexo`, `nacionalidade`, `naturalidade_uf`, `naturalidade`, `estado_civil`, `residencia`, `registro_geral`, `expedicao`, `ctps`, `cbo`, `registro_profissional`, `pai`, `mae`, `nome_fantasia`, `inscricao_estadual`, `inscricao_municipal`, `capital_social`, `cnae`, `regime_tributario`, `data_cadastro`, `status`) VALUES
-(20, 1, '04788373564', NULL, 'fernando dutra neres', '2014-08-12', 'M', 'brasileiro', 'BA', '877', '1', 1, '1388769085', NULL, '545646546546', 254310, '234654787', 'nelson Ferreira Neres', 'Ednalva Dutra Neres', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1);
+INSERT INTO `cliente` (`id`, `instituicao_id`, `cpf`, `cnpj`, `nome`, `data_nascimento`, `sexo`, `nacionalidade`, `naturalidade_uf`, `naturalidade`, `estado_civil`, `residencia`, `registro_geral`, `expedicao`, `ctps`, `escolaridade`, `cbo`, `registro_profissional`, `pai`, `mae`, `nome_fantasia`, `inscricao_estadual`, `inscricao_municipal`, `capital_social`, `cnae`, `regime_tributario`, `data_cadastro`, `status`) VALUES
+(20, 1, '04788373564', NULL, 'fernando dutra neres', '2014-12-08', 'M', 'brasileiro', 'BA', '877', '1', 1, '1388769085', NULL, '545646546546', NULL, 215105, '234654787', 'nelson Ferreira Neres', 'Ednalva Dutra Neres', NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1),
+(21, 1, NULL, '35456465465465', 'teste', NULL, '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'teste da silva sauro', '654654654', '546546', NULL, NULL, NULL, '0000-00-00', 2),
+(22, 1, '92306675520', NULL, 'FABIO DALL ORTO', NULL, 'M', 'BRASILEIRO', 'BA', '1078', '2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 0),
+(23, 1, '92306675521', NULL, 'fabio zanon dall ort', '1977-05-02', 'M', 'brasileiro', 'BA', '1078', '1', 2, NULL, NULL, NULL, NULL, 252105, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 0),
+(24, 1, '92306675520', NULL, 'FABIO ZANON DALL ORTO', NULL, 'M', 'BRASILEIRO', 'BA', '1078', '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '0000-00-00', 1);
 
 -- --------------------------------------------------------
 
@@ -142,15 +147,23 @@ CREATE TABLE IF NOT EXISTS `cliente_endereco` (
   `referencia` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_endereco_cliente_cliente1_idx` (`cliente_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Fazendo dump de dados para tabela `cliente_endereco`
 --
 
 INSERT INTO `cliente_endereco` (`id`, `cliente_id`, `cep`, `tipo`, `logradouro`, `numero`, `complemento`, `bairro`, `uf`, `cidade`, `referencia`) VALUES
-(1, 20, '45985-16', 1, 'Avenida Marechal Castelo Branco - atÃ© 549 - lado Ã­mpar', '273', NULL, 'Centro', 'BA', '1078', NULL),
-(2, 20, '45985106', 3, 'Rua Marechal Eurico Gaspar Dutra', '6564', NULL, 'Centro', 'BA', '1078', NULL);
+(1, 20, '45985160', 1, 'Avenida Marechal Castelo Branco - atÃ© 549 - lado Ã­mpar', '273', NULL, 'Centro', 'BA', '1078', NULL),
+(2, 20, '45985106', 3, 'Rua Marechal Eurico Gaspar Dutra', '6564', NULL, 'Centro', 'BA', '1078', NULL),
+(3, 21, '45985-10', 1, 'Rua Marechal Eurico Gaspar Dutra', '273', NULL, 'Centro', 'AP', '281', NULL),
+(4, 21, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(5, 22, '45990-31', 1, 'Rua Eleosippo Cunha - atÃ© 538/539', '10', NULL, 'Bela Vista', 'BA', '1078', NULL),
+(6, 22, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(7, 23, '45990-31', 1, 'Rua Eleosippo Cunha - atÃ© 538/539', '274', 'a', 'Bela Vista', 'BA', '1078', NULL),
+(8, 23, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(9, 24, '45990-31', 1, 'Rua Eleosippo Cunha - atÃ© 538/539', '274', NULL, 'Bela Vista', 'BA', '1078', NULL),
+(10, 24, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -166,14 +179,16 @@ CREATE TABLE IF NOT EXISTS `cliente_telefone` (
   `numero` varchar(12) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_cliente_telefone_cliente1_idx` (`cliente_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Fazendo dump de dados para tabela `cliente_telefone`
 --
 
 INSERT INTO `cliente_telefone` (`id`, `cliente_id`, `tipo`, `ddd`, `numero`) VALUES
-(8, 20, '1', '73', '99261430');
+(8, 20, '1', '73', '99261430'),
+(9, 21, '1', '043', '99384385'),
+(10, 21, '2', '75', '93458484');
 
 -- --------------------------------------------------------
 
@@ -185,6 +200,7 @@ CREATE TABLE IF NOT EXISTS `contrato` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `lote_id` int(11) NOT NULL,
   `instituicao_id` int(11) NOT NULL,
+  `valor` decimal(10,2) NOT NULL,
   `desconto` decimal(10,2) NOT NULL,
   `entrada` decimal(10,2) NOT NULL,
   `intermediarias` decimal(10,2) NOT NULL,
@@ -196,7 +212,15 @@ CREATE TABLE IF NOT EXISTS `contrato` (
   PRIMARY KEY (`id`),
   KEY `fk_contrato_lote1_idx` (`lote_id`),
   KEY `fk_contrato_instituicao1_idx` (`instituicao_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Fazendo dump de dados para tabela `contrato`
+--
+
+INSERT INTO `contrato` (`id`, `lote_id`, `instituicao_id`, `valor`, `desconto`, `entrada`, `intermediarias`, `intervalo_intermediarias`, `qtd_parcelas`, `primeiro_vencimento`, `data_emissao`, `status`) VALUES
+(1, 3, 1, 5100.00, 15.00, 15.00, 15.00, 6, 84, '2014-09-24', '2014-09-11 00:00:00', 1),
+(2, 2, 1, 382500.00, 15.00, 30.00, 15.00, 4, 96, '2014-09-30', '2014-09-11 00:00:00', 1);
 
 -- --------------------------------------------------------
 
@@ -212,7 +236,15 @@ CREATE TABLE IF NOT EXISTS `contrator_corretor` (
   PRIMARY KEY (`id`),
   KEY `fk_contrator_corretor_contrato1_idx` (`contrato_id`),
   KEY `fk_contrator_corretor_corretor1_idx` (`corretor_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Fazendo dump de dados para tabela `contrator_corretor`
+--
+
+INSERT INTO `contrator_corretor` (`id`, `contrato_id`, `corretor_id`, `comissao`) VALUES
+(1, 1, 1, 100.00),
+(2, 2, 1, 100.00);
 
 -- --------------------------------------------------------
 
@@ -228,7 +260,15 @@ CREATE TABLE IF NOT EXISTS `contrato_cliente` (
   PRIMARY KEY (`id`),
   KEY `fk_contrato_cliente_contrato1_idx` (`contrato_id`),
   KEY `fk_contrato_cliente_cliente1_idx` (`cliente_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Fazendo dump de dados para tabela `contrato_cliente`
+--
+
+INSERT INTO `contrato_cliente` (`id`, `contrato_id`, `cliente_id`, `participacao`) VALUES
+(1, 1, 20, 100.00),
+(2, 2, 20, 100.00);
 
 -- --------------------------------------------------------
 
@@ -269,6 +309,7 @@ CREATE TABLE IF NOT EXISTS `corretor` (
   `expedicao` date DEFAULT NULL,
   `ctps` varchar(45) DEFAULT NULL,
   `cbo` int(11) DEFAULT NULL,
+  `escolaridade` int(11) DEFAULT NULL,
   `registro_profissional` varchar(70) DEFAULT NULL,
   `pai` varchar(100) DEFAULT NULL,
   `mae` varchar(100) DEFAULT NULL,
@@ -282,10 +323,10 @@ CREATE TABLE IF NOT EXISTS `corretor` (
 -- Fazendo dump de dados para tabela `corretor`
 --
 
-INSERT INTO `corretor` (`id`, `instituicao_id`, `cpf`, `nome`, `sexo`, `data_nascimento`, `nacionalidade`, `naturalidade_uf`, `naturalidade`, `estado_civil`, `rg`, `expedicao`, `ctps`, `cbo`, `registro_profissional`, `pai`, `mae`, `data_cadastro`, `status`) VALUES
-(1, 1, '04788373564', 'Fernando Dutra Neres', NULL, NULL, 'Brasileiro', 'BA', 'Nova Vicosa', '1', '1388769085', '2014-07-07', NULL, NULL, NULL, NULL, NULL, '2014-04-08', 1),
-(2, 1, '62356631534', 'Amaral Azevedo Neto', NULL, '2014-08-16', 'brasileiro', 'BA', 'Nova Viçosa', '1', '321456465', '2014-08-16', NULL, NULL, NULL, NULL, NULL, '2014-08-16', 1),
-(4, 1, '04788837356', 'Valvir rodrigues da silva', 'M', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 223124, NULL, NULL, NULL, '0000-00-00', 1);
+INSERT INTO `corretor` (`id`, `instituicao_id`, `cpf`, `nome`, `sexo`, `data_nascimento`, `nacionalidade`, `naturalidade_uf`, `naturalidade`, `estado_civil`, `rg`, `expedicao`, `ctps`, `cbo`, `escolaridade`, `registro_profissional`, `pai`, `mae`, `data_cadastro`, `status`) VALUES
+(1, 1, '04788373564', 'Fernando Dutra Neres', NULL, NULL, 'Brasileiro', 'BA', 'Nova Vicosa', '1', '1388769085', '2014-07-07', NULL, NULL, NULL, NULL, NULL, NULL, '2014-04-08', 1),
+(2, 1, '62356631534', 'Amaral Azevedo Neto', NULL, '2014-08-16', 'brasileiro', 'BA', 'Nova Viçosa', '1', '321456465', '2014-08-16', NULL, NULL, NULL, NULL, NULL, NULL, '2014-08-16', 0),
+(4, 1, '04688837336', 'Valvir rodrigues da silva', 'M', '2014-09-15', 'brasileiro', 'AP', '322', '1', NULL, NULL, NULL, 223124, 1, NULL, NULL, NULL, '0000-00-00', 1);
 
 -- --------------------------------------------------------
 
@@ -337,7 +378,7 @@ CREATE TABLE IF NOT EXISTS `corretor_endereco` (
 
 INSERT INTO `corretor_endereco` (`id`, `corretor_id`, `cep`, `tipo`, `logradouro`, `numero`, `complemento`, `bairro`, `uf`, `cidade`, `referencia`) VALUES
 (1, 1, '45985160', 1, 'Rua teste sa silva', '273', NULL, 'Centro', 'BA', 'Teixeira de Freitas', NULL),
-(2, 4, '45985-16', 1, 'Avenida Marechal Castelo Branco - atÃ© 549 - lado Ã­mpar', '273', NULL, 'Centro', 'DF', '1778', NULL);
+(2, 4, '45985160', 1, 'Avenida Marechal Castelo Branco - atÃ© 549 - lado Ã­mpar', '273', NULL, 'Centro', 'BA', '1078', NULL);
 
 -- --------------------------------------------------------
 
@@ -501,6 +542,7 @@ CREATE TABLE IF NOT EXISTS `lote` (
   `bairro` varchar(30) DEFAULT NULL,
   `cidade` varchar(45) DEFAULT NULL,
   `uf` char(2) DEFAULT NULL,
+  `situacao` char(1) DEFAULT NULL,
   `status` int(11) DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `fk_lote_empreendimento1_idx` (`empreendimento_id`)
@@ -510,10 +552,10 @@ CREATE TABLE IF NOT EXISTS `lote` (
 -- Fazendo dump de dados para tabela `lote`
 --
 
-INSERT INTO `lote` (`id`, `empreendimento_id`, `numero`, `quadra`, `valor`, `area_total`, `matricula`, `inscricao_municipal`, `frente`, `frente_metro`, `fundo`, `fundo_metro`, `lateral_direita`, `lateral_direita_metro`, `lateral_esquerda`, `lateral_esquerda_metro`, `cep`, `logradouro`, `num`, `complemento`, `bairro`, `cidade`, `uf`, `status`) VALUES
-(1, 1, '0001', 'A9', 250000.00, '1500', '12345687', '468798789', 'fd', 2.00, 'fd', 2.00, 'fd', 3.00, 'fd', 2.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(2, 3, '001', 'a5', 450000.00, '2500', '65656', '56565', 'fdfsfds', 2.00, 'fsdfsd', 4.00, 'fsdsd', 4.00, 'fsdfds', 5.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1),
-(3, 1, '354', 'A95', 40000.00, '250', 'A65455', '6565454', 'fadfsafsd', 5.00, 'fsdfsd', 2.00, 'fdsfsdf', 6.00, 'fsdfsd', 65.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
+INSERT INTO `lote` (`id`, `empreendimento_id`, `numero`, `quadra`, `valor`, `area_total`, `matricula`, `inscricao_municipal`, `frente`, `frente_metro`, `fundo`, `fundo_metro`, `lateral_direita`, `lateral_direita_metro`, `lateral_esquerda`, `lateral_esquerda_metro`, `cep`, `logradouro`, `num`, `complemento`, `bairro`, `cidade`, `uf`, `situacao`, `status`) VALUES
+(1, 1, '0001', 'A9', 250000.00, '1500', '12345687', '468798789', 'fd', 2.00, 'fd', 2.00, 'fd', 3.00, 'fd', 2.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'V', 1),
+(2, 3, '001', 'a5', 450000.00, '2500', '65656', '56565', 'fdfsfds', 2.00, 'fsdfsd', 4.00, 'fsdsd', 4.00, 'fsdfds', 5.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'V', 1),
+(3, 1, '354', 'A95', 40000.00, '250', 'A65455', '6565454', 'fadfsafsd', 5.00, 'fsdfsd', 2.00, 'fdsfsdf', 6.00, 'fsdfsd', 65.00, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -553,7 +595,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   PRIMARY KEY (`id`),
   KEY `instituicao_pk` (`instituicao_id`),
   KEY `grupo_pks` (`grupo_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
 
 --
 -- Fazendo dump de dados para tabela `usuario`
@@ -564,19 +606,20 @@ INSERT INTO `usuario` (`id`, `instituicao_id`, `grupo_id`, `usuario`, `nome`, `a
 (4, 1, 2, 'teste', 'teste blabal ba', 'teste', 'teste@teste.com', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 1),
 (5, 1, 1, 'fsdfsd', 'fsdfds', 'fsdfds', 'fdgdfgdfg', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 0),
 (6, 1, 1, 'fsdfsd', 'fsdfsd', 'fsdfsdf', 'fsdfsdf', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 1),
-(7, 1, 1, 'fsdfsdf', 'fsdfds', 'fsdfsdfsd', 'fssdfsdf', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 2),
+(7, 1, 1, 'fsdfsdf', 'fsdfds', 'fsdfsdfsd', 'fssdfsdf', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 0),
 (8, 1, 1, 'fsdfsdf', 'fsdfsdf', 'fsdfds', 'sfdsdfds', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 2),
-(9, 1, 1, 'fsdfsdfsd', 'fsdfdsfs', 'fsdfsdfsdf', 'fsdsfsdfsd', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 2),
+(9, 1, 1, 'fsdfsdfsd', 'fsdfdsfs', 'fsdfsdfsdf', 'fsdsfsdfsd', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 0),
 (10, 1, 1, 'sdfadfas', 'fsdfsd', 'sdfsdf', 'dsfsdfds', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 2),
-(11, 1, 1, 'sdfsdfsd', 'sfsdfsdf', 'fsdfsdf', 'fsdfsdfsd', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 2),
+(11, 1, 1, 'sdfsdfsd', 'sfsdfsdf', 'fsdfsdf', 'fsdfsdfsd', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 0),
 (12, 1, 1, 'fsdfsdfsd', 'fsdfsdf', 'fsdfsdfs', 'fsdfsdfs', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 2),
 (13, 1, 1, 'fssdfds', 'fsdfsdf', 'sfsdfsd', 'sfdfsd', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 2),
 (14, 1, 1, 'fsdfsdfsdf', 'sfsdfsd', 'fsdfsdf', 'sfdfsdfsdf', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 1),
 (15, 1, 1, 'fsdfsd', 'fsdfds', 'fsdfsd', 'fsdfsd', '55bc82ea7aeaa8dc720252af1f0979a1e372c757', NULL, 1),
-(16, 1, 1, 'fsdfsd', 'fsdfds', 'fsdfs', 'fsdfsd', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 1),
+(16, 1, 1, 'fsdfsd', 'fsdfds', 'fsdfs', 'fsdfsd', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', NULL, 2),
 (17, 1, 1, 'fsdfsd', 'fdsfsd', 'fdsfsd', 'fsdfsdfs', '941a02202d05ba09727e91d0e89c48a26b25af13', NULL, 1),
 (18, 1, 1, 'fsdfsdfsd', 'fsdfsd', 'fsdfsd', 'fd@fds.br', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, 1),
-(19, 1, 2, 'fsdfsd', 'pedro guerra', 'fsdfsd', 'fsdfsd@fdsfsd', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, 1);
+(19, 1, 2, 'fsdfsd', 'pedro guerra', 'fsdfsd', 'fsdfsd@fdsfsd', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, 1),
+(20, 1, 1, 'fabio', 'fabio', 'fabio', 'fabio@teste.com.br', '7c4a8d09ca3762af61e59520943dc26494f8941b', NULL, 1);
 
 --
 -- Restrições para dumps de tabelas
