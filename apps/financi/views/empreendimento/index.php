@@ -36,7 +36,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="clearfix"></div>
+                    <div class="clearfix tool"></div>
                     
                     <!-- Início data table content -->
                     <div class="table-responsive" ng-show="model.empreendimentos.length>0">
@@ -107,8 +107,8 @@
                 </div>
 
                 <div class="tab-container">
-                        <div style="margin-top: -7px;" class="tab-container pull-right">
-                        <ul class="nav nav-pills">
+                        <div style="margin-top: -3px;" class="tab-container">
+                        <ul class="nav nav-tabs">
                           <li class="active"><a data-toggle="tab" href="#home">Principal</a></li>
                           <li class=""><a data-toggle="tab" href="#endereco">Endereço</a></li>
                           <li class=""><a data-toggle="tab" href="#corretores">Corretores Autorizados</a></li>
@@ -127,14 +127,14 @@
                                     <div class="form-group">
                                         <label class="col-sm-7 control-label" for="nome">Empreendimento  </label>
                                         <div class="col-sm-17">
-                                            <input type="text" value="" name="nome" req="" class="form-control" ng-model="empreendimento.empreendimento" required>
+                                            <input type="text" value="" name="empreendimento[empreendimento]" req="" class="form-control" ng-model="empreendimento.empreendimento" required>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
                                         <label class="col-sm-7 control-label" for="nome">Matrícula CRI  </label>
                                         <div class="col-sm-17">
-                                            <input type="text" value="" name="nome" req="" class="form-control" ng-model="empreendimento.cri" required>
+                                            <input type="text" value="" name="empreendimento[matricula]" req="" class="form-control" ng-model="empreendimento.cri" required>
                                         </div>
                                     </div>
 
@@ -142,7 +142,17 @@
                                         <label class="col-sm-7 control-label" for="nome">Comissão  </label>
                                         <div class="col-sm-7">
                                             <div class="input-group no-margin-bottom">
-                                                <input type="text" class="form-control mask-money" req="" ng-model="empreendimento.comissao" placeholder="0,00" maxlength="6" required>
+                                                <input type="text" name="empreendimento[comissao]" class="form-control mask-money" req="" ng-model="empreendimento.comissao" maxlength="6" required>
+                                                <span class="input-group-addon">%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-7 control-label" for="nome">Entrada  </label>
+                                        <div class="col-sm-7">
+                                            <div class="input-group no-margin-bottom">
+                                                <input type="text" name="empreendimento[entrada]" class="form-control mask-money" ng-model="empreendimento.entrada" maxlength="6" required req>
                                                 <span class="input-group-addon">%</span>
                                             </div>
                                         </div>
@@ -152,12 +162,12 @@
                                         <label class="col-sm-7 control-label" for="nome">Intermediárias  </label>
                                         <div class="col-sm-7">
                                             <div class="input-group no-margin-bottom">
-                                                <input type="text" class="form-control mask-money" req="" ng-model="empreendimento.intermediarias" placeholder="0,00" maxlength="6" required>
+                                                <input type="text" class="form-control mask-money" name="empreendimento[intermediarias]" req="" ng-model="empreendimento.intermediarias" maxlength="6" required>
                                                 <span class="input-group-addon">%</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-8">
-                                            <select class="form-control" ng-model="empreendimento.periodo" req required ng-disabled="!empreendimento.intermediarias > 0 || empreendimento.intermediarias == '0,00'">
+                                            <select class="form-control" name="empreendimento[periodo]" ng-model="empreendimento.periodo" req required ng-disabled="!empreendimento.intermediarias > 0 || empreendimento.intermediarias == '0,00'">
                                                 <option value="1">Mensal</option>
                                                 <option value="2">Bimestral</option>
                                                 <option value="3">Trimestral</option>
@@ -171,7 +181,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-7 control-label" for="nome">Qtd. Parcelas  </label>
                                         <div class="col-sm-7">
-                                            <input type="number" value="" name="nome" req="" class="form-control" ng-model="empreendimento.qtd_parcelas" required>
+                                            <input type="text" name="empreendimento[qtd_parcelas]" req="" class="form-control" ng-model="empreendimento.qtd_parcelas" required ng-only-numbers="">
                                         </div>
                                     </div>
 
@@ -179,7 +189,7 @@
                                         <label class="col-sm-7 control-label" for="nome">Taxa do Financiamento  </label>
                                         <div class="col-sm-7">
                                             <div class="input-group no-margin-bottom">
-                                                <input type="text" class="form-control mask-money" req="" ng-model="empreendimento.taxa_financiamento" placeholder="0,00" maxlength="6" required>
+                                                <input type="text" name="empreendimento[taxa_financiamento]" class="form-control mask-money" req="" ng-model="empreendimento.taxa_financiamento" maxlength="6" required>
                                                 <span class="input-group-addon">%</span>
                                             </div>
                                         </div>
@@ -205,7 +215,7 @@
                                     <div class="form-group no-margin-bottom">
                                         <label  class="col-sm-6 control-label" for="">CEP</label>
                                         <div class="col-sm-8">
-                                                <input type="text" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" ng-model="empreendimento.cep" id="endereco-secundario" ng-blur="completaEndereco()">
+                                                <input type="text" name="empreendimento[cep]" value="" mask="99999-999" maxlength="9" class="form-control pesquisar_endereco_pelo_cep selected" ng-model="empreendimento.cep" id="endereco-secundario" ng-blur="completaEndereco()">
                                         </div>
                                         <div class="col-sm-10">
                                             <div class="form-group">
@@ -219,11 +229,11 @@
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="nome">Logradouro  </label>
                                         <div class="col-sm-11">
-                                            <input type="text" value="" name="empreendimento[logradouro]" req="" class="form-control" ng-model="empreendimento.logradouro" required>
+                                            <input type="text" value="" name="empreendimento[logradouro]" class="form-control" ng-model="empreendimento.logradouro">
                                         </div>
                                         <label class="col-sm-3 control-label" for="empreendimento[numero]">Número  </label>
                                         <div class="col-sm-4">
-                                            <input type="text" value="" name="empreendimento[numero]" req="" class="form-control" ng-model="empreendimento.numero" required>
+                                            <input type="text" value="" name="empreendimento[numero]" class="form-control" ng-model="empreendimento.numero">
                                         </div>
                                     </div>
 
@@ -237,19 +247,19 @@
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="empreendimento[bairro]">Bairro  </label>
                                         <div class="col-sm-18">
-                                            <input type="text" value="" name="empreendimento[bairro]" req="" class="form-control" ng-model="empreendimento.bairro" required>
+                                            <input type="text" value="" name="empreendimento[bairro]" class="form-control" ng-model="empreendimento.bairro">
                                         </div>
                                     </div>
                                     
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="empreendimento[uf]">UF</label>
                                         <div class="col-sm-3">
-                                            <select class="form-control" name="empreendimento[uf]" ng-model="empreendimento.uf" req required ng-options="uf.uf as uf.uf for uf in ufs.ufs" ng-selected="empreendimento.uf" ng-change="getCidades(empreendimento.uf)">
+                                            <select class="form-control" name="empreendimento[uf]" ng-model="empreendimento.uf" ng-options="uf.uf as uf.uf for uf in ufs.ufs" ng-selected="empreendimento.uf" ng-change="getCidades(empreendimento.uf)">
                                             </select>
                                         </div>
                                         <label class="col-sm-3 control-label" for="empreendimento[cidade]">Cidade  </label>
                                         <div class="col-sm-12">
-                                            <select class="form-control" name="empreendimento[cidade]" ng-model="empreendimento.cidade" req required ng-options="cidade.nome as cidade.nome for cidade in cidades.cidades" ng-selected="empreendimento.cidade">
+                                            <select class="form-control" name="empreendimento[cidade]" ng-model="empreendimento.cidade" ng-options="cidade.nome as cidade.nome for cidade in cidades.cidades" ng-selected="empreendimento.cidade">
                                                 
                                             </select>
                                         </div>
@@ -293,13 +303,13 @@
 
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button class="btn btn-primary" ng-disabled="EmpreendimentoForm.$invalid" ng-click="salvar(empreendimento)">Salvar</button>
-                    <button data-toggle="dropdown" ng-disabled="EmpreendimentoForm.$invalid" class="btn btn-primary dropdown-toggle" type="button">
+                    <button class="btn btn-primary" ng-click="salvar(empreendimento, false)">Salvar</button>
+                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul role="menu" class="dropdown-menu">
-                        <li><a href="#" data-action="modal-add">Salvar e Adicionar novo</a></li>
+                        <li><a href="#" data-action="modal-add" ng-click="salvar(empreendimento, true)">Salvar e Adicionar novo</a></li>
                     </ul>
                 </div>
                 <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>

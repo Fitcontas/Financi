@@ -53,7 +53,7 @@
                         </div>
                         
                     </div>
-                    <div class="clearfix"></div>
+                    <div class="clearfix tool"></div>
                     <div class="table-responsive" ng-show="clientes.length>0">
                         <table class="table table-bordered table-hover spacer2" id="tb_cliente">
                             <thead>

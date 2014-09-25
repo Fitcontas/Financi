@@ -143,7 +143,7 @@ class ContratoController extends \SlimController\SlimController
 
         //Intermerdiárias
         $valor_intermediarias = $data->tipo_intermediarias == 1 ? ($valor_contrato * $pct_intermediarias) : $pct_intermediarias;
-        $qtd_periodos = $qtd_parcelas /  $meses_periodo[$periodo];
+        $qtd_periodos = $qtd_parcelas / $meses_periodo[$periodo];
         
         //taxa equivalente
         $taxa_equivalente = pow((1 + $taxa), $meses_periodo[$periodo]) - 1;
@@ -158,15 +158,16 @@ class ContratoController extends \SlimController\SlimController
             $fase2 = 1 - pow((1 + $taxa), ($qtd_periodos * -1));
 
             $intermediarias = ($valor_intermediarias/$qtd_periodos) * ($fase2 / $taxa_equivalente);
-            print_r($fase2 / $taxa_equivalente);
+
+            $int_valor_inicial = ( $valor_intermediarias / pow((1 + $taxa_equivalente),  $qtd_periodos) );
+
+            print_r( $int_valor_inicial / ($fase2 / $taxa) );
             exit();
 
         }
 
         $primeiro_vencimento = implode("-", array_reverse(explode("/", $data->primeiro_vencimento)));
         $primeiro_vencimento = new \DateTime($primeiro_vencimento);
-
-        
 
         $array = [];
 

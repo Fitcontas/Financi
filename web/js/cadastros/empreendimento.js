@@ -16,6 +16,8 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
     $scope.ufs = Estados.get();
     //$scope.cidades = Cidades.get();
 
+    $scope.onlyNumbers = /^\d+$/;
+
     $scope.corretores = Corretores.get();
 
     $scope.checkAll = function(item) {
@@ -105,7 +107,7 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
             wheelStep: 10
         });
         
-        if(item.uf) {
+        if(item && item.uf) {
             $scope.cidades = Cidades.get({ uf: item.uf });
         }
 
@@ -117,7 +119,7 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
         });
     }
 
-    $scope.salvar = function (empreendimento) {
+    $scope.salvar = function (empreendimento, add) {
 
         /*if(empreendimento.id) {
             $('#senha, #senha2').removeAttr('required');
@@ -129,8 +131,13 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
             EmpreendimentoNovo.save(empreendimento).$promise.then(function(data) {
                 if(data.success) {
                     $('.modal').modal('hide');
-                    chamaMsg('1', true);
+                    
                     $scope.start();
+                    if(add) {
+                        $scope.showForm();
+                    } else {
+                        chamaMsg('1', true);
+                    }
                 }
             });
         }
@@ -141,10 +148,12 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
 
         var cep = $scope.empreendimento.cep;
         if(cep != undefined) {
+            $('.loading').show();
             $http({
                 'method': 'get',
                 'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
             }).success(function(data) {
+                $('.loading').hide();
                 $scope.empreendimento.logradouro = data.logradouro;
                 $scope.empreendimento.bairro = data.bairro;
 

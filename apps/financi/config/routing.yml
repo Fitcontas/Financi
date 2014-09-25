@@ -41,6 +41,11 @@ cliente_edita_pf:
     route: Cliente:editaPf
     url: /cliente/edita/pf/:id
 
+cliente_by_cpf_cnpj:
+    method: get
+    route: Cliente:cpfCnpj
+    url: /cliente/cpf_cnpj/:cpf_cnpj
+
 cliente_edita_pj:
     method: get
     route: Cliente:editaPj

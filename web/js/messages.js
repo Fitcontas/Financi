@@ -711,6 +711,21 @@ var FitMessage = (function() {
                 t: 'd',
                 tm: false
             },
+            151: {
+                b: 'O total de comissão do(s) corretor(es) deve ser igual à 100%.',
+                t: 'd',
+                tm: false
+            },
+            152: {
+                b: 'O total de porcentagem do(s) clientes(es) deve ser igual à 100%.',
+                t: 'd',
+                tm: false
+            },
+            153: {
+                b: 'O valor das intermediárias está acima do máximo permitido',
+                t: 'd',
+                tm: false
+            },
             
             500: {
                 b: 'Erro no processamento no servidor...',

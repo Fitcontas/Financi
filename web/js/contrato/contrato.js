@@ -34,11 +34,56 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
     $scope.entrada_float = null;
 
     $scope.abaNext = function(aba) {
+        if(aba == 2) {
+            if(required('#aba-1', false)) {
+                return false;
+            }
+
+            if($scope.validaCorretorComissao()) {
+                chamaMsg('151', false);
+                return false;
+            }
+
+            if($scope.validaClientePct()) {
+                chamaMsg('152', false);
+                return false;
+            }
+        } else if(aba == 3) {
+
+        }
+
         $scope.aba = aba;
     };
 
-    $scope.start = function(pagina) {
+    $scope.validaCorretorComissao = function() {
+        var total = 0;
 
+        _($scope.contrato.corretores).forEach(function(obj) {
+            total += toFloat(obj.comissao);
+        });
+
+        if(total != 100.00) {
+            return true;
+        }
+
+        return false;
+    }
+
+    $scope.validaClientePct = function() {
+        var total = 0;
+
+        _($scope.contrato.clientes).forEach(function(obj) {
+            total += toFloat(obj.porcentagem);
+        });
+
+        if(total != 100.00) {
+            return true;
+        }
+
+        return false;
+    }
+
+    $scope.start = function(pagina) {
         if(pagina) {
             $scope.pagina = pagina;
         }
@@ -57,12 +102,54 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
         });
     };
 
+    $scope.checkAll = function(item) {
+
+        var existe = _.remove($scope.check_ctrl, function(obj) {
+            return obj.id == item.id;
+        });
+
+        if(!existe.length) {
+            $scope.check_ctrl.push(item);
+        }
+        
+        console.log($scope.check_ctrl);
+
+    }
+
+    $scope.acao = function(acao_name) {
+        if(!$scope.check_ctrl.length && !$scope.checkall) {
+            chamaMsg('10', false);
+        } else {
+
+            var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.model.usuarios;
+            
+            chamaMsg('20', true, false, {'id':'excluir-registro'});
+            
+            $('button[data-id="excluir-registro"]').click(function() {
+                $http({
+                    'method': 'post',
+                    'url': '/contrato/acoes/' + acao_name,
+                    'data': itens,
+                }).success(function(data) {
+                    console.log(data);
+                    if(data.success) {
+                        chamaMsg(data.msg, true);
+                        $scope.start();
+                        $scope.check_ctrl = [];
+                    }
+                });
+            });
+          
+        }
+    }
+
     $scope.showForm = function(item) {
+        
         $scope.aba = 1;
         $scope.contrato = {
             corretores: [{}],
             clientes: [{}],
-            desconto: 0,
+            desconto: '',
             tipo_intermediarias: 1,
             tipo_entrada: 1,
             tipo_desconto: 1,
@@ -75,10 +162,16 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
 
         $scope.parcelas_geradas = [];
 
+        $('.has-error').removeClass('has-error');
+
+        $('select[name="empreendimento_id"], select[name="contrato[lote_id]"]').select2('destroy');
+
         $('#contrato_modal').modal({
             show: true,
             backdrop: 'static'
         });
+
+        $('select[name="empreendimento_id"], select[name="contrato[lote_id]"]').select2();
     };
 
     $scope.alteraTipoIntermediaria = function(num) {
@@ -201,8 +294,20 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
         if(toFloat($('input[name="contrato[intermediarias]"]').val()) < $scope.min_intermediarias)
         {
             chamaMsg('150', false);
+            $('input[name="contrato[intermediarias]"]').val('');
         }
-        console.log(toFloat($scope.contrato.intermediarias));
+
+        if($scope.contrato.tipo_intermediarias == 2) {
+            var valor_intermediarias = toFloat($('input[name="contrato[intermediarias]"]').val());
+        } else {
+            var valor_intermediarias = (toFloat($('input[name="contrato[intermediarias]"]').val()) * toFloat($scope.contrato.valor_contrato)) / 100;
+        }
+
+        if( valor_intermediarias > (toFloat($scope.contrato.valor_contrato) - $scope.entrada_float) ) {
+            chamaMsg('153', false);
+            console.log(valor_intermediarias, toFloat($scope.contrato.valor_contrato), $scope.entrada_float);
+            $('input[name="contrato[intermediarias]"]').val('');
+        }
     };
 
     $scope.processaQtdParcelas = function() {
@@ -216,14 +321,62 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
     };
 
     $scope.geraParcelas = function() {
-        $http({
-            method: 'POST',
-            url: '/contrato/parcelas',
-            data: $scope.contrato,
-        }).success(function(data) {
-            $scope.parcelas_geradas = data;
-        });
+        if(
+            parseInt($scope.contrato.parcelas) > 0 &&
+            $scope.contrato.primeiro_vencimento != undefined &&
+            toFloat($scope.contrato.intermediarias) > 0 &&
+            toFloat($scope.contrato.entrada) > 0 &&
+            parseInt($scope.contrato.periodo) > 0 &&
+            toFloat($scope.contrato.valor_contrato) > 0 &&
+            toFloat($scope.contrato.desconto) > 0
+            ) {
+            $http({
+                method: 'POST',
+                url: '/contrato/parcelas',
+                data: $scope.contrato,
+            }).success(function(data) {
+                $scope.parcelas_geradas = data;
+            });
+        }
+
+        
     };
+
+    $scope.$watch('contrato.primeiro_vencimento', function(vl) {
+        if(vl != undefined) {
+            $scope.geraParcelas();
+        }
+    });
+
+    $scope.$watch('contrato.parcelas', function(vl) {
+        if(vl != undefined) {
+            $scope.geraParcelas();
+        }
+    });
+
+    $scope.$watch('contrato.intermediarias', function(vl) {
+        if(vl != undefined) {
+            $scope.geraParcelas();
+        }
+    });
+
+    $scope.$watch('contrato.entrada', function(vl) {
+        if(vl != undefined) {
+            $scope.geraParcelas();
+        }
+    });
+
+    $scope.$watch('contrato.desconto', function(vl) {
+        if(vl != undefined) {
+            $scope.geraParcelas();
+        }
+    });
+
+    $scope.$watch('contrato.periodo', function(vl) {
+        if(vl != undefined) {
+            $scope.geraParcelas();
+        }
+    });
 
     $scope.gerarEntradasCheque = function() {
 
@@ -265,6 +418,11 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
     };
 
     $scope.addEntrada = function() {
+
+        if(required('#aba-3', false)) {
+            return false;
+        }
+
         $scope.aba = 4;
 
         var itens = {
@@ -330,6 +488,10 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
 
     $scope.salveGeral = function() {
         console.log($scope.contrato);
+
+        if(required('#ContratoForm', false)) {
+            return false;
+        }
         
         $http({
             method: 'POST',

@@ -37,7 +37,7 @@
                                             'block_class' => 'col-sm-4',
                                             'name' => 'cliente[cnpj]',
                                             'ng-model' => 'cliente.cnpj',
-                                            'attributes' => 'required mask="99.999.999/9999-99" clean="true" req'
+                                            'attributes' => 'required mask="99.999.999/9999-99" clean="true" req ng-blur="validaCnpj()"'
                                         ],
                                         [
                                             'label' => 'Razão Social',

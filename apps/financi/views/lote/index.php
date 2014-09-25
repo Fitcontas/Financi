@@ -39,7 +39,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="clearfix"></div>
+                    <div class="clearfix tool"></div>
                     
                     <!-- Início data table content -->
                     <div class="table-responsive" ng-show="model.lotes.length>0">
@@ -122,8 +122,8 @@
                 </div>
 
                 <div class="tab-container">
-                        <div style="margin-top: -7px;" class="tab-container pull-right">
-                        <ul class="nav nav-pills ">
+                        <div style="margin-top: -3px;" class="tab-container">
+                        <ul class="nav nav-tabs">
                           <li class="active"><a data-toggle="tab" href="#home">Principal</a></li>
                           <li class=""><a data-toggle="tab" href="#confrontante">Confrontante</a></li>
                           <li class=""><a data-toggle="tab" href="#endereco">Endereço</a></li>
@@ -142,7 +142,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="nome">Empreendimento  </label>
                                         <div class="col-sm-18">
-                                            <select name="lote[empreendimento_id]" id="" class="form-control" ng-model="lote.empreendimento_id">
+                                            <select name="lote[empreendimento_id]" class="form-control" ng-model="lote.empreendimento_id" req required>
                                                 <option value=""></option>
                                                 <?php foreach ($empreendimentos as $e): ?>
                                                     <option value="<?php echo $e->id ?>"><?php echo $e->empreendimento ?></option>
@@ -185,7 +185,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="matricula">Matrícula  </label>
                                         <div class="col-sm-8">
-                                            <input type="text" value="" name="lote[matricula]" class="form-control" ng-model="lote.matricula">
+                                            <input type="text" value="" name="lote[matricula]" class="form-control" ng-model="lote.matricula" req required>
                                         </div>
                                     </div>
 
@@ -272,7 +272,7 @@
                                             <input type="text" value="" name="lote[frente]" req="" class="form-control" ng-model="lote.frente" required>
                                         </div>
                                         <div class="col-sm-3">
-                                            <input type="text" value="" name="lote[frente_metro]" req="" class="form-control" ng-model="lote.frente_metro" required> 
+                                            <input type="text" value="" name="lote[frente_metro]" req="" class="form-control" ng-model="lote.frente_metro" required ng-only-numbers> 
                                         </div>
                                         <div class="col-sm-2">
                                             <span>Metros</span>
@@ -282,10 +282,10 @@
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="fundo">Fundo  </label>
                                         <div class="col-sm-12">
-                                            <input type="text" value="" name="lote[fundo]" req="" class="form-control" ng-model="lote.fundo" required>
+                                            <input type="text" value="" name="lote[fundo]" class="form-control" ng-model="lote.fundo" required req ng-only-numbers>
                                         </div>
                                         <div class="col-sm-3">
-                                            <input type="text" value="" name="lote[fundo_metro]" req="" class="form-control" ng-model="lote.fundo_metro" required> 
+                                            <input type="text" value="" name="lote[fundo_metro]" class="form-control" ng-model="lote.fundo_metro" required req> 
                                         </div>
                                         <div class="col-sm-2">
                                             <span>Metros</span>
@@ -298,7 +298,7 @@
                                             <input type="text" value="" name="lote[lateral_direita]" req="" class="form-control" ng-model="lote.lateral_direita" required>
                                         </div>
                                         <div class="col-sm-3">
-                                            <input type="text" value="" name="lote[lateral_direita_metro]" req="" class="form-control" ng-model="lote.lateral_direita_metro" required> 
+                                            <input type="text" value="" name="lote[lateral_direita_metro]" req="" class="form-control" ng-model="lote.lateral_direita_metro" required ng-only-numbers> 
                                         </div>
                                         <div class="col-sm-2">
                                             <span>Metros</span>
@@ -308,7 +308,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="lateral_esquerda">Lateral Esquerda  </label>
                                         <div class="col-sm-12">
-                                            <input type="text" value="" name="lote[lateral_esquerda]" req="" class="form-control" ng-model="lote.lateral_esquerda" required>
+                                            <input type="text" value="" name="lote[lateral_esquerda]" req="" class="form-control" ng-model="lote.lateral_esquerda" required ng-only-numbers>
                                         </div>
                                         <div class="col-sm-3">
                                             <input type="text" value="" name="lote[lateral_esquerda_metro]" req="" class="form-control" ng-model="lote.lateral_esquerda_metro" required> 
@@ -328,8 +328,8 @@
 
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button class="btn btn-primary" ng-disabled="LoteForm.$invalid" ng-click="salvar(lote)">Salvar</button>
-                    <button data-toggle="dropdown" ng-disabled="LoteForm.$invalid" class="btn btn-primary dropdown-toggle" type="button">
+                    <button class="btn btn-primary" ng-click="salvar(lote)">Salvar</button>
+                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>

@@ -67,7 +67,7 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
                 });
             }
         }
-    }
+    };
 
     $scope.start = function(pagina) {
 
@@ -122,8 +122,14 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
             UsuarioNovo.save(usuario).$promise.then(function(data) {
                 if(data.success) {
                     $('.modal').modal('hide');
-                    chamaMsg('1', true);
+                    //chamaMsg('1', true);
                     $scope.start();
+
+                    if(add) {
+                        $scope.showForm();
+                    } else {
+                        chamaMsg('1', true);
+                    }
                 }
             });
         }

@@ -7,23 +7,40 @@ function required(idForm, modal) {
     $(idForm + " input:not([type=hidden]), " + idForm + " select, " + idForm + " textarea").each(function() {
         if ($(this).attr('req') != null) {
 
+            if ( $(this).is(":visible") && idForm == '#aba-3' ) {
+                if ($.trim($(this).val()) == '' || $.trim($(this).val()) == '? undefined:undefined ?' || $(this).hasClass('ng-invalid') || $.trim($(this).val()) == '?') {
 
-            if ($.trim($(this).val()) == '' || $.trim($(this).val()) == '? undefined:undefined ?' || $(this).hasClass('ng-invalid')) {
+                    if ($(this).attr('name')) {
 
+                        $(this).closest('div').addClass('has-error');
 
-                if ($(this).attr('name')) {
+                        if (modal == true) {
+                            chamaMsg('11', true);
+                        } else {
+                            chamaMsg('11', false);
+                        }
+                    };
 
-                    $(this).closest('div').addClass('has-error');
-
-                    if (modal == true) {
-                        chamaMsg('11', true);
-                    } else {
-                        chamaMsg('11', false);
-                    }
-                };
-
+                } else {
+                    $(this).closest('div').removeClass('has-error');
+                }
             } else {
-                $(this).closest('div').removeClass('has-error');
+                if ($.trim($(this).val()) == '' || $.trim($(this).val()) == '? undefined:undefined ?' || $(this).hasClass('ng-invalid') || $.trim($(this).val()) == '?') {
+
+                    if ($(this).attr('name')) {
+
+                        $(this).closest('div').addClass('has-error');
+
+                        if (modal == true) {
+                            chamaMsg('11', true);
+                        } else {
+                            chamaMsg('11', false);
+                        }
+                    };
+
+                } else {
+                    $(this).closest('div').removeClass('has-error');
+                }
             }
         }
     });
@@ -44,6 +61,10 @@ function multiplos(numero, limite) {
     }
 
     return multiplos;
+}
+
+function isEmpty(value) {
+    return angular.isUndefined(value) || value === '' || value === null || value !== value;
 }
 
 //Retorna um numro float 

@@ -42,21 +42,9 @@
                                         ],
                                         [
                                             'label' => 'Nome',
-                                            'block_class' => 'col-sm-14',
+                                            'block_class' => 'col-sm-17',
                                             'name' => 'cliente[nome]',
                                             'ng-model' => 'cliente.nome',
-                                            'attributes' => 'required req'
-                                        ],
-                                        [
-                                            'label' => 'Sexo',
-                                            'name' => 'cliente[sexo]',
-                                            'block' => 'default-select',
-                                            'block_class' => 'col-sm-3',
-                                            'options' => [
-                                                'M' => 'Masculino',
-                                                'F' => 'Feminino'
-                                            ],
-                                            'ng-model' => 'cliente.sexo',
                                             'attributes' => 'required req'
                                         ],
                                         [
@@ -114,7 +102,7 @@
                                             ],
                                             'name' => 'cliente[estado_civil]',
                                             'ng-model' => 'cliente.estado_civil',
-                                            'attributes' => 'required req'
+                                            'attributes' => 'required req ng-change="verificaCasado()"'
                                         ]
                                     ]);
 
@@ -517,26 +505,18 @@
                                             'label' => 'CPF',
                                             'block_class' => 'col-sm-4',
                                             'name' => 'cliente[conjuge][cpf]',
+                                            'class' => 'conjuge_required',
                                             'ng-model' => 'cliente.conjuge.cpf',
                                             'attributes' => 'mask="999.999.999-99" clean="true"'
                                         ],
                                         [
                                             'label' => 'Nome',
-                                            'block_class' => 'col-sm-17',
+                                            'block_class' => 'col-sm-20',
                                             'name' => 'cliente[conjuge][nome]',
+                                            'class' => 'conjuge_required',
                                             'ng-model' => 'cliente.conjuge.nome'
-                                        ],
-                                        [
-                                            'label' => 'Sexo',
-                                            'name' => 'cliente[conjuge][sexo]',
-                                            'block' => 'default-select',
-                                            'block_class' => 'col-sm-3',
-                                            'options' => [
-                                                'M' => 'Masculino',
-                                                'F' => 'Feminino'
-                                            ],
-                                            'ng-model' => 'cliente.conjuge.sexo'
                                         ]
+
                                     ]); 
 
                                     \Financi\HTMLHelper::renderRow([

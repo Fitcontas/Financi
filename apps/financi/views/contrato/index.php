@@ -1,5 +1,4 @@
 <div ng-controller="ContratoCtrl">
-<?php echo sha1('123456'); ?>
 <form id="#grid_contrato" class="grid">
     <div class="row margin-top-50">
         <div id="no-reg" class="content" style="display: none">
@@ -25,7 +24,7 @@
                         <div class="pull-left">
                             <div class="btn-group pull-left" id="buttons-grid">
                                 <button type="button" class="btn btn-default" ng-click="showForm(false)"> Novo</button>
-                                <button type="button" class="btn btn-default" ng-disabled="!checkall && check_ctrl.length == 0" ng-click="acao('excluir')"> Excluir</button>
+                                <button type="button" class="btn btn-default" ng-click="acao('excluir')"> Excluir</button>
                                 <button type="button" class="btn btn-default"> Pesquisa</button>
                             </div>
                         </div>
@@ -38,7 +37,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="clearfix"></div>
+                    <div class="clearfix tool"></div>
 
                     <!-- Início data table content -->
                     <div class="table-responsive" ng-show="model.contratos.length>0">
@@ -118,7 +117,7 @@
                 </div>
 
                 <!-- Aba 1 -->
-                <div ng-show="aba == 1">
+                <div ng-show="aba == 1" id="aba-1">
 
                     <div class="header">
                         <h4>Cadastro de Contrato</h4>
@@ -126,8 +125,8 @@
                     <hr>
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-sm-6 control-label" for="contrato[emissao]">Emissão</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 control-label" for="contrato[emissao]">Emissão</label>
+                        <div class="col-sm-5">
                             <div class="input-group date">
                                 <input type="text" ng-model="contrato.emissao" value="" id="contrato[emissao]" name="emissao" class="form-control" req required>
                                 <span class="add-on input-group-btn"><button tabindex="2" type="button" class="btn btn-default"><i title="Calendário" class="fa fa-calendar"></i></button></span>
@@ -136,8 +135,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-6 control-label" for="nome">Empreendimento  </label>
-                        <div class="col-sm-18">
+                        <label class="col-sm-4 control-label" for="nome">Empreendimento  </label>
+                        <div class="col-sm-20">
                             <select name="empreendimento_id" id="contrato[empreendimento_id]" ng-model="contrato.empreendimento_id" class="form-control" ng-change="getLotes(contrato.empreendimento_id)" req required ng-select2>
                                 <option value=""></option>
                                 <?php foreach ($empreendimentos as $e): ?>
@@ -148,17 +147,17 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-6 control-label" for="contrato[lote_id]">Lote  </label>
-                        <div class="col-sm-18">
-                            <select name="contrato[lote_id]" id="contrato[lote_id]" ng-model="contrato.lote_id" class="form-control" ng-options="lote.id as 'Lote ' + lote.numero + ' - Quadra ' + lote.quadra for lote in lotes" ng-change="setLote()" ng-select2>
+                        <label class="col-sm-4 control-label" for="contrato[lote_id]">Lote  </label>
+                        <div class="col-sm-20">
+                            <select name="contrato[lote_id]" id="contrato[lote_id]" ng-model="contrato.lote_id" class="form-control" ng-options="lote.id as 'Lote ' + lote.numero + ' - Quadra ' + lote.quadra for lote in lotes" ng-change="setLote()" ng-select2 req required>
                                 
                             </select>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-6 control-label" for="contrato[area_total]">Área Total </label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 control-label" for="contrato[area_total]">Área Total </label>
+                        <div class="col-sm-5">
                             <input type="text" name="contrato[area_total]" class="form-control" required data-ng-model="contrato.area_total" ng-disabled="true" ng-money>
                         </div>
                         <div class="col-sm-1">
@@ -167,8 +166,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-6 control-label" for="contrato[valor]">Valor </label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-4 control-label" for="contrato[valor]">Valor </label>
+                        <div class="col-sm-5">
                             <div class="input-group">
                                 <span class="input-group-addon">R$</span>
                                 <input type="text" name="contrato[valor]" class="form-control" required ng-model="contrato.valor" ng-disabled="true">
@@ -183,8 +182,8 @@
                     
                     <!-- Corretores -->
                     <div class="form-group no-margin-bottom" ng-repeat="corretor in contrato.corretores">
-                        <label class="col-sm-6 control-label" for="">Nome</label>
-                        <div class="col-sm-11">
+                        <label class="col-sm-4 control-label" for="">Nome</label>
+                        <div class="col-sm-13">
                             <div class="input-group">
 
 
@@ -210,9 +209,9 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-12">
+                        <div class="col-sm-8">
                             <label for="" class="col-sm-12 control-label"></label>
-                            <button tabindex="2" type="button" class="btn btn-default btn-sm" ng-click="addCorretor()">Adicionar</button>
+                            <button tabindex="2" type="button" class="btn btn-default" ng-click="addCorretor()">Adicionar</button>
                         </div>
                     </div>
 
@@ -223,8 +222,8 @@
 
                      <!-- Compradores -->
                     <div class="form-group no-margin-bottom" ng-repeat="cliente in contrato.clientes">
-                        <label class="col-sm-6 control-label" for="">Nome</label>
-                        <div class="col-sm-11">
+                        <label class="col-sm-4 control-label" for="">Nome</label>
+                        <div class="col-sm-13">
                             <div class="input-group">
                                 
                                 <select ng-model="contrato.clientes[$index].cliente_id" id="contrato[clientes][$index][cliente_id]" name="contrato[clientes][$index][cliente_id]" class="form-control" ng-select2 req required>
@@ -249,14 +248,14 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-sm-12">
+                        <div class="col-sm-8">
                             <label for="" class="col-sm-12 control-label"></label>
-                            <button tabindex="2" type="button" class="btn btn-default btn-sm" ng-click="addCliente()">Adicionar</button>
+                            <button tabindex="2" type="button" class="btn btn-default" ng-click="addCliente()">Adicionar</button>
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button class="btn btn-primary" type="button" ng-disabled="ContratoForm.emissao.$invalid || ContratoForm.empreendimento_id.$invalid || ContratoForm.lote_id.$invalid || ContratoForm.corretor_id.$invalid || ContratoForm.cliente_id.$invalid || ContratoForm.comissao.$invalid || ContratoForm.porcentagem.$invalid" ng-click="abaNext(2)">Avançar</button>
+                        <button class="btn btn-primary" type="button" ng-click="abaNext(2)">Avançar</button>
                         <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
                     </div>
 
@@ -264,7 +263,7 @@
                 <!-- Fim aba 1 -->
 
                 <!-- Aba 2 -->
-                <div ng-show="aba == 2">
+                <div ng-show="aba == 2" id="aba-2">
 
                     <div class="header">
                         <h4>Cadastro de Contrato</h4>
@@ -272,22 +271,22 @@
                     <hr>
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-sm-6 control-label" for="valor">Valor </label>
+                        <label class="col-sm-4 control-label" for="valor">Valor </label>
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <span class="input-group-addon">R$</span>
-                                <input type="text" name="text" class="form-control mask-money" required ng-model="contrato.valor" ng-disabled="true">
+                                <input type="text" name="text" class="form-control mask-money" req required ng-model="contrato.valor" ng-disabled="true">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-sm-6 control-label" for="desconto">Desconto </label>
+                        <label class="col-sm-4 control-label" for="desconto">Desconto </label>
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <span class="input-group-addon" ng-show="contrato.tipo_desconto == 2" ng-click="alteraTipoDesconto(1)">R$</span>
 
-                                <input type="text" name="contrato[desconto]" class="form-control mask-money" required ng-model="contrato.desconto" ng-money ng-keyup="calcValorContrato(this)">
+                                <input type="text" name="contrato[desconto]" class="form-control mask-money" req required ng-model="contrato.desconto" ng-money ng-keyup="calcValorContrato(this)">
 
                                 <span class="input-group-addon" ng-show="contrato.tipo_desconto == 1" ng-click="alteraTipoDesconto(2)">%</span>
                             </div>
@@ -295,38 +294,38 @@
                     </div>
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-sm-6 control-label" for="valor_contrato">Valor do Contrato </label>
+                        <label class="col-sm-4 control-label" for="valor_contrato">Valor do Contrato </label>
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <span class="input-group-addon">R$</span>
-                                <input type="text" name="text" class="form-control mask-money" required ng-model="contrato.valor_contrato" ng-disabled="true">
+                                <input type="text" name="text" class="form-control mask-money" req required ng-model="contrato.valor_contrato" ng-disabled="true">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-sm-6 control-label" for="contrato.entrada">Entrada </label>
+                        <label class="col-sm-4 control-label" for="contrato.entrada">Entrada </label>
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <span class="input-group-addon" ng-show="contrato.tipo_entrada == 2" ng-click="alteraTipoEntrada(1)">R$</span>
 
-                                <input type="text" name="contrato[entrada]" class="form-control mask-money" required ng-model="contrato.entrada" ng-money ng-blur="validaEntrada()">
+                                <input type="text" name="contrato[entrada]" class="form-control mask-money" req required ng-model="contrato.entrada" ng-money ng-blur="validaEntrada()">
                                 
                                 <span class="input-group-addon" ng-show="contrato.tipo_entrada == 1" ng-click="alteraTipoEntrada(2)">%</span>
                             </div>
                         </div>
-                        <div class="col-sm-8">
+                        <div class="col-sm-8 hide">
                             Entrada Mínima de {{min_entrada}}%
                         </div>
                     </div>
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-sm-6 control-label" for="contrato.intermediarias">Intermediarias </label>
+                        <label class="col-sm-4 control-label" for="contrato.intermediarias">Intermediarias </label>
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <span class="input-group-addon" ng-show="contrato.tipo_intermediarias == 2" ng-click="alteraTipoIntermediaria(1)">R$</span>
 
-                                <input type="text" name="contrato[intermediarias]" class="form-control mask-money" required ng-model="contrato.intermediarias" ng-money ng-blur="validaIntermediarias()" maxlength="6">
+                                <input type="text" name="contrato[intermediarias]" class="form-control mask-money" req required ng-model="contrato.intermediarias" ng-money ng-blur="validaIntermediarias()" maxlength="6">
 
                                 <span class="input-group-addon" ng-show="contrato.tipo_intermediarias == 1" ng-click="alteraTipoIntermediaria(2)">%</span>
                             </div>
@@ -340,14 +339,14 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-6 control-label" for="contrato.qtd_parcelas">Qtd. Parcelas </label>
+                        <label class="col-sm-4 control-label" for="contrato.qtd_parcelas">Qtd. Parcelas </label>
                         <div class="col-sm-9">
                             <select class="form-control" name="contrato[parcelas]" id="parcelas" ng-model="contrato.parcelas" required req ng-options="parcela.qtd as parcela.qtd for parcela in parcelas"></select>
                         </div>
                     </div>
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-sm-6 control-label" for="contrato[primeiro_vencimento]">1º Vencimento</label>
+                        <label class="col-sm-4 control-label" for="contrato[primeiro_vencimento]">1º Vencimento</label>
                         <div class="col-sm-9">
                             <div class="input-group date">
                                 <input type="text" ng-model="contrato.primeiro_vencimento" value="" id="contrato[primeiro_vencimento]" name="contrato[primeiro_vencimento]" class="form-control" req required ng-blur="geraParcelas()">
@@ -388,7 +387,7 @@
                 <!-- Fim aba 2 -->
 
                 <!-- Aba 3 -->
-                <div ng-show="aba == 3">
+                <div ng-show="aba == 3" id="aba-3">
 
                     <div class="header">
                         <h4>Entrada</h4>
@@ -398,7 +397,7 @@
                     <div class="form-group">
                         <label class="col-sm-7 control-label" for="valor">Meio de Pagamento </label>
                         <div class="col-sm-15">
-                            <select name="contrato[entrada_config][meio_pagamento_id]" id="meio_pagamento_id" ng-model="contrato.entrada_config.meio_pagamento_id" class="form-control" ng-change="entradaMeioPagamento()">
+                            <select name="contrato[entrada_config][meio_pagamento_id]" id="meio_pagamento_id" ng-model="contrato.entrada_config.meio_pagamento_id" class="form-control" ng-change="entradaMeioPagamento()" req required>
                                 <option value="1">Dinherio</option>
                                 <option value="2">Cheque</option>
                             </select>
@@ -408,7 +407,7 @@
                     <div class="form-group" ng-show="contrato.entrada_config.meio_pagamento_id == 2">
                         <label class="col-sm-7 control-label" for="meio_forma_id">Forma </label>
                         <div class="col-sm-9">
-                            <select name="contrato[entrada_config][meio_forma_id]" id="meio_forma_id" ng-model="contrato.entrada_config.meio_forma_id" class="form-control" ng-required="contrato.entrada_config.meio_pagamento_id == 2">
+                            <select name="contrato[entrada_config][meio_forma_id]" id="meio_forma_id" ng-model="contrato.entrada_config.meio_forma_id" class="form-control" ng-required="contrato.entrada_config.meio_pagamento_id == 2" req required>
                                 <option value="1">À Vista</option>
                                 <option value="2">À Prazo</option>
                             </select>
@@ -418,14 +417,14 @@
                     <div class="form-group" ng-show="contrato.entrada_config.meio_pagamento_id == 2 && contrato.entrada_config.meio_forma_id == 2">
                         <label class="col-sm-7 control-label" for="contrato[entrada_config][qtd_parcelas">Qtd. Parcelas</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" ng-model="contrato.entrada_config.qtd_parcelas" name="contrato[entrada_config][qtd_parcelas]" id="qtd_parcelas" ng-required="contrato.entrada_config.meio_pagamento_id == 2 && contrato.entrada_config.meio_forma_id == 2">
+                            <input type="text" class="form-control" ng-model="contrato.entrada_config.qtd_parcelas" name="contrato[entrada_config][qtd_parcelas]" id="qtd_parcelas" ng-required="contrato.entrada_config.meio_pagamento_id == 2 && contrato.entrada_config.meio_forma_id == 2" req required ng-only-numbers="">
                         </div>
                     </div>
 
                     <div class="form-group" ng-show="contrato.entrada_config.meio_pagamento_id == 2">
                         <label class="col-sm-7 control-label" for="meio_forma_id">{{ contrato.entrada_config.meio_forma_id == 1 ? 'Número do Cheque' : 'Número 1º Cheque' }}</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" ng-model="contrato.entrada_config.numero_cheque" name="contrato[entrada_config][numero_cheque]" id="numero_cheque" ng-required="contrato.entrada_config.meio_pagamento_id == 2">
+                            <input type="text" class="form-control" ng-model="contrato.entrada_config.numero_cheque" name="contrato[entrada_config][numero_cheque]" id="numero_cheque" ng-required="contrato.entrada_config.meio_pagamento_id == 2" req required>
                         </div>
                     </div>
 
@@ -433,7 +432,7 @@
                         <label class="col-sm-7 control-label" for="cheque_vencimento">{{ contrato.entrada_config.meio_forma_id == 1 ? 'Vencimento' : 'Vencimento 1º Cheque' }}</label>
                         <div class="col-sm-9">
                             <div class="input-group date">
-                                <input type="text" ng-model="contrato.entrada_config.cheque_vencimento" value="" id="cheque_vencimento" name="contrato[entrada_config][cheque_vencimento]" class="form-control" ng-required="contrato.entrada_config.meio_pagamento_id == 2">
+                                <input type="text" ng-model="contrato.entrada_config.cheque_vencimento" value="" id="cheque_vencimento" name="contrato[entrada_config][cheque_vencimento]" class="form-control" ng-required="contrato.entrada_config.meio_pagamento_id == 2" req required>
                                 <span class="add-on input-group-btn"><button tabindex="2" type="button" class="btn btn-default"><i title="Calendário" class="fa fa-calendar"></i></button></span>
                             </div>
                         </div>
@@ -442,7 +441,7 @@
                     <div class="form-group" ng-show="contrato.entrada_config.meio_pagamento_id == 2 && contrato.entrada_config.meio_forma_id == 2">
                         <label class="col-sm-7 control-label" for="meio_forma_id">Periodicidade</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" ng-model="contrato.entrada_config.periodicidade" name="contrato[entrada_config][periodicidade]" id="periodicidade" ng-required="contrato.entrada_config.meio_pagamento_id == 2 && contrato.entrada_config.meio_forma_id == 2">
+                            <input type="text" class="form-control" ng-model="contrato.entrada_config.periodicidade" name="contrato[entrada_config][periodicidade]" id="periodicidade" ng-required="contrato.entrada_config.meio_pagamento_id == 2 && contrato.entrada_config.meio_forma_id == 2" req required ng-only-numbers="">
                         </div>
                     </div>
 
@@ -451,7 +450,7 @@
                         <div class="col-sm-9">
                             <div class="input-group">
                                 <span class="input-group-addon">R$</span>
-                                <input type="text" name="contrato[entrada_config][valor]" id="contrato_entrada_config_valor" class="form-control mask-money" ng-model="contrato.entrada_config.valor" ng-money ng-required="true" ng-keyup="gerarEntradasCheque()">
+                                <input type="text" name="contrato[entrada_config][valor]" id="contrato_entrada_config_valor" class="form-control mask-money" ng-model="contrato.entrada_config.valor" ng-money ng-required="true" ng-keyup="gerarEntradasCheque()" req required>
                             </div>
                         </div>
                     </div>
@@ -479,8 +478,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button class="btn btn-primary" ng-disabled="ContratoForm.$invalid" ng-click="addEntrada()">Salvar</button>
-                        <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+                        <button class="btn btn-primary" ng-click="addEntrada()" type="button">Salvar</button>
+                        <button class="btn btn-default" type="button" ng-click="abaNext(2)">Cancelar</button>
                     </div>
 
                 </div>
@@ -523,11 +522,11 @@
                     <div class="alert alert-info alert-white rounded">
                         <div class="icon"><i class="fa fa-info-circle"></i></div>
                         <strong>Informação!</strong> O valor da entrada é de R$ {{entrada}}.
-                     </div>
+                    </div>
 
                     <div class="modal-footer">
-                        <button class="btn btn-primary" type="button" ng-disabled="contrato.entrada_config.total !=  entrada_float" ng-click="abaNext(2)">Salvar</button>
-                        <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+                        <button class="btn btn-primary" type="button" ng-click="abaNext(2)">Salvar</button>
+                        <button class="btn btn-default" type="button" ng-click="abaNext(2)">Cancelar</button>
                     </div>
                 </div>
                 <!-- Fim aba 4 -->

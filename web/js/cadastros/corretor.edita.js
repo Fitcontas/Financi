@@ -136,10 +136,12 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, CorretoresBus
 
         var cep = endereco ? $scope.corretor.endereco[0].cep : $scope.corretor.endereco[1].cep;
         var indice = endereco ? 0 : 1;
+        $('.loading').show();
         $http({
             'method': 'get',
             'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
         }).success(function(data) {
+            $('.loading').hide();
             $scope.corretor.endereco[indice].logradouro = data.logradouro;
             $scope.corretor.endereco[indice].bairro = data.bairro;
             

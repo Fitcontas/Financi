@@ -102,3 +102,7 @@ tr td input[type="checkbox"] {
 .fone .boxadd, .email .boxadd {
     padding-top: 15px !important;
 }
+
+.tool {
+    padding-bottom: 16px !important;
+}

@@ -57,6 +57,7 @@ class EmpreendimentoController extends \SlimController\SlimController
         foreach ($empreendimentos as $e) {
             $e_arr = $e->to_array();
             $e_arr['comissao'] = DataFormat::showMoney($e_arr['comissao']);
+            $e_arr['entrada'] = DataFormat::showMoney($e_arr['entrada']);
             $e_arr['intermediarias'] = DataFormat::showMoney($e_arr['intermediarias']);
             $e_arr['taxa_financiamento'] = DataFormat::showMoney($e_arr['taxa_financiamento']);
             

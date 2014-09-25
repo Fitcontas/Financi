@@ -145,10 +145,12 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
         var cep = $scope.lote.cep;
 
         if(cep != undefined) {
+            $('.loading').show();
             $http({
                 'method': 'get',
                 'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
             }).success(function(data) {
+                $('.loading').hide();
                 $scope.lote.logradouro = data.logradouro;
                 $scope.lote.bairro = data.bairro;
 

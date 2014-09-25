@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="clearfix"></div>
+                    <div class="clearfix tool"></div>
 
                     <!-- Início data table content -->
                     <div class="table-responsive" ng-show="model.usuarios.length>0">
@@ -111,14 +111,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-6 control-label" for="id_grupo_usuarios">Tipo </label>
-                    <div class="col-sm-18">
-                        <select class="form-control" req="" id="grupo_id" name="grupo_id" ng-model="usuario.grupo_id" required ng-options="grupo.id as grupo.descricao for grupo in grupos.grupos">
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <label class="col-sm-6 control-label" for="nome">Nome  </label>
                     <div class="col-sm-18">
                         <input type="text" value="" name="nome" req="" class="form-control" ng-model="usuario.nome" required>
@@ -134,29 +126,37 @@
 
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="email">E-mail </label>
-                    <div class="col-sm-18">
+                    <div class="col-sm-14">
                         <input type="email" value="" maxlength="150" placeholder="E-mail" req="" name="email" class="form-control" required data-ng-model="usuario.email">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="email">Confirme o E-mail </label>
-                    <div class="col-sm-18">
+                    <div class="col-sm-14">
                         <input type="email" value="" maxlength="150" placeholder="E-mail" req="" name="email2" class="form-control" ng-model="usuario.email2" required data-password-verify="usuario.email">
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="senha">Senha </label>
-                    <div class="col-sm-18">
+                    <div class="col-sm-14">
                         <input type="password" req ng-minlength="6" ng-maxlength="15" name="senha" id="senha" class="form-control" value="" data-ng-model="usuario.senha">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="senha2">Confirme a Senha </label>
-                    <div class="col-sm-18">
+                    <div class="col-sm-14">
                         <input type="password" req ng-minlength="6" ng-maxlength="15" name="senha2" id="senha2" class="form-control" value="" ng-model="usuario.senha2" data-password-verify="usuario.senha">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6 control-label" for="id_grupo_usuarios">Grupo </label>
+                    <div class="col-sm-14">
+                        <select class="form-control" req="" id="grupo_id" name="grupo_id" ng-model="usuario.grupo_id" required ng-options="grupo.id as grupo.descricao for grupo in grupos.grupos">
+                        </select>
                     </div>
                 </div>
 
@@ -169,13 +169,13 @@
 
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button class="btn btn-primary" ng-disabled="UsuarioForm.$invalid" ng-click="salvar(usuario)">Salvar</button>
-                    <button data-toggle="dropdown" ng-disabled="UsuarioForm.$invalid" class="btn btn-primary dropdown-toggle" type="button">
+                    <button class="btn btn-primary" ng-click="salvar(usuario)" type="button">Salvar</button>
+                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                         <span class="caret"></span>
                         <span class="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul role="menu" class="dropdown-menu">
-                        <li><a href="#" data-action="modal-add" ng-disabled="UsuarioForm.$invalid">Salvar e Adicionar novo</a></li>
+                        <li><a href="#" data-action="modal-add" ng-click="salvar(usuario, true)">Salvar e Adicionar novo</a></li>
                     </ul>
                 </div>
                 <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>

@@ -14,7 +14,7 @@ class ClienteController extends \SlimController\SlimController
                 'foot_js' => [ 'js/cadastros/cliente_index.js', 'bower_components/lodash/dist/lodash.min.js' ]
             ]);
 	}
-
+    
     public function allAction()
     {
         $this->app->contentType('application/json');
@@ -67,12 +67,6 @@ class ClienteController extends \SlimController\SlimController
             }
 
              $array_contatos = ['telefones' => $telefones];
-            
-            if($ar['cnpj']) {
-                //$ar['cnpj'] = \Financi\DataFormat::mask($ar['cnpj'], '##.###.###/###-##');
-            } else {
-                //$ar['cpf'] = \Financi\DataFormat::mask($ar['cpf'], '###.###.###-##');
-            }
 
             $final_array = array_merge($ar, $array_contatos);
             
@@ -175,7 +169,9 @@ class ClienteController extends \SlimController\SlimController
 
         if(count($conjuge)) {
             $arr_conjuge = $conjuge->to_array();
+            
             $arr_conjuge['data_nascimento'] = isset($arr_conjuge['data_nascimento']) ? $conjuge->data_nascimento->format('d/m/Y') : '';
+            
             $arr_conjuge['expedicao'] = isset($arr_conjuge['expedicao']) ? $conjuge->expedicao->format('d/m/Y') : '';
 
             $cliente_array = array_merge($cliente_array, ['conjuge' => $arr_conjuge]);
@@ -386,5 +382,21 @@ class ClienteController extends \SlimController\SlimController
         }
 
         return $this->app->response->setBody(json_encode( $arr ));
+    }
+
+    public function cpfCnpjAction($cpfcnpj)
+    {
+        $this->app->contentType('application/json');
+
+        $cliente = \Clientes::find('one', [
+                'conditions' => [ 'cpf = ? OR cnpj = ?', $cpfcnpj, $cpfcnpj ]
+            ]);
+
+        $r = [ 'success' => false ];
+        if(count($cliente)) {
+            $r = [ 'success' => true, 'id' => $cliente->id ];
+        }
+
+        return $this->app->response->setBody(json_encode( $r ));
     }
 }
