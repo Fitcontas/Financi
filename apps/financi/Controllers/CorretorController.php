@@ -12,6 +12,7 @@ class CorretorController extends \SlimController\SlimController
         $corretores = \Corretor::find('all');
 
         $this->render('corretor/index.php', [
+                'breadcrumb' => ['Cadastro', 'Corretores'],
                 'corretores' => $corretores,
                 'foot_js' => [ 'js/cadastros/corretor_index.js', 'bower_components/lodash/dist/lodash.min.js' ]
             ]);
@@ -23,6 +24,7 @@ class CorretorController extends \SlimController\SlimController
         $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
 
         $this->render('corretor/novo.php', [
+                'breadcrumb' => ['Cadastro', 'Corretores', 'Novo'],
                 'ufs' => is_array($ufs) ? $ufs : [],
                 'foot_js' => [ 'js/cadastros/corretor_novo.js' ]
             ]);
@@ -72,6 +74,7 @@ class CorretorController extends \SlimController\SlimController
         $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
 
         $this->render('corretor/novo.php', [
+                'breadcrumb' => ['Cadastro', 'Corretores', 'Edição'],
                 'id' => isset($id) ? $id : '',
                 'ufs' => is_array($ufs) ? $ufs : [],
                 'foot_js' => [ 'js/cadastros/corretor.edita.js' ]
@@ -111,11 +114,18 @@ class CorretorController extends \SlimController\SlimController
 
         $inicio = ($limite*$pagina)-$limite;
 
+        if(isset($get['column']) && isset($get['sort'])) {
+            $sort = $get['column'] . ' ' . $get['sort'];
+        } else {
+            $sort = '';
+        }
+
         $corretores = \Corretor::find('all', [
                 'select' => 'corretor.id, corretor.nome, corretor.cpf, corretor.status',
                 'conditions' => $conditions,
                 'limit' => $limite,
-                'offset' => $inicio
+                'offset' => $inicio,
+                'order' => $sort
             ]);
 
         $arr = [];

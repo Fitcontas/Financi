@@ -3,7 +3,6 @@
 AppFinanci.controller('FormClinteGridCtrl', function($scope, $http, Clientes) {
     
     $scope.cliente = {};
-    $scope.clientes = [];
 
     $scope.check_ctrl = [];
     $scope.checkall = false;
@@ -32,7 +31,7 @@ AppFinanci.controller('FormClinteGridCtrl', function($scope, $http, Clientes) {
             chamaMsg('10', false);
         } else {
             
-            var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.clientes;
+            var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.model.clientes;
 
             if(acao_name == 'excluir') {
                 chamaMsg('20', true, false, {'id':'excluir-registro'});
@@ -52,7 +51,7 @@ AppFinanci.controller('FormClinteGridCtrl', function($scope, $http, Clientes) {
                     })
                 });
             } else {
-                var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.clientes;
+                var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.model.clientes;
 
                 $http({
                     'method': 'post',
@@ -70,7 +69,7 @@ AppFinanci.controller('FormClinteGridCtrl', function($scope, $http, Clientes) {
         }
     }
 
-    $scope.start = function(pagina) {
+    $scope.start = function(pagina, column_sort, sort) {
 
         if(pagina) {
             $scope.pagina = pagina;
@@ -83,8 +82,13 @@ AppFinanci.controller('FormClinteGridCtrl', function($scope, $http, Clientes) {
             var termos = { pagina: $scope.pagina };
         }
 
+        if(column_sort && sort) {
+            termos.column = column_sort;
+            termos.sort = sort;
+        }
+
         Clientes.get(termos).$promise.then(function(data){
-            $scope.clientes = data.clientes;
+            $scope.model = data;
             $scope.paginas = new Array(data.paginas);
         });
     }

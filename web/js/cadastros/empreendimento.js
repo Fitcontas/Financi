@@ -77,7 +77,7 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
         }
     }
 
-    $scope.start = function(pagina) {
+    $scope.start = function(pagina, column_sort, sort) {
 
         if(pagina) {
             $scope.pagina = pagina;
@@ -88,6 +88,11 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
             var termos = { pagina: $scope.pagina, query: $scope.search };
         } else {
             var termos = { pagina: $scope.pagina };
+        }
+
+        if(column_sort && sort) {
+            termos.column = column_sort;
+            termos.sort = sort;
         }
 
         Empreendimentos.get(termos).$promise.then(function(data){
@@ -113,10 +118,14 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
 
         $scope.empreendimento = item ? item : {};
 
+        $('.has-error').removeClass('has-error');
+
         $('.modal').modal({
             show: true,
             backdrop: 'static'
         });
+
+        $('.nav-tabs a:first').tab('show');
     }
 
     $scope.salvar = function (empreendimento, add) {
@@ -165,7 +174,10 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
     };
 
     $scope.getCidades = function(uf) {
-        $scope.cidades = Cidades.get({uf: uf});
+        $('.loading').show();
+        $scope.cidades = Cidades.get({uf: uf}).$promise.then(function(data) {
+            $('.loading').hide();
+        });
     }
 
     $scope.adicionarCorretor = function() {
@@ -179,8 +191,11 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
             if(!$scope.empreendimento.corretores) {
                 $scope.empreendimento.corretores = Array();
             }
-
-            $scope.empreendimento.corretores.push(item);
+            
+            if(item != undefined) {
+                $scope.empreendimento.corretores.push(item);
+                $('select[name="empreendimento[corretores]"]').val('').select2('destroy').select2();
+            }
         }
     }
 

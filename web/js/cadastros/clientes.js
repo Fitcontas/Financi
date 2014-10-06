@@ -135,12 +135,12 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
             $('input[name="cliente[conjuge][nacionalidade]"]').attr('required', true).attr('req', true);
             $('select[name="cliente[conjuge][naturalidade_uf]"]').attr('required', true).attr('req', true);
         } else {
-            $('input[name="cliente[conjuge][cpf]"]').removeAttr('required').removeAttr('req');
-            $('input[name="cliente[conjuge][nome]"]').removeAttr('required').removeAttr('req');
-            $('input[name="cliente[conjuge][data_nascimento]"]').removeAttr('required').removeAttr('req');
-            $('select[name="cliente[conjuge][naturalidade]"]').removeAttr('required').removeAttr('req');
-            $('input[name="cliente[conjuge][nacionalidade]"]').removeAttr('required').removeAttr('req');
-            $('select[name="cliente[conjuge][naturalidade_uf]"]').removeAttr('required').removeAttr('req');
+            $('input[name="cliente[conjuge][cpf]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
+            $('input[name="cliente[conjuge][nome]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
+            $('input[name="cliente[conjuge][data_nascimento]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
+            $('select[name="cliente[conjuge][naturalidade]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
+            $('input[name="cliente[conjuge][nacionalidade]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
+            $('select[name="cliente[conjuge][naturalidade_uf]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
         } 
     }
 

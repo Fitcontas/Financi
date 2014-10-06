@@ -42,6 +42,7 @@
                                                 'F' => 'Feminino'
                                             ],
                                             'ng-model' => 'corretor.sexo',
+                                            'attributes' => 'required req'
                                         ],
                                         [
                                             'label' => 'Data de Cadastro',
@@ -65,6 +66,7 @@
                                             'block_class' => 'col-sm-4',
                                             'name' => 'corretor[nacionalidade]',
                                             'ng-model' => 'corretor.nacionalidade',
+                                            'attributes' => 'required req'
                                         ],
                                         [
                                             'label' => 'UF',
@@ -74,7 +76,7 @@
                                             'name' => 'corretor[naturalidade_uf]',
                                             'id' => 'naturalidade_uf',
                                             'ng-model' => 'corretor.naturalidade_uf',
-                                            'attributes' => 'ng-change="get_cidade(\'naturalidade_uf\', \'cidades\')"'
+                                            'attributes' => 'ng-change="get_cidade(\'naturalidade_uf\', \'cidades\')" required req'
                                         ],
                                         [
                                             'label' => 'Naturalidade',
@@ -82,7 +84,7 @@
                                             'block_class' => 'col-sm-10',
                                             'name' => 'corretor[naturalidade]',
                                             'ng-model' => 'corretor.naturalidade',
-                                            'attributes' => 'ng-selected="corretor.naturalidade" ng-options="c.id as c.nome for c in cidades" required req',
+                                            'attributes' => 'ng-selected="corretor.naturalidade" ng-options="c.id as c.nome for c in cidades" required req ng-select2',
                                         ],
                                         [
                                             'label' => 'Estado Civil',
@@ -159,13 +161,14 @@
                                             'block_class' => 'col-sm-12 typeahead',
                                             'name' => 'corretor[cbo_descricao]',
                                             'id' => 'cbo_descricao',
-                                            'attributes' => 'sf-typeahead options="cboOptions" datasets="cboDataset" ng-model="selectedCbo"',
+                                            'attributes' => 'sf-typeahead options="cboOptions" datasets="cboDataset" ng-model="selectedCbo" required req',
                                             'hidden' => '<input type="hidden" id="cbo" name="corretor[cbo]" ng-model="corretor.cbo">'
                                         ],
                                         [
                                             'label' => 'Registro Profissional',
                                             'name' => 'corretor[registro_profissional]',
-                                            'ng-model' => 'corretor.registro_profissional'
+                                            'ng-model' => 'corretor.registro_profissional',
+                                            'attributes' => 'required req'
                                         ],
                                     ]);
 
@@ -270,7 +273,7 @@
                                                     'id' => 'cidade_principal',
                                                     'ng-model' => 'corretor.endereco.0.cidade',
                                                     'ng-option' => '<option ng-repeat="cidade in cidades_endereco_principal" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>',
-                                                    'attributes' => 'req required'
+                                                    'attributes' => 'req required ng-select2'
                                                 ],
                                             ]);
 
@@ -370,7 +373,8 @@
                                                     'block' => 'select-ng-repeat',
                                                     'name' => 'corretor[endereco][1][cidade]',
                                                     'ng-model' => 'corretor.endereco.1.cidade',
-                                                    'ng-option' => '<option ng-repeat="cidade in cidades_endereco_secundario" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>'
+                                                    'ng-option' => '<option ng-repeat="cidade in cidades_endereco_secundario" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>',
+                                                    'attributes' => 'ng-select2'
                                                 ],
                                             ]);
 
@@ -408,7 +412,8 @@
                                                             <select class="form-control" name="" ng-model="corretor.telefones[$index].tipo">
                                                                 <option value=""></option>
                                                                 <option value="1">Celular</option>
-                                                                <option value="2">Fixo</option>
+                                                                <option value="2">Residencial</option>
+                                                                <option value="3">Comercial</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-3">
@@ -444,8 +449,8 @@
                                                         <div class="col-sm-7">
                                                             <select class="form-control" name="" ng-model="corretor.emails[$index].tipo">
                                                                 <option value=""></option>
-                                                                <option value="1"> profissional</option>
-                                                                <option value="2">pessoal</option>
+                                                                <option value="1">Pessoal</option>
+                                                                <option value="2">Profissional</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-17">
@@ -470,8 +475,8 @@
                 <hr>
                 <div class="form-footer row text-right vmargin-0">
                     <div class="btn-group">
-                        <button class="btn btn-primary" type="button" ng-disabled="CorretorForm.$invalid" ng-click="salvar(corretor, false)">Salvar</button>
-                        <button data-toggle="dropdown" ng-disabled="CorretorForm.$invalid" class="btn btn-primary dropdown-toggle" type="button">
+                        <button class="btn btn-primary" type="button" ng-click="salvar(corretor, false)">Salvar</button>
+                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>

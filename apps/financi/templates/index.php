@@ -85,8 +85,14 @@
 	    <div class="page-head">
 	        <div class="container main-box">
 	            <ol class="breadcrumb">
+	            	<?php if(isset($breadcrumb)): ?>
+	            		<?php foreach ($breadcrumb as $b): ?>
+	            			<li class="active"><?php echo $b ?></li>
+	            		<?php endforeach ?>
+	            	<?php else: ?>
                     <li class="active">Cadastro</li>
                     <li class="active">Dev</li>
+                	<?php endif ?>
                 </ol>
 	        </div>
     	</div>

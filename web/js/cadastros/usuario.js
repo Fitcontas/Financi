@@ -69,7 +69,7 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
         }
     };
 
-    $scope.start = function(pagina) {
+    $scope.start = function(pagina, column_sort, sort) {
 
         if(pagina) {
             $scope.pagina = pagina;
@@ -80,6 +80,11 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
             var termos = { pagina: $scope.pagina, query: $scope.search };
         } else {
             var termos = { pagina: $scope.pagina };
+        }
+
+        if(column_sort && sort) {
+            termos.column = column_sort;
+            termos.sort = sort;
         }
 
         Usuarios.get(termos).$promise.then(function(data){
@@ -102,13 +107,15 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
             $('#senha, #senha2').prop('req');
         }
 
+        $('.has-error').removeClass('has-error');
+
         $('.modal').modal({
             show: true,
             backdrop: 'static'
         });
     }
 
-    $scope.salvar = function (usuario) {
+    $scope.salvar = function (usuario, add) {
 
         /*if(usuario.id) {
             $('#senha, #senha2').removeAttr('required');

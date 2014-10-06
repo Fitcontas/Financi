@@ -9,8 +9,8 @@ class ClienteController extends \SlimController\SlimController
 {
 	public function indexAction()
 	{
-
 		$this->render('cliente/index.php', [
+                'breadcrumb' => ['Cadastro', 'Clientes'],
                 'foot_js' => [ 'js/cadastros/cliente_index.js', 'bower_components/lodash/dist/lodash.min.js' ]
             ]);
 	}
@@ -48,11 +48,18 @@ class ClienteController extends \SlimController\SlimController
 
         $inicio = ($limite*$pagina)-$limite;
 
+        if(isset($get['column']) && isset($get['sort'])) {
+            $sort = $get['column'] . ' ' . $get['sort'];
+        } else {
+            $sort = '';
+        }
+
         $clientes = \Clientes::find('all', [
                 'select' => 'cliente.id, cliente.nome, cliente.cpf, cliente.cnpj, cliente.status',
                 'conditions' => $conditions,
                 'limit' => $limite,
-                'offset' => $inicio
+                'offset' => $inicio,
+                'order' => $sort
             ]);
 
         $arr = [];
@@ -82,6 +89,7 @@ class ClienteController extends \SlimController\SlimController
         $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
 
         $this->render('cliente/pf.php', [
+                'breadcrumb' => ['Cadastro', 'Clientes', 'Pessoa Física'],
                 'ufs' => is_array($ufs) ? $ufs : [],
                 'foot_js' => [ 'js/cadastros/clientes.js' ]
             ]);
@@ -92,6 +100,7 @@ class ClienteController extends \SlimController\SlimController
         $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
 
         $this->render('cliente/pf.php', [
+                'breadcrumb' => ['Cadastro', 'Clientes', 'Editando Pessoa Física'],
                 'id' => $id,
                 'ufs' => is_array($ufs) ? $ufs : [],
                 'foot_js' => [ 'js/cadastros/cliente.edita.pf.js' ]
@@ -103,6 +112,7 @@ class ClienteController extends \SlimController\SlimController
         $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
 
         $this->render('cliente/pj.php', [
+                'breadcrumb' => ['Cadastro', 'Clientes', 'Editando Pessoa Jurídica'],
                 'id' => $id,
                 'ufs' => is_array($ufs) ? $ufs : [],
                 'foot_js' => [ 'js/cadastros/cliente.edita.pf.js' ]
@@ -114,6 +124,7 @@ class ClienteController extends \SlimController\SlimController
         $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
 
         $this->render('cliente/pj.php', [
+                'breadcrumb' => ['Cadastro', 'Clientes', 'Pessoa Jurídica'],
                 'ufs' => is_array($ufs) ? $ufs : [],
                 'foot_js' => [ 'js/cadastros/clientes.js' ]
             ]);
@@ -218,6 +229,8 @@ class ClienteController extends \SlimController\SlimController
             unset($data->telefones);
             unset($data->emails);
 
+            $data->expedicao = \Financi\DataFormat::DateDB($data->expedicao);
+
             $cliente = new \Clientes($data);
             
             if($cliente->save())
@@ -234,7 +247,7 @@ class ClienteController extends \SlimController\SlimController
 
                 if($conjuge) {
                     $conjuge->cliente_id = $cliente->id;
-                    //$conjuge->data_cadastro = date('Y-m-d H:i:S');
+                    $conjuge->data_nascimento = \Financi\DataFormat::DateDB($conjuge->data_nascimento);
                     unset($conjuge->residencia);
                     $cliente_conjuge = new \ClienteConjuge($conjuge);
                     $cliente_conjuge->save();
@@ -273,6 +286,8 @@ class ClienteController extends \SlimController\SlimController
 
             $cliente = \Clientes::find($data->id);
 
+            $data->expedicao = \Financi\DataFormat::DateDB($data->expedicao);
+
             if($cliente->update_attributes($data)) {
 
                 if($endereco) {
@@ -292,6 +307,9 @@ class ClienteController extends \SlimController\SlimController
                 }
 
                 if($conjuge) {
+
+                    $conjuge->expedicao = \Financi\DataFormat::DateDB($conjuge->expedicao);
+
                     if($conjuge->id) {
                         $cliente_conjuge = \ClienteConjuge::find($conjuge->id);
                         $cliente_conjuge->update_attributes($conjuge);
@@ -338,10 +356,8 @@ class ClienteController extends \SlimController\SlimController
         if($acao == 'excluir') {
             foreach ($data as $d) {
                 $cliente = \Clientes::find($d->id);
-                $cliente->status = 0;
-                if(count($cliente)) {
-                    $cliente->save();
-                }
+                
+                $cliente->delete();
             }
             return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] )); 
         }
@@ -389,7 +405,7 @@ class ClienteController extends \SlimController\SlimController
         $this->app->contentType('application/json');
 
         $cliente = \Clientes::find('one', [
-                'conditions' => [ 'cpf = ? OR cnpj = ?', $cpfcnpj, $cpfcnpj ]
+                'conditions' => [ 'cpf = ? OR cnpj = ? AND status = 1', $cpfcnpj, $cpfcnpj ]
             ]);
 
         $r = [ 'success' => false ];

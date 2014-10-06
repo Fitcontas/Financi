@@ -200,14 +200,14 @@
                                                     'attributes' => 'req required ng-change="get_cidade(\'uf_endereco_principal\', \'cidades_endereco_principal\')"'
                                                 ],
                                                 [
-                                                    'label' => 'cidade',
+                                                    'label' => 'Cidade',
                                                     'block_class' => 'col-sm-10',
                                                     'block' => 'select-ng-repeat',
                                                     'name' => 'cliente[endereco][0][cidade]',
                                                     'id' => 'cidade_principal',
                                                     'ng-model' => 'cliente.endereco.0.cidade',
                                                     'ng-option' => '<option ng-repeat="cidade in cidades_endereco_principal" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>',
-                                                    'attributes' => 'req required'
+                                                    'attributes' => 'req required ng-select2'
                                                 ],
                                             ]);
 
@@ -300,12 +300,13 @@
                                                     'attributes' => 'ng-change="get_cidade(\'uf_endereco_secundario\', \'cidades_endereco_secundario\')"'
                                                 ],
                                                 [
-                                                    'label' => 'cidade',
+                                                    'label' => 'Cidade',
                                                     'block_class' => 'col-sm-10',
                                                     'block' => 'select-ng-repeat',
                                                     'name' => 'cliente[endereco][1][cidade]',
                                                     'ng-model' => 'cliente.endereco.1.cidade',
-                                                    'ng-option' => '<option ng-repeat="cidade in cidades_endereco_secundario" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>'
+                                                    'ng-option' => '<option ng-repeat="cidade in cidades_endereco_secundario" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>',
+                                                    'attributes' => 'ng-select2'
                                                 ],
                                             ]);
 
@@ -378,8 +379,9 @@
                                                         <div class="col-sm-7">
                                                             <select class="form-control" name="" ng-model="cliente.emails[$index].tipo">
                                                                 <option value=""></option>
-                                                                <option value="1"> profissional</option>
-                                                                <option value="2">pessoal</option>
+                                                                <option value="3">Principal</option>
+                                                                <option value="4">Comercial</option>
+                                                                <option value="5">Financeiro</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-17">
@@ -414,13 +416,15 @@
                                             'label' => 'CPF',
                                             'block_class' => 'col-sm-4',
                                             'name' => 'cliente[conjuge][cpf]',
-                                            'ng-model' => 'cliente.conjuge.cpf'
+                                            'ng-model' => 'cliente.conjuge.cpf',
+                                            'attributes' => 'required req'
                                         ],
                                         [
                                             'label' => 'Nome',
                                             'block_class' => 'col-sm-17',
                                             'name' => 'cliente[conjuge][nome]',
-                                            'ng-model' => 'cliente.conjuge.nome'
+                                            'ng-model' => 'cliente.conjuge.nome',
+                                            'attributes' => 'required req'
                                         ],
                                         [
                                             'label' => 'Sexo',
@@ -431,7 +435,8 @@
                                                 'M' => 'Masculino',
                                                 'F' => 'Feminino'
                                             ],
-                                            'ng-model' => 'cliente.conjuge.sexo'
+                                            'ng-model' => 'cliente.conjuge.sexo',
+                                            'attributes' => 'required req'
                                         ]
                                     ]); 
 
@@ -440,29 +445,32 @@
                                             'label' => 'Data de Nascimento',
                                             'block_class' => 'col-sm-4',
                                             'name' => 'cliente[conjuge][data_nascimento]',
-                                            'ng-model' => 'cliente.conjuge.data_nascimento'
+                                            'ng-model' => 'cliente.conjuge.data_nascimento',
+                                            'attributes' => 'required req'
                                         ],
                                          [
                                             'label' => 'Nacionalidade',
                                             'block_class' => 'col-sm-4',
                                             'name' => 'cliente[conjuge][nacionalidade]',
-                                            'ng-model' => 'cliente.conjuge.nacionalidade'
+                                            'ng-model' => 'cliente.conjuge.nacionalidade',
+                                            'attributes' => 'required req'
                                         ],
                                         [
                                             'label' => 'UF',
                                             'block' => 'default-select',
                                             'block_class' => 'col-sm-2',
-                                            'options' => [
-                                                'BA' => 'BA'
-                                            ],
+                                            'options' => $ufs,
                                             'name' => 'cliente[conjuge][naturalidade_uf]',
-                                            'ng-model' => 'cliente.conjuge.naturalidade_uf'
+                                            'ng-model' => 'cliente.conjuge.naturalidade_uf',
+                                            'attributes' => 'ng-change="get_cidade(\'conjuge_naturalidade_uf\', \'cidades_conjuge\')" req required'
                                         ],
                                         [
                                             'label' => 'Naturalidade',
+                                            'block' => 'select-ng-repeat',
                                             'block_class' => 'col-sm-14',
                                             'name' => 'cliente[conjuge][naturalidade]',
-                                            'ng-model' => 'cliente.conjuge.naturalidade'
+                                            'ng-model' => 'cliente.conjuge.naturalidade',
+                                            'attributes' => 'ng-selected="cliente.conjuge.naturalidade" ng-options="c.id as c.nome for c in cidades_conjuge" ng-select2 req required',
                                         ]
                                     ]);
 
@@ -494,11 +502,12 @@
                                         ],
                                         [
                                             'label' => 'CBO',
-                                            'block' => 'default-select',
-                                            'block_class' => 'col-sm-12',
-                                            'options' => [],
-                                            'name' => 'cliente[conjuge][cbo]',
-                                            'ng-model' => 'cliente.conjuge.cbo'
+                                            'block' => 'default-with-hidden',
+                                            'block_class' => 'col-sm-12 typeahead',
+                                            'name' => 'cliente[conjuge][cbo_descricao]',
+                                            'id' => 'cbo_conjuge_descricao',
+                                            'attributes' => 'sf-typeahead options="cboOptions" datasets="cboDataset" ng-model="selectedCbo"',
+                                            'hidden' => '<input type="hidden" id="cbo_conjuge" name="cliente[cbo]" ng-model="cliente.conjuge.cbo">'
                                         ],
                                         [
                                             'label' => 'Registro Profissional',

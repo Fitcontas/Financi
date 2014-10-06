@@ -88,7 +88,7 @@
                                             'block_class' => 'col-sm-10',
                                             'name' => 'cliente[naturalidade]',
                                             'ng-model' => 'cliente.naturalidade',
-                                            'attributes' => 'ng-selected="cliente.naturalidade" ng-options="c.id as c.nome for c in cidades" required req',
+                                            'attributes' => 'ng-selected="cliente.naturalidade" ng-options="c.id as c.nome for c in cidades" required req ng-select2',
                                         ],
                                         [
                                             'label' => 'Estado Civil',
@@ -111,7 +111,8 @@
                                             'label' => 'Registro Geral (RG)',
                                             'block_class' => 'col-sm-8',
                                             'name' => 'cliente[registro_geral]',
-                                            'ng-model' => 'cliente.registro_geral'
+                                            'ng-model' => 'cliente.registro_geral',
+                                            'attributes' => 'required req'
                                         ],
                                         [
                                             'label' => 'Data de expedição',
@@ -120,7 +121,7 @@
                                             'name' => 'cliente[expedicao]',
                                             'ng-model' => 'cliente.expedicao',
                                             'class' => '',
-                                            'attributes' => 'mask="99/99/9999"'
+                                            'attributes' => 'mask="99/99/9999" required req'
                                         ],
                                         [
                                             'label' => 'CTPS',
@@ -290,7 +291,7 @@
                                                     'name' => 'cliente[endereco][0][cidade]',
                                                     'id' => 'cidade_principal',
                                                     'ng-model' => 'cliente.endereco[0].cidade',
-                                                    'attributes' => 'ng-selected="cliente.endereco[0].cidade" ng-options="c.id as c.sub_nome for c in cidades_endereco_principal" req required'
+                                                    'attributes' => 'ng-selected="cliente.endereco[0].cidade" ng-options="c.id as c.sub_nome for c in cidades_endereco_principal" req required ng-select2'
                                                 ],
                                             ]);
 
@@ -394,7 +395,7 @@
                                                     'name' => 'cliente[endereco][1][cidade]',
                                                     'ng-model' => 'cliente.endereco[1].cidade',
                                                     'ng-option' => '',
-                                                    'attributes' => 'ng-disabled="!cidades_endereco_secundario" ng-selected="cliente.endereco[1].cidade" ng-options="c.id as c.nome for c in cidades_endereco_secundario"'
+                                                    'attributes' => 'ng-selected="cliente.endereco[1].cidade" ng-options="c.id as c.nome for c in cidades_endereco_secundario" ng-select2'
                                                 ],
                                             ]);
 
@@ -430,7 +431,8 @@
                                                             <select class="form-control" name="" ng-model="cliente.telefones[$index].tipo">
                                                                 <option value=""></option>
                                                                 <option value="1">Celular</option>
-                                                                <option value="2">Fixo</option>
+                                                                <option value="2">Residencial</option>
+                                                                <option value="3">Comercial</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-3">
@@ -466,8 +468,8 @@
                                                         <div class="col-sm-7">
                                                             <select class="form-control" name="" ng-model="cliente.emails[$index].tipo">
                                                                 <option value=""></option>
-                                                                <option value="1"> profissional</option>
-                                                                <option value="2">pessoal</option>
+                                                                <option value="1"> Pessoal</option>
+                                                                <option value="2"> Profissional</option>
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-17">
@@ -549,7 +551,7 @@
                                             'block_class' => 'col-sm-14',
                                             'name' => 'cliente[conjuge][naturalidade]',
                                             'ng-model' => 'cliente.conjuge.naturalidade',
-                                            'attributes' => 'ng-selected="cliente.conjuge.naturalidade" ng-options="c.id as c.nome for c in cidades_conjuge"',
+                                            'attributes' => 'ng-selected="cliente.conjuge.naturalidade" ng-options="c.id as c.nome for c in cidades_conjuge" ng-select2',
                                         ]
                                     ]);
 

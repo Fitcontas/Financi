@@ -8,7 +8,7 @@ function required(idForm, modal) {
         if ($(this).attr('req') != null) {
 
             if ( $(this).is(":visible") && idForm == '#aba-3' ) {
-                if ($.trim($(this).val()) == '' || $.trim($(this).val()) == '? undefined:undefined ?' || $(this).hasClass('ng-invalid') || $.trim($(this).val()) == '?') {
+                if ($.trim($(this).val()) == '' || $.trim($(this).val()) == '? undefined:undefined ?' || $(this).hasClass('ng-invalid') || $.trim($(this).val()) == '?' || $.trim($(this).val()) == '0,00' ) {
 
                     if ($(this).attr('name')) {
 
@@ -25,7 +25,7 @@ function required(idForm, modal) {
                     $(this).closest('div').removeClass('has-error');
                 }
             } else {
-                if ($.trim($(this).val()) == '' || $.trim($(this).val()) == '? undefined:undefined ?' || $(this).hasClass('ng-invalid') || $.trim($(this).val()) == '?') {
+                if ($.trim($(this).val()) == '' || $.trim($(this).val()) == '? undefined:undefined ?' || $(this).hasClass('ng-invalid') || $.trim($(this).val()) == '?' || $.trim($(this).val()) == '0,00') {
 
                     if ($(this).attr('name')) {
 

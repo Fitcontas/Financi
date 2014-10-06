@@ -71,6 +71,26 @@ AppFinanci.directive("passwordVerify", function() {
     };
 })
 
+.directive('ngSort', function() {
+    return {
+      link: function($scope, element, attrs, controller) {
+        element.click(function() {
+          $scope.start(null, attrs.column, attrs.sort);
+          $('.sorting_desc, .sorting_asc').removeClass('sorting_asc').removeClass('sorting_desc').addClass('sorting');
+          element.removeClass('sorting').removeClass('sorting_asc').removeClass('sorting_desc');
+          
+          if(attrs.sort == 'asc') {
+            attrs.sort = 'desc';
+            element.addClass('sorting_asc');
+          } else {
+            attrs.sort = 'asc';
+            element.addClass('sorting_desc');
+          }
+        });
+      }
+    }
+})
+
 .directive('ngOnlyNumbers', function() {
     return {
       require: '?ngModel',

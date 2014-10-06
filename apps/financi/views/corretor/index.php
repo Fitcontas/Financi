@@ -50,7 +50,7 @@
                                             <label><input type="checkbox" name="checkall" ng-model="checkall"></label>
                                         </div>
                                     </th>
-                                    <th>Nome</th>
+                                    <th class="sorting" data-column="nome" data-sort="asc" ng-sort="">Nome</th>
                                     <th>CPF</th>
                                     <th>Telefones</th>
                                 </tr>

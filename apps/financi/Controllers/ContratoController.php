@@ -3,7 +3,8 @@
 namespace Controllers;
 
 use Opis\Session\Session,
-    \Financi\WebServices;
+    \Financi\WebServices,
+    \Financi\CalcFi;
 
 class ContratoController extends \SlimController\SlimController 
 {
@@ -31,6 +32,7 @@ class ContratoController extends \SlimController\SlimController
         ];
 
         $this->render('contrato/index.php', [
+                'breadcrumb' => ['Lançamentos', 'Contratos'],
                 'empreendimentos' => $empreendimentos,
                 'corretores' => $corretores,
                 'clientes' => $clientes,
@@ -120,51 +122,63 @@ class ContratoController extends \SlimController\SlimController
 
         $data = json_decode($this->app->request->getBody());
 
+        //Pegando o empreendimento
+        $empreendimento = \Empreendimento::find($data->empreendimento_id);
+        $taxa = $empreendimento->taxa_financiamento / 100;
+
         $valor_contrato = \Financi\DataFormat::money($data->valor_contrato);
-        
-        $pct_entrada = $data->tipo_entrada == 1 ? \Financi\DataFormat::money($data->entrada) / 100 : \Financi\DataFormat::money($data->entrada);
-        
-        $pct_intermediarias = $data->tipo_intermediarias == 1 ? \Financi\DataFormat::money($data->intermediarias) / 100 : \Financi\DataFormat::money($data->intermediarias);
+
+        //Passandos dados ao CalcFi
+        $calc = new CalcFi();
+        $calc->entrada = $data->entrada;
+        $calc->tipo_entrada = $data->tipo_entrada;
+        $calc->valor_contrato = $valor_contrato;
+        $calc->tipo_intermediaria = $data->tipo_intermediarias;
+        $calc->intermediaria = $data->intermediarias;
+        $calc->taxa_mensal = $empreendimento->taxa_financiamento / 100;
+        $calc->periodo_intermerdiaria = $data->periodo;
+        $calc->qtd_parcelas = $data->parcelas;
+
+        $pct_entrada = $calc->getEntrada();
         
         $qtd_parcelas = $data->parcelas;
         $periodo = $data->periodo;
 
-        $empreendimento = \Empreendimento::find($data->empreendimento_id);
-        $taxa = $empreendimento->taxa_financiamento / 100;
-
         $vl_entrada = $data->tipo_entrada == 1 ? ($valor_contrato * $pct_entrada) : $pct_entrada;
 
-        $vl_intermediarias = $data->tipo_intermediarias == 1 ? ($valor_contrato * $pct_intermediarias) : $pct_intermediarias;
+        $vl_intermediarias = $calc->getIntermediaria();
 
-        $valor_financiado = $valor_contrato - ( $vl_entrada + $vl_intermediarias );
+        //Intermerdiárias
+        $valor_intermediarias = $calc->PvIntermediaria();
+
+        $valor_financiado = $valor_contrato - ( $vl_entrada + $calc->PvIntermediaria() );
 
         $fase1 = 1 - pow((1+$taxa), ($qtd_parcelas * -1));
         $parcelas = $valor_financiado / ($fase1 / $taxa);
 
-        //Intermerdiárias
-        $valor_intermediarias = $data->tipo_intermediarias == 1 ? ($valor_contrato * $pct_intermediarias) : $pct_intermediarias;
+        
+        
         $qtd_periodos = $qtd_parcelas / $meses_periodo[$periodo];
+
+        
         
         //taxa equivalente
         $taxa_equivalente = pow((1 + $taxa), $meses_periodo[$periodo]) - 1;
         
-        if($data->tipo_intermediarias == 1) {
 
-            $fase2 = 1 - pow((1 + $taxa_equivalente), ($qtd_periodos * -1));
+
+        $intermediarias = $calc->getParcelaIntermediaria();
+
+        //$int_valor_inicial = ( $valor_intermediarias / pow((1 + $taxa_equivalente),  $qtd_periodos) );
+
+        //print_r( $qtd_periodos );
+        //exit();
+
         
-            $intermediarias = $valor_intermediarias / ($fase2 / $taxa_equivalente);
 
-        } else {
-            $fase2 = 1 - pow((1 + $taxa), ($qtd_periodos * -1));
-
-            $intermediarias = ($valor_intermediarias/$qtd_periodos) * ($fase2 / $taxa_equivalente);
-
-            $int_valor_inicial = ( $valor_intermediarias / pow((1 + $taxa_equivalente),  $qtd_periodos) );
-
-            print_r( $int_valor_inicial / ($fase2 / $taxa) );
-            exit();
-
-        }
+        //echo $data->tipo_intermediarias;
+        //echo $calc->getParcelaIntermediaria();
+        //exit();
 
         $primeiro_vencimento = implode("-", array_reverse(explode("/", $data->primeiro_vencimento)));
         $primeiro_vencimento = new \DateTime($primeiro_vencimento);
@@ -172,7 +186,9 @@ class ContratoController extends \SlimController\SlimController
         $array = [];
 
         $periodo_controle = $meses_periodo[$periodo];
+        
         $index = 2;
+        $p=1;
         for ($i=1; $i <= $qtd_parcelas ; $i++) {
             $intervalo = new \DateInterval('P1M'); 
             $vencimento =  $primeiro_vencimento->add($intervalo)->format('d/m/Y');
@@ -183,9 +199,15 @@ class ContratoController extends \SlimController\SlimController
             $array[] = [ 'num' => str_pad($index, 3, '0', STR_PAD_LEFT), 'parcela' => $pad_parcela, 'vencimento' => $vencimento, 'valor' => number_format($parcelas, 2, ',', '.') ];
             if($i == $periodo_controle) {
                 $index++;
+
                 $pad_parcela = str_pad($index, 3, '0', STR_PAD_LEFT) . '/' . $ano.'INT';
+
+                //$intermediarias = $p == 1 ? $intermediarias + $calc->getDiferencaIntermediaria() : $intermediarias;
+
                 $array[] = [ 'num' => str_pad($index, 3, '0', STR_PAD_LEFT), 'parcela' => $pad_parcela, 'vencimento' => $vencimento, 'valor' => number_format($intermediarias, 2, ',', '.'), 'int'=>true ];
+
                 $periodo_controle += $meses_periodo[$periodo];
+                $p++;
             }
             $index++;
         }

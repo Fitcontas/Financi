@@ -54,7 +54,7 @@
                         
                     </div>
                     <div class="clearfix tool"></div>
-                    <div class="table-responsive" ng-show="clientes.length>0">
+                    <div class="table-responsive" ng-show="model.clientes.length>0">
                         <table class="table table-bordered table-hover spacer2" id="tb_cliente">
                             <thead>
                                 <tr>
@@ -63,13 +63,13 @@
                                             <label><input type="checkbox" name="checkall" class="checkall" ng-model="checkall"></label>
                                         </div>
                                     </th>
-                                    <th width="40%">Nome/Razão Social</th>
+                                    <th width="40%" class="sorting" data-column="nome" data-sort="asc" ng-sort="">Nome/Razão Social</th>
                                     <th width="150px">CPF/CNPJ</th>
                                     <th>Telefones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="c in clientes" ng-class="c.status == 2 ? 'desabilitado' : 'habilitado' ">
+                                <tr ng-repeat="c in model.clientes" ng-class="c.status == 2 ? 'desabilitado' : 'habilitado' ">
                                     <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(c)" ng-checked="checkall"></td>
                                     <td><a href="/cliente/edita/{{ c.cpf ? 'pf' : 'pj' }}/{{c.id}}">{{c.nome}}</a></a></td>
                                     <td>{{ c.cpf ? c.cpf.cpf() : c.cnpj.cnpj() }}</td>
@@ -101,7 +101,7 @@
                         <!-- /fim da paginação -->                          
                     </div>
                     
-                    <div class="table-responsive" ng-hide="clientes.length>0">
+                    <div class="table-responsive" ng-show="!model.clientes.length && model.$resolved">
                         <div class="alert alert-warning alert-white rounded">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
                             <div class="icon"><i class="fa fa-warning"></i></div>

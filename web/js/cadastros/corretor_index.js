@@ -72,7 +72,7 @@ AppFinanci.controller('FormCorretorGridCtrl', function($scope, $http, getCorreto
         }
     }
 
-    $scope.start = function(pagina) {
+    $scope.start = function(pagina, column_sort, sort) {
 
         if(pagina) {
             $scope.pagina = pagina;
@@ -83,6 +83,11 @@ AppFinanci.controller('FormCorretorGridCtrl', function($scope, $http, getCorreto
             var termos = { pagina: $scope.pagina, query: $scope.search };
         } else {
             var termos = { pagina: $scope.pagina };
+        }
+
+        if(column_sort && sort) {
+            termos.column = column_sort;
+            termos.sort = sort;
         }
 
         getCorretores.get(termos).$promise.then(function(data){

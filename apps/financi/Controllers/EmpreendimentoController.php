@@ -10,6 +10,7 @@ class EmpreendimentoController extends \SlimController\SlimController
     public function indexAction()
     {
         $this->render('empreendimento/index.php', [
+                'breadcrumb' => ['Cadastro', 'Empreendimentos'],
                 'foot_js' => [ 'js/maskMoney/jquery.maskMoney.min.js', 'bower_components/slimScroll/jquery.slimscroll.min.js', 'js/cadastros/empreendimento.js', 'bower_components/lodash/dist/lodash.min.js']
             ]);
     }
@@ -46,10 +47,17 @@ class EmpreendimentoController extends \SlimController\SlimController
 
         $inicio = ($limite*$pagina)-$limite;
 
+        if(isset($get['column']) && isset($get['sort'])) {
+            $sort = $get['column'] . ' ' . $get['sort'];
+        } else {
+            $sort = '';
+        }
+
         $empreendimentos = \Empreendimento::find('all', [
                 'conditions' => $conditions,
                 'limit' => $limite,
-                'offset' => $inicio
+                'offset' => $inicio,
+                'order' => $sort
             ]);
 
         $arr = [];

@@ -12,6 +12,7 @@ class UsuarioController extends \SlimController\SlimController
         $usuario = \Usuario::find('all');
 
         $this->render('usuario/index.php', [
+                'breadcrumb' => ['Cadastro', 'Usuários'],
                 'usuario' => $usuario,
                 'head_js' => [ 'bower_components/angular-route/angular-route.min.js' ],
                 'foot_js' => [ 'js/cadastros/usuario.js', 'bower_components/lodash/dist/lodash.min.js']
@@ -52,12 +53,19 @@ class UsuarioController extends \SlimController\SlimController
 
         $inicio = ($limite*$pagina)-$limite;
 
+        if(isset($get['column']) && isset($get['sort'])) {
+            $sort = $get['column'] . ' ' . $get['sort'];
+        } else {
+            $sort = '';
+        }
+
         $usuarios = \Usuario::find('all', [
-                'select' => 'usuario.id, usuario.usuario, usuario.nome, usuario.apelido, usuario.email, usuario.grupo_id, usuario.status, grupo_usuario.descricao as grupo',
+                'select' => 'usuario.id, usuario.usuario, usuario.nome, usuario.apelido, usuario.email, usuario.grupo_id, usuario.status, grupo_usuario.descricao as grupo, usuario.trocar_senha',
                 'joins' => ['grupo_usuario'],
                 'conditions' => $conditions,
                 'limit' => $limite,
-                'offset' => $inicio
+                'offset' => $inicio,
+                'order' => $sort
             ]);
 
         $arr = [];
@@ -94,6 +102,7 @@ class UsuarioController extends \SlimController\SlimController
             $usuario->apelido = $data->apelido;
             $usuario->nome = $data->nome;
             $usuario->grupo_id = $data->grupo_id;
+            $usuario->trocar_senha = $data->trocar_senha;
             
             if($usuario->save()) {
                 return $this->app->response->setBody(json_encode( ['success' => true] )); 
@@ -107,6 +116,7 @@ class UsuarioController extends \SlimController\SlimController
             $usuario->grupo_id = $data->grupo_id;
             $usuario->instituicao_id = 1;
             $usuario->senha = sha1($data->senha);
+            $usuario->trocar_senha = $data->trocar_senha;
 
             if($usuario->save()) {
                 return $this->app->response->setBody(json_encode( ['success' => true] )); 

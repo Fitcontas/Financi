@@ -47,9 +47,9 @@
                                             <label><input type="checkbox" name="checkall" ng-model="checkall"></label>
                                         </div>
                                     </th>
-                                    <th>Nome</th>
+                                    <th class="sorting" data-column="nome" data-sort="asc" ng-sort="">Nome</th>
                                     <th width="25%">E-mail</th>
-                                    <th width="20%">Tipo</th>
+                                    <th width="20%" class="sorting" data-column="grupo" data-sort="asc" ng-sort="">Tipo</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -127,14 +127,14 @@
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="email">E-mail </label>
                     <div class="col-sm-14">
-                        <input type="email" value="" maxlength="150" placeholder="E-mail" req="" name="email" class="form-control" required data-ng-model="usuario.email">
+                        <input type="email" value="" maxlength="150" req="" name="email" class="form-control" required data-ng-model="usuario.email">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="email">Confirme o E-mail </label>
                     <div class="col-sm-14">
-                        <input type="email" value="" maxlength="150" placeholder="E-mail" req="" name="email2" class="form-control" ng-model="usuario.email2" required data-password-verify="usuario.email">
+                        <input type="email" value="" maxlength="150" req="" name="email2" class="form-control" ng-model="usuario.email2" required data-password-verify="usuario.email">
                     </div>
                 </div>
                 
@@ -160,9 +160,12 @@
                     </div>
                 </div>
 
-                <div class="form-group obs">
-                    Obs.:
-                    O sistema solicitará a alteração de senha no primeiro acesso.
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">&nbsp;</label>
+                    <div class="col-sm-18">
+                        <input type="checkbox" checked="checked" value="1" id="change_password" name="change_password" ng-model="usuario.trocar_senha" ng-checked="usuario.trocar_senha">
+                        Solicitar alteração de senha no primeiro acesso.
+                    </div>
                 </div>
 
             </div>

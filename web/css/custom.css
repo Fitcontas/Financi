@@ -20,19 +20,6 @@
     font-weight: normal !important;
 }
 
-.table-corretor {
-    border: none !important;
-}
-
-.table-corretor tr td {
-    border: none !important;
-    border-bottom: 1px solid #ccc !important;
-}
-
-.table-corretor tr.odd td {
-    background: #E9F6FC !important;
-}
-
 .search-group {
     width: 300px;
 }
@@ -105,4 +92,13 @@ tr td input[type="checkbox"] {
 
 .tool {
     padding-bottom: 16px !important;
+}
+
+.semborda {
+    border: 0px !important;
+    border-bottom: 1px solid #dadada !important;
+}
+
+.comborda {
+    border-bottom: 1px solid #dadada !important;
 }

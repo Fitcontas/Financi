@@ -15,7 +15,7 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
 
     ClientesBusca.get({ id: $('#cliente-id').val() }).$promise.then(function(data) {
         $scope.cliente = data.cliente;
-
+        $scope.verificaCasado();
         if(data.cliente.telefones.length == 0) {
             $scope.cliente.telefones = [{}];
         }
@@ -129,6 +129,26 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
             });
         }
         
+    }
+
+    $scope.verificaCasado = function() {
+        console.log('Estado civil: ' + $scope.cliente.estado_civil);
+
+        if($scope.cliente.estado_civil == 2) {
+            $('input[name="cliente[conjuge][cpf]"]').attr('required', true).attr('req', true);
+            $('input[name="cliente[conjuge][nome]"]').attr('required', true).attr('req', true);
+            $('input[name="cliente[conjuge][data_nascimento]"]').attr('required', true).attr('req', true);
+            $('select[name="cliente[conjuge][naturalidade]"]').attr('required', true).attr('req', true);
+            $('input[name="cliente[conjuge][nacionalidade]"]').attr('required', true).attr('req', true);
+            $('select[name="cliente[conjuge][naturalidade_uf]"]').attr('required', true).attr('req', true);
+        } else {
+            $('input[name="cliente[conjuge][cpf]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
+            $('input[name="cliente[conjuge][nome]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
+            $('input[name="cliente[conjuge][data_nascimento]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
+            $('select[name="cliente[conjuge][naturalidade]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
+            $('input[name="cliente[conjuge][nacionalidade]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
+            $('select[name="cliente[conjuge][naturalidade_uf]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
+        };
     }
 
     var cbo = new Bloodhound({

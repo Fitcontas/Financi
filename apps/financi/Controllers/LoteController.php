@@ -15,6 +15,7 @@ class LoteController extends \SlimController\SlimController
             ]);
 
         $this->render('lote/index.php', [
+                'breadcrumb' => ['Cadastro', 'Lotes'],
                 'empreendimentos' => $empreendimentos,
                 'foot_js' => [ 'js/maskMoney/jquery.maskMoney.min.js', 'bower_components/slimScroll/jquery.slimscroll.min.js', 'js/cadastros/lote.js', 'bower_components/lodash/dist/lodash.min.js']
             ]);
@@ -52,12 +53,19 @@ class LoteController extends \SlimController\SlimController
 
         $inicio = ($limite*$pagina)-$limite;
 
+        if(isset($get['column']) && isset($get['sort'])) {
+            $sort = $get['column'] . ' ' . $get['sort'];
+        } else {
+            $sort = '';
+        }
+
         $lotes = \Lote::find('all', [
                 'select' => 'lote.*, empreendimento.empreendimento',
                 'joins' => ['empreendimento'],
                 'conditions' => $conditions,
                 'limit' => $limite,
-                'offset' => $inicio
+                'offset' => $inicio,
+                'order' => $sort
             ]);
 
         $arr = [];
@@ -65,6 +73,11 @@ class LoteController extends \SlimController\SlimController
         foreach ($lotes as $e) {
             $final_arr = $e->to_array();
             $final_arr['valor'] = number_format($final_arr['valor'], 2, ',', '.');
+            $final_arr['frente_metro'] = number_format($final_arr['frente_metro'], 2, ',', '.');
+            $final_arr['fundo_metro'] = number_format($final_arr['fundo_metro'], 2, ',', '.');
+            $final_arr['lateral_direita_metro'] = number_format($final_arr['lateral_direita_metro'], 2, ',', '.');
+            $final_arr['lateral_esquerda_metro'] = number_format($final_arr['lateral_esquerda_metro'], 2, ',', '.');
+            $final_arr['area_total'] = number_format($final_arr['area_total'], 2, ',', '.');
             $arr[] = $final_arr;
         }
 

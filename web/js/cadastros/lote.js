@@ -78,7 +78,7 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
         }
     }
 
-    $scope.start = function(pagina) {
+    $scope.start = function(pagina, column_sort, sort) {
 
         if(pagina) {
             $scope.pagina = pagina;
@@ -89,6 +89,11 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
             var termos = { pagina: $scope.pagina, query: $scope.search };
         } else {
             var termos = { pagina: $scope.pagina };
+        }
+
+        if(column_sort && sort) {
+            termos.column = column_sort;
+            termos.sort = sort;
         }
 
         Lotes.get(termos).$promise.then(function(data){
@@ -102,6 +107,8 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
     }
 
     $scope.showForm = function(item) {
+        
+
 
         $('#scrolling').slimScroll({
             height: '200px',
@@ -113,11 +120,15 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
         }
         
         $scope.lote = item ? item : {};
-
+        
+        $('.has-error').removeClass('has-error');
+        
         $('.modal').modal({
             show: true,
             backdrop: 'static'
         });
+
+        $('.nav-tabs a:first').tab('show');
     }
 
     $scope.salvar = function (lote) {
@@ -132,8 +143,16 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
             LoteNovo.save(lote).$promise.then(function(data) {
                 if(data.success) {
                     $('.modal').modal('hide');
-                    chamaMsg(data.msg, true);
+                    
                     $scope.start();
+
+                    if(add) {
+                        $scope.showForm();
+                    } else {
+                        chamaMsg('1', true);
+                    }
+
+                    
                 }
             });
         }
@@ -162,7 +181,10 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
     };
 
     $scope.getCidades = function(uf) {
-        $scope.cidades = Cidades.get({uf: uf});
+        $('.loading').show();
+        $scope.cidades = Cidades.get({uf: uf}).$promise.then(function(data) {
+            $('.loading').hide();
+        });
     }
 
     $scope.adicionarCorretor = function() {
