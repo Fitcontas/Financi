@@ -6,7 +6,9 @@ class Corretor extends AppModel
 
     static $has_many = [
         ['telefones', 'class_name' => 'CorretorTelefone', 'foreign_key' => 'corretor_id', 'primary_key' => 'id'],
-        ['emails', 'class_name' => 'CorretorEmail', 'foreign_key' => 'corretor_id', 'primary_key' => 'id']
+        ['emails', 'class_name' => 'CorretorEmail', 'foreign_key' => 'corretor_id', 'primary_key' => 'id'],
+        ['contrato_corretor', 'ContratoCorretor'],
+        ['empreendimento_corretor', 'EmpreendimentoCorretor']
     ];
 
     public function get_status() 

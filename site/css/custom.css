@@ -1,0 +1,41 @@
+html{
+    min-height:100%
+}
+
+.index {
+    height:100%;
+    background: url("../img/slide-1.jpg") right center no-repeat;
+    background-size: cover;
+    position:relative;
+}
+
+.navbar {
+    margin-top: 20px;
+}
+
+.navbar-default {
+    background: #fff !important;
+    border-radius: 0 !important;
+}
+
+img.logo {
+    border-radius: 10px;
+}
+
+.active a {
+    color: blue !important;
+}
+
+div.map {
+    background: #fff;
+    padding: 1px 20px 20px 20px;
+    border-radius: 5px;
+}
+
+div.map h1 {
+    margin-top: -10px !important;
+}
+
+div.map .row {
+    padding-bottom: 10px !important;
+}

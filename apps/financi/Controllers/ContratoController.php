@@ -34,8 +34,8 @@ class ContratoController extends \SlimController\SlimController
         $this->render('contrato/index.php', [
                 'breadcrumb' => ['Lançamentos', 'Contratos'],
                 'empreendimentos' => $empreendimentos,
-                'corretores' => $corretores,
                 'clientes' => $clientes,
+                'corretores' => $corretores,
                 'foot_js' => [ 'js/maskMoney/jquery.maskMoney.min.js', 'js/mask.js', 'bower_components/lodash/dist/lodash.min.js', 'bower_components/accounting/accounting.min.js', 'bower_components/moment/min/moment.min.js', 'js/contrato/contrato.js' ]
             ]);
 
@@ -73,10 +73,20 @@ class ContratoController extends \SlimController\SlimController
 
         $inicio = ($limite*$pagina)-$limite;
 
+        if(isset($get['column']) && isset($get['sort'])) {
+            $sort = $get['column'] . ' ' . $get['sort'];
+        } else {
+            $sort = '';
+        }
+
         $contratos = \Contrato::find('all', [
+                'select' => 'contrato.*, c.nome',
+                'joins'=> [ 'INNER JOIN contrato_cliente cc ON cc.contrato_id = contrato.id INNER JOIN cliente c ON c.id = cc.cliente_id' ],
                 'conditions' => $conditions,
                 'limit' => $limite,
-                'offset' => $inicio
+                'offset' => $inicio,
+                'group' => 'contrato.id',
+                'order' => $sort
             ]);
 
         $arr = [];
@@ -156,7 +166,8 @@ class ContratoController extends \SlimController\SlimController
         $fase1 = 1 - pow((1+$taxa), ($qtd_parcelas * -1));
         $parcelas = $valor_financiado / ($fase1 / $taxa);
 
-        
+        //print_r($parcelas);
+        //exit();
         
         $qtd_periodos = $qtd_parcelas / $meses_periodo[$periodo];
 
@@ -197,7 +208,7 @@ class ContratoController extends \SlimController\SlimController
             $pad_parcela = str_pad($index, 3, '0', STR_PAD_LEFT) . '/' . $ano;
 
             $array[] = [ 'num' => str_pad($index, 3, '0', STR_PAD_LEFT), 'parcela' => $pad_parcela, 'vencimento' => $vencimento, 'valor' => number_format($parcelas, 2, ',', '.') ];
-            if($i == $periodo_controle) {
+            if($i == $periodo_controle && $intermediarias > 0) {
                 $index++;
 
                 $pad_parcela = str_pad($index, 3, '0', STR_PAD_LEFT) . '/' . $ano.'INT';
@@ -220,28 +231,33 @@ class ContratoController extends \SlimController\SlimController
         $this->app->contentType('application/json');
         $data = json_decode($this->app->request->getBody());
 
+        $entradas_config = $data->contrato->entrada_config->entradas;
+        //print_r($data);
+        //exit();
+
+        
         $contrato_data = [
-            'lote_id' => $data->lote_id,
+            'lote_id' => $data->contrato->lote_id,
             'instituicao_id' => \Financi\Auth::getUser()['instituicao_id'],
-            'desconto' => \Financi\DataFormat::money($data->desconto),
-            'entrada' => \Financi\DataFormat::money($data->entrada),
-            'intermediarias' => \Financi\DataFormat::money($data->intermediarias),
-            'intervalo_intermediarias' => $data->periodo,
-            'qtd_parcelas' => $data->parcelas,
-            'primeiro_vencimento' => \Financi\DataFormat::DateDB($data->primeiro_vencimento),
-            'data_emissao' => \Financi\DataFormat::DateDB($data->emissao),
-            'valor' => \Financi\DataFormat::money($data->valor_contrato)
+            'desconto' => \Financi\DataFormat::money($data->contrato->desconto),
+            'entrada' => \Financi\DataFormat::money($data->contrato->entrada),
+            'intermediarias' => \Financi\DataFormat::money($data->contrato->intermediarias),
+            'intervalo_intermediarias' => $data->contrato->periodo,
+            'qtd_parcelas' => $data->contrato->parcelas,
+            'primeiro_vencimento' => \Financi\DataFormat::DateDB($data->contrato->primeiro_vencimento),
+            'data_emissao' => \Financi\DataFormat::DateDB($data->contrato->emissao),
+            'valor' => \Financi\DataFormat::money($data->contrato->valor_contrato)
         ];
 
         $contrato = new \Contrato($contrato_data);
 
         if($contrato->save()) {
 
-            $lote = \Lote::find($data->lote_id);
+            $lote = \Lote::find($data->contrato->lote_id);
             $lote->situacao = 'V';
             $lote->save();
 
-            foreach ($data->corretores as $c) {
+            foreach ($data->contrato->corretores as $c) {
                 $corretor = new \ContratoCorretor();
                 $corretor->contrato_id = $contrato->id;
                 $corretor->corretor_id = $c->corretor_id;
@@ -249,7 +265,7 @@ class ContratoController extends \SlimController\SlimController
                 $corretor->save();
             }
 
-            foreach ($data->clientes as $c) {
+            foreach ($data->contrato->clientes as $c) {
                 $cliente = new \ContratoCliente();
                 $cliente->contrato_id = $contrato->id;
                 $cliente->cliente_id = $c->cliente_id;
@@ -257,8 +273,93 @@ class ContratoController extends \SlimController\SlimController
                 $cliente->save();
             }
 
+            $parcela_entrada = new \ContratoParcela();
+            $parcela_entrada->contrato_id = $contrato->id;
+            $parcela_entrada->numero = '001';
+            $parcela_entrada->valor = \Financi\DataFormat::money($data->contrato->entrada_config->total);
+            
+            if($parcela_entrada->save()) {
+                foreach ($entradas_config as $entrada) {
+                    if($entrada->tipo == 1) {
+                        $nova_entrata = new \ParcelaEntrada();
+                        $nova_entrata->contrato_parcela_id = $parcela_entrada->id;
+                        $nova_entrata->tipo = 1;
+                        $nova_entrata->valor = \Financi\DataFormat::money($entrada->valor);
+                        $nova_entrata->save();
+                    } else if($entrada->tipo == 2) {
+                        if(!count($entrada->itens->parcelas)) {
+                            $nova_entrata = new \ParcelaEntrada();
+                            $nova_entrata->contrato_parcela_id = $parcela_entrada->id;
+                            $nova_entrata->tipo = 2;
+                            $nova_entrata->forma = 1;
+                            $nova_entrata->numero_cheque = $entrada->itens->numero_cheque;
+                            $nova_entrata->vencimento = \Financi\DataFormat::DateDB($entrada->itens->cheque_vencimento);
+                            $nova_entrata->valor = \Financi\DataFormat::money($entrada->valor);
+                            $nova_entrata->save();
+                        } else {
+                            foreach ($entrada->itens->parcelas as $predatado) {
+                                $nova_entrata = new \ParcelaEntrada();
+                                $nova_entrata->contrato_parcela_id = $parcela_entrada->id;
+                                $nova_entrata->tipo = 2;
+                                $nova_entrata->forma = 2;
+                                $nova_entrata->numero_cheque = $predatado->numero;
+                                $nova_entrata->vencimento = \Financi\DataFormat::DateDB($predatado->vencimento);
+                                $nova_entrata->valor = \Financi\DataFormat::money($predatado->valor);
+                                $nova_entrata->save();
+                            }
+                        }
+
+                    }
+                }
+            }
+
+            foreach ($data->parcelas as $p) {
+                $nova_parcela = new \ContratoParcela();
+                $nova_parcela->contrato_id = $contrato->id;
+                $nova_parcela->numero = $p->num;
+                $nova_parcela->vencimento = \Financi\DataFormat::DateDB($p->vencimento);
+                $nova_parcela->valor = \Financi\DataFormat::money($p->valor);
+                $nova_parcela->intermediaria = isset($p->int) ? true : false;
+                $nova_parcela->save();
+            }
+
         }
         return $this->app->response->setBody(json_encode( ['success' => true] ));
+    }
+
+
+    public function acoesAction($acao) 
+    {
+        $this->app->contentType('application/json');
+        $data = json_decode($this->app->request->getBody());
+
+        if($acao == 'excluir') {
+            foreach ($data as $d) {
+                
+                $contrato = \Contrato::find($d->id);
+
+                $lote = \Lote::find($contrato->lote_id);
+                $lote->situacao = null;
+                $lote->save();
+               
+                if($contrato->delete()) {
+                    return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] )); 
+                }
+            }
+            return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] )); 
+        }
+    }
+
+    public function getEditAction($id) {
+        $this->app->contentType('application/json');
+        
+        if($id) {
+            $contrato = \Contrato::find($id);
+
+            if(count($contrato)) {
+                return $this->app->response->setBody(json_encode( ['success' => true, 'contrato' => $contrato->to_array()] )); 
+            }
+        }
     }
 
 }

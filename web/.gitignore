@@ -1,0 +1,4 @@
+vendor/*
+composer.phar
+web/bower_components/*
+data/*

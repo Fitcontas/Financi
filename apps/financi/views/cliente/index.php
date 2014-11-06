@@ -60,7 +60,7 @@
                                 <tr>
                                     <th class="checkbox-control">
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="checkall" class="checkall" ng-model="checkall"></label>
+                                            <label><input type="checkbox" name="checkall" class="checkall" ng-model="checkall" ng-check-all-test></label>
                                         </div>
                                     </th>
                                     <th width="40%" class="sorting" data-column="nome" data-sort="asc" ng-sort="">Nome/Razão Social</th>
@@ -70,7 +70,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="c in model.clientes" ng-class="c.status == 2 ? 'desabilitado' : 'habilitado' ">
-                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(c)" ng-checked="checkall"></td>
+                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(c)" ng-checked="checkall" ng-check-test></td>
                                     <td><a href="/cliente/edita/{{ c.cpf ? 'pf' : 'pj' }}/{{c.id}}">{{c.nome}}</a></a></td>
                                     <td>{{ c.cpf ? c.cpf.cpf() : c.cnpj.cnpj() }}</td>
                                     <td>

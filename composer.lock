@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1803ad2b13a197e6ccf2257dcac1ad1e",
+    "hash": "e026c85ddc2824d5f63064cafbcfd253",
     "packages": [
         {
             "name": "leeoniya/dump-r",
@@ -175,12 +175,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jpfuentes2/php-activerecord.git",
-                "reference": "3c4331ddc9ec963fdd4c689a854b4a21b64ba2af"
+                "reference": "60c4adb849c06d346e0b04d95808f41e4bdd0e2a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jpfuentes2/php-activerecord/zipball/3c4331ddc9ec963fdd4c689a854b4a21b64ba2af",
-                "reference": "3c4331ddc9ec963fdd4c689a854b4a21b64ba2af",
+                "url": "https://api.github.com/repos/jpfuentes2/php-activerecord/zipball/60c4adb849c06d346e0b04d95808f41e4bdd0e2a",
+                "reference": "60c4adb849c06d346e0b04d95808f41e4bdd0e2a",
                 "shasum": ""
             },
             "require": {
@@ -207,7 +207,7 @@
                 "activerecord",
                 "orm"
             ],
-            "time": "2014-07-19 21:27:26"
+            "time": "2014-10-05 12:01:25"
         },
         {
             "name": "predis/predis",
@@ -353,18 +353,70 @@
             "time": "2014-04-14 19:26:29"
         },
         {
+            "name": "swiftmailer/swiftmailer",
+            "version": "v5.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "b86b927dfefdb56ab0b22d1350033d9a38e9f205"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/b86b927dfefdb56ab0b22d1350033d9a38e9f205",
+                "reference": "b86b927dfefdb56ab0b22d1350033d9a38e9f205",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.1"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.3-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "lib/swift_required.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Corbyn"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Swiftmailer, free feature-rich PHP mailer",
+            "homepage": "http://swiftmailer.org",
+            "keywords": [
+                "mail",
+                "mailer"
+            ],
+            "time": "2014-10-04 05:53:18"
+        },
+        {
             "name": "symfony/yaml",
             "version": "dev-master",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "d84b97a12046b2c34e8457626b9f2b72dec0c183"
+                "reference": "4c0baf9a5b5c9e50ddd7a46f3c75cb85baf5d6c5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/d84b97a12046b2c34e8457626b9f2b72dec0c183",
-                "reference": "d84b97a12046b2c34e8457626b9f2b72dec0c183",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/4c0baf9a5b5c9e50ddd7a46f3c75cb85baf5d6c5",
+                "reference": "4c0baf9a5b5c9e50ddd7a46f3c75cb85baf5d6c5",
                 "shasum": ""
             },
             "require": {
@@ -397,7 +449,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-08-05 09:07:51"
+            "time": "2014-10-26 07:46:28"
         },
         {
             "name": "zf1/zend-exception",
@@ -560,7 +612,8 @@
     "stability-flags": {
         "php-activerecord/php-activerecord": 20,
         "symfony/yaml": 20,
-        "leeoniya/dump-r": 20
+        "leeoniya/dump-r": 20,
+        "swiftmailer/swiftmailer": 0
     },
     "prefer-stable": false,
     "platform": [],

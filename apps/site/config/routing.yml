@@ -1,0 +1,9 @@
+inicio:
+    method: get
+    route: Home:index
+    url: /
+
+contato:
+    method: post
+    route: Contato:index
+    url: /contato

@@ -17,11 +17,9 @@ define('HOST', 'http://' . $_SERVER['HTTP_HOST']);
 
 require 'vendor/autoload.php';
 
-
 $case_insensitive = new Zend_Search_Lucene_Analysis_Analyzer_Common_Utf8Num_CaseInsensitive();
 Zend_Search_Lucene_Search_QueryParser::setDefaultEncoding("UTF-8");
 Zend_Search_Lucene_Analysis_Analyzer::setDefault($case_insensitive);
-
 
 // Inciando o PHPActiveRecord
 ActiveRecord\Config::initialize(function($cfg)
@@ -30,7 +28,7 @@ ActiveRecord\Config::initialize(function($cfg)
     $cfg->set_connections(
         array(
            'development' => 'mysql://root:123@localhost/financi_dev',
-           'test' => 'mysql://root:123@localhost/financi_dev',
+           'test' => 'mysql://root:ilewraxl@localhost/financi',
            'production' => 'mysql://root:123@localhost/financi_dev'
         )
     );
@@ -50,13 +48,6 @@ $app = New \SlimController\Slim(array(
 ));
 
 use Symfony\Component\Yaml\Yaml;
-
-/*$usuario = new Usuario();
-$usuario->usuario = 'nandodutra';
-$usuario->email = 'fernando@inova2b.com.br';
-$usuario->senha = sha1('123456');
-$usuario->admin = true;
-$usuario->save();*/
 
 //Carrega um Array com as rotas do sistemas
 $routes = Yaml::parse( APP_CONFIG_PATH . DS . 'routing.yml' );

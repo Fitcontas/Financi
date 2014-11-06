@@ -35,15 +35,34 @@ class CorretorController extends \SlimController\SlimController
         $this->app->contentType('application/json');
         $data = json_decode($this->app->request->getBody());
 
+        $conn = \Corretor::connection();
+
         if($acao == 'excluir') {
-            foreach ($data as $d) {
-                $corretor = \Corretor::find($d->id);
-                $corretor->status = 0;
-                if(count($corretor)) {
-                    $corretor->save();
+            try {
+                $conn->transaction();
+
+                foreach ($data as $d) {
+                    $corretor = \Corretor::find($d->id);
+                    
+                    $teste = \Corretor::in_used($corretor, $d->id);
+                    if($teste) {
+                        throw new \Exception("Error Processing Request", 1);
+                    }
+
+                    $corretor->status = 0;
+                    if(count($corretor)) {
+                        $corretor->save();
+                    }
                 }
+
+                $conn->commit();
+
+                return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] ));
+            } catch(\Exception $e) {
+                $conn->rollback();
+
+                return $this->app->response->setBody(json_encode( ['success' => false, 'msg' => 35, 'error' => $e->getMessage()] ));
             }
-            return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] )); 
         }
 
         if($acao == 'desabilitar') {

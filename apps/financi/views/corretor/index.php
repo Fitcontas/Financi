@@ -47,7 +47,7 @@
                                 <tr>
                                     <th class="checkbox-control">
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="checkall" ng-model="checkall"></label>
+                                            <label><input type="checkbox" name="checkall" ng-model="checkall" ng-check-all-test></label>
                                         </div>
                                     </th>
                                     <th class="sorting" data-column="nome" data-sort="asc" ng-sort="">Nome</th>
@@ -57,7 +57,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="c in model.corretores" ng-class="c.status == 2 ? 'desabilitado' : 'habilitado' ">
-                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(c)" ng-checked="checkall"></td>
+                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(c)" ng-checked="checkall" ng-check-test></td>
                                     <td><a href="/corretor/edita/{{c.id}}">{{c.nome}}</a></a></td>
                                     <td>{{ c.cpf.cpf() }}</td>
                                     <td>

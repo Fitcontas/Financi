@@ -45,7 +45,7 @@
             </div>
             <div class="col-sm-24">
                 <div class="recovery pull-right">
-                    <a href="#">Esqueceu a senha?</a>
+                    <!--<a href="#">Esqueceu a senha?</a>-->
                 </div>
             </div>
         </div>

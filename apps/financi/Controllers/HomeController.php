@@ -10,6 +10,9 @@ class HomeController extends \SlimController\SlimController
 	public function indexAction()
 	{
 
+
+        $usuario = \Usuario::find(\Financi\Auth::getUser()['id']);
+
         $conditions = [ 'instituicao_id = ? and status <> 0', \Financi\Auth::getUser()['instituicao_id'] ];
 
         $clientes = \Clientes::find('one', [
@@ -27,12 +30,46 @@ class HomeController extends \SlimController\SlimController
                 'conditions' => $conditions
             ]);
 
+        $contratos = \Contrato::find('all', [
+                'select' => 'count(*) as qtd, sum(valor) as valor',
+            ]);
+
+        $lotes = \Lote::find('all', [
+                'select' => 'count(*) as qtd'
+            ]);
+
+        $lotes_vendidos = \Lote::find('all', [
+                'select' => 'count(*) as qtd',
+                'conditions' => [ 'situacao = ?', 'V' ]
+            ]);
+
+        $lotes_reservas = \Lote::find('all', [
+                'select' => 'count(*) as qtd',
+                'conditions' => [ 'situacao = ?', 'R' ]
+            ]);
+
+        $ultimos_contratos = \Contrato::find('all', [
+                'limit' => 10
+            ]);
+
+        //dump_r($lotes_reservas);
+
 		$this->render('home/index', array(
+            'breadcrumb' => ['Mural'],
             'clientes' => $clientes,
             'empreendimentos' => $empreendimentos,
             'corretores' => $corretores,
+            'contratos' => $contratos,
+            'lotes' => $lotes,
+            'lotes_vendidos' => $lotes_vendidos,
+            'lotes_reservas' => $lotes_reservas,
+            'ultimos_contratos' => $ultimos_contratos,
             //'title' => 'Financi Imóveis',
-            'foot_css' => ['css/style_.css']
+            'foot_css' => ['css/style_.css'],
+            'head_js' => [ 'bower_components/angular-route/angular-route.min.js' ],
+            'foot_js' => [ 'js/cadastros/usuario.js', 'bower_components/lodash/dist/lodash.min.js'],
+            'is_home' => true,
+            'trocar_senha' => $usuario->trocar_senha
         ));
 	}
 
@@ -54,9 +91,9 @@ class HomeController extends \SlimController\SlimController
 
 		if($usuario && $senha) {
 			$query = \Usuario::find('one', [
-					'select' => 'usuario.*, instituicao.*, grupo_usuario.*',
+					'select' => 'usuario.*, instituicao.id as instituicao_id, grupo_usuario.id as grupo_id',
 					'joins' => ['instituicao', 'grupo_usuario'],
-					'conditions' => ['email = ? OR usuario = ? and senha = ?', $usuario, $usuario, sha1($senha)]
+					'conditions' => ['(email = ? OR usuario = ?) and senha = ?', $usuario, $usuario, sha1($senha)]
 				]);
 
 			if(count($query) == 1) {

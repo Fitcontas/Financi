@@ -25,7 +25,7 @@
                             <div class="btn-group pull-left" id="buttons-grid">
                                 <button type="button" class="btn btn-default" ng-click="showForm(false)"> Novo</button>
                                 <button type="button" class="btn btn-default" ng-click="acao('excluir')"> Excluir</button>
-                                <button type="button" class="btn btn-default"> Pesquisa</button>
+                                <button type="button" class="btn btn-default" ng-click="pesquisaAvancada()"> Pesquisa</button>
                             </div>
                         </div>
                         <div class="pull-right">
@@ -46,23 +46,23 @@
                                 <tr>
                                     <th class="checkbox-control">
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="checkall" ng-model="checkall"></label>
+                                            <label><input type="checkbox" name="checkall" ng-model="checkall" ng-check-all-test></label>
                                         </div>
                                     </th>
-                                    <th>Emissão</th>
-                                    <th>Contrato</th>
-                                    <th>Nome/Razão Social</th>
-                                    <th>Valor R$</th>
-                                    <th></th>
+                                    <th class="sorting" data-column="data_emissao" data-sort="asc" ng-sort>Emissão</th>
+                                    <th class="sorting" data-column="id" data-sort="asc" ng-sort>Contrato</th>
+                                    <th class="sorting" data-column="data_emissao" data-sort="asc" ng-sort>Nome/Razão Social</th>
+                                    <th class="sorting text-right" data-column="valor" data-sort="asc" ng-sort>Valor R$&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                    <th>Imprimir</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="c in model.contratos">
-                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(c)" ng-checked="checkall" x-ng-click="{cursor:pointer}"/></td>
+                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(c)" ng-checked="checkall" ng-check-test></td>
                                     <td>{{ c.data_emissao }}</td>
-                                    <td>{{ c.contrato }}</td>
+                                    <td><a ng-click="showFormEdit(c.id)">{{ c.contrato }}</a></td>
                                     <td>{{ c.clientes.length == 1 ? c.clientes[0].nome : c.clientes[0].nome + ' e outros' }}</td>
-                                    <td>{{ c.valor }}</td>
+                                    <td class="text-right">{{ c.valor }}</td>
                                     <td><a href="#"><i class="fa fa-print"></i></a></td>
                                 </tr>
                             </tbody>
@@ -116,18 +116,22 @@
                 <div class="mensagem-modal">
                 </div>
 
-                <!-- Aba 1 -->
-                <div ng-show="aba == 1" id="aba-1">
+                <div ng-hide="aba == 3 || aba == 4" style="margin-top: -3px;" class="tab-container">
+                    <ul class="nav nav-tabs">
+                      <li ng-class="{ 'active' : aba == 1, 'disabled': aba != 1 }"><a data-toggle="" href="javascript://">Contrato</a></li>
+                      <li ng-class="{ 'active' : aba == 2, 'disabled': aba != 2 }"><a data-toggle="" href="javascript://">Cliente</a></li>
+                      <li ng-class="{ 'active' : aba == 6, 'disabled': aba != 6 }"><a data-toggle="" href="javascript://">Corretor</a></li>
+                      <li ng-class="{ 'active' : aba == 5, 'disabled': aba != 5 }"><a data-toggle="" href="javascript://">Pagamento</a></li>
+                    </ul>
+                </div>
 
-                    <div class="header">
-                        <h4>Cadastro de Contrato</h4>
-                    </div>
-                    <hr>
+                <!-- Aba 1 -->
+                <div ng-show="aba == 1" id="aba-1"  style="margin-top:25px">
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-sm-4 control-label" for="contrato[emissao]">Emissão</label>
-                        <div class="col-sm-5">
-                            <div class="input-group date">
+                        <label class="col-sm-5 control-label" for="contrato[emissao]">Emissão</label>
+                        <div class="col-sm-6">
+                            <div class="input-group date contrato-date">
                                 <input type="text" ng-model="contrato.emissao" value="" id="contrato[emissao]" name="emissao" class="form-control" req required>
                                 <span class="add-on input-group-btn"><button tabindex="2" type="button" class="btn btn-default"><i title="Calendário" class="fa fa-calendar"></i></button></span>
                             </div>
@@ -135,8 +139,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-4 control-label" for="nome">Empreendimento  </label>
-                        <div class="col-sm-20">
+                        <label class="col-sm-5 control-label" for="nome">Empreendimento</label>
+                        <div class="col-sm-14">
                             <select name="empreendimento_id" id="contrato[empreendimento_id]" ng-model="contrato.empreendimento_id" class="form-control" ng-change="getLotes(contrato.empreendimento_id)" req required ng-select2>
                                 <option value=""></option>
                                 <?php foreach ($empreendimentos as $e): ?>
@@ -147,8 +151,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-4 control-label" for="contrato[lote_id]">Lote  </label>
-                        <div class="col-sm-20">
+                        <label class="col-sm-5 control-label" for="contrato[lote_id]">Lote  </label>
+                        <div class="col-sm-14">
                             <select name="contrato[lote_id]" id="contrato[lote_id]" ng-model="contrato.lote_id" class="form-control" ng-options="lote.id as 'Lote ' + lote.numero + ' - Quadra ' + lote.quadra for lote in lotes" ng-change="setLote()" ng-select2 req required>
                                 
                             </select>
@@ -156,18 +160,15 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-4 control-label" for="contrato[area_total]">Área Total </label>
-                        <div class="col-sm-5">
+                        <label class="col-sm-5 control-label" for="contrato[area_total]">Área Total <small>m²</small></label>
+                        <div class="col-sm-6">
                             <input type="text" name="contrato[area_total]" class="form-control" required data-ng-model="contrato.area_total" ng-disabled="true" ng-money>
-                        </div>
-                        <div class="col-sm-1">
-                            m²
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label" for="contrato[valor]">Valor </label>
-                        <div class="col-sm-5">
+                    <div class="form-group no-margin-bottom">
+                        <label class="col-sm-5 control-label" for="contrato[valor]">Valor do Lote</label>
+                        <div class="col-sm-6">
                             <div class="input-group">
                                 <span class="input-group-addon">R$</span>
                                 <input type="text" name="contrato[valor]" class="form-control" required ng-model="contrato.valor" ng-disabled="true">
@@ -175,55 +176,49 @@
                         </div>
                     </div>
 
-                    <div class="header">
-                        <h4>Corretor(es)</h4>
-                    </div>
-                    <hr>
-                    
-                    <!-- Corretores -->
-                    <div class="form-group no-margin-bottom" ng-repeat="corretor in contrato.corretores">
-                        <label class="col-sm-4 control-label" for="">Nome</label>
-                        <div class="col-sm-13">
+                    <div class="form-group no-margin-bottom">
+                        <label class="col-sm-5 control-label" for="desconto">Desconto </label>
+                        <div class="col-sm-6">
                             <div class="input-group">
+                                <span class="input-group-addon" ng-show="contrato.tipo_desconto == 2" ng-click="alteraTipoDesconto(1)">R$</span>
 
+                                <input type="text" name="contrato[desconto]" class="form-control mask-money" ng-model="contrato.desconto" ng-money ng-keyup="calcValorContrato(this)" maxlength="5" value="0,00">
 
-                                <select ng-model="contrato.corretores[$index].corretor_id" id="contrato[corretores][$index][corretor_id]" name="contrato[corretores][$index][corretor_id]" class="form-control" ng-select2 req required>
-                                    <option value=""></option>
-                                    <?php foreach ($corretores as $c): ?>
-                                        <option value="<?php echo $c->id ?>"><?php echo $c->nome ?></option>
-                                    <?php endforeach ?>
-                                </select>
-                                
-                                <span class="add-on input-group-btn"><button tabindex="2" type="button" class="btn btn-default"><i title="Calendário" class="fa fa-plus"></i></button></span>
+                                <span class="input-group-addon" ng-show="contrato.tipo_desconto == 1" ng-click="alteraTipoDesconto(2)">%</span>
                             </div>
                         </div>
-                        <div class="col-sm-5">
+
+
+                        <label class="col-sm-8" ng-show="contrato.tipo_desconto == 1" for="">{{calculo_desconto}}</label>
+
+                    </div>
+
+                    <div class="form-group no-margin-bottom">
+                        <label class="col-sm-5 control-label" for="valor_contrato">Valor do Contrato </label>
+                        <div class="col-sm-6">
                             <div class="input-group">
-                                <input type="text" class="form-control" req required ng-model="contrato.corretores[$index].comissao" name="comissao" ng-money="" maxlength="6">
-                                <span class="input-group-addon">%</span>
+                                <span class="input-group-addon">R$</span>
+                                <input type="text" name="text" class="form-control mask-money" req required ng-model="contrato.valor_contrato" ng-disabled="true">
                             </div>
                         </div>
-                        <div class="col-sm-2">
-                            <button tabindex="2" type="button" class="btn btn-default btn-sm pull-right" ng-click="removeCorretor($index)"><i class="fa fa-trash-o"></i></button>
-                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="col-sm-8">
-                            <label for="" class="col-sm-12 control-label"></label>
-                            <button tabindex="2" type="button" class="btn btn-default" ng-click="addCorretor()">Adicionar</button>
-                        </div>
+
+                    <div class="modal-footer" style="width:105.4%; margin-left:-20px; margin-bottom:-5px;">
+                        <button class="btn btn-primary" type="button" ng-click="abaNext(2)">Avançar</button>
+                        <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
                     </div>
 
-                    <div class="header">
-                        <h4>Comprador(es)</h4>
-                    </div>
-                    <hr>
+                </div>
+                <!-- Fim aba 1 -->
 
-                     <!-- Compradores -->
+                <!-- Aba 2 -->
+                <div ng-show="aba == 2" id="aba-2" style="margin-top:25px">
+
+                    <!-- Compradores -->
                     <div class="form-group no-margin-bottom" ng-repeat="cliente in contrato.clientes">
-                        <label class="col-sm-4 control-label" for="">Nome</label>
-                        <div class="col-sm-13">
+                        <label class="col-sm-2 control-label" for="">Nome</label>
+                        <div class="col-sm-15">
                             <div class="input-group">
                                 
                                 <select ng-model="contrato.clientes[$index].cliente_id" id="contrato[clientes][$index][cliente_id]" name="contrato[clientes][$index][cliente_id]" class="form-control" ng-select2 req required>
@@ -232,8 +227,15 @@
                                         <option value="<?php echo $c->id ?>"><?php echo $c->nome ?></option>
                                     <?php endforeach ?>
                                 </select>
-                                
-                                <span class="add-on input-group-btn"><button tabindex="2" type="button" class="btn btn-default"><i title="Calendário" class="fa fa-plus"></i></button></span>
+
+                                <span class="add-on input-group-btn">
+                                    <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle no-margin" action="no"><i title="Calendário" class="fa fa-plus"></i></button>    
+                                <ul role="menu" class="dropdown-menu">    
+                                    <li><a href="" ng-click="clienteWindow()" class="no">Cliente PF</a></li>    
+                                    <li><a href="/cliente/cadastro/pj" class="no">Cliente PJ</a></li>    
+                                </ul>
+                                </span>
+
                             </div>
                         </div>
                         <div class="col-sm-5">
@@ -243,59 +245,72 @@
                             </div>
                         </div>
                         <div class="col-sm-2">
-                            <button tabindex="2" type="button" class="btn btn-default btn-sm pull-right" ng-click="removeCliente($index)"><i class="fa fa-trash-o"></i></button>
+                            <button tabindex="2" type="button" class="btn btn-default btn-sm pull-right" ng-click="removeCliente($index)">&nbsp;&nbsp;<i class="fa fa-trash-o"></i>&nbsp;&nbsp;</button>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-sm-8">
-                            <label for="" class="col-sm-12 control-label"></label>
-                            <button tabindex="2" type="button" class="btn btn-default" ng-click="addCliente()">Adicionar</button>
+                            <label for="" class="col-sm-6 control-label"></label>
+                            <button tabindex="2" style="margin-left:4px" type="button" class="btn btn-default" ng-click="addCliente()">Adicionar</button>
                         </div>
                     </div>
 
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="button" ng-click="abaNext(2)">Avançar</button>
+                    <div class="modal-footer" style="width:105.4%; margin-left:-20px; margin-bottom:-5px;">
+                        <button class="btn btn-primary pull-left" type="button" ng-click="abaNext(1)">Voltar</button>
+                        <button class="btn btn-primary" type="button" ng-click="abaNext(6)">Avançar</button>
+                        <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+                    </div>
+
+                    
+                </div>
+                <!-- Fim aba 2 -->
+                
+                <!-- Início ABA 6 -->
+                <div ng-show="aba == 6" id="aba-6" style="margin-top:25px">
+                    <!-- Corretores -->
+                    <div class="form-group no-margin-bottom" ng-repeat="corretor in contrato.corretores">
+                        <label class="col-sm-2 control-label" for="">Nome</label>
+                        <div class="col-sm-15">
+
+                                <select ng-model="contrato.corretores[$index].corretor_id" id="contrato[corretores][$index][corretor_id]" name="contrato[corretores][$index][corretor_id]" class="form-control" ng-select2 req required ng-options="corretor.id as corretor.nome for corretor in corretores">
+                                </select>
+                                
+                          
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="input-group">
+                                <input type="text" class="form-control" req required ng-model="contrato.corretores[$index].comissao" name="comissao" ng-money="" maxlength="6">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <button tabindex="2" type="button" class="btn btn-default btn-sm pull-right" ng-click="removeCorretor($index)">&nbsp;&nbsp;<i class="fa fa-trash-o"></i>&nbsp;&nbsp;</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-8">
+                            <label for="" class="col-sm-6 control-label"></label>
+                            <button tabindex="2" style="margin-left:4px" type="button" class="btn btn-default" ng-click="addCorretor()">Adicionar</button>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer" style="width:105.4%; margin-left:-20px; margin-bottom:-5px;">
+                        <button class="btn btn-primary pull-left" type="button" ng-click="abaNext(2, 1)">Voltar</button>
+                        <button class="btn btn-primary" type="button" ng-click="abaNext(5)">Avançar</button>
                         <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
                     </div>
 
                 </div>
-                <!-- Fim aba 1 -->
-
-                <!-- Aba 2 -->
-                <div ng-show="aba == 2" id="aba-2">
-
-                    <div class="header">
-                        <h4>Cadastro de Contrato</h4>
-                    </div>
-                    <hr>
-
+                 <!-- Fim aba 4 -->
+                
+                 <!-- inicio aba 5 -->
+                <div ng-show="aba == 5" id="aba-5" style="margin-top:25px">
+                    
                     <div class="form-group no-margin-bottom">
-                        <label class="col-sm-4 control-label" for="valor">Valor </label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <span class="input-group-addon">R$</span>
-                                <input type="text" name="text" class="form-control mask-money" req required ng-model="contrato.valor" ng-disabled="true">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group no-margin-bottom">
-                        <label class="col-sm-4 control-label" for="desconto">Desconto </label>
-                        <div class="col-sm-9">
-                            <div class="input-group">
-                                <span class="input-group-addon" ng-show="contrato.tipo_desconto == 2" ng-click="alteraTipoDesconto(1)">R$</span>
-
-                                <input type="text" name="contrato[desconto]" class="form-control mask-money" req required ng-model="contrato.desconto" ng-money ng-keyup="calcValorContrato(this)">
-
-                                <span class="input-group-addon" ng-show="contrato.tipo_desconto == 1" ng-click="alteraTipoDesconto(2)">%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group no-margin-bottom">
-                        <label class="col-sm-4 control-label" for="valor_contrato">Valor do Contrato </label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-5 control-label" for="valor">Valor do Contrato </label>
+                        <div class="col-sm-6">
                             <div class="input-group">
                                 <span class="input-group-addon">R$</span>
                                 <input type="text" name="text" class="form-control mask-money" req required ng-model="contrato.valor_contrato" ng-disabled="true">
@@ -304,24 +319,25 @@
                     </div>
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-sm-4 control-label" for="contrato.entrada">Entrada </label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-5 control-label" for="contrato.entrada">Entrada </label>
+                        <div class="col-sm-6">
                             <div class="input-group">
                                 <span class="input-group-addon" ng-show="contrato.tipo_entrada == 2" ng-click="alteraTipoEntrada(1)">R$</span>
 
-                                <input type="text" name="contrato[entrada]" class="form-control mask-money" req required ng-model="contrato.entrada" ng-money ng-blur="validaEntrada()">
+                                <input type="text" name="contrato[entrada]" class="form-control mask-money" req required ng-model="contrato.entrada" maxlength="6" ng-money ng-blur="validaEntrada()">
                                 
                                 <span class="input-group-addon" ng-show="contrato.tipo_entrada == 1" ng-click="alteraTipoEntrada(2)">%</span>
                             </div>
                         </div>
-                        <div class="col-sm-8 hide">
-                            Entrada Mínima de {{min_entrada}}%
-                        </div>
+                        <label class="contral-form col-sm-8">
+                           <small ng-show="contrato.tipo_entrada == 1">Mínima de {{min_entrada}}%</small>
+                           <small ng-show="contrato.tipo_entrada == 2">Mínima de R$ {{min_entrada_valor}}</small>
+                        </label>
                     </div>
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-sm-4 control-label" for="contrato.intermediarias">Intermediarias </label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-5 control-label" for="contrato.intermediarias">Intermediarias </label>
+                        <div class="col-sm-6">
                             <div class="input-group">
                                 <span class="input-group-addon" ng-show="contrato.tipo_intermediarias == 2" ng-click="alteraTipoIntermediaria(1)">R$</span>
 
@@ -330,8 +346,18 @@
                                 <span class="input-group-addon" ng-show="contrato.tipo_intermediarias == 1" ng-click="alteraTipoIntermediaria(2)">%</span>
                             </div>
                         </div>
-                        <div class="col-sm-8">
-                            <select class="form-control" ng-model="contrato.periodo" req required ng-change="processaQtdParcelas()">
+
+                        <label class="contral-form col-sm-8">
+                            <small ng-show="contrato.tipo_intermediarias == 1">Mínima de {{min_intermediarias}}%</small>
+                            <small ng-show="contrato.tipo_intermediarias == 2">Mínima de R$ {{min_intermediaria_valor}}</small>
+                        </label>
+                        
+                    </div>
+
+                    <div class="form-group">
+                        <label for="" class="col-sm-5 control-label">Periodicidade</label>
+                        <div class="col-sm-6">
+                            <select class="form-control" ng-model="contrato.periodo" req required ng-change="processaQtdParcelas()" name="contrato[periodo]">
                                 <option ng-repeat="periodo in periodos" value="{{periodo.id}}" ng-disabled="periodo.id > max_periodo">{{periodo.descricao}}</option>
                                 
                             </select>
@@ -339,15 +365,15 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-sm-4 control-label" for="contrato.qtd_parcelas">Qtd. Parcelas </label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-5 control-label" for="contrato.qtd_parcelas">Qtd. Parcelas </label>
+                        <div class="col-sm-6">
                             <select class="form-control" name="contrato[parcelas]" id="parcelas" ng-model="contrato.parcelas" required req ng-options="parcela.qtd as parcela.qtd for parcela in parcelas"></select>
                         </div>
                     </div>
 
                     <div class="form-group no-margin-bottom">
-                        <label class="col-sm-4 control-label" for="contrato[primeiro_vencimento]">1º Vencimento</label>
-                        <div class="col-sm-9">
+                        <label class="col-sm-5 control-label" for="contrato[primeiro_vencimento]">1º Vencimento</label>
+                        <div class="col-sm-6">
                             <div class="input-group date">
                                 <input type="text" ng-model="contrato.primeiro_vencimento" value="" id="contrato[primeiro_vencimento]" name="contrato[primeiro_vencimento]" class="form-control" req required ng-blur="geraParcelas()">
                                 <span class="add-on input-group-btn"><button tabindex="2" type="button" class="btn btn-default"><i title="Calendário" class="fa fa-calendar"></i></button></span>
@@ -384,10 +410,10 @@
                     <div class="clearfix"></div>
 
                 </div>
-                <!-- Fim aba 2 -->
+                <!-- Fim aba 5 -->
 
                 <!-- Aba 3 -->
-                <div ng-show="aba == 3" id="aba-3">
+                <div ng-show="aba == 3" id="aba-3" style="margin-top:25px">
 
                     <div class="header">
                         <h4>Entrada</h4>
@@ -477,9 +503,9 @@
                         </table>
                     </div>
 
-                    <div class="modal-footer">
+                    <div class="modal-footer" style="width:105.4%; margin-left:-20px; margin-bottom:-5px;">
                         <button class="btn btn-primary" ng-click="addEntrada()" type="button">Salvar</button>
-                        <button class="btn btn-default" type="button" ng-click="abaNext(2)">Cancelar</button>
+                        <button class="btn btn-default" type="button" ng-click="abaNext(5)">Cancelar</button>
                     </div>
 
                 </div>
@@ -525,8 +551,8 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button class="btn btn-primary" type="button" ng-click="abaNext(2)">Salvar</button>
-                        <button class="btn btn-default" type="button" ng-click="abaNext(2)">Cancelar</button>
+                        <button class="btn btn-primary" type="button" ng-click="abaNext(5)">Salvar</button>
+                        <button class="btn btn-default" type="button" ng-click="abaNext(5)">Cancelar</button>
                     </div>
                 </div>
                 <!-- Fim aba 4 -->
@@ -535,7 +561,8 @@
 
             </div>
 
-            <div class="modal-footer" ng-show="aba == 2">
+            <div class="modal-footer" ng-show="aba == 5">
+                <button class="btn btn-primary pull-left" type="button" ng-click="abaNext(6)">Voltar</button>
                 <button class="btn btn-primary" type="button" ng-disabled="false" ng-click="salveGeral()">Salvar</button>
                 <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
             </div>
@@ -543,4 +570,124 @@
     </div><!-- /.modal-dialog -->
     </form>
 </div>
+
+<!-- Modal -->
+<div role="dialog" id="contrato_pesquisa_modal" class="modal fade in" aria-hidden="false"><!-- Modal -->
+    <form autocomplete="off" name="ContratoPesquisaForm" id="ContratoPesquisaForm" class="form-horizontal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Contrato</h3>
+                <span>Formulário de Pesquisa</span>
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+
+
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label" for="nome">Nº do Contrato</label>
+                        <div class="col-sm-7">
+                            <input type="text" name="search[numero_contrato]" ng-model="pesquisa.numero_contrato" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="search[dt_inicio]" class="col-sm-6 control-label">Emissão</label>
+
+                            <div class="col-sm-7">
+                                <div class="col-sm-24 input-group datepicker date no-margin-bottom">
+                                    <input type="text" onkeydown="mascara(this, mdata)" maxlength="10" name="search[dt_inicio]" class="data_inicio text-left form-control" ng-model="pesquisa.emissao_inicio">
+                                    <span class="add-on input-group-btn">
+                                        <button type="button" class="btn btn-default">
+                                            <i title="Calendário" class="fa fa-calendar"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-9">
+                                <label for="search[dt_fim]" class="col-sm-2 control-label" style="margin-right: 16px; text-indent: -5px;">até</label>
+                                <div class="col-sm-20">
+                                    <div class="col-sm-24 input-group datepicker date no-margin-bottom">
+                                        <input type="text" onkeydown="mascara(this, mdata)" maxlength="10" name="search[dt_fim]" class="data_fim text-left form-control" ng-model="pesquisa.emissao_fim">
+                                        <span class="add-on input-group-btn">
+                                            <button type="button" class="btn btn-default">
+                                                <i title="Calendário" class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>    
+                            </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="search[valor_min]" class="col-sm-6 control-label">Valor</label>
+                        
+                            <div class="col-sm-7">
+                                <div class="input-group no-margin-bottom">
+                                    <span class="input-group-addon">R$</span>
+                                    <input type="text" maxlength="11" name="search[valor_min]" class="text-right form-control maskMoney" value="" ng-money ng-model="pesquisa.valor_inicio">
+                                </div>
+                            </div>
+                            <div class="col-sm-9">
+                                <label for="search[valor_max]" class="col-sm-2 control-label" style="margin-right: 16px; text-indent: -5px;">até</label>
+                                <div class="col-sm-20">
+                                    <div class="input-group no-margin-bottom">
+                                        <span class="input-group-addon">R$</span>
+                                        <input type="text" maxlength="11" name="search[valor_max]" class="text-right form-control maskMoney" value="" ng-money ng-model="pesquisa.valor_fim">
+                                    </div>
+                                </div>
+                            </div>
+                     
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label" for="nome">Empreendimento</label>
+                        <div class="col-sm-18">
+                            <select name="pesquisa_empreendimento_id" id="pesquisa[empreendimento_id]" ng-model="pesquisa.empreendimento_id" class="form-control" ng-select2>
+                                <option value=""></option>
+                                <?php foreach ($empreendimentos as $e): ?>
+                                    <option value="<?php echo $e->id ?>"><?php echo $e->empreendimento ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="" class="col-sm-6 control-label">Corretor</label>
+                        <div class="col-sm-18">
+                            <select ng-model="pesquisa.corretor_id" id="pesquisa[corretor_id]" name="pesquisa[corretor_id]" class="form-control" ng-select2>
+                                <option value=""></option>
+                                <?php foreach ($corretores as $c): ?>
+                                    <option value="<?php echo $c->id ?>"><?php echo $c->nome ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="" class="col-sm-6 control-label">Cliente</label>
+                        <div class="col-sm-18">
+                            <select ng-model="pesquisa.cliente_id" id="pesquisa[cliente_id]" name="pesquisa[cliente_id]" class="form-control" ng-select2 req required>
+                                <option value=""></option>
+                                <?php foreach ($clientes as $c): ?>
+                                    <option value="<?php echo $c->id ?>"><?php echo $c->nome ?></option>
+                                <?php endforeach ?>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="button" ng-click="start(false, pesquisa)">Pesquisar</button>
+                <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</form>
+
 </div>

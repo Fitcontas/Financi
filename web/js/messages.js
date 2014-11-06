@@ -146,7 +146,7 @@ var FitMessage = (function() {
                 tm: 0
             },
             24: {
-                b: 'A senha deve conter no mínimo 6 caracteres.',
+                b: 'A senha deve conter no mínimo 6 caracteres e no máximo 15.',
                 t: 'd',
                 tm: 0
             },
@@ -201,7 +201,7 @@ var FitMessage = (function() {
                 tm: 0
             },
             35: {
-                b: 'O(s) registro(s) selecionado(s) já está(ão) em uso e por isso não pode(m) ser excluído(s) do sistema.',
+                b: 'O(s) registro(s) selecionado(s) está(ão) em uso e por isso não pode(m) ser excluído(s) do sistema.',
                 t: 'd'
             },
             36: {
@@ -723,6 +723,60 @@ var FitMessage = (function() {
             },
             153: {
                 b: 'O valor das intermediárias está acima do máximo permitido',
+                t: 'd',
+                tm: false
+            },
+            154: {
+                b: 'Por favor preencher os campos obrigatórios.',
+                t: 'd',
+                tm: false
+            },
+            155: {
+                b: 'Os valores configurados para e entrada não está igual ao valor da entrada.',
+                t: 'd',
+                tm: false
+            },
+            156: {
+                b: 'Verifique o e-mail informado.',
+                t: 'd',
+                tm: false
+            },
+            157: {
+                b: 'Por favor informe a nova senha.',
+                t: 'd',
+                tm: false
+            },
+            158: {
+                b: 'A senha atual está incorreta, por favor digite a senha correta.',
+                t: 'd',
+                tm: false
+            },
+            159: {
+                b: 'Sua conta foi atualizada com sucesso.',
+                t: 's'
+            },
+            160: {
+                b: 'Por favor, para maior segurança troque sua senha de acesso ao sistema.',
+                t: 'd',
+                tm: false
+            },
+            161: {
+                b: 'O valor das intermediárias está abaixo do mínimo permitido',
+                t: 'd',
+                tm: false
+            },
+            162: {
+                b: 'O mesmo <strong>cliente</strong> foi selecionado duas ou mais vezes. Por favor, verifique.',
+                t: 'd',
+                tm: false
+            },
+            163: {
+                b: 'O mesmo <strong>corretor</strong> foi selecionado duas ou mais vezes. Por favor, verifique.',
+                t: 'd',
+                tm: false
+            },
+            164: {
+                b: 'O Corretor já faz parte da relação de pessoas autorizadas a comercializar o empreendimento',
                 t: 'd',
                 tm: false
             },

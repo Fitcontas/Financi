@@ -30,7 +30,7 @@ class View extends \Slim\View {
     	$layout_name = isset($data['layout']) ? $data['layout'] : 'index.php';
 
     	//path do layout
-        $layout = ROOT . DS . 'apps' . DS . 'financi' . DS . 'templates' . DS . $layout_name;
+        $layout = APP_PATH . DS . 'templates' . DS . $layout_name;
 
         //path do template
         $templatePathname = $this->getTemplatePathname($template);

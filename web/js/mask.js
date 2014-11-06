@@ -479,3 +479,8 @@ String.prototype.phone = function() {
     v = v.replace(/(\d{4})(\d)/, "$1-$2") //Coloca um ponto entre o terceiro e o quarto dígitos
     return v;
 };
+
+Number.prototype.moneyFormat = function() {
+    var v = this.toString();
+    console.log(v);
+}

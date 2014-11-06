@@ -45,7 +45,7 @@
                                 <tr>
                                     <th class="checkbox-control">
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="checkall" ng-model="checkall"/></label>
+                                            <label><input type="checkbox" name="checkall" ng-model="checkall" ng-check-all-test></label>
                                         </div>
                                     </th>
                                     <th class="sorting" data-column="empreendimento" data-sort="asc" ng-sort="">Empreendimento</th>
@@ -54,7 +54,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="e in model.empreendimentos" ng-class="e.status == 2 ? 'desabilitado' : 'habilitado' ">
-                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(e)" ng-checked="checkall"/></td>
+                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(e)" ng-checked="checkall" ng-check-test></td>
                                     <td><a ng-click="showForm(e)">{{e.empreendimento}}</a></td>
                                     <td>{{ e.tipo == 1 ? 'Loteamento' : 'Condomínio' }}</td>
                                 </tr>
@@ -95,7 +95,7 @@
 </form>
 
 <!-- Modal -->
-<div role="dialog" id="usuario_modal" class="modal fade in" aria-hidden="false"><!-- Modal -->
+<div role="dialog" id="empreendimento_modal" class="modal fade in" aria-hidden="false"><!-- Modal -->
     <form autocomplete="off" name="EmpreendimentoForm" id="EmpreendimentoForm" class="form-horizontal" novalidate>
     <div class="modal-dialog">
         <div class="modal-content">
@@ -155,7 +155,7 @@
                                         <label class="col-sm-7 control-label" for="nome">Comissão  </label>
                                         <div class="col-sm-7">
                                             <div class="input-group no-margin-bottom">
-                                                <input type="text" name="empreendimento[comissao]" class="form-control mask-money" req="" ng-model="empreendimento.comissao" maxlength="6" required>
+                                                <input type="text" name="empreendimento[comissao]" class="form-control mask-money" req="" ng-model="empreendimento.comissao" maxlength="6" required data-accept="true">
                                                 <span class="input-group-addon">%</span>
                                             </div>
                                         </div>
@@ -165,7 +165,7 @@
                                         <label class="col-sm-7 control-label" for="nome">Entrada  </label>
                                         <div class="col-sm-7">
                                             <div class="input-group no-margin-bottom">
-                                                <input type="text" name="empreendimento[entrada]" class="form-control mask-money" ng-model="empreendimento.entrada" maxlength="6" required req>
+                                                <input type="text" name="empreendimento[entrada]" class="form-control mask-money" ng-model="empreendimento.entrada" maxlength="6" required req data-accept="true">
                                                 <span class="input-group-addon">%</span>
                                             </div>
                                         </div>
@@ -175,7 +175,7 @@
                                         <label class="col-sm-7 control-label" for="nome">Intermediárias  </label>
                                         <div class="col-sm-7">
                                             <div class="input-group no-margin-bottom">
-                                                <input type="text" class="form-control mask-money" name="empreendimento[intermediarias]" req="" ng-model="empreendimento.intermediarias" maxlength="6" required>
+                                                <input type="text" class="form-control mask-money" name="empreendimento[intermediarias]" req="" ng-model="empreendimento.intermediarias" maxlength="6" required data-accept="true" ng-keyup="verificaIntermediaria()" ng-blur="verificaIntermediaria()">
                                                 <span class="input-group-addon">%</span>
                                             </div>
                                         </div>
@@ -207,7 +207,7 @@
                                         <label class="col-sm-7 control-label" for="nome">Taxa do Financiamento  </label>
                                         <div class="col-sm-7">
                                             <div class="input-group no-margin-bottom">
-                                                <input type="text" name="empreendimento[taxa_financiamento]" class="form-control mask-money" req="" ng-model="empreendimento.taxa_financiamento" maxlength="6" required>
+                                                <input type="text" name="empreendimento[taxa_financiamento]" class="form-control mask-money" req="" ng-model="empreendimento.taxa_financiamento" maxlength="6" required data-accept="true">
                                                 <span class="input-group-addon">%</span>
                                             </div>
                                         </div>
@@ -277,8 +277,7 @@
                                         </div>
                                         <label class="col-sm-3 control-label" for="empreendimento[cidade]">Cidade  </label>
                                         <div class="col-sm-13">
-                                            <select class="form-control" name="empreendimento[cidade]" ng-model="empreendimento.cidade" ng-options="cidade.nome as cidade.nome for cidade in cidades.cidades" ng-selected="empreendimento.cidade" ng-select2>
-                                                
+                                            <select class="form-control" name="empreendimento[cidade]" ng-model="empreendimento.cidade" ng-options="cidade.nome as cidade.nome for cidade in cidades.cidades" ng-selected="empreendimento.cidade">   
                                             </select>
                                         </div>
                                     </div>

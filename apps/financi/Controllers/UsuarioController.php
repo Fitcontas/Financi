@@ -180,4 +180,61 @@ class UsuarioController extends \SlimController\SlimController
 
         return $this->app->response->setBody(json_encode( ['grupos' => $grupos_arr] )); 
     }
+
+    public function minhaContaAction()
+    {
+        $this->app->contentType('application/json');
+
+        $usuario = \Financi\Auth::getUser();
+
+        $user = \Usuario::find($usuario['id']);
+
+        return $this->app->response->setBody(json_encode( ['success' => true ,'usuario' =>  [
+                'nome' => $user->nome,
+                'usuario' => $user->usuario,
+                'email' => $user->email,
+                'email2' => $user->email,
+                'apelido' => $user->apelido,
+            ]
+        ])); 
+    }
+
+    public function minhaContaUpdateAction()
+    {
+        $this->app->contentType('application/json');
+
+        $data = json_decode($this->app->request->getBody());
+
+        $usuario = \Financi\Auth::getUser();
+
+        if($data->email != $data->email2) {
+            return $this->app->response->setBody(json_encode( ['success' => false ,'msg' => 156] ));
+        }
+
+        $user = \Usuario::find($usuario['id']);
+        $user->nome = trim($data->nome);
+        $user->apelido = trim($data->apelido);
+        $user->email = trim($data->email);
+
+        //Verifico se qualquer um dos campos de senha foram informados
+        if( isset($data->senha_atual) || isset($data->senha) || isset($data->senha2) ) {
+            
+            //verifico se qualquer um dos campos de senha possuem tamanho maior que ZERO.
+            if(strlen($data->senha_atual) > 0 || strlen($data->senha) > 0 || strlen($data->senha2) > 0) {
+                
+                //Verifico se a senha atual informada é igual a senha atual do usuário
+                if(isset($data->senha_atual) && sha1($data->senha_atual) != $user->senha) {
+                    return $this->app->response->setBody(json_encode( ['success' => false ,'msg' => 158] ));
+                }
+                
+                $user->senha = sha1($data->senha);
+                $user->trocar_senha = null;
+            }
+        }
+
+        if($user->save()) {
+            return $this->app->response->setBody(json_encode( ['success' => true ,'msg' => 159] ));
+        }
+
+    }
 }

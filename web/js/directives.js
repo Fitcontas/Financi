@@ -71,6 +71,36 @@ AppFinanci.directive("passwordVerify", function() {
     };
 })
 
+.directive('ngCheckTest', function() {
+    return {
+      require: '?ngModel',
+      link: function($scope, element, attrs, controller) {
+        $(element).change(function() {  
+          if($(this).is(':checked')){
+            $(this).closest('tr').addClass('on');
+          }else{
+              $(this).closest('tr').removeClass('on');
+          }
+        })
+      }
+    };
+})
+
+.directive('ngCheckAllTest', function() {
+    return {
+      require: '?ngModel',
+      link: function($scope, element, attrs, controller) {
+        $(element).change(function() {
+          if($(this).is(':checked')){
+            $(this).closest('table').find('tbody tr').addClass('on');
+          }else{
+            $(this).closest('table').find('tbody tr').removeClass('on');
+          }
+        })
+      }
+    };
+})
+
 .directive('ngSort', function() {
     return {
       link: function($scope, element, attrs, controller) {
@@ -119,6 +149,7 @@ AppFinanci.directive("passwordVerify", function() {
     return {
       require: '?ngModel',
       link: function($scope, element, attrs, controller) {
+        console.log(element);
         element.select2();
       }
     };

@@ -44,7 +44,7 @@
                                 <tr>
                                     <th class="checkbox-control">
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="checkall" ng-model="checkall"></label>
+                                            <label><input type="checkbox" name="checkall" ng-model="checkall" ng-check-all-test></label>
                                         </div>
                                     </th>
                                     <th class="sorting" data-column="nome" data-sort="asc" ng-sort="">Nome</th>
@@ -53,8 +53,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="u in model.usuarios" ng-class="u.status == 2 ? 'desabilitado' : 'habilitado' ">
-                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(u)" ng-checked="checkall" x-ng-click="{cursor:pointer}"/></td>
+                                <tr ng-repeat="u in model.usuarios" ng-class="u.status == 2 ? 'desabilitado' : 'habilitado'">
+                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(u)" ng-checked="checkall" ng-check-test></td>
                                     <td><a ng-click="showForm(u)">{{u.nome}}</a></td>
                                     <td>{{u.email}}</td>
                                     <td>{{u.grupo}}</td>

@@ -353,13 +353,31 @@ class ClienteController extends \SlimController\SlimController
         $this->app->contentType('application/json');
         $data = json_decode($this->app->request->getBody());
 
+        $conn = \Clientes::connection();
+
         if($acao == 'excluir') {
-            foreach ($data as $d) {
-                $cliente = \Clientes::find($d->id);
+            try {
+                $conn->transaction();
                 
-                $cliente->delete();
-            }
-            return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] )); 
+                foreach ($data as $d) {
+                    $cliente = \Clientes::find($d->id);
+
+                    $teste = \Clientes::in_used($cliente, $d->id);
+                    if($teste) {
+                        throw new \Exception("Error Processing Request", 1);
+                    }
+                    
+                    $cliente->delete();
+                }
+
+                $conn->commit();
+
+                return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] ));
+            } catch(\Exception $e) {
+                $conn->rollback();
+
+                return $this->app->response->setBody(json_encode( ['success' => false, 'msg' => 35] ));
+            } 
         }
 
         if($acao == 'desabilitar') {

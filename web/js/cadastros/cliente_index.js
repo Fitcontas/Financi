@@ -47,6 +47,8 @@ AppFinanci.controller('FormClinteGridCtrl', function($scope, $http, Clientes) {
                             chamaMsg(data.msg, true);
                             $scope.start();
                             $scope.check_ctrl = [];
+                        } else {
+                            chamaMsg(data.msg, true);
                         }
                     })
                 });

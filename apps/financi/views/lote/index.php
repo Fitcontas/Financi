@@ -48,7 +48,7 @@
                                 <tr>
                                     <th class="checkbox-control">
                                         <div class="checkbox">
-                                            <label><input type="checkbox" name="checkall" ng-model="checkall"/></label>
+                                            <label><input type="checkbox" name="checkall" ng-model="checkall" ng-check-all-test></label>
                                         </div>
                                     </th>
                                     <th class="sorting" data-column="lote.numero" data-sort="asc" ng-sort="">Lote</th>
@@ -62,7 +62,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="l in model.lotes">
-                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(l)" ng-checked="checkall"/></td>
+                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(l)" ng-checked="checkall" ng-check-test></td>
                                     <td width="8%"><a ng-click="showForm(l)">{{l.numero}}</a></td>
                                     <td width="8%">{{l.quadra}}</td>
                                     <td>{{l.empreendimento}}</td>
@@ -155,7 +155,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-6 control-label" for="tipo">Tipo  </label>
                                         <div class="col-sm-8">
-                                            <select class="form-control" name="empreendimento[tipo]" id="empreendimento[tipo]" ng-model="empreendimento.tipo" req required>
+                                            <select class="form-control" name="lote[tipo]" id="lote[tipo]" ng-model="lote.tipo" req required>
                                                 <option value=""></option>
                                                 <option value="1">Residencial</option>
                                                 <option value="2">Comercial</option>

@@ -107,19 +107,23 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
             $('.loading').show();  
             Cidades.get({'uf': uf }).$promise.then(function(data) {
                 $('.loading').hide();
-                console.log($scope.cliente.endereco[0].cidade);
+
                 if(destino == 'cidades') {
                     $scope.cidades = data.cidades;
+                    $('select[name="cliente[naturalidade]"]').select2();
                 } else if(destino == 'cidades_endereco_principal') {
                     $scope.cidades_endereco_principal = data.cidades;
-                    console.log(data.cidades);
+                    $('select[name="cliente[endereco][0][cidade]"]').select2();
                 } else if(destino == 'cidades_endereco_secundario') {
                     $scope.cidades_endereco_secundario = data.cidades;
+                    $('select[name="cliente[endereco][1][cidade]"]').select2();
                 } else if(destino == 'cidades_conjuge') {
                     $scope.cidades_conjuge = data.cidades;
                     $scope.cliente.conjuge.naturalidade = parseInt($scope.cliente.conjuge.naturalidade);
+                    $('select[name="cliente[conjuge][naturalidade]"]').select2();
                 }
-
+                $('select[name="cliente[naturalidade]"], select[name="cliente[endereco][0][cidade]"], select[name="cliente[endereco][1][cidade]"], select[name="cliente[conjuge][naturalidade]"]').select2('val', '');
+                
             });
         }
         
@@ -223,3 +227,8 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
     }
 
 });
+
+function teste() {
+    alert('teste');
+    $('select[name="cliente[naturalidade]"]').select2();
+};

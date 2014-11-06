@@ -1,13 +1,19 @@
 'use strict';
 
-var AppFinanci = angular.module('Financi', [ 'ngResource', 'ngMask', 'siyfion.sfTypeahead', 'angular-loading-bar']);
+var AppFinanci = angular.module('Financi', [ 'ngResource', 'siyfion.sfTypeahead', 'ngMask', 'angular-loading-bar', 'ui.select2']);
 
 function required(idForm, modal) {
 
     $(idForm + " input:not([type=hidden]), " + idForm + " select, " + idForm + " textarea").each(function() {
         if ($(this).attr('req') != null) {
 
+            if($.trim($(this).val()) == '0,00' && $(this).attr('data-accept') == 'true') {
+                $(this).closest('div').removeClass('has-error');
+                return true;
+            }
+
             if ( $(this).is(":visible") && idForm == '#aba-3' ) {
+               
                 if ($.trim($(this).val()) == '' || $.trim($(this).val()) == '? undefined:undefined ?' || $(this).hasClass('ng-invalid') || $.trim($(this).val()) == '?' || $.trim($(this).val()) == '0,00' ) {
 
                     if ($(this).attr('name')) {
@@ -24,7 +30,8 @@ function required(idForm, modal) {
                 } else {
                     $(this).closest('div').removeClass('has-error');
                 }
-            } else {
+            } else if(idForm != '#aba-3') {
+                
                 if ($.trim($(this).val()) == '' || $.trim($(this).val()) == '? undefined:undefined ?' || $(this).hasClass('ng-invalid') || $.trim($(this).val()) == '?' || $.trim($(this).val()) == '0,00') {
 
                     if ($(this).attr('name')) {
@@ -41,7 +48,11 @@ function required(idForm, modal) {
                 } else {
                     $(this).closest('div').removeClass('has-error');
                 }
+            } else {
+                $(this).closest('div').removeClass('has-error');
             }
+        } else {
+            $(this).closest('div').removeClass('has-error');
         }
     });
 

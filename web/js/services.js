@@ -22,6 +22,10 @@ AppFinanci.factory('Cidades', function($resource) {
     return $resource('/empreendimento/all/:id', {'id':'@id'});
 })
 
+.factory('EmpreendimentosOne', function($resource) {
+    return $resource('/empreendimento/one/:id', {'id':'@id'});
+})
+
 .factory('EmpreendimentoNovo', function($resource) {
     return $resource('/empreendimento/novo/:id', {'id':'@id'});
 })

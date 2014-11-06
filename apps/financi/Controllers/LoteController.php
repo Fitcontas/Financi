@@ -114,15 +114,38 @@ class LoteController extends \SlimController\SlimController
         $this->app->contentType('application/json');
         $data = json_decode($this->app->request->getBody());
 
+        $conn = \Lote::connection();
+
         if($acao == 'excluir') {
-            foreach ($data as $d) {
-                $lote = \Lote::find($d->id);
-                $lote->status = 0;
-                if(count($lote)) {
-                    $lote->save();
+            try {
+                $conn->transaction();
+
+                foreach ($data as $d) {
+                    $lote = \Lote::find($d->id);
+
+                    if($lote->situacao != null) {
+                        throw new \Exception("Situação diferente de null " . $lote->situacao, 1);
+                    }
+                    
+                    $teste = \Lote::in_used($lote, $d->id);
+                    if($teste) {
+                        throw new \Exception("Registro em uso", 1);
+                    }
+
+                    $lote->status = 0;
+                    if(count($lote)) {
+                        $lote->save();
+                    }
                 }
+
+                $conn->commit();
+
+                return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] ));
+            } catch(\Exception $e) {
+                $conn->rollback();
+
+                return $this->app->response->setBody(json_encode( ['success' => false, 'msg' => 35, 'error' => $e->getMessage()] ));
             }
-            return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] )); 
         }
 
         if($acao == 'desabilitar') {
@@ -153,6 +176,11 @@ class LoteController extends \SlimController\SlimController
 
         $empreendimento = \Empreendimento::find($empreendimento_id);
 
+        $corretores = [];
+        foreach ($empreendimento->corretores as $c) {
+            $corretores[] = ['id'=> $c->corretor_id, 'nome' => $c->corretor->nome];
+        }
+
         $lotes = \Lote::find('all', [
                 'conditions' => [ 'empreendimento_id = ? and situacao IS NULL', $empreendimento_id ]
             ]);
@@ -163,6 +191,6 @@ class LoteController extends \SlimController\SlimController
             $array[] = $l->to_array();
         }
 
-        return $this->app->response->setBody(json_encode( [ 'lotes' => $array, 'empreendimento' => $empreendimento->to_array() ] ));
+        return $this->app->response->setBody(json_encode( [ 'lotes' => $array, 'empreendimento' => $empreendimento->to_array(), 'corretores' => $corretores ] ));
     }
 }

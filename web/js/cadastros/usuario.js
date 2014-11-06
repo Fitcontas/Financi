@@ -109,7 +109,7 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
 
         $('.has-error').removeClass('has-error');
 
-        $('.modal').modal({
+        $('#usuario_modal').modal({
             show: true,
             backdrop: 'static'
         });
@@ -128,7 +128,7 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
         } else {
             UsuarioNovo.save(usuario).$promise.then(function(data) {
                 if(data.success) {
-                    $('.modal').modal('hide');
+                    $('#usuario_modal').modal('hide');
                     //chamaMsg('1', true);
                     $scope.start();
 

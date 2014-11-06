@@ -57,6 +57,8 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
                             chamaMsg(data.msg, true);
                             $scope.start();
                             $scope.check_ctrl = [];
+                        } else {
+                            chamaMsg(data.msg, true);
                         }
                     });
                 });
@@ -116,14 +118,18 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
         });
 
         if(item.uf) {
-            $scope.cidades = Cidades.get({ uf: item.uf });
+            $('select[name="lote[cidade]"]').select2('destroy');
+            $scope.cidades = Cidades.get({ uf: item.uf }).$promise.then(function(data) {
+                $scope.cidades = data;
+                setTimeout('teste', 1000);
+            });
         }
         
         $scope.lote = item ? item : {};
         
         $('.has-error').removeClass('has-error');
         
-        $('.modal').modal({
+        $('#lote_modal').modal({
             show: true,
             backdrop: 'static'
         });
@@ -131,7 +137,7 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
         $('.nav-tabs a:first').tab('show');
     }
 
-    $scope.salvar = function (lote) {
+    $scope.salvar = function (lote, add) {
 
         /*if(lote.id) {
             $('#senha, #senha2').removeAttr('required');
@@ -140,9 +146,11 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
         if(required('#LoteForm', true)) {
             chamaMsg('11', true);
         } else {
+            $('.loading').show();
             LoteNovo.save(lote).$promise.then(function(data) {
                 if(data.success) {
-                    $('.modal').modal('hide');
+                    $('.loading').hide();
+                    $('#lote_modal').modal('hide');
                     
                     $scope.start();
 
@@ -175,7 +183,11 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
 
                 $scope.lote.uf = data.uf;
                 $scope.lote.cidade = data.cidade;
-                $scope.cidades = Cidades.get({ uf: data.uf });
+                $scope.cidades = Cidades.get({ uf: data.uf }).$promise.then(function(data) {
+                    $scope.cidades = data;
+                    $('select[name="lote[cidade]"]').select2('destroy').select2();
+                    $('.loading').hide();
+                });
             });
         }
     };
@@ -183,6 +195,8 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
     $scope.getCidades = function(uf) {
         $('.loading').show();
         $scope.cidades = Cidades.get({uf: uf}).$promise.then(function(data) {
+            $scope.cidades = data;
+            $('select[name="lote[cidade]"]').select2('destroy').select2();
             $('.loading').hide();
         });
     }
@@ -215,3 +229,7 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
 $(function() {
     $('.mask-money').maskMoney({prefix:'', allowNegative: true, thousands:'.', decimal:',', affixesStay: false, allowZero:true});
 })
+
+function teste() {
+    $('select[name="empreendimento[cidade]"]').select2();
+}

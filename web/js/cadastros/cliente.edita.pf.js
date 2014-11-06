@@ -115,16 +115,22 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
                 if(destino == 'cidades') {
                     $scope.cidades = data.cidades;
                     $scope.cliente.naturalidade = parseInt($scope.cliente.naturalidade);
+                    $('select[name="cliente[naturalidade]"]').select2();
                 } else if(destino == 'cidades_endereco_principal') {
                     $scope.cidades_endereco_principal = data.cidades;
                     $scope.cliente.endereco[0].cidade = parseInt($scope.cliente.endereco[0].cidade);
+                    $('select[name="cliente[endereco][0][cidade]"]').select2();
                 } else if(destino == 'cidades_endereco_secundario') {
                     $scope.cidades_endereco_secundario = data.cidades;
                     $scope.cliente.endereco[1].cidade = parseInt($scope.cliente.endereco[1].cidade);
+                    $('select[name="cliente[endereco][1][cidade]"]').select2();
                 } else if(destino == 'cidades_conjuge') {
                     $scope.cidades_conjuge = data.cidades;
                     $scope.cliente.conjuge.naturalidade = parseInt($scope.cliente.conjuge.naturalidade);
+                    $('select[name="cliente[conjuge][naturalidade]"]').select2();
                 }
+
+                $('select[name="cliente[naturalidade]"], select[name="cliente[endereco][0][cidade]"], select[name="cliente[endereco][1][cidade]"], select[name="cliente[conjuge][naturalidade]"]').select2();
                 
             });
         }

@@ -51,6 +51,8 @@ AppFinanci.controller('FormCorretorGridCtrl', function($scope, $http, getCorreto
                             chamaMsg(data.msg, true);
                             $scope.start();
                             $scope.check_ctrl = [];
+                        } else {
+                            chamaMsg(data.msg, true);
                         }
                     });
                 });

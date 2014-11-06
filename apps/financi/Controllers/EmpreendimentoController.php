@@ -15,6 +15,31 @@ class EmpreendimentoController extends \SlimController\SlimController
             ]);
     }
 
+    public function oneAction($id) 
+    {
+        $this->app->contentType('application/json');
+
+        $get = $this->app->request->get();
+        
+        if($id) {
+            $empreendimento = \Empreendimento::find($id);
+            
+            if(count($empreendimento)) {
+                $e_arr = $empreendimento->to_array();
+                $e_arr['comissao'] = DataFormat::showMoney($e_arr['comissao']);
+                $e_arr['entrada'] = DataFormat::showMoney($e_arr['entrada']);
+                $e_arr['intermediarias'] = DataFormat::showMoney($e_arr['intermediarias']);
+                $e_arr['taxa_financiamento'] = DataFormat::showMoney($e_arr['taxa_financiamento']);
+                
+                foreach ($empreendimento->corretores as $c) {
+                    $e_arr['corretores'][] = ['id' => $c->corretor_id, 'nome' => $c->corretor->nome];
+                }
+
+                return $this->app->response->setBody(json_encode( ['success' => true,'empreendimento' => $e_arr] ));
+            }
+        }
+    }
+
     public function allAction()
     {
         $this->app->contentType('application/json');
@@ -125,15 +150,34 @@ class EmpreendimentoController extends \SlimController\SlimController
         $this->app->contentType('application/json');
         $data = json_decode($this->app->request->getBody());
 
+        $conn = \Empreendimento::connection();
+
         if($acao == 'excluir') {
-            foreach ($data as $d) {
-                $empreendimento = \Empreendimento::find($d->id);
-                $empreendimento->status = 0;
-                if(count($empreendimento)) {
-                    $empreendimento->save();
+            try {
+                $conn->transaction();
+
+                foreach ($data as $d) {
+                    $empreendimento = \Empreendimento::find($d->id);
+                    
+                    $teste = \Empreendimento::in_used($empreendimento, $d->id);
+                    if($teste) {
+                        throw new \Exception("Error Processing Request", 1);
+                    }
+
+                    $empreendimento->status = 0;
+                    if(count($empreendimento)) {
+                        $empreendimento->save();
+                    }
                 }
+
+                $conn->commit();
+
+                return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] ));
+            } catch(\Exception $e) {
+                $conn->rollback();
+
+                return $this->app->response->setBody(json_encode( ['success' => false, 'msg' => 35, 'error' => $e->getMessage()] ));
             }
-            return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 2] )); 
         }
 
         if($acao == 'desabilitar') {
@@ -155,7 +199,7 @@ class EmpreendimentoController extends \SlimController\SlimController
                     $empreendimento->save();
                 }
             }
-            return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 4] )); 
+            return $this->app->response->setBody(json_encode( ['success' => true, 'msg' => 3] )); 
         }
     }
 }

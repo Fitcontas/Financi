@@ -551,7 +551,7 @@
                                             'block_class' => 'col-sm-14',
                                             'name' => 'cliente[conjuge][naturalidade]',
                                             'ng-model' => 'cliente.conjuge.naturalidade',
-                                            'attributes' => 'ng-selected="cliente.conjuge.naturalidade" ng-options="c.id as c.nome for c in cidades_conjuge" ng-select2',
+                                            'attributes' => 'ng-selected="cliente.conjuge.naturalidade" ng-options="c.id as c.nome for c in cidades_conjuge" ng-selected ng-select2',
                                         ]
                                     ]);
 

@@ -1,0 +1,57 @@
+    <div class="row">
+        <div class="col-sm-6"></div>
+        <div class="col-sm-6">
+            <div class="map content">
+                <div class="page-header">
+                    <h1>Fale Conosco</h1>
+                </div>
+                <form>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="nome" class="label-control">Nome</label>
+                            <input type="text" class="form-control" ng-model="contato.nome">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="nome" class="label-control">E-mail</label>
+                            <input type="text" class="form-control" ng-model="contato.email">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="nome" class="label-control">Telefone</label>
+                            <input type="text" class="form-control" ng-model="contato.telefone" mask="(99) 9999-9999">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="nome" class="label-control">Assunto</label>
+                            <textarea name="" id="" cols="30" rows="5" class="form-control" ng-model="contato.assunto"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" ng-click="enviarContato()">Enviar</button>
+                        <input type="reset" value="Limpar" class="btn btn-warning">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Fechar</span></button>
+            <h4 class="modal-title">{{alert_modal_titulo}}</h4>
+          </div>
+          <div class="modal-body">
+            <p>{{alert_modal_texto}}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->

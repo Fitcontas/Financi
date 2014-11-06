@@ -7,6 +7,10 @@ class Lote extends AppModel
         ['empreendimento', 'class_name' => 'Empreendimento', 'foreign_key' => 'empreendimento_id', 'primary_key' => 'id']
     ];
 
+    static $has_many = [
+        ['contrato', 'class_name' => 'Contrato']
+    ];
+
     public function get_status() 
     {
         $tipos = [

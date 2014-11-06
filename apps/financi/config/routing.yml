@@ -102,6 +102,11 @@ empreendimento_all:
     route: Empreendimento:all
     url: /empreendimento/all(/:id)
 
+empreendimento_one:
+    method: get
+    route: Empreendimento:one
+    url: /empreendimento/one/:id
+
 empreendimento_acoes:
     method: post
     route: Empreendimento:acoes
@@ -133,6 +138,16 @@ usuario_acoes:
     method: post
     route: Usuario:acoes
     url: /usuario/acoes/:acao
+
+minha_conta:
+    method: get
+    route: Usuario:minhaConta
+    url: /minha-conta
+
+minha_conta_update:
+    method: post
+    route: Usuario:minhaContaUpdate
+    url: /minha-conta/update
 
 #Rotas de cadastro de corretores
 corretor:
@@ -226,3 +241,13 @@ contrato_all:
     method: get
     route: Contrato:all
     url: /contrato/all(/:id)
+
+contrato_acoes:
+    method: post
+    route: Contrato:acoes
+    url: /contrato/acoes/:acao
+
+contrato_get:
+    method: get
+    route: Contrato:getEdit
+    url: /contrato/get/:id
