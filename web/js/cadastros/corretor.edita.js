@@ -3,6 +3,7 @@
 AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, CorretoresBusca, $window) {
     $scope.endereco = 1;
     $scope.corretor = {
+        'endereco': [{}, {}],
         'telefones': [
             {},
         ],

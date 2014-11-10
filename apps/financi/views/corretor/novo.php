@@ -84,7 +84,7 @@
                                             'block_class' => 'col-sm-10',
                                             'name' => 'corretor[naturalidade]',
                                             'ng-model' => 'corretor.naturalidade',
-                                            'attributes' => 'ng-selected="corretor.naturalidade" ng-options="c.id as c.nome for c in cidades" required req ng-select2',
+                                            'attributes' => 'ng-selected="corretor.naturalidade" ng-options="c.id as c.nome for c in cidades" required req',
                                         ],
                                         [
                                             'label' => 'Estado Civil',
@@ -219,7 +219,9 @@
                                                     'block_class' => 'col-sm-4',
                                                     'block' => 'default-select',
                                                     'options' => [
-                                                        '1' => 'Rua'
+                                                        '1' => 'Residencial',
+                                                        '2' => 'Comercial',
+                                                        '3' => 'Recado'
                                                     ],
                                                     'name' => 'corretor[endereco][0][tipo]',
                                                     'ng-model' => 'corretor.endereco.0.tipo',
@@ -262,8 +264,8 @@
                                                     'options' => $ufs,
                                                     'name' => 'corretor[endereco][0][uf]',
                                                     'id' => 'uf_endereco_principal',
-                                                    'ng-model' => 'corretor.endereco.0.uf',
-                                                    'attributes' => 'req required ng-change="get_cidade(\'uf_endereco_principal\', \'cidades_endereco_principal\')"'
+                                                    'ng-model' => 'corretor.endereco[0].uf',
+                                                    'attributes' => 'req required ng-change="get_cidade(\'uf_endereco_principal\', \'cidades_endereco_principal\')" ng-selected="corretor.endereco[0].uf"'
                                                 ],
                                                 [
                                                     'label' => 'Cidade',
@@ -271,9 +273,8 @@
                                                     'block' => 'select-ng-repeat',
                                                     'name' => 'corretor[endereco][0][cidade]',
                                                     'id' => 'cidade_principal',
-                                                    'ng-model' => 'corretor.endereco.0.cidade',
-                                                    'ng-option' => '<option ng-repeat="cidade in cidades_endereco_principal" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>',
-                                                    'attributes' => 'req required ng-select2'
+                                                    'ng-model' => 'corretor.endereco[0].cidade',
+                                                    'attributes' => 'ng-selected="corretor.endereco[0].cidade" ng-options="c.id as c.sub_nome for c in cidades_endereco_principal" req required'
                                                 ],
                                             ]);
 
@@ -282,7 +283,7 @@
                                                     'label' => 'Referência',
                                                     'block_class' => 'col-sm-24',
                                                     'name' => 'corretor[endereco][0][referencia]',
-                                                    'ng-model' => 'corretor.endereco.0.residencia'
+                                                    'ng-model' => 'corretor.endereco.0.referencia'
                                                 ]
                                             ]);
                                         ?> 
@@ -325,7 +326,9 @@
                                                     'block_class' => 'col-sm-4',
                                                     'block' => 'default-select',
                                                     'options' => [
-                                                        '1' => 'Rua'
+                                                        '1' => 'Residencial',
+                                                        '2' => 'Comercial',
+                                                        '3' => 'Recado'
                                                     ],
                                                     'name' => 'corretor[endereco][1][tipo]',
                                                     'ng-model' => 'corretor.endereco.1.tipo'
@@ -372,9 +375,9 @@
                                                     'block_class' => 'col-sm-10',
                                                     'block' => 'select-ng-repeat',
                                                     'name' => 'corretor[endereco][1][cidade]',
-                                                    'ng-model' => 'corretor.endereco.1.cidade',
-                                                    'ng-option' => '<option ng-repeat="cidade in cidades_endereco_secundario" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>',
-                                                    'attributes' => 'ng-select2'
+                                                    'ng-model' => 'corretor.endereco[1].cidade',
+                                                    'ng-option' => '',
+                                                    'attributes' => 'ng-selected="corretor.endereco[1].cidade" ng-options="c.id as c.nome for c in cidades_endereco_secundario"'
                                                 ],
                                             ]);
 
