@@ -3,6 +3,7 @@
 AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
     $scope.endereco = 1;
     $scope.corretor = {
+        'endereco': [{}, {}],
         'telefones': [
             {},
         ],
@@ -65,24 +66,36 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
     }
 
     $scope.get_cidade = function(id, destino) {
-        $('.loading').show();        
+             
         
-        var uf = $('#'+id).val();
+        if(destino == 'cidades_endereco_principal') {
+            var uf = $scope.corretor.endereco[0].uf;
+        } else if(destino == 'cidades_endereco_secundario') {
+            var uf = $scope.corretor.endereco[1].uf;
+        } else if(destino == 'cidades') {
+            var uf = $scope.corretor.naturalidade_uf;
+        }
         
         var destino = destino;
+        if(uf != undefined && uf.length > 0) {
+            $('.loading').show();  
+            Cidades.get({'uf': uf }).$promise.then(function(data) {
+                $('.loading').hide();
 
-        Cidades.get({'uf': uf }).$promise.then(function(data) {
-            $('.loading').hide();
-            
-            if(destino == 'cidades') {
-                $scope.cidades = data.cidades;
-            } else if(destino == 'cidades_endereco_principal') {
-                $scope.cidades_endereco_principal = data.cidades;
-            } else if(destino == 'cidades_endereco_secundario') {
-                $scope.cidades_endereco_secundario = data.cidades;
-            }
-
-        });
+                if(destino == 'cidades') {
+                    $scope.cidades = data.cidades;
+                    //$('select[name="corretor[naturalidade]"]').select2();
+                } else if(destino == 'cidades_endereco_principal') {
+                    $scope.cidades_endereco_principal = data.cidades;
+                    //$('select[name="corretor[endereco][0][cidade]"]').select2();
+                } else if(destino == 'cidades_endereco_secundario') {
+                    $scope.cidades_endereco_secundario = data.cidades;
+                    //$('select[name="corretor[endereco][1][cidade]"]').select2();
+                } 
+                //$('select[name="corretor[naturalidade]"], select[name="corretor[endereco][0][cidade]"], select[name="corretor[endereco][1][cidade]"]').select2('val', '');
+                
+            });
+        }
         
     }
 
@@ -121,26 +134,28 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
 
         var cep = endereco ? $scope.corretor.endereco[0].cep : $scope.corretor.endereco[1].cep;
         var indice = endereco ? 0 : 1;
-        $('.loading').show();
-        $http({
-            'method': 'get',
-            'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
-        }).success(function(data) {
-            $('.loading').hide();
-            $scope.corretor.endereco[indice].logradouro = data.logradouro;
-            $scope.corretor.endereco[indice].bairro = data.bairro;
-            
-            if(!indice) {
-                $('#uf_endereco_principal').val(data.uf);
-                $scope.cidades_endereco_principal = [{'id':data.cidade_id, 'nome':data.cidade, 'selected':true}];
-                //$scope.get_cidade('uf_endereco_principal', 'cidades_endereco_principal', data.cidade_id);
-            } else {
-                $('#uf_endereco_secundario').val(data.uf);
-                $scope.cidades_endereco_secundario = [{'id':data.cidade_id, 'nome':data.cidade, 'selected':true}];
-                //$scope.get_cidade('uf_endereco_secundario', 'cidades_endereco_secundario', data.cidade_id);
-            }
+        
+        if(cep != undefined) {
+            $('.loading').show();
+            $http({
+                'method': 'get',
+                'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
+            }).success(function(data) {
+                $('.loading').hide();
 
-        });
+                $scope.corretor.endereco[indice].logradouro = data.logradouro;
+                $scope.corretor.endereco[indice].bairro = data.bairro;
+                $scope.corretor.endereco[indice].uf = data.uf;
+                $scope.corretor.endereco[indice].cidade = data.cidade_id;
+        
+                if(!indice) {
+                    $scope.get_cidade('uf_endereco_principal', 'cidades_endereco_principal', data.uf);
+                } else {
+                    $scope.get_cidade('uf_endereco_secundario', 'cidades_endereco_secundario', data.uf);
+                }
+
+            });
+        }
     }
 
     $scope.addTelefone = function() {

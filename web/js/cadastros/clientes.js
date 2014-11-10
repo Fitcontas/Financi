@@ -90,7 +90,8 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
     }
 
     $scope.get_cidade = function(id, destino) {
-             
+        
+        console.log(destino);     
         
         if(destino == 'cidades_endereco_principal') {
             var uf = $scope.cliente.endereco[0].uf;
