@@ -170,6 +170,11 @@ corretores:
     route: Corretor:corretores
     url: /corretores
 
+corretor_by_cpf_cnpj:
+    method: get
+    route: Corretor:cpfCnpj
+    url: /corretor/cpf_cnpj/:cpf_cnp
+
 corretor_busca:
     method: get
     route: Corretor:busca

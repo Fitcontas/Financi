@@ -160,6 +160,7 @@ class EmpreendimentoController extends \SlimController\SlimController
                     $empreendimento = \Empreendimento::find($d->id);
                     
                     $teste = \Empreendimento::in_used($empreendimento, $d->id);
+
                     if($teste) {
                         throw new \Exception("Error Processing Request", 1);
                     }

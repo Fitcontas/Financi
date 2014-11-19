@@ -56,6 +56,19 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
     $scope.validaCpf = function() {
         if($scope.corretor.cpf && !validaCpf($scope.corretor.cpf)) {
             chamaMsg('27', true);
+        } else {
+            $('.loading').show();
+            $http({
+                'method': 'get',
+                'url': '/corretor/cpf_cnpj/' + $scope.corretor.cpf,
+                'data': $scope.corretor,
+            }).success(function(data) {
+                if(data.success) {
+
+                    window.location = '/corretor/edita/'+data.id;
+                    $('.loading').show();
+                }
+            })
         }
     }
 

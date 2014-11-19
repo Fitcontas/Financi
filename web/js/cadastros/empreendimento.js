@@ -128,7 +128,7 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
             });
         }
 
-        $scope.$apply();
+        //$scope.$apply();
 
         $('.has-error').removeClass('has-error');
 
@@ -136,7 +136,7 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
             show: true,
             backdrop: 'static'
         });
-
+        $('select[name="empreendimento[corretores]"]').val('').select2('destroy').select2();
         $('.nav-tabs a:first').tab('show');
     }
 
@@ -152,12 +152,14 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
             EmpreendimentoNovo.save(empreendimento).$promise.then(function(data) {
                 if(data.success) {
                     $('.loading').hide();
-                    $('#empreendimento_modal').modal('hide');
+                    //$('#empreendimento_modal').modal('hide');
                     
                     $scope.start();
                     if(add) {
                         $scope.showForm();
+                        chamaMsg('1', true);
                     } else {
+                        $('#empreendimento_modal').modal('hide');
                         chamaMsg('1', true);
                     }
                 }
@@ -176,20 +178,42 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
                 'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
             }).success(function(data) {
                 
-                $scope.empreendimento.logradouro = data.logradouro;
-                $scope.empreendimento.bairro = data.bairro;
+                if(data.cidade) {
+                    console.log(data);
+                    $scope.empreendimento.logradouro = data.logradouro;
+                    $scope.empreendimento.bairro = data.bairro;
 
-                $scope.empreendimento.uf = data.uf;
-                $scope.empreendimento.cidade = data.cidade;
-                
-                $scope.cidades = Cidades.get({ uf: data.uf }).$promise.then(function(data) {
-                    $scope.cidades = data;
-                    //$('select[name="empreendimento[cidade]"]').select2('destroy').select2();
-                    $('.loading').hide();
-                });
+                    $scope.empreendimento.uf = data.uf;
+                    $scope.empreendimento.cidade = data.cidade;
+                    
+                    var cidade_cep = [
+                        { id: data.cidade_id, nome: data.cidade }
+                    ];
+
+                    var arr2 = [];
+                    arr2['cidades'] = cidade_cep;
+                    $scope.cidades = arr2;
+
+                    $('select[name="empreendimento[uf]"], select[name="empreendimento[cidade]"]').prop('disabled', true);
+                } else {
+                    $scope.zeraEndereco();
+                }
             });
+        } else {
+            $scope.zeraEndereco();
         }
     };
+
+    $scope.zeraEndereco = function() {
+        $('select[name="empreendimento[uf]"], select[name="empreendimento[cidade]"]').prop('disabled', false);
+        $scope.empreendimento.cidade = '';
+        $scope.cidades = [];
+        $scope.empreendimento.logradouro = '';
+        $scope.empreendimento.numero = '';
+        $scope.empreendimento.bairro = '';
+        $scope.empreendimento.uf = '';
+        $scope.empreendimento.complemento = '';
+    }
 
     $scope.getCidades = function(uf) {
         $('.loading').show();
@@ -218,6 +242,7 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
             }
         } else {
             chamaMsg('164', true);
+            $('select[name="empreendimento[corretores]"]').val('').select2('destroy').select2();
         }
     }
 

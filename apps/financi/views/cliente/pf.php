@@ -27,6 +27,8 @@
                         <div class="tab-content">
                             <!-- Início tab-content -->
                             <input type="hidden" id="cliente-id" value="<?php echo $id ?>">
+                            <input type="hidden" id="origem" value="<?php echo $origem ?>">
+                            <input type="hidden" id="tipo" value="cpf">
                             <!-- Início home -->
                             <div id="home" class="tab-pane cont active">
                                 <div class="spacer2">
@@ -88,7 +90,7 @@
                                             'block_class' => 'col-sm-10',
                                             'name' => 'cliente[naturalidade]',
                                             'ng-model' => 'cliente.naturalidade',
-                                            'attributes' => 'ng-selected="cliente.naturalidade" ng-options="c.id as c.nome for c in cidades" required req ng-select2',
+                                            'attributes' => 'ng-selected="cliente.naturalidade" ng-options="c.id as c.nome for c in cidades" required req',
                                         ],
                                         [
                                             'label' => 'Estado Civil',
@@ -291,7 +293,7 @@
                                                     'name' => 'cliente[endereco][0][cidade]',
                                                     'id' => 'cidade_principal',
                                                     'ng-model' => 'cliente.endereco[0].cidade',
-                                                    'attributes' => 'ng-selected="cliente.endereco[0].cidade" ng-options="c.id as c.sub_nome for c in cidades_endereco_principal" req required ng-select2'
+                                                    'attributes' => 'ng-selected="cliente.endereco[0].cidade" ng-options="c.id as c.nome for c in cidades_endereco_principal" req required'
                                                 ],
                                             ]);
 
@@ -395,7 +397,7 @@
                                                     'name' => 'cliente[endereco][1][cidade]',
                                                     'ng-model' => 'cliente.endereco[1].cidade',
                                                     'ng-option' => '',
-                                                    'attributes' => 'ng-selected="cliente.endereco[1].cidade" ng-options="c.id as c.nome for c in cidades_endereco_secundario" ng-select2'
+                                                    'attributes' => 'ng-selected="cliente.endereco[1].cidade" ng-options="c.id as c.nome for c in cidades_endereco_secundario"'
                                                 ],
                                             ]);
 
@@ -551,7 +553,7 @@
                                             'block_class' => 'col-sm-14',
                                             'name' => 'cliente[conjuge][naturalidade]',
                                             'ng-model' => 'cliente.conjuge.naturalidade',
-                                            'attributes' => 'ng-selected="cliente.conjuge.naturalidade" ng-options="c.id as c.nome for c in cidades_conjuge" ng-selected ng-select2',
+                                            'attributes' => 'ng-selected="cliente.conjuge.naturalidade" ng-options="c.id as c.nome for c in cidades_conjuge" ng-selected',
                                         ]
                                     ]);
 

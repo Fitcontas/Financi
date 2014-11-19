@@ -245,13 +245,13 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
         };
 
         $scope.lotes = [];
-        $('select[name="contrato[lote_id]"]').select2('destroy').select2();
+        //$('select[name="contrato[lote_id]"]').select2('destroy').select2();
 
         $scope.parcelas_geradas = [];
 
         $('.has-error').removeClass('has-error');
 
-        $('select[name="empreendimento_id"], select[name="contrato[lote_id]"]').select2('destroy').select2();
+        //$('select[name="empreendimento_id"], select[name="contrato[lote_id]"]').select2('destroy').select2();
 
         $('#contrato_modal').modal({
             show: true,
@@ -259,7 +259,7 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
         }).on('hidden.bs.modal', function() {
             $scope.lotes = [];
             console.log($scope.lotes);
-            $('select[name="empreendimento_id"], select[name="contrato[lote_id]"]').select2('destroy').select2();
+            //$('select[name="empreendimento_id"], select[name="contrato[lote_id]"]').select2('destroy').select2();
         }).on('show.bs.modal', function() {
             $scope.lotes = [];
             console.log($scope.lotes);
@@ -690,6 +690,10 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
 
     $scope.clienteWindow = function() {
         window.open('/cliente/cadastro/pf?origem=1', '_parant', 'top=50, right=50, toolbar=no');
+    }
+
+    $scope.clientePjWindow = function() {
+        window.open('/cliente/cadastro/pj?origem=1', '_parant', 'top=50, right=50, toolbar=no');
     }
 
     $scope.showFormEdit = function(id) {

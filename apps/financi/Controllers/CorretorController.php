@@ -373,6 +373,22 @@ class CorretorController extends \SlimController\SlimController
 
     }
 
+    public function cpfCnpjAction($cpfcnpj)
+    {
+        $this->app->contentType('application/json');
+
+        $corretor = \Corretor::find('one', [
+                'conditions' => [ 'cpf = ? AND status = 1', $cpfcnpj ]
+            ]);
+
+        $r = [ 'success' => false ];
+        if(count($corretor)) {
+            $r = [ 'success' => true, 'id' => $corretor->id ];
+        }
+
+        return $this->app->response->setBody(json_encode( $r ));
+    }
+
     public function queryAction($query)
     {
         $this->app->contentType('application/json');

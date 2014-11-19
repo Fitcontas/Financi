@@ -33,9 +33,9 @@ function required(idForm, modal) {
             } else if(idForm != '#aba-3') {
                 
                 if ($.trim($(this).val()) == '' || $.trim($(this).val()) == '? undefined:undefined ?' || $(this).hasClass('ng-invalid') || $.trim($(this).val()) == '?' || $.trim($(this).val()) == '0,00') {
-
-                    if ($(this).attr('name')) {
-
+                    
+                    if ($(this).attr('name') && !$(this).is(":disabled")) {
+                        console.log($(this).attr('name'));
                         $(this).closest('div').addClass('has-error');
 
                         if (modal == true) {

@@ -109,14 +109,7 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
     }
 
     $scope.showForm = function(item) {
-        
-
-
-        $('#scrolling').slimScroll({
-            height: '200px',
-            wheelStep: 10
-        });
-
+        console.log(item);
         if(item.uf) {
             $('select[name="lote[cidade]"]').select2('destroy');
             $scope.cidades = Cidades.get({ uf: item.uf }).$promise.then(function(data) {
@@ -139,10 +132,6 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
 
     $scope.salvar = function (lote, add) {
 
-        /*if(lote.id) {
-            $('#senha, #senha2').removeAttr('required');
-        }*/
-        
         if(required('#LoteForm', true)) {
             chamaMsg('11', true);
         } else {
@@ -150,13 +139,15 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
             LoteNovo.save(lote).$promise.then(function(data) {
                 if(data.success) {
                     $('.loading').hide();
-                    $('#lote_modal').modal('hide');
+                    //$('#lote_modal').modal('hide');
                     
                     $scope.start();
 
                     if(add) {
-                        $scope.showForm();
+                        $scope.showForm(false);
+                        chamaMsg('1', true);
                     } else {
+                        $('#lote_modal').modal('hide');
                         chamaMsg('1', true);
                     }
 
@@ -177,28 +168,53 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
                 'method': 'get',
                 'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
             }).success(function(data) {
-                $('.loading').hide();
-                $scope.lote.logradouro = data.logradouro;
-                $scope.lote.bairro = data.bairro;
 
-                $scope.lote.uf = data.uf;
-                $scope.lote.cidade = data.cidade;
-                $scope.cidades = Cidades.get({ uf: data.uf }).$promise.then(function(data) {
-                    $scope.cidades = data;
-                    $('select[name="lote[cidade]"]').select2('destroy').select2();
+                if(data.cidade) {
                     $('.loading').hide();
-                });
+                    $scope.lote.logradouro = data.logradouro;
+                    $scope.lote.bairro = data.bairro;
+                    $scope.lote.uf = data.uf;
+                    $scope.lote.cidade = data.cidade;
+
+                    var cidade_cep = [
+                        { id: data.cidade_id, nome: data.cidade }
+                    ];
+
+                    var arr2 = [];
+                    arr2['cidades'] = cidade_cep;
+                    console.log(arr2);
+                    $scope.cidades = arr2;
+
+                    $('select[name="lote[uf]"], select[name="lote[cidade]"]').prop('disabled', true);
+                } else {
+                    $scope.zeraEndereco();
+                }
             });
+        } else {
+            $scope.zeraEndereco();
         }
     };
 
+    $scope.zeraEndereco = function() {
+        $('select[name="lote[uf]"], select[name="lote[cidade]"]').prop('disabled', false);
+        $scope.lote.cidade = '';
+        $scope.cidades = [];
+        $scope.lote.logradouro = '';
+        $scope.lote.numero = '';
+        $scope.lote.bairro = '';
+        $scope.lote.uf = '';
+        $scope.lote.complemento = '';
+    }
+
     $scope.getCidades = function(uf) {
-        $('.loading').show();
-        $scope.cidades = Cidades.get({uf: uf}).$promise.then(function(data) {
-            $scope.cidades = data;
-            $('select[name="lote[cidade]"]').select2('destroy').select2();
-            $('.loading').hide();
-        });
+        if(uf) {
+            $('.loading').show();
+            $scope.cidades = Cidades.get({uf: uf}).$promise.then(function(data) {
+                $scope.cidades = data;
+                //$('select[name="lote[cidade]"]').select2('destroy').select2();
+                $('.loading').hide();
+            });
+        }
     }
 
     $scope.adicionarCorretor = function() {

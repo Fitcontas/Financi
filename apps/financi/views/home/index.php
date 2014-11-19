@@ -1,4 +1,4 @@
-<div class="row margin-top-50">
+<div class="row margin-top-50" ng-cloak>
     <div class="mensagem"></div>
     <div class="block-flat clearfix">
         <div class="header">

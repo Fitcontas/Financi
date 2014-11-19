@@ -1,4 +1,4 @@
-<div ng-controller="FormLoteCtrl">
+<div ng-controller="FormLoteCtrl" ng-cloak>
 <form id="#grid_lote" class="grid">
     <div class="row margin-top-50">
         <div id="no-reg" class="content" style="display: none">
@@ -17,7 +17,19 @@
             <div class="mensagem">
                 <!-- Conteúdo da mensagem -->
             </div>
-            <div class="block-flat">
+
+            <div class="block-flat" ng-show="!model.lotes.length && model.$resolved">
+                <div class="header">
+                    <h3>Lotes</h3>
+                </div>
+
+                <div class="content spacer0 process">
+                    <p>Até o momento não existe nenhum lote cadastro. Para inserir um novo registro clique no botão adicionar.</p>
+                    <p><button type="button" class="btn btn-default" ng-click="showForm(false)" style="margin:5px 0 0 0 !important">Adicionar</button></p>
+                </div>
+            </div>
+
+            <div class="block-flat" ng-show="model.lotes.length && model.$resolved">
                 <div class="header">
                     <h3>Relação de Lotes</h3>
                 </div>
@@ -266,7 +278,7 @@
                                         </div>
                                         <label class="col-sm-3 control-label" for="lote[cidade]">Cidade  </label>
                                         <div class="col-sm-13">
-                                            <select class="form-control" name="lote[cidade]" ng-model="lote.cidade" ng-options="cidade.nome as cidade.nome for cidade in cidades.cidades" ng-selected="lote.cidade" ng-select2>
+                                            <select class="form-control" name="lote[cidade]" ng-model="lote.cidade" ng-options="cidade.nome as cidade.nome for cidade in cidades.cidades" ng-selected="lote.cidade">
                                                 
                                             </select>
                                         </div>

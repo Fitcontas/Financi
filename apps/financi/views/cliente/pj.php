@@ -26,6 +26,8 @@
                         <div class="tab-content">
                             <!-- Início tab-content -->
                             <input type="hidden" id="cliente-id" value="<?php echo $id ?>">
+                            <input type="hidden" id="origem" value="<?php echo $origem ?>">
+                            <input type="hidden" id="tipo" value="cnpj">
                             <!-- Início home -->
                             <div id="home" class="tab-pane cont active">
                                 <div class="spacer2">
@@ -61,7 +63,7 @@
                                             'block' => 'input-group-datepicker',
                                             'name' => 'cliente[data_nascimento]',
                                             'ng-model' => 'cliente.data_nascimento',
-                                            'attributes' => 'required req',
+                                            'attributes' => 'mask="99/99/9999" required req',
                                             'class' => ''
                                         ],
                                         [
@@ -153,7 +155,9 @@
                                                     'block_class' => 'col-sm-4',
                                                     'block' => 'default-select',
                                                     'options' => [
-                                                        '1' => 'Rua'
+                                                        '1' => 'Residencial',
+                                                        '2' => 'Comercial',
+                                                        '3' => 'Recado'
                                                     ],
                                                     'name' => 'cliente[endereco][0][tipo]',
                                                     'ng-model' => 'cliente.endereco.0.tipo',
@@ -207,7 +211,7 @@
                                                     'id' => 'cidade_principal',
                                                     'ng-model' => 'cliente.endereco.0.cidade',
                                                     'ng-option' => '<option ng-repeat="cidade in cidades_endereco_principal" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>',
-                                                    'attributes' => 'req required ng-select2'
+                                                    'attributes' => 'req required'
                                                 ],
                                             ]);
 
@@ -257,7 +261,9 @@
                                                     'block_class' => 'col-sm-4',
                                                     'block' => 'default-select',
                                                     'options' => [
-                                                        '1' => 'Rua'
+                                                        '1' => 'Residencial',
+                                                        '2' => 'Comercial',
+                                                        '3' => 'Recado'
                                                     ],
                                                     'name' => 'cliente[endereco][1][tipo]',
                                                     'ng-model' => 'cliente.endereco.1.tipo'
@@ -306,7 +312,7 @@
                                                     'name' => 'cliente[endereco][1][cidade]',
                                                     'ng-model' => 'cliente.endereco.1.cidade',
                                                     'ng-option' => '<option ng-repeat="cidade in cidades_endereco_secundario" value="{{ cidade.id }}" ng-selected="cidade.selected">{{ cidade.nome }}</option>',
-                                                    'attributes' => 'ng-select2'
+                                                    'attributes' => ''
                                                 ],
                                             ]);
 
@@ -416,8 +422,9 @@
                                             'label' => 'CPF',
                                             'block_class' => 'col-sm-4',
                                             'name' => 'cliente[conjuge][cpf]',
+                                            'class' => 'conjuge_required',
                                             'ng-model' => 'cliente.conjuge.cpf',
-                                            'attributes' => 'required req'
+                                            'attributes' => 'mask="999.999.999-99" clean="true" required req'
                                         ],
                                         [
                                             'label' => 'Nome',
@@ -444,9 +451,10 @@
                                         [
                                             'label' => 'Data de Nascimento',
                                             'block_class' => 'col-sm-4',
+                                            'block' => 'input-group-datepicker',
                                             'name' => 'cliente[conjuge][data_nascimento]',
                                             'ng-model' => 'cliente.conjuge.data_nascimento',
-                                            'attributes' => 'required req'
+                                            'attributes' => 'mask="99/99/9999" required req'
                                         ],
                                          [
                                             'label' => 'Nacionalidade',
@@ -470,7 +478,7 @@
                                             'block_class' => 'col-sm-14',
                                             'name' => 'cliente[conjuge][naturalidade]',
                                             'ng-model' => 'cliente.conjuge.naturalidade',
-                                            'attributes' => 'ng-selected="cliente.conjuge.naturalidade" ng-options="c.id as c.nome for c in cidades_conjuge" ng-select2 req required',
+                                            'attributes' => 'ng-selected="cliente.conjuge.naturalidade" ng-options="c.id as c.nome for c in cidades_conjuge" req required',
                                         ]
                                     ]);
 
@@ -479,13 +487,16 @@
                                             'label' => 'Registro Geral (RG)',
                                             'block_class' => 'col-sm-10',
                                             'name' => 'cliente[conjuge][registro_geral]',
-                                            'ng-model' => 'cliente.conjuge.registro_geral'
+                                            'ng-model' => 'cliente.conjuge.registro_geral',
+                                            'attributes' => 'required req'
                                         ],
                                         [
                                             'label' => 'Data de expedição',
                                             'block_class' => 'col-sm-4',
+                                            'block' => 'input-group-datepicker',
                                             'name' => 'cliente[conjuge][expedicao]',
-                                            'ng-model' => 'cliente.conjuge.expedicao'
+                                            'ng-model' => 'cliente.conjuge.expedicao',
+                                            'attributes' => 'mask="99/99/9999" required req'
                                         ],
                                         [
                                             'label' => 'CTPS',
@@ -499,6 +510,21 @@
                                     \Financi\HTMLHelper::renderRow([
                                         [
                                             'label' => 'Escolaridade',
+                                            'block_class' => 'col-sm-6',
+                                            'name' => 'cliente[conjuge][escolaridade]',
+                                            'block' => 'default-select',
+                                            'options' => [
+                                                '1' => 'Analfabeto',
+                                                '2' => 'Alfabetizado',
+                                                '3' => 'Médio Incompleto',
+                                                '4' => 'Médio Completo',
+                                                '5' => 'Superior Incompleto',
+                                                '6' => 'Superior Completo',
+                                                '7' => 'Pos-graduado',
+                                                '8' => 'Mestre',
+                                                '9' => 'Doutor'
+                                            ],
+                                            'ng-model' => 'cliente.conjuge.escolaridade'
                                         ],
                                         [
                                             'label' => 'CBO',

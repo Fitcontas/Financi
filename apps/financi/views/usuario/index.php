@@ -1,4 +1,4 @@
-<div ng-controller="FormUsuarioCtrl">
+<div ng-controller="FormUsuarioCtrl" ng-cloak>
 <form id="#grid_usuario" class="grid" data-control="Clientes" data-list="dt_usuario(true)">
     <div class="row margin-top-50">
         <div id="no-reg" class="content" style="display: none">

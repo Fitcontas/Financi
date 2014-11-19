@@ -85,11 +85,15 @@ class ClienteController extends \SlimController\SlimController
 
     public function cadastroPfAction()
     {
+        $get = $this->app->request->get();
+
+        $origem = isset($get['origem']) ? 1 : 0;
 
         $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
 
         $this->render('cliente/pf.php', [
                 'breadcrumb' => ['Cadastro', 'Clientes', 'Pessoa Física'],
+                'origem' => $origem,
                 'ufs' => is_array($ufs) ? $ufs : [],
                 'foot_js' => [ 'js/cadastros/clientes.js' ]
             ]);
@@ -121,11 +125,16 @@ class ClienteController extends \SlimController\SlimController
 
     public function cadastroPjAction()
     {
+        $get = $this->app->request->get();
+
+        $origem = isset($get['origem']) ? 1 : 0;
+
         $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
 
         $this->render('cliente/pj.php', [
                 'breadcrumb' => ['Cadastro', 'Clientes', 'Pessoa Jurídica'],
                 'ufs' => is_array($ufs) ? $ufs : [],
+                'origem' => $origem,
                 'foot_js' => [ 'js/cadastros/clientes.js' ]
             ]);
     }
@@ -269,7 +278,7 @@ class ClienteController extends \SlimController\SlimController
                     }
                 }
 
-                return $this->app->response->setBody(json_encode( ['success' => true] )); 
+                return $this->app->response->setBody(json_encode( ['success' => true, 'obj' =>  ['id'=>$cliente->id, 'nome' => $cliente->nome] ] )); 
             }
 
         } else {
@@ -283,7 +292,8 @@ class ClienteController extends \SlimController\SlimController
             unset($data->conjuge);
             unset($data->telefones);
             unset($data->emails);
-
+            $data->data_nascimento = \Financi\DataFormat::DateDB($data->data_nascimento);
+            
             $cliente = \Clientes::find($data->id);
 
             $data->expedicao = \Financi\DataFormat::DateDB($data->expedicao);

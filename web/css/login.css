@@ -106,12 +106,10 @@ body{
     margin-left: 10px;
 }
 #login .btn-primary{
-    color: #fff;
-    background: #2494F2;
+
 }
 #login .btn-primary:hover{
-    color: #fff;
-    background: #2082D5;
+
 }
 #login .recovery{
     padding: 10px 0;

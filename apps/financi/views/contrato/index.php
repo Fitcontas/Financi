@@ -1,4 +1,4 @@
-<div ng-controller="ContratoCtrl">
+<div ng-controller="ContratoCtrl" ng-cloak>
 <form id="#grid_contrato" class="grid">
     <div class="row margin-top-50">
         <div id="no-reg" class="content" style="display: none">
@@ -15,7 +15,19 @@
             <div class="mensagem">
                 <!-- Conteúdo da mensagem -->
             </div>
-            <div class="block-flat">
+
+            <div class="block-flat" ng-show="!model.contratos.length && model.$resolved">
+                <div class="header">
+                    <h3>Contratos</h3>
+                </div>
+
+                <div class="content spacer0 process">
+                    <p>Até o momento não existe nenhum contrato cadastro. Para inserir um novo registro clique no botão adicionar.</p>
+                    <p><button type="button" class="btn btn-default" ng-click="showForm(false)" style="margin:5px 0 0 0 !important">Adicionar</button></p>
+                </div>
+            </div>
+
+            <div class="block-flat" ng-show="model.contratos.length && model.$resolved">
                 <div class="header">
                     <h3>Relação de Contratos</h3>
                 </div>
@@ -117,12 +129,34 @@
                 </div>
 
                 <div ng-hide="aba == 3 || aba == 4" style="margin-top: -3px;" class="tab-container">
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs" ng-hide="true">
                       <li ng-class="{ 'active' : aba == 1, 'disabled': aba != 1 }"><a data-toggle="" href="javascript://">Contrato</a></li>
                       <li ng-class="{ 'active' : aba == 2, 'disabled': aba != 2 }"><a data-toggle="" href="javascript://">Cliente</a></li>
                       <li ng-class="{ 'active' : aba == 6, 'disabled': aba != 6 }"><a data-toggle="" href="javascript://">Corretor</a></li>
                       <li ng-class="{ 'active' : aba == 5, 'disabled': aba != 5 }"><a data-toggle="" href="javascript://">Pagamento</a></li>
                     </ul>
+
+                    <div class="stepwizard">
+                        <div class="stepwizard-row">
+                            <div class="stepwizard-step">
+                                <button type="button" class="btn btn-circle" ng-class="{ 'btn-primary' : aba == 1, 'btn-default' : aba != 1 }" ng-disabled="aba != 1">1</button>
+                                <p>Contrato</p>
+                            </div>
+                            <div class="stepwizard-step">
+                                <button type="button" class="btn btn-circle" ng-class="{ 'btn-primary' : aba == 2, 'btn-default' : aba != 2 }" ng-disabled="aba != 2">2</button>
+                                <p>Cliente</p>
+                            </div>
+                            <div class="stepwizard-step">
+                                <button type="button" class="btn btn-circle" ng-class="{ 'btn-primary' : aba == 6, 'btn-default' : aba != 6 }" ng-disabled="aba != 6">3</button>
+                                <p>Corretor</p>
+                            </div>
+                            <div class="stepwizard-step">
+                                <button type="button" class="btn btn-circle" ng-class="{ 'btn-primary' : aba == 5, 'btn-default' : aba != 5 }" ng-disabled="aba != 4">4</button>
+                                <p>Pagamento</p>
+                            </div> 
+                        </div>
+                    </div>
+
                 </div>
 
                 <!-- Aba 1 -->
@@ -141,7 +175,7 @@
                     <div class="form-group">
                         <label class="col-sm-5 control-label" for="nome">Empreendimento</label>
                         <div class="col-sm-14">
-                            <select name="empreendimento_id" id="contrato[empreendimento_id]" ng-model="contrato.empreendimento_id" class="form-control" ng-change="getLotes(contrato.empreendimento_id)" req required ng-select2>
+                            <select name="empreendimento_id" id="contrato[empreendimento_id]" ng-model="contrato.empreendimento_id" class="form-control" ng-change="getLotes(contrato.empreendimento_id)" req required>
                                 <option value=""></option>
                                 <?php foreach ($empreendimentos as $e): ?>
                                     <option value="<?php echo $e->id ?>"><?php echo $e->empreendimento ?></option>
@@ -153,7 +187,7 @@
                     <div class="form-group">
                         <label class="col-sm-5 control-label" for="contrato[lote_id]">Lote  </label>
                         <div class="col-sm-14">
-                            <select name="contrato[lote_id]" id="contrato[lote_id]" ng-model="contrato.lote_id" class="form-control" ng-options="lote.id as 'Lote ' + lote.numero + ' - Quadra ' + lote.quadra for lote in lotes" ng-change="setLote()" ng-select2 req required>
+                            <select name="contrato[lote_id]" id="contrato[lote_id]" ng-model="contrato.lote_id" class="form-control" ng-options="lote.id as 'Lote ' + lote.numero + ' - Quadra ' + lote.quadra for lote in lotes" ng-change="setLote()" req required>
                                 
                             </select>
                         </div>
@@ -221,7 +255,7 @@
                         <div class="col-sm-15">
                             <div class="input-group">
                                 
-                                <select ng-model="contrato.clientes[$index].cliente_id" id="contrato[clientes][$index][cliente_id]" name="contrato[clientes][$index][cliente_id]" class="form-control" ng-select2 req required>
+                                <select ng-model="contrato.clientes[$index].cliente_id" id="contrato-clientes" name="contrato[clientes][$index][cliente_id]" class="form-control" ng-select2 req required>
                                     <option value=""></option>
                                     <?php foreach ($clientes as $c): ?>
                                         <option value="<?php echo $c->id ?>"><?php echo $c->nome ?></option>
@@ -232,7 +266,7 @@
                                     <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle no-margin" action="no"><i title="Calendário" class="fa fa-plus"></i></button>    
                                 <ul role="menu" class="dropdown-menu">    
                                     <li><a href="" ng-click="clienteWindow()" class="no">Cliente PF</a></li>    
-                                    <li><a href="/cliente/cadastro/pj" class="no">Cliente PJ</a></li>    
+                                    <li><a href="" ng-click="clientePjWindow()" class="no">Cliente PJ</a></li>    
                                 </ul>
                                 </span>
 

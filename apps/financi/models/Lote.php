@@ -4,19 +4,19 @@ class Lote extends AppModel
 {
     static $table_name = 'lote';
     static $belongs_to = [
-        ['empreendimento', 'class_name' => 'Empreendimento', 'foreign_key' => 'empreendimento_id', 'primary_key' => 'id']
+        ['empreendimento', 'class_name' => 'Empreendimento']
     ];
 
     static $has_many = [
         ['contrato', 'class_name' => 'Contrato']
     ];
 
-    public function get_status() 
+    public function get_situacao() 
     {
         $tipos = [
-            '1'=> 'Disponível',
-            '2'=> 'Reservado',
-            '3'=> 'Vendido'
+            null=> 'Disponível',
+            'R'=> 'Reservado',
+            'V'=> 'Vendido'
         ];
 
         return $tipos[$this->read_attribute('status')];

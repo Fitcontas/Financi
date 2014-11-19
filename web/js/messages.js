@@ -39,6 +39,7 @@ var FitMessage = (function() {
 
             1: {
                 b: 'Cadastro realizado com sucesso!',
+                tm: 2,
                 t: 's'
             },
             2: {

@@ -1,4 +1,4 @@
-<div ng-controller="FormClinteGridCtrl">
+<div ng-controller="FormClinteGridCtrl" ng-cloak>
 <form id="#grid_cliente" class="grid" data-control="Clientes" data-list="dt_cliente(true)">
     <div class="row margin-top-50">
         <div id="no-reg" class="content" style="display: none">
@@ -21,7 +21,26 @@
             <div class="mensagem">
                 <!-- Conteúdo da mensagem -->
             </div>
-            <div class="block-flat">
+
+            <div class="block-flat" ng-show="!model.clientes.length && model.$resolved">
+                <div class="header">
+                    <h3>Clientes</h3>
+                </div>
+
+                <div class="content spacer0 process">
+                    <p>Até o momento não existe nenhum cliente cadastro. Para inserir um novo registro clique no botão adicionar.</p>
+
+                    <div class="btn-group no-margin">    
+                                <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle no-margin" action="no" style="margin:5px 0 0 0 !important">Adicionar <span class="caret"></span></button>    
+                                <ul role="menu" class="dropdown-menu">    
+                                    <li><a href="/cliente/cadastro/pf" class="no">Cliente PF</a></li>    
+                                    <li><a href="/cliente/cadastro/pj" class="no">Cliente PJ</a></li>    
+                                </ul>
+                            </div>
+                </div>
+            </div>
+
+            <div class="block-flat" ng-show="model.clientes.length && model.$resolved">
                 <div class="header">
                     <h3>Relação de Clientes</h3>
                 </div>

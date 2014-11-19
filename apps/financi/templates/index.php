@@ -77,7 +77,7 @@
 				    </li>-->
 
 	                <li class="dropdown profile_menu">
-	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img alt="Avatar" width="30px" height="30px" src="<?php echo HOST . DS ?>images/avatar2.jpg" /><?php echo $user['usuario'] ?> <b class="caret"></b></a>
+	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img alt="Avatar" width="30px" height="30px" src="<?php echo HOST . DS ?>images/avatar.png" /><?php echo $user['usuario'] ?> <b class="caret"></b></a>
 	                    <ul class="dropdown-menu">
 				            <li><a data-toggle="modal" href="#" ng-click="showForm()"><i class="glyphicon glyphicon-cog"></i>  Minha conta</a></li>
 				            <li class="divider"></li>

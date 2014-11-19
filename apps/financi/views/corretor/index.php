@@ -1,4 +1,4 @@
-<div ng-controller="FormCorretorGridCtrl">
+<div ng-controller="FormCorretorGridCtrl" ng-cloak>
 <form id="#grid_corretor" class="grid">
     <div class="row margin-top-50">
         <div id="no-reg" class="content" style="display: none">

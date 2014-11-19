@@ -1,4 +1,4 @@
-<div ng-controller="FormEmpreendimentoCtrl">
+<div ng-controller="FormEmpreendimentoCtrl" ng-cloak>
 <form id="#grid_empreendimento" class="grid">
     <div class="row margin-top-50">
         <div id="no-reg" class="content" style="display: none">
@@ -17,7 +17,19 @@
             <div class="mensagem">
                 <!-- Conteúdo da mensagem -->
             </div>
-            <div class="block-flat">
+
+            <div class="block-flat" ng-show="!model.empreendimentos.length && model.$resolved">
+                <div class="header">
+                    <h3>Empreendimentos</h3>
+                </div>
+
+                <div class="content spacer0 process">
+                    <p>Até o momento não existe nenhum empreendimento cadastro. Para inserir um novo registro clique no botão adicionar.</p>
+                    <p><button type="button" class="btn btn-default" ng-click="showForm(false)" style="margin:5px 0 0 0 !important">Adicionar</button></p>
+                </div>
+            </div>
+
+            <div class="block-flat" ng-show="model.empreendimentos.length && model.$resolved">
                 <div class="header">
                     <h3>Relação de Empreendimentos</h3>
                 </div>
@@ -216,7 +228,8 @@
                                     <div class="form-group">
                                         <label class="col-sm-7 control-label" for="nome">Índice de Correção  </label>
                                         <div class="col-sm-7">
-                                            <select class="form-control" ng-model="empreendimento.indice_correcao" required>
+                                            <select class="form-control" name="empreendimento[indice_correcao]" req required ng-model="empreendimento.indice_correcao">
+                                                <option value=""></option>
                                                 <option value="1">IPCA</option>
                                             </select>
                                         </div>

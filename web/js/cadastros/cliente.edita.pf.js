@@ -15,7 +15,7 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
 
     ClientesBusca.get({ id: $('#cliente-id').val() }).$promise.then(function(data) {
         $scope.cliente = data.cliente;
-        $scope.verificaCasado();
+        
         if(data.cliente.telefones.length == 0) {
             $scope.cliente.telefones = [{}];
         }
@@ -33,6 +33,9 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
             'method': 'get',
             'url': 'http://fitcontas.com.br/fitservices/cbo/' + data.cliente.cbo,
         }).success(function(data) {
+            if($('#tipo').val() == 'cpf') {
+                $scope.verificaCasado();
+            }
             if(data.result) {
                 $('#cbo_descricao').val(data.rows.profissao);
             }
@@ -61,7 +64,7 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
             return false;
         }
 
-        if($(ClienteForm).hasClass('ng-invalid')) {
+        if($(ClienteForm).hasClass('ng-invalid') || required('#ClienteForm', false) > 0) {
             required('#ClienteForm', false);
             chamaMsg('11', true);
         } else {
@@ -115,22 +118,22 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
                 if(destino == 'cidades') {
                     $scope.cidades = data.cidades;
                     $scope.cliente.naturalidade = parseInt($scope.cliente.naturalidade);
-                    $('select[name="cliente[naturalidade]"]').select2();
+                    //$('select[name="cliente[naturalidade]"]').select2();
                 } else if(destino == 'cidades_endereco_principal') {
                     $scope.cidades_endereco_principal = data.cidades;
                     $scope.cliente.endereco[0].cidade = parseInt($scope.cliente.endereco[0].cidade);
-                    $('select[name="cliente[endereco][0][cidade]"]').select2();
+                    //$('select[name="cliente[endereco][0][cidade]"]').select2();
                 } else if(destino == 'cidades_endereco_secundario') {
                     $scope.cidades_endereco_secundario = data.cidades;
                     $scope.cliente.endereco[1].cidade = parseInt($scope.cliente.endereco[1].cidade);
-                    $('select[name="cliente[endereco][1][cidade]"]').select2();
+                    //$('select[name="cliente[endereco][1][cidade]"]').select2();
                 } else if(destino == 'cidades_conjuge') {
                     $scope.cidades_conjuge = data.cidades;
                     $scope.cliente.conjuge.naturalidade = parseInt($scope.cliente.conjuge.naturalidade);
-                    $('select[name="cliente[conjuge][naturalidade]"]').select2();
+                    //$('select[name="cliente[conjuge][naturalidade]"]').select2();
                 }
 
-                $('select[name="cliente[naturalidade]"], select[name="cliente[endereco][0][cidade]"], select[name="cliente[endereco][1][cidade]"], select[name="cliente[conjuge][naturalidade]"]').select2();
+                //$('select[name="cliente[naturalidade]"], select[name="cliente[endereco][0][cidade]"], select[name="cliente[endereco][1][cidade]"], select[name="cliente[conjuge][naturalidade]"]').select2();
                 
             });
         }
@@ -138,9 +141,8 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
     }
 
     $scope.verificaCasado = function() {
-        console.log('Estado civil: ' + $scope.cliente.estado_civil);
-
         if($scope.cliente.estado_civil == 2) {
+            console.log('Estado civil: Casado');
             $('input[name="cliente[conjuge][cpf]"]').attr('required', true).attr('req', true);
             $('input[name="cliente[conjuge][nome]"]').attr('required', true).attr('req', true);
             $('input[name="cliente[conjuge][data_nascimento]"]').attr('required', true).attr('req', true);
@@ -148,6 +150,7 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
             $('input[name="cliente[conjuge][nacionalidade]"]').attr('required', true).attr('req', true);
             $('select[name="cliente[conjuge][naturalidade_uf]"]').attr('required', true).attr('req', true);
         } else {
+            console.log('Estado civil: Solteiro');
             $('input[name="cliente[conjuge][cpf]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
             $('input[name="cliente[conjuge][nome]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
             $('input[name="cliente[conjuge][data_nascimento]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
@@ -192,24 +195,54 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
 
         var cep = endereco ? $scope.cliente.endereco[0].cep : $scope.cliente.endereco[1].cep;
         var indice = endereco ? 0 : 1;
-        $('.loading').show();
-        $http({
-            'method': 'get',
-            'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
-        }).success(function(data) {
-            $('.loading').hide();
-            $scope.cliente.endereco[indice].logradouro = data.logradouro;
-            $scope.cliente.endereco[indice].bairro = data.bairro;
-            $scope.cliente.endereco[indice].uf = data.uf;
-            $scope.cliente.endereco[indice].cidade = data.cidades_endereco_principal;
-            
-            if(!indice) {
-                $scope.get_cidade('uf_endereco_principal', 'cidades_endereco_principal', data.uf);
-            } else {
-                $scope.get_cidade('uf_endereco_secundario', 'cidades_endereco_secundario', data.uf);
-            }
+        
+        if(cep != undefined && cep.length >= 8) {
+            $('.loading').show();
+            $http({
+                'method': 'get',
+                'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
+            }).success(function(data) {
+                $('.loading').hide();
 
-        });
+                if(data.cidade) {
+                    $scope.cliente.endereco[indice].logradouro = data.logradouro;
+                    $scope.cliente.endereco[indice].bairro = data.bairro;
+                    $scope.cliente.endereco[indice].uf = data.uf;
+                    $scope.cliente.endereco[indice].cidade = data.cidade_id;
+
+                    var cidade_cep = [
+                        { id: data.cidade_id, nome: data.cidade }
+                    ];
+
+                    var arr2 = [];
+                    arr2['cidades'] = cidade_cep;
+                    
+                    if(!indice) {
+                        $scope.cidades_endereco_principal = cidade_cep;                    
+                    } else {
+                        $scope.cidades_endereco_secundario = cidade_cep;                    
+                    }
+
+                    $('select[name="cliente[endereco]['+indice+'][uf]"], select[name="cliente[endereco]['+indice+'][cidade]"]').prop('disabled', true);
+                } else {
+                    $scope.zeraEndereco(indice);
+                }
+
+            });
+        } else {
+            $scope.zeraEndereco(indice);
+        }
+    }
+
+    $scope.zeraEndereco = function(indice) {
+        $('select[name="cliente[endereco]['+indice+'][uf]"], select[name="cliente[endereco]['+indice+'][cidade]"]').prop('disabled', false);
+        $scope.cliente.endereco[indice].cidade = '';
+        $scope.cidades = [];
+        $scope.cliente.endereco[indice].logradouro = '';
+        $scope.cliente.endereco[indice].numero = '';
+        $scope.cliente.endereco[indice].bairro = '';
+        $scope.cliente.endereco[indice].uf = '';
+        $scope.cliente.endereco[indice].complemento = '';
     }
 
     $scope.addTelefone = function() {
