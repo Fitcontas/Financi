@@ -101,6 +101,7 @@
                                             'block_class' => 'col-sm-15 date',
                                             'name' => 'cliente[cnae]',
                                             'ng-model' => 'cliente.cnae',
+                                            'attributes' => 'ng-select2-ajax'
                                         ],
                                         [
                                             'label' => 'Regime Tributário',

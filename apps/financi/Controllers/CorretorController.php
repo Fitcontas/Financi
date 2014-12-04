@@ -92,8 +92,10 @@ class CorretorController extends \SlimController\SlimController
     {
         $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
 
+        $corretor = \Corretor::find($id);
+
         $this->render('corretor/novo.php', [
-                'breadcrumb' => ['Cadastro', 'Corretores', 'Edição'],
+                'breadcrumb' => ['Cadastro', 'Corretores', 'Editando ' . strtoupper($corretor->nome) ],
                 'id' => isset($id) ? $id : '',
                 'ufs' => is_array($ufs) ? $ufs : [],
                 'foot_js' => [ 'js/cadastros/corretor.edita.js' ]

@@ -155,4 +155,41 @@ AppFinanci.directive("passwordVerify", function() {
     };
 })
 
+.directive('ngSelect2Ajax', function() {
+    return {
+      require: '?ngModel',
+      link: function($scope, element, attrs, controller) {
+
+        element.select2({
+            placeholder: 'Enter name',
+            //Does the user have to enter any data before sending the ajax request
+            minimumInputLength: 0,            
+            allowClear: true,
+            ajax: {
+                //How long the user has to pause their typing before sending the next request
+                quietMillis: 150,
+                //The url of the json service
+                url: '/cliente/cnae',
+                dataType: 'jsonp',
+                //Our search term and what page we are on
+                data: function (term, page) {
+                    return {
+                        pageSize: 20,
+                        pageNum: page,
+                        searchTerm: term
+                    };
+                },
+                results: function (data, page) {
+                    //Used to determine whether or not there are more results available,
+                    //and if requests for more data should be sent in the infinite scrolling
+                    var more = (page * 20) < data.Total; 
+                    return { results: data.Results, more: more };
+                }
+            }
+        });
+
+      }
+    };
+})
+
 ;

@@ -119,8 +119,10 @@ class ClienteController extends \SlimController\SlimController
     {
         $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
 
+        $cliente = \Clientes::find($id);
+
         $this->render('cliente/pf.php', [
-                'breadcrumb' => ['Cadastro', 'Clientes', 'Editando Pessoa Física'],
+                'breadcrumb' => ['Cadastro', 'Clientes', 'Editando ' . strtoupper($cliente->nome) ],
                 'id' => $id,
                 'ufs' => is_array($ufs) ? $ufs : [],
                 'foot_js' => [ 'js/cadastros/cliente.edita.pf.js' ]
@@ -131,8 +133,10 @@ class ClienteController extends \SlimController\SlimController
     {
         $ufs = WebServices::service('estados', ['key' => 'uf', 'value' => 'uf']);
 
+        $cliente = \Clientes::find($id);
+
         $this->render('cliente/pj.php', [
-                'breadcrumb' => ['Cadastro', 'Clientes', 'Editando Pessoa Jurídica'],
+                'breadcrumb' => ['Cadastro', 'Clientes', 'Editando ' . strtoupper($cliente->nome) ],
                 'id' => $id,
                 'ufs' => is_array($ufs) ? $ufs : [],
                 'foot_js' => [ 'js/cadastros/cliente.edita.pf.js' ]
@@ -458,5 +462,12 @@ class ClienteController extends \SlimController\SlimController
         }
 
         return $this->app->response->setBody(json_encode( $r ));
+    }
+
+
+    public function getCnaeAction() {
+        $get = $this->app->request->get();
+        exit();
+        return $this->app->response->setBody(json_encode( ['teste', 'fsdfsd'] ));
     }
 }
