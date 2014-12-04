@@ -145,6 +145,7 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
 
                     if(add) {
                         $scope.showForm(false);
+                        $('select[name="lote[uf]"], select[name="lote[cidade]"]').prop('disabled', false);
                         chamaMsg('1', true);
                     } else {
                         $('#lote_modal').modal('hide');

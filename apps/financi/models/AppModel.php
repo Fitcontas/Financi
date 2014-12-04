@@ -70,7 +70,7 @@ class AppModel extends \ActiveRecord\Model {
 
         foreach ($has_many as $has) {
             
-            if(in_array($has[0][0], $exceptions, true)) {
+            if(in_array($has[0], $exceptions, true)) {
                 continue;
             }
 
@@ -109,7 +109,7 @@ class AppModel extends \ActiveRecord\Model {
 
         foreach ($has_one as $has) {
 
-            if(in_array($has[0][0], $exceptions, true)) {
+            if(in_array($has[0], $exceptions, true)) {
                 continue;
             }
 
@@ -136,10 +136,12 @@ class AppModel extends \ActiveRecord\Model {
                     continue;
                 }
 
-                if (isset($find->status) and $find->status != 0) {
+                if (isset($find->status) and ($find->status != 0)) {
                     $count++;
                 }
+                
             }
+            exit();
 
             if ($count) 
                 return true;

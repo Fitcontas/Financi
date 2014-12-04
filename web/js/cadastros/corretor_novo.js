@@ -156,19 +156,48 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
             }).success(function(data) {
                 $('.loading').hide();
 
-                $scope.corretor.endereco[indice].logradouro = data.logradouro;
-                $scope.corretor.endereco[indice].bairro = data.bairro;
-                $scope.corretor.endereco[indice].uf = data.uf;
-                $scope.corretor.endereco[indice].cidade = data.cidade_id;
-        
-                if(!indice) {
-                    $scope.get_cidade('uf_endereco_principal', 'cidades_endereco_principal', data.uf);
+                if(data.cidade) {
+
+                    $scope.corretor.endereco[indice].logradouro = data.logradouro;
+                    $scope.corretor.endereco[indice].bairro = data.bairro;
+                    $scope.corretor.endereco[indice].uf = data.uf;
+                    $scope.corretor.endereco[indice].cidade = data.cidade_id;
+            
+                    var cidade_cep = [
+                        { id: data.cidade_id, nome: data.cidade }
+                    ];
+
+                    var arr2 = [];
+                    arr2['cidades'] = cidade_cep;
+                    //$scope.cidades = arr2;
+                    
+                    if(!indice) {
+                        $scope.cidades_endereco_principal = cidade_cep;                    
+                    } else {
+                        $scope.cidades_endereco_secundario = cidade_cep;                    
+                    }
+
+                    $('select[name="corretor[endereco]['+indice+'][uf]"], select[name="corretor[endereco]['+indice+'][cidade]"]').prop('disabled', true);
+
                 } else {
-                    $scope.get_cidade('uf_endereco_secundario', 'cidades_endereco_secundario', data.uf);
+                    $scope.zeraEndereco(indice);
                 }
 
             });
+        } else {
+            $scope.zeraEndereco(indice);
         }
+    }
+
+    $scope.zeraEndereco = function(indice) {
+        $('select[name="corretor[endereco]['+indice+'][uf]"], select[name="corretor[endereco]['+indice+'][cidade]"]').prop('disabled', false);
+        $scope.corretor.endereco[indice].cidade = '';
+        $scope.cidades = [];
+        $scope.corretor.endereco[indice].logradouro = '';
+        $scope.corretor.endereco[indice].numero = '';
+        $scope.corretor.endereco[indice].bairro = '';
+        $scope.corretor.endereco[indice].uf = '';
+        $scope.corretor.endereco[indice].complemento = '';
     }
 
     $scope.addTelefone = function() {

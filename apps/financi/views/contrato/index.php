@@ -139,23 +139,29 @@
                     <div class="stepwizard">
                         <div class="stepwizard-row">
                             <div class="stepwizard-step">
+                            <p>Contrato</p>
                                 <button type="button" class="btn btn-circle" ng-class="{ 'btn-primary' : aba == 1, 'btn-default' : aba != 1 }" ng-disabled="aba != 1">1</button>
-                                <p>Contrato</p>
+                                
                             </div>
                             <div class="stepwizard-step">
-                                <button type="button" class="btn btn-circle" ng-class="{ 'btn-primary' : aba == 2, 'btn-default' : aba != 2 }" ng-disabled="aba != 2">2</button>
                                 <p>Cliente</p>
+                                <button type="button" class="btn btn-circle" ng-class="{ 'btn-primary' : aba == 2, 'btn-default' : aba != 2 }" ng-disabled="aba != 2">2</button>
+                                
                             </div>
                             <div class="stepwizard-step">
-                                <button type="button" class="btn btn-circle" ng-class="{ 'btn-primary' : aba == 6, 'btn-default' : aba != 6 }" ng-disabled="aba != 6">3</button>
                                 <p>Corretor</p>
+                                <button type="button" class="btn btn-circle" ng-class="{ 'btn-primary' : aba == 6, 'btn-default' : aba != 6 }" ng-disabled="aba != 6">3</button>
+                                
                             </div>
                             <div class="stepwizard-step">
-                                <button type="button" class="btn btn-circle" ng-class="{ 'btn-primary' : aba == 5, 'btn-default' : aba != 5 }" ng-disabled="aba != 4">4</button>
                                 <p>Pagamento</p>
+                                <button type="button" class="btn btn-circle" ng-class="{ 'btn-primary' : aba == 5, 'btn-default' : aba != 5 }" ng-disabled="aba != 4">4</button>
+                                
                             </div> 
                         </div>
                     </div>
+                    
+                    
 
                 </div>
 
@@ -255,11 +261,8 @@
                         <div class="col-sm-15">
                             <div class="input-group">
                                 
-                                <select ng-model="contrato.clientes[$index].cliente_id" id="contrato-clientes" name="contrato[clientes][$index][cliente_id]" class="form-control" ng-select2 req required>
-                                    <option value=""></option>
-                                    <?php foreach ($clientes as $c): ?>
-                                        <option value="<?php echo $c->id ?>"><?php echo $c->nome ?></option>
-                                    <?php endforeach ?>
+                                <select id="contrato-clientes" name="contrato[clientes][$index][cliente_id]" class="form-control" req required ng-selected="contrato.clientes[$index].cliente_id" ng-model="contrato.clientes[$index].cliente_id" ng-options="cliente.id as cliente.nome for cliente in lista_clientes">
+                                  
                                 </select>
 
                                 <span class="add-on input-group-btn">
@@ -291,7 +294,8 @@
                     </div>
 
                     <div class="modal-footer" style="width:105.4%; margin-left:-20px; margin-bottom:-5px;">
-                        <button class="btn btn-primary pull-left" type="button" ng-click="abaNext(1)">Voltar</button>
+                        <a href="javascript://" style="margin-top:8px;" class="pull-left" ng-click="abaNext(1)">Voltar</a>
+                        
                         <button class="btn btn-primary" type="button" ng-click="abaNext(6)">Avançar</button>
                         <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
                     </div>
@@ -307,7 +311,7 @@
                         <label class="col-sm-2 control-label" for="">Nome</label>
                         <div class="col-sm-15">
 
-                                <select ng-model="contrato.corretores[$index].corretor_id" id="contrato[corretores][$index][corretor_id]" name="contrato[corretores][$index][corretor_id]" class="form-control" ng-select2 req required ng-options="corretor.id as corretor.nome for corretor in corretores">
+                                <select ng-model="contrato.corretores[$index].corretor_id" id="contrato[corretores][$index][corretor_id]" name="contrato[corretores][$index][corretor_id]" class="form-control" req required ng-options="corretor.id as corretor.nome for corretor in corretores">
                                 </select>
                                 
                           
@@ -331,7 +335,8 @@
                     </div>
 
                     <div class="modal-footer" style="width:105.4%; margin-left:-20px; margin-bottom:-5px;">
-                        <button class="btn btn-primary pull-left" type="button" ng-click="abaNext(2, 1)">Voltar</button>
+                        <a href="javascript://" style="margin-top:8px;" class="pull-left" ng-click="abaNext(2, 1)">Voltar</a>
+                        
                         <button class="btn btn-primary" type="button" ng-click="abaNext(5)">Avançar</button>
                         <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
                     </div>
@@ -415,8 +420,8 @@
                         </div>
                     </div>
 
-                    <div class="col-sm-24">
-                        <table class="table table-bordered  table-hover" ng-show="parcelas_geradas.length > 0">
+                    <div class="col-sm-24" style="margin-bottom:20px;" ng-show="parcelas_geradas.length > 0">
+                        <table class="table table-bordered  table-hover">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -428,7 +433,7 @@
                             <tbody>
                                 <tr>
                                     <td>001</td>
-                                    <td><a href="#" ng-click="abaNext(contrato.entrada_config.entradas.length > 0 ? 4 : 3)">Entrada</a></td>
+                                    <td><a href="#" ng-click="abaEntradaNext(contrato.entrada_config.entradas.length > 0 ? 2 : 1)">Entrada</a></td>
                                     <td>-</td>
                                     <td>{{entrada}}</td>
                                 </tr>
@@ -446,13 +451,35 @@
                 </div>
                 <!-- Fim aba 5 -->
 
-                <!-- Aba 3 -->
-                <div ng-show="aba == 3" id="aba-3" style="margin-top:25px">
+                <div class="clearfix"></div>
 
-                    <div class="header">
-                        <h4>Entrada</h4>
-                    </div>
-                    <hr>
+
+            </div>
+
+            <div class="modal-footer" ng-show="aba == 5">
+                <a href="javascript://" style="margin-top:8px;" class="pull-left" ng-click="abaNext(6)">Voltar</a>
+                <button class="btn btn-primary" type="button" ng-disabled="false" ng-click="salveGeral()">Salvar</button>
+                <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+    </form>
+</div>
+
+<!-- Modal -->
+<div role="dialog" id="contrato_entrada_modal" class="modal fade in" aria-hidden="false"><!-- Modal -->
+    <form autocomplete="off" name="ContratoEntradaForm" id="ContratoEntradaForm" class="form-horizontal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Inclusão de Entrada</h3>
+                <span>Formulário de Cadastro</span>
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            </div>
+            <div class="modal-body">
+
+                <!-- Aba 3 -->
+                <div ng-show="aba_entrada == 1" id="aba-3" style="margin-top:10px">
 
                     <div class="form-group">
                         <label class="col-sm-7 control-label" for="valor">Meio de Pagamento </label>
@@ -505,7 +532,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group" style="margin-bottom:0px;">
                         <label class="col-sm-7 control-label" for="contrato.entrada_config.valor">{{ contrato.entrada_config.meio_forma_id == 1 ? 'Valor' : 'Valor Parcelamento' }}</label>
                         <div class="col-sm-9">
                             <div class="input-group">
@@ -515,8 +542,10 @@
                         </div>
                     </div>
 
-                    <div class="row" ng-show="contrato.entrada_config.parcelas.length > 0">
-                        <hr>
+                    <div ng-hide="contrato.entrada_config.parcelas.length > 0" style="height:15px;"></div>
+
+                    <div class="row" ng-show="contrato.entrada_config.parcelas.length > 0" style="margin-bottom:25px;">
+                        <hr style="margin-top: 10px;">
                         <table class="table  table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -537,30 +566,33 @@
                         </table>
                     </div>
 
-                    <div class="modal-footer" style="width:105.4%; margin-left:-20px; margin-bottom:-5px;">
+                    <div class="modal-footer" style="width:107.2%; margin-left:-20px; margin-bottom:-5px;">
                         <button class="btn btn-primary" ng-click="addEntrada()" type="button">Salvar</button>
-                        <button class="btn btn-default" type="button" ng-click="abaNext(5)">Cancelar</button>
+                        <button class="btn btn-default" type="button" ng-click="abaEntradaNext(2)">Cancelar</button>
                     </div>
 
                 </div>
                 <!-- Fim aba 3 -->
+
+
                 <div class="clearfix"></div>
 
                 <!-- Aba 4 -->
-                <div ng-show="aba == 4">
+                <div ng-show="aba_entrada == 2">
 
-                    <div class="header">
-                        <h4>Entrada</h4>
+                    <div class="alert alert-info alert-white rounded">
+                        <div class="icon"><i class="fa fa-info-circle"></i></div>
+                        Valor da entrada R$ {{entrada}}.
                     </div>
-                    <hr>
-                    <div>
+
+                    <div style="height:37px;">
                         <div class="btn-group" id="buttons-grid">
-                            <button type="button" class="btn btn-default" ng-click="abaNext(3)" ng-disabled="contrato.entrada_config.total ==  entrada_float"> Novo</button>
+                            <button type="button" class="btn btn-default" ng-click="abaEntradaNext(1)" ng-disabled="contrato.entrada_config.total ==  entrada_float"> Novo</button>
                             <button type="button" class="btn btn-default" ng-click="entradaRemove()"> Excluir</button>
                         </div>
                     </div>
-                    <br>
-                    <table class="table  table-bordered table-hover">
+                    
+                    <table class="table  table-bordered table-hover" ng-show="contrato.entrada_config.entradas.length > 0">
                         <thead>
                             <tr>
                                 <th><input type="checkbox" name="entrada.checkall" ng-model="entrada_checkall"></th>
@@ -576,32 +608,26 @@
                                 <td>{{ entrada.valor }}</td>
                                 <td>Carteira</td>
                             </tr>
+                            <tr>
+                                <td colspan="2">Total</td>
+                                <td>{{ contrato.entrada_config.total_formatado }}</td>
+                                <td></td>
+                            </tr>
                         </tbody>
                     </table>
                     <br/>
-                    <div class="alert alert-info alert-white rounded">
-                        <div class="icon"><i class="fa fa-info-circle"></i></div>
-                        <strong>Informação!</strong> O valor da entrada é de R$ {{entrada}}.
-                    </div>
+                    
 
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="button" ng-click="abaNext(5)">Salvar</button>
-                        <button class="btn btn-default" type="button" ng-click="abaNext(5)">Cancelar</button>
+                    <div class="modal-footer" style="width:107.2%; margin-left:-20px; margin-bottom:-5px;">
+                        <button class="btn btn-primary" type="button" ng-click="abaEntradaNext('close')">Salvar</button>
+                        <button class="btn btn-default" type="button" ng-click="abaEntradaNext('clear')">Cancelar</button>
                     </div>
                 </div>
                 <!-- Fim aba 4 -->
-                <div class="clearfix"></div>
-
 
             </div>
-
-            <div class="modal-footer" ng-show="aba == 5">
-                <button class="btn btn-primary pull-left" type="button" ng-click="abaNext(6)">Voltar</button>
-                <button class="btn btn-primary" type="button" ng-disabled="false" ng-click="salveGeral()">Salvar</button>
-                <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
+        </div>
+    </div>
     </form>
 </div>
 

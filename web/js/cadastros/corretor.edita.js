@@ -137,26 +137,51 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, CorretoresBus
 
         var cep = endereco ? $scope.corretor.endereco[0].cep : $scope.corretor.endereco[1].cep;
         var indice = endereco ? 0 : 1;
-        $('.loading').show();
-        $http({
-            'method': 'get',
-            'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
-        }).success(function(data) {
-            $('.loading').hide();
-            $scope.corretor.endereco[indice].logradouro = data.logradouro;
-            $scope.corretor.endereco[indice].bairro = data.bairro;
-            
-            if(!indice) {
-                $('#uf_endereco_principal').val(data.uf);
-                $scope.cidades_endereco_principal = [{'id':data.cidade_id, 'nome':data.cidade, 'selected':true}];
-                //$scope.get_cidade('uf_endereco_principal', 'cidades_endereco_principal', data.cidade_id);
-            } else {
-                $('#uf_endereco_secundario').val(data.uf);
-                $scope.cidades_endereco_secundario = [{'id':data.cidade_id, 'nome':data.cidade, 'selected':true}];
-                //$scope.get_cidade('uf_endereco_secundario', 'cidades_endereco_secundario', data.cidade_id);
-            }
+        if(cep != undefined && cep.length >= 8) {
+            $('.loading').show();
+            $http({
+                'method': 'get',
+                'url': 'http://fitcontas.com.br/fitservices/logradouro/' + cep.replace('-', ''),
+            }).success(function(data) {
+                $('.loading').hide();
 
-        });
+                if(data.cidade) {
+                    $scope.corretor.endereco[indice].logradouro = data.logradouro;
+                    $scope.corretor.endereco[indice].bairro = data.bairro;
+                    
+                    var cidade_cep = [
+                        { id: data.cidade_id, nome: data.cidade }
+                    ];
+
+                    var arr2 = [];
+                    arr2['cidades'] = cidade_cep;
+                    
+                    if(!indice) {
+                        $scope.cidades_endereco_principal = cidade_cep;                    
+                    } else {
+                        $scope.cidades_endereco_secundario = cidade_cep;                    
+                    }
+
+                    $('select[name="corretor[endereco]['+indice+'][uf]"], select[name="corretor[endereco]['+indice+'][cidade]"]').prop('disabled', true);
+                } else {
+                    $scope.zeraEndereco(indice);
+                }
+
+            });
+        } else {
+            $scope.zeraEndereco(indice);
+        }
+    }
+
+    $scope.zeraEndereco = function(indice) {
+        $('select[name="cliente[endereco]['+indice+'][uf]"], select[name="cliente[endereco]['+indice+'][cidade]"]').prop('disabled', false);
+        $scope.cliente.endereco[indice].cidade = '';
+        $scope.cidades = [];
+        $scope.cliente.endereco[indice].logradouro = '';
+        $scope.cliente.endereco[indice].numero = '';
+        $scope.cliente.endereco[indice].bairro = '';
+        $scope.cliente.endereco[indice].uf = '';
+        $scope.cliente.endereco[indice].complemento = '';
     }
 
     $scope.addTelefone = function() {

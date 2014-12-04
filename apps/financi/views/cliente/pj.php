@@ -26,7 +26,7 @@
                         <div class="tab-content">
                             <!-- Início tab-content -->
                             <input type="hidden" id="cliente-id" value="<?php echo $id ?>">
-                            <input type="hidden" id="origem" value="<?php echo $origem ?>">
+                            <input type="hidden" id="origem" value="<?php echo $origem ?>" ng-model="origem">
                             <input type="hidden" id="tipo" value="cnpj">
                             <!-- Início home -->
                             <div id="home" class="tab-pane cont active">
@@ -569,7 +569,7 @@
                 <div class="form-footer row text-right vmargin-0">
                     <div class="btn-group">
                         <button class="btn btn-primary" data-action="form-save" type="button" ng-click="salvar(cliente, false)">Salvar</button>
-                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button" ng-disabled="origem == 1">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>

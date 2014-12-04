@@ -51,8 +51,9 @@
 	            <a class="navbar-brand" href="#"><span> </span></a>
 	        </div>
 	        <div class="navbar-collapse collapse">
-	            
+	            <?php if($user['grupo_id'] == 1): ?>
 	            <?php echo \Financi\Menu::render('menunav') ?>
+				<?php endif; ?>
 
 	            <ul class="nav navbar-nav navbar-right user-nav">
 

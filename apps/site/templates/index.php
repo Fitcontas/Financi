@@ -38,20 +38,20 @@
             </a>
 
           </div>
-          <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li><a is-active-nav href="#/">Home</a></li>
-              <li><a is-active-nav href="#/localizacao">Localização</a></li>
-              <li><a is-active-nav href="#/fale-conosco">Fale Conosco</a></li>
+          <div id="menu" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav" style="margin-left: 50px;">
+              <li><a href="#/">Home</a></li>
+              <li><a href="#/localizacao">Localização</a></li>
+              <li><a href="#/contato">Fale Conosco</a></li>
             </ul>
             <div class="navbar-form navbar-right">
-                <a href="http://sistema.financi.com.br" class="btn btn-info"><i class="glyphicon glyphicon-lock" title="Acesse a área restrita"></i> Acessar</a>
+                <a href="http://sistema.financi.com.br" class="btn btn-info"><i class="glyphicon glyphicon-lock" title="Acesse a área restrita"></i> Corretor</a>
             </div>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->
       </div>
     
-    <div class="container main-box">
+    <div class="conteiner-fluid main-box">
         <?php require_once $content ?>
     </div>
 

@@ -1,19 +1,15 @@
-<div ng-controller="FormCorretorGridCtrl" ng-cloak>
-<form id="#grid_corretor" class="grid">
+<div ng-controller="FormLoteCtrl" ng-cloak>
+<form id="#grid_lote" class="grid">
     <div class="row margin-top-50">
         <div id="no-reg" class="content" style="display: none">
             <div class="container">
                 <h5>No momento não existe nenhum registro cadastrado. <?php echo true ? 'Para inserir um novo clique em “Adicionar”.' : '' ?></h5>
                 <div class="table-responsive hide">
-                    <div class="btn-group">
+
                         <button class="btn btn-default dropdown-toggle no-margin" data-toggle="dropdown" type="button">
                             Adicionar &nbsp; <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="?controle=Clientes&acao=manter&tipo=PF" class="pointer"> Cliente PF </a></li>
-                            <li><a href="?controle=Clientes&acao=manter&tipo=PJ" class="pointer"> Cliente PJ </a></li>
-                        </ul>
-                    </div>
+
                 </div>
             </div>
         </div>
@@ -22,27 +18,31 @@
                 <!-- Conteúdo da mensagem -->
             </div>
 
-            <div class="block-flat" ng-show="!model.corretores.length && model.$resolved">
+            <div class="block-flat" ng-show="!model.lotes.length && model.$resolved && search.length == 0">
                 <div class="header">
-                    <h3>Corretores</h3>
+                    <h3>Lotes</h3>
                 </div>
 
                 <div class="content spacer0 process">
-                    <p>Até o momento não existe nenhum corretor cadastro. Para inserir um novo registro clique no botão adicionar.</p>
+                    <p>Até o momento não existe nenhum lote cadastro. Para inserir um novo registro clique no botão adicionar.</p>
                     <p><button type="button" class="btn btn-default" ng-click="showForm(false)" style="margin:5px 0 0 0 !important">Adicionar</button></p>
                 </div>
             </div>
 
-            <div class="block-flat" ng-show="model.corretores.length && model.$resolved">
+            <div class="block-flat" ng-show="(model.lotes.length && model.$resolved) || model.busca">
                 <div class="header">
-                    <h3>Relação de Corretores</h3>
+                    <h3>Relação de Lotes</h3>
                 </div>
+
                 <div class="content spacer0 process">
                     <div class="toobar">
                         <div class="pull-left">
-                            <default:actions:buttons/>
+                            <div class="btn-group pull-left" id="buttons-grid">
+                                <button type="button" class="btn btn-default" ng-click="imprimir()"> Imprimir</button>
+                                <button type="button" class="btn btn-default" ng-click="pesquisa()"> Pesquisa</button>
+                            </div>
                         </div>
-                       <div class="pull-right">
+                        <div class="pull-right">
                             <div class="input-group search-group">
                               <input class="form-control" type="text" placeholder="Pesquisar" ng-model="search" ng-enter="start()">
                               <span class="input-group-btn">
@@ -52,9 +52,10 @@
                         </div>
                     </div>
                     <div class="clearfix tool"></div>
-
-                    <div class="table-responsive" ng-show="model.corretores.length>0">
-                        <table class="table table-bordered table-hover spacer2" id="tb_corretor">
+                    
+                    <!-- Início data table content -->
+                    <div class="table-responsive" ng-show="model.lotes.length>0">
+                        <table class="table  table-bordered spacer2 table-hover">
                             <thead>
                                 <tr>
                                     <th class="checkbox-control">
@@ -62,24 +63,29 @@
                                             <label><input type="checkbox" name="checkall" ng-model="checkall" ng-check-all-test></label>
                                         </div>
                                     </th>
-                                    <th class="sorting" data-column="nome" data-sort="asc" ng-sort="">Nome</th>
-                                    <th>CPF</th>
-                                    <th>Telefones</th>
+                                    <th class="sorting" data-column="lote.numero" data-sort="asc" ng-sort="">Lote</th>
+                                    <th class="sorting" data-column="lote.quadra" data-sort="asc" ng-sort="">Quadra</th>
+                                    <th class="sorting" data-column="empreendimento.empreendimento" data-sort="asc" ng-sort="">Empreendimento</th>
+                                    <th class="sorting text-right" data-column="lote.valor" data-sort="asc" ng-sort="">Valor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                    <th class="sorting" data-column="lote.area_total" data-sort="asc" ng-sort="">Área Total <small>(m²)</small></th>
+                                    <th>Tipo</th>
+                                    <th class="sorting" data-column="lote.situacao" data-sort="asc" ng-sort="">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="c in model.corretores" ng-class="c.status == 2 ? 'desabilitado' : 'habilitado' ">
-                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(c)" ng-checked="checkall" ng-check-test></td>
-                                    <td><a href="/corretor/edita/{{c.id}}">{{c.nome}}</a></a></td>
-                                    <td>{{ c.cpf.cpf() }}</td>
-                                    <td>
-                                        <span ng-repeat="telefone in c.telefones">
-                                            <i class="fa {{ telefone.tipo == 1 ? 'fa-mobile-phone' : 'fa-phone-square' }}"></i> ({{ telefone.ddd }}) {{ telefone.numero.phone() }}
-                                        </span>
-                                    </td>
+                                <tr ng-repeat="l in model.lotes">
+                                    <td><input type="checkbox" ng-model="confirmed" ng-change="checkAll(l)" ng-checked="checkall" ng-check-test></td>
+                                    <td width="8%">{{l.numero}}</td>
+                                    <td width="8%">{{l.quadra}}</td>
+                                    <td>{{l.empreendimento}}</td>
+                                    <td width="10%" class="text-right">{{l.valor}}</td>
+                                    <td width="12%">{{l.area_total}}</td>
+                                    <td width="10%">{{ l.tipo == 1 ? 'Residencial' : 'Comercial' }}</td>
+                                    <td width="10%">{{ l.situacao == null ? 'Disponível' : status[l.situacao] }}</td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </table>  
+
                         <!-- início da paginação -->
                         <div class="row-fluid" ng-show="paginas.length>1">
                           <div class="span12">
@@ -93,11 +99,13 @@
                           </div>
                         </div>
                         <div class="clearfix"></div>
-                        <!-- /fim da paginação -->                                     
+                        <!-- /fim da paginação -->            
                     </div>
 
+                    <!-- /Fim data table content -->
+
                     <!-- Início da mensagem caso não haja registro -->
-                    <div class="table-responsive" ng-show="!model.corretores.length && model.$resolved">
+                    <div class="table-responsive" ng-show="!model.lotes.length && model.$resolved && model.busca">
                         <div class="alert alert-warning alert-white rounded">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
                             <div class="icon"><i class="fa fa-warning"></i></div>
@@ -105,12 +113,11 @@
                          </div>
                     </div>
                     <!-- /Fim da mensagem caso não haja registro -->
-
                 </div>
             </div>
         </div>
     </div>
 </form>
-<!-- Modal -->
-<div class="modal fade" id="corretor_modal"   role="dialog"></div>
+
+
 </div>

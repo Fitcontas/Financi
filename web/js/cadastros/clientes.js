@@ -12,6 +12,10 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
         ]
     };
 
+    if($('#origem').val() == 1) {
+        $scope.origem = 1;
+    }
+
     $scope.selectedCbo = null;
 
     $scope.changeEndereco = function() {
@@ -25,7 +29,6 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
 
     $scope.salvar = function(form, add) {
 
-    
         if($scope.cliente.cpf && !validaCpf($scope.cliente.cpf)) {
             chamaMsg('27', true);
             return false;
@@ -48,7 +51,8 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
                 if(data.success) {
                     chamaMsg('1', true);
                     if( $('#origem').val() == 1 ) {
-                        $(window.opener.document.getElementById('contrato-clientes')).append('<option value"'+data.obj.id+'">'+data.obj.nome+'</option>');
+                        window.opener.get_clientes();
+                        //$(window.opener.document.getElementById('contrato-clientes')).append('<option value"'+data.obj.id+'">'+data.obj.nome+'</option>');
                         setTimeout(function() {
                             window.close();
                         }, 500);
@@ -195,6 +199,7 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
 
         var cep = endereco ? $scope.cliente.endereco[0].cep : $scope.cliente.endereco[1].cep;
         var indice = endereco ? 0 : 1;
+        
         if(cep != undefined && cep.length >= 8) {
             $('.loading').show();  
             $http({

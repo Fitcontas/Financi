@@ -76,6 +76,11 @@ cliente_by_query:
     route: Cliente:query
     url: /cliente/:query
 
+get_clientes:
+    method: get
+    route: Cliente:getClientes
+    url: /cliente/get/all
+
 cidades:
     method: get
     route: Cliente:cidades
@@ -205,6 +210,11 @@ lote:
     method: get
     route: Lote:index
     url: /lote
+
+lotes_corretor:
+    method: get
+    route: Lote:lotesCorretor
+    url: /corretor-lotes
 
 lote_novo:
     method: post

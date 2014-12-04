@@ -1,6 +1,6 @@
 'use strict'
 
-AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendimento, Contratos) {
+AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendimento, Contratos, $window) {
 
     $scope.check_ctrl = [];
     $scope.checkall = false;
@@ -13,11 +13,13 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
     $scope.paginas = 0;
     $scope.search = '';
     $scope.lotes = [];
+    $scope.lista_clientes = [];
 
     $scope.selectedCorretores = null;
     $scope.selectedClientes = null;
 
     $scope.aba = 1;
+    $scope.aba_entrada = 1;
 
     $scope.periodos = [
         { 'id': 1, 'descricao': 'Mensal', 'qtd': 1 },
@@ -32,6 +34,49 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
     $scope.parcelas_geradas = [];
     $scope.entrada = null;
     $scope.entrada_float = null;
+
+    $scope.abaEntradaNext = function(aba) {
+        console.log(aba);
+        if(aba == 'close') {
+            $('#contrato_entrada_modal').modal('hide');
+            return false;
+        }
+
+        if(aba == 'clear') {
+            $scope.contrato.entrada_config = {
+                meio_pagamento_id: 1,
+                entradas: [],
+                total: 0
+            }
+
+            $('#contrato_entrada_modal').modal('hide');
+            return false;
+        }
+
+        if(aba == 1) {
+
+            if($scope.contrato.tipo_entrada == 1) {
+                if(toFloat($('input[name="contrato[entrada]"]').val()) < $scope.min_entrada) {
+                    chamaMsg('150', false);
+                    return false;                
+                }
+            } else if($scope.contrato.tipo_entrada == 2) {
+                var pct = (toFloat($('input[name="contrato[entrada]"]').val()) * 100) / toFloat($scope.contrato.valor_contrato);
+                
+                if(pct < $scope.min_entrada) {
+                    chamaMsg('150', false);
+                    return false;
+                }
+            }
+        }
+
+        $('#contrato_entrada_modal').modal({
+                show: true,
+                backdrop: 'static'
+            });
+
+        $scope.aba_entrada = aba;
+    }
 
     $scope.abaNext = function(aba, back) {
         if(aba == 2) {
@@ -111,6 +156,12 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
                 return false;
             }
         } else if(aba == 3) {
+
+            $('#contrato_entrada_modal').modal({
+                show: true,
+                backdrop: 'static'
+            });
+
             if($scope.contrato.tipo_entrada == 1) {
                 if(toFloat($('input[name="contrato[entrada]"]').val()) < $scope.min_entrada) {
                     chamaMsg('150', false);
@@ -205,7 +256,7 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
             chamaMsg('10', false);
         } else {
 
-            var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.model.usuarios;
+            var itens = $scope.check_ctrl.length > 0 ? $scope.check_ctrl : $scope.model.contratos;
             
             chamaMsg('20', true, false, {'id':'excluir-registro'});
             
@@ -228,7 +279,7 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
     }
 
     $scope.showForm = function(item) {
-        
+        $scope.get_clientes();
         $scope.aba = 1;
         $scope.contrato = {
             corretores: [{}],
@@ -389,7 +440,13 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
             }
         }*/
 
-        var entrada = $scope.contrato.tipo_entrada == 1 ? ((toFloat($('input[name="contrato[entrada]"]').val()) / 100) * toFloat($scope.contrato.valor_contrato) ) : toFloat($('input[name="contrato[entrada]"]').val());
+        if($scope.contrato.id == undefined) {
+            
+            var entrada = $scope.contrato.tipo_entrada == 1 ? ((toFloat($('input[name="contrato[entrada]"]').val()) / 100) * toFloat($scope.contrato.valor_contrato) ) : toFloat($('input[name="contrato[entrada]"]').val());
+        } else {
+            
+            var entrada = $scope.contrato.tipo_entrada == 1 ? (toFloat($scope.contrato.entrada) / 100) * toFloat($scope.contrato.valor_contrato) : toFloat($scope.contrato.entrada);
+        }
 
         $scope.entrada = accounting.formatMoney(entrada, "", 2, ".", ",");
         $scope.entrada_float = entrada;
@@ -450,41 +507,45 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
             toFloat($scope.contrato.desconto) >= 0
             ) {
 
-            //Valida a entrada no momento de gerar as parcelas
-            if($scope.contrato.tipo_entrada == 1) {
-                if(toFloat($('input[name="contrato[entrada]"]').val()) < $scope.min_entrada) {
-                    chamaMsg('150', false);
+            if($scope.contrato.id == undefined) {
+                //Valida a entrada no momento de gerar as parcelas
+                if($scope.contrato.tipo_entrada == 1) {
+                    if(toFloat($('input[name="contrato[entrada]"]').val()) < $scope.min_entrada) {
+                        chamaMsg('150', false);
+                        return false;
+                    }
+                } else if($scope.contrato.tipo_entrada == 2) {
+                    var pct = (toFloat($('input[name="contrato[entrada]"]').val()) * 100) / toFloat($scope.contrato.valor_contrato);
+                    
+                    if(pct < $scope.min_entrada) {
+                        chamaMsg('150', false);
+                        return false;
+                    }
+                }
+
+                //Valor da intermediária
+                if($scope.contrato.tipo_intermediarias == 2) {
+                    var valor_intermediarias = toFloat($('input[name="contrato[intermediarias]"]').val());
+                } else {
+                    var valor_intermediarias = (toFloat($('input[name="contrato[intermediarias]"]').val()) * toFloat($scope.contrato.valor_contrato)) / 100;
+                }
+
+                //Valida se a intermediária está abaixo mínimo permitido.
+                if(toFloat($('input[name="contrato[intermediarias]"]').val()) < $scope.min_intermediarias)
+                {
+                    chamaMsg('161', false);
+
+                    $('input[name="contrato[intermediarias]"]').val('');
                     return false;
                 }
-            } else if($scope.contrato.tipo_entrada == 2) {
-                var pct = (toFloat($('input[name="contrato[entrada]"]').val()) * 100) / toFloat($scope.contrato.valor_contrato);
-                
-                if(pct < $scope.min_entrada) {
-                    chamaMsg('150', false);
-                    return false;
+
+                //Valida se a intermediária está acima do máximo permitido.
+                if( valor_intermediarias > (toFloat($scope.contrato.valor_contrato) - $scope.entrada_float) ) {
+                    chamaMsg('153', false);
+                    console.log(valor_intermediarias, toFloat($scope.contrato.valor_contrato), $scope.entrada_float);
+                    $('input[name="contrato[intermediarias]"]').val('');
                 }
-            }
 
-            //Valor da intermediária
-            if($scope.contrato.tipo_intermediarias == 2) {
-                var valor_intermediarias = toFloat($('input[name="contrato[intermediarias]"]').val());
-            } else {
-                var valor_intermediarias = (toFloat($('input[name="contrato[intermediarias]"]').val()) * toFloat($scope.contrato.valor_contrato)) / 100;
-            }
-
-            //Valida se a intermediária está abaixo mínimo permitido.
-            if(toFloat($('input[name="contrato[intermediarias]"]').val()) < $scope.min_intermediarias)
-            {
-                chamaMsg('161', false);
-                $('input[name="contrato[intermediarias]"]').val('');
-                return false;
-            }
-
-            //Valida se a intermediária está acima do máximo permitido.
-            if( valor_intermediarias > (toFloat($scope.contrato.valor_contrato) - $scope.entrada_float) ) {
-                chamaMsg('153', false);
-                console.log(valor_intermediarias, toFloat($scope.contrato.valor_contrato), $scope.entrada_float);
-                $('input[name="contrato[intermediarias]"]').val('');
             }
 
             //Faz a requisição para gerar as parcelas.
@@ -582,8 +643,8 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
         if(required('#aba-3', false)) {
             return false;
         }
-        console.log('teste');
-        $scope.aba = 4;
+
+        $scope.aba_entrada = 2;
 
         var itens = {
             meio_form_id: $scope.contrato.entrada_config.meio_form_id,
@@ -603,6 +664,7 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
         });
 
         $scope.contrato.entrada_config.total += toFloat($scope.contrato.entrada_config.valor);
+        $scope.contrato.entrada_config.total_formatado = showMoney($scope.contrato.entrada_config.total);
 
         $scope.contrato.entrada_config.meio_form_id = 1;
         $scope.contrato.entrada_config.meio_pagamento_id = 1;
@@ -621,14 +683,14 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
         for(i = 0; i < $scope.entrada_check_ctrl.length; i++) {
             console.log(toFloat($scope.contrato.entrada_config.entradas[$scope.entrada_check_ctrl[i].id].valor));
             $scope.contrato.entrada_config.total -= toFloat($scope.contrato.entrada_config.entradas[$scope.entrada_check_ctrl[i].id].valor);
-            
+            $scope.contrato.entrada_config.total_formatado = showMoney($scope.contrato.entrada_config.total);
             $scope.contrato.entrada_config.entradas.splice($scope.entrada_check_ctrl[i].id, 1);
 
         }
 
         if($scope.entrada_checkall) {
             $scope.contrato.entrada_config.total = 0;
-             $scope.contrato.entrada_config.entradas = [];
+            $scope.contrato.entrada_config.entradas = [];
         }
 
         $scope.entrada_check_ctrl = [];
@@ -696,7 +758,25 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
         window.open('/cliente/cadastro/pj?origem=1', '_parant', 'top=50, right=50, toolbar=no');
     }
 
+    $scope.get_clientes = function() {
+        $http({
+            'method': 'GET',
+            'url': 'cliente/get/all',
+        }).success(function(data) {
+            if(data.success) {
+                $scope.lista_clientes = data.clientes;
+            }
+        }).error(function(error) {
+
+        });
+    }
+
+    window.get_clientes = function() {
+        $scope.get_clientes();
+    }
+
     $scope.showFormEdit = function(id) {
+
         console.log('Editando: '+ id + ' | ' + typeof id);
 
         if(id) {
@@ -706,6 +786,20 @@ AppFinanci.controller('ContratoCtrl', function($scope, $http, LotesEmpreendiment
             }).success(function(data) {
                 if(data.success) {
                     $scope.contrato = data.contrato;
+
+                    $scope.lotes = data.lote;
+                    $scope.get_clientes();
+                    $scope.corretores = data.corretores;
+
+                    $scope.min_entrada = data.empreendimento.entrada;
+
+                    $scope.min_intermediarias = data.empreendimento.intermediarias;
+                    $scope.max_periodo = data.empreendimento.periodo;
+                    $scope.max_parcelas = data.empreendimento.qtd_parcelas;
+                    $scope.validaEntrada();
+                    $scope.processaQtdParcelas();
+                    $scope.aba = 1;
+                    $('.has-error').removeClass('has-error');
                     $('#contrato_modal').modal({
                         show: true,
                         backdrop: 'static'

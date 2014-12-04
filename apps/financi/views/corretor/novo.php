@@ -106,7 +106,7 @@
                                             'label' => 'Registro Geral (RG)',
                                             'block_class' => 'col-sm-8',
                                             'name' => 'corretor[registro_geral]',
-                                            'ng-model' => 'corretor.registro_geral'
+                                            'ng-model' => 'corretor.rg'
                                         ],
                                         [
                                             'label' => 'Data de expedição',
@@ -154,15 +154,6 @@
                                                 '9' => 'Doutor'
                                             ],
                                             'ng-model' => 'corretor.escolaridade'
-                                        ],
-                                        [
-                                            'label' => 'CBO',
-                                            'block' => 'default-with-hidden',
-                                            'block_class' => 'col-sm-12 typeahead',
-                                            'name' => 'corretor[cbo_descricao]',
-                                            'id' => 'cbo_descricao',
-                                            'attributes' => 'sf-typeahead options="cboOptions" datasets="cboDataset" ng-model="selectedCbo" required req',
-                                            'hidden' => '<input type="hidden" id="cbo" name="corretor[cbo]" ng-model="corretor.cbo">'
                                         ],
                                         [
                                             'label' => 'Registro Profissional',
@@ -274,7 +265,7 @@
                                                     'name' => 'corretor[endereco][0][cidade]',
                                                     'id' => 'cidade_principal',
                                                     'ng-model' => 'corretor.endereco[0].cidade',
-                                                    'attributes' => 'ng-selected="corretor.endereco[0].cidade" ng-options="c.id as c.sub_nome for c in cidades_endereco_principal" req required'
+                                                    'attributes' => 'ng-selected="corretor.endereco[0].cidade" ng-options="c.id as c.nome for c in cidades_endereco_principal" req required'
                                                 ],
                                             ]);
 

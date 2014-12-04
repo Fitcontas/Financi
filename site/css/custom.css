@@ -9,10 +9,6 @@ html{
     position:relative;
 }
 
-.navbar {
-    margin-top: 20px;
-}
-
 .navbar-default {
     background: #fff !important;
     border-radius: 0 !important;
@@ -20,6 +16,7 @@ html{
 
 img.logo {
     border-radius: 10px;
+    box-shadow: 0px 0px 8px 2px;
 }
 
 .active a {
@@ -38,4 +35,44 @@ div.map h1 {
 
 div.map .row {
     padding-bottom: 10px !important;
+}
+
+.modal.modal-wide .modal-dialog {
+  width: 70%;
+}
+.modal-wide .modal-body {
+  overflow-y: auto;
+}
+
+.modal.modal-wide h4 {
+    padding-top: 8px; 
+}
+
+.modal.modal-wide a, .modal.modal-wide button {
+    padding-top: 8px; 
+}
+
+#copyright {
+    color: #999;
+    position: absolute;
+    right: 50px;
+    width: 700px;
+    height: 60px;
+    background: #fff;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#copyright .en {
+    font-size: 12px;
+    height: 40px;
+    border-right: 1px solid #ccc;
+}
+
+#copyright .financi {
+    font-size: 10px;
+}
+
+#menu ul li a {
+    font-weight: bold;
 }

@@ -27,7 +27,7 @@
                         <div class="tab-content">
                             <!-- Início tab-content -->
                             <input type="hidden" id="cliente-id" value="<?php echo $id ?>">
-                            <input type="hidden" id="origem" value="<?php echo $origem ?>">
+                            <input type="hidden" id="origem" value="<?php echo $origem ?>" ng-model="origem">
                             <input type="hidden" id="tipo" value="cpf">
                             <!-- Início home -->
                             <div id="home" class="tab-pane cont active">
@@ -40,7 +40,7 @@
                                             'block_class' => 'col-sm-4',
                                             'name' => 'cliente[cpf]',
                                             'ng-model' => 'cliente.cpf',
-                                            'attributes' => 'required mask="999.999.999-99" clean="true" req ng-blur="validaCpf()"'
+                                            'attributes' => 'required mask="999.999.999-99" clean="true" req ng-blur="validaCpf()" ng-disabled=""'
                                         ],
                                         [
                                             'label' => 'Nome',
@@ -164,7 +164,7 @@
                                             ],
                                             'ng-model' => 'cliente.escolaridade'
                                         ],
-                                        [
+                                        /*[
                                             'label' => 'CBO',
                                             'block' => 'default-with-hidden',
                                             'block_class' => 'col-sm-12 typeahead',
@@ -172,6 +172,13 @@
                                             'id' => 'cbo_descricao',
                                             'attributes' => 'sf-typeahead options="cboOptions" datasets="cboDataset" ng-model="selectedCbo"',
                                             'hidden' => '<input type="hidden" id="cbo" name="cliente[cbo]" ng-model="cliente.cbo">'
+                                        ],*/
+                                        [
+                                            'label' => 'Ocupação',
+                                            'name' => 'cliente[ocupacao]',
+                                            'block_class' => 'col-sm-12',
+                                            'ng-model' => 'cliente.ocupacao',
+                                            'attributes' => 'required req'
                                         ],
                                         [
                                             'label' => 'Registro Profissional',
@@ -600,7 +607,7 @@
                                             ],
                                             'ng-model' => 'cliente.conjuge.escolaridade'
                                         ],
-                                        [
+                                        /*[
                                             'label' => 'CBO',
                                             'block' => 'default-with-hidden',
                                             'block_class' => 'col-sm-12 typeahead',
@@ -608,6 +615,12 @@
                                             'id' => 'cbo_conjuge_descricao',
                                             'attributes' => 'sf-typeahead options="cboOptions" datasets="cboDataset" ng-model="selectedCbo"',
                                             'hidden' => '<input type="hidden" id="cbo_conjuge" name="cliente[cbo]" ng-model="cliente.conjuge.cbo">'
+                                        ],*/
+                                        [
+                                            'label' => 'Ocupação',
+                                            'name' => 'cliente[conjuge][ocupacao]',
+                                            'block_class' => 'col-sm-12',
+                                            'ng-model' => 'cliente.conjuge.ocupacao'
                                         ],
                                         [
                                             'label' => 'Registro Profissional',
@@ -643,7 +656,7 @@
                 <div class="form-footer row text-right vmargin-0">
                     <div class="btn-group">
                         <button class="btn btn-primary" data-action="form-save" type="button" ng-click="salvar(cliente, false)">Salvar</button>
-                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button" ng-disabled="origem == 1">
                             <span class="caret"></span>
                             <span class="sr-only">Toggle Dropdown</span>
                         </button>

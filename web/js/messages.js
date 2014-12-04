@@ -733,7 +733,7 @@ var FitMessage = (function() {
                 tm: false
             },
             155: {
-                b: 'Os valores configurados para e entrada não está igual ao valor da entrada.',
+                b: 'O(s) valor(es) inserido(s) da entrada é(são) diferente(s) do valor calculado.',
                 t: 'd',
                 tm: false
             },

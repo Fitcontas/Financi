@@ -83,6 +83,22 @@ class ClienteController extends \SlimController\SlimController
         return $this->app->response->setBody(json_encode( [ 'search'=>true, 'clientes' => $arr, 'paginas' => $total_paginas] ));
     }
 
+    public function getClientesAction() {
+        $this->app->contentType('application/json');
+        $clientes = \Clientes::find('all', [
+                'select' => 'cliente.id, cliente.nome',
+                'conditions' => [ 'status = 1' ],
+            ]);
+
+        $arr = [];
+        if(count($clientes)) {
+            foreach ($clientes as $c) {
+                $arr[] = $c->to_array();
+            }
+        }
+        return $this->app->response->setBody(json_encode( [ 'success' => true, 'clientes' => $arr ] ));
+    }
+
     public function cadastroPfAction()
     {
         $get = $this->app->request->get();

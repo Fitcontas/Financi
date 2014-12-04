@@ -21,6 +21,20 @@ class LoteController extends \SlimController\SlimController
             ]);
     }
 
+    public function lotesCorretorAction()
+    {
+
+        $empreendimentos = \Empreendimento::find('all', [
+                'conditions' => [ 'instituicao_id = ? and status = 1', \Financi\Auth::getUser()['instituicao_id']]
+            ]);
+
+        $this->render('lote/corretor.php', [
+                'breadcrumb' => ['Relação de Lotes'],
+                'empreendimentos' => $empreendimentos,
+                'foot_js' => [ 'js/maskMoney/jquery.maskMoney.min.js', 'bower_components/slimScroll/jquery.slimscroll.min.js', 'js/cadastros/lote.js', 'bower_components/lodash/dist/lodash.min.js']
+            ]);
+    }
+
     public function allAction()
     {
         $this->app->contentType('application/json');
@@ -35,8 +49,11 @@ class LoteController extends \SlimController\SlimController
             if(count($pks)) {
                 $conditions = ['lote.id in(?) AND lote.status <> ?', $pks, 0];
             } else {
-                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1] )); 
+                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1, 'busca' =>true] )); 
             }
+            $busca = true;
+        } else {
+            $busca = false;
         }
 
         $lotes_total = \Lote::find('all', [
@@ -81,7 +98,7 @@ class LoteController extends \SlimController\SlimController
             $arr[] = $final_arr;
         }
 
-        return $this->app->response->setBody(json_encode( ['lotes' => $arr, 'paginas' => $total_paginas] ));
+        return $this->app->response->setBody(json_encode( ['lotes' => $arr, 'paginas' => $total_paginas, 'busca' => $busca] ));
     }
 
     public function novoAction()

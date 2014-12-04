@@ -232,9 +232,12 @@ class ContratoController extends \SlimController\SlimController
         $data = json_decode($this->app->request->getBody());
 
         $entradas_config = $data->contrato->entrada_config->entradas;
-        //print_r($data);
-        //exit();
 
+        if(isset($data->contrato->id)) {
+            $busca = \Contrato::find($data->contrato->id);
+            $busca->delete();
+            $contrato_data['id'] = $data->contrato->id;
+        }
         
         $contrato_data = [
             'lote_id' => $data->contrato->lote_id,
@@ -246,7 +249,11 @@ class ContratoController extends \SlimController\SlimController
             'qtd_parcelas' => $data->contrato->parcelas,
             'primeiro_vencimento' => \Financi\DataFormat::DateDB($data->contrato->primeiro_vencimento),
             'data_emissao' => \Financi\DataFormat::DateDB($data->contrato->emissao),
-            'valor' => \Financi\DataFormat::money($data->contrato->valor_contrato)
+            'valor' => \Financi\DataFormat::money($data->contrato->valor_contrato),
+            'entrada_config' => json_encode($data->contrato->entrada_config),
+            'tipo_entrada' => $data->contrato->tipo_entrada,
+            'tipo_intermediarias' => $data->contrato->tipo_intermediarias,
+            'tipo_desconto' => $data->contrato->tipo_desconto
         ];
 
         $contrato = new \Contrato($contrato_data);
@@ -357,7 +364,56 @@ class ContratoController extends \SlimController\SlimController
             $contrato = \Contrato::find($id);
 
             if(count($contrato)) {
-                return $this->app->response->setBody(json_encode( ['success' => true, 'contrato' => $contrato->to_array()] )); 
+
+                $contrato_arr = $contrato->to_array();
+                $contrato_arr['emissao'] = $contrato->data_emissao->format('d/m/Y');
+                $contrato_arr['primeiro_vencimento'] = $contrato->primeiro_vencimento->format('d/m/Y');
+                $contrato_arr['desconto'] = \Financi\DataFormat::showMoney($contrato->desconto);
+                $contrato_arr['valor_contrato'] = \Financi\DataFormat::showMoney($contrato->valor);
+                $contrato_arr['empreendimento_id'] = $contrato->lote->empreendimento_id;
+
+                $lote = \Lote::find($contrato->lote_id);
+
+                $contrato_arr['area_total'] = \Financi\DataFormat::showMoney($lote->area_total);
+                $contrato_arr['valor'] = \Financi\DataFormat::showMoney($lote->valor);
+                $contrato_arr['entrada'] = \Financi\DataFormat::showMoney($contrato->entrada);
+                $contrato_arr['intermediarias'] = \Financi\DataFormat::showMoney($contrato->intermediarias);
+                $contrato_arr['periodo'] = $contrato->intervalo_intermediarias;
+                $contrato_arr['parcelas'] = $contrato->qtd_parcelas;
+
+
+                $clientes = [];
+                foreach ($contrato->contrato_cliente as $cc) {
+                    $arr_cc = $cc->to_array();
+                    $arr_cc['porcentagem'] = \Financi\DataFormat::showMoney($cc->participacao);
+                    $clientes[] = $arr_cc;
+                }
+
+                $contrato_arr['clientes'] = $clientes;
+
+                $corretores = [];
+                foreach ($contrato->contrato_corretor as $cc) {
+                    $arr_cc = $cc->to_array();
+                    $arr_cc['comissao'] = \Financi\DataFormat::showMoney($cc->comissao);
+                    $corretores[] = $arr_cc;
+                }
+
+                $contrato_arr['corretores'] = $corretores;
+
+                $empreendimento = \Empreendimento::find($contrato->lote->empreendimento_id);
+
+                $arr_corretores = [];
+
+                foreach ($empreendimento->corretores as $c) {
+                    $arr_corretores[] = ['id' => $c->corretor_id, 'nome' => $c->corretor->nome];
+                }
+
+                $teste = json_decode($contrato->entrada_config);
+                //print_r($teste);
+                //exit();
+                $contrato_arr['entrada_config'] = $teste;
+
+                return $this->app->response->setBody(json_encode( ['success' => true, 'contrato' => $contrato_arr, 'lote' => [$lote->to_array()], 'corretores' => $arr_corretores, 'empreendimento' => $empreendimento->to_array() ] )); 
             }
         }
     }

@@ -157,6 +157,7 @@ AppFinanci.controller('FormEmpreendimentoCtrl', function($scope, $http, Empreend
                     $scope.start();
                     if(add) {
                         $scope.showForm();
+                        $('select[name="empreendimento[uf]"], select[name="empreendimento[cidade]"]').prop('disabled', false);
                         chamaMsg('1', true);
                     } else {
                         $('#empreendimento_modal').modal('hide');

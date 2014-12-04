@@ -15,6 +15,8 @@ class HomeController extends \SlimController\SlimController
 
         $conditions = [ 'instituicao_id = ? and status <> 0', \Financi\Auth::getUser()['instituicao_id'] ];
 
+        $conditions2 = [ 'status <> 0', \Financi\Auth::getUser()['instituicao_id'] ];
+
         $clientes = \Clientes::find('one', [
                 'select' => 'count(*) as qtd',
                 'conditions' => $conditions
@@ -32,23 +34,26 @@ class HomeController extends \SlimController\SlimController
 
         $contratos = \Contrato::find('all', [
                 'select' => 'count(*) as qtd, sum(valor) as valor',
+                'conditions' => $conditions2
             ]);
 
         $lotes = \Lote::find('all', [
-                'select' => 'count(*) as qtd'
+                'select' => 'count(*) as qtd',
+                'conditions' => $conditions2
             ]);
 
         $lotes_vendidos = \Lote::find('all', [
                 'select' => 'count(*) as qtd',
-                'conditions' => [ 'situacao = ?', 'V' ]
+                'conditions' => [ 'situacao = ? AND status <> 0', 'V' ]
             ]);
 
         $lotes_reservas = \Lote::find('all', [
                 'select' => 'count(*) as qtd',
-                'conditions' => [ 'situacao = ?', 'R' ]
+                'conditions' => [ 'situacao = ? AND status <> 0', 'R' ]
             ]);
 
         $ultimos_contratos = \Contrato::find('all', [
+                'conditions' => $conditions2,
                 'limit' => 10
             ]);
 
@@ -98,6 +103,10 @@ class HomeController extends \SlimController\SlimController
 
 			if(count($query) == 1) {
 				if(\Financi\Auth::authentication($query->to_array())) {
+                    if(\Financi\Auth::getUser()['grupo_id'] == 2) {
+                        $this->redirect('/corretor-lotes');
+                    }
+
 					$this->redirect('/');
 				}
 			}
