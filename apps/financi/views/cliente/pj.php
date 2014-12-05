@@ -94,14 +94,15 @@
                                             'label' => 'Capital Social R$',
                                             'block_class' => 'col-sm-3',
                                             'name' => 'cliente[capital_social]',
-                                            'ng-model' => 'cliente.capital_social'
+                                            'ng-model' => 'cliente.capital_social',
+                                            'attributes' => 'ng-money'
                                         ],
                                         [
                                             'label' => 'CNAE <smal>(Código Nacional de Atividade Econômica)</smal>',
                                             'block_class' => 'col-sm-15 date',
                                             'name' => 'cliente[cnae]',
                                             'ng-model' => 'cliente.cnae',
-                                            'attributes' => 'ng-select2-ajax'
+                                            'attributes' => 'ng-select2-ajax data-option="Teste fdsfd"'
                                         ],
                                         [
                                             'label' => 'Regime Tributário',

@@ -139,7 +139,7 @@ class ClienteController extends \SlimController\SlimController
                 'breadcrumb' => ['Cadastro', 'Clientes', 'Editando ' . strtoupper($cliente->nome) ],
                 'id' => $id,
                 'ufs' => is_array($ufs) ? $ufs : [],
-                'foot_js' => [ 'js/cadastros/cliente.edita.pf.js' ]
+                'foot_js' => [ 'js/maskMoney/jquery.maskMoney.min.js', 'js/cadastros/cliente.edita.pf.js' ]
             ]);
     }
 
@@ -155,7 +155,7 @@ class ClienteController extends \SlimController\SlimController
                 'breadcrumb' => ['Cadastro', 'Clientes', 'Pessoa Jurídica'],
                 'ufs' => is_array($ufs) ? $ufs : [],
                 'origem' => $origem,
-                'foot_js' => [ 'js/cadastros/clientes.js' ]
+                'foot_js' => [ 'js/maskMoney/jquery.maskMoney.min.js', 'js/cadastros/clientes.js' ]
             ]);
     }
 
@@ -207,6 +207,8 @@ class ClienteController extends \SlimController\SlimController
             unset($cliente_array['expedicao']);
         }
 
+        $cliente_array['capital_social'] = \Financi\DataFormat::showMoney($cliente->capital_social);
+
         if(count($conjuge)) {
             $arr_conjuge = $conjuge->to_array();
             
@@ -233,9 +235,11 @@ class ClienteController extends \SlimController\SlimController
             $emails[] = $e->to_array();
         }
 
+        $cnae = \Cnae::find($cliente->cnae);
+
         $array = array_merge($array, ['telefones' => $telefones], ['emails' => $emails]);
 
-        return $this->app->response->setBody(json_encode( ['cliente' => $array ] )); 
+        return $this->app->response->setBody(json_encode( ['cliente' => $array, 'cnae' => ['id' => $cnae->id, 'text' => utf8_encode($cnae->descricao) ] ] )); 
     }
 
 
@@ -465,9 +469,31 @@ class ClienteController extends \SlimController\SlimController
     }
 
 
-    public function getCnaeAction() {
+    public function cnaeAction() {
+        $this->app->contentType('application/json');
         $get = $this->app->request->get();
-        exit();
-        return $this->app->response->setBody(json_encode( ['teste', 'fsdfsd'] ));
+
+        $cnae_total = \Cnae::find('all', [
+                'conditions' => [ 'descricao like ?', '%' . $get['searchTerm'] . '%' ],
+            ]);
+
+        $inicio = ($get['pageSize']*$get['pageNum'])-$get['pageSize'];
+
+        $cnae = \Cnae::find('all', [
+                'conditions' => [ 'descricao like ?', '%' . $get['searchTerm'] . '%' ],
+                'limit' => $get['pageSize'],
+                'offset' => $inicio,
+                'order' => 'descricao ASC'
+            ]);
+
+        $arr = [];
+
+        if(count($cnae)) {
+            foreach ($cnae as $c) {
+                $arr[] = ['id' => $c->id, 'text' => utf8_encode($c->descricao) ];
+            }
+        }
+
+        return $this->app->response->setBody(json_encode( [ 'Results' => $arr, 'Total' => count($cnae_total) ] ));
     }
 }

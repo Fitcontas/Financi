@@ -83,8 +83,8 @@ get_clientes:
 
 get_cnae:
     method: get
-    route: Cliente:getCnae
-    url: /cliente/cnae
+    route: Cliente:cnae
+    url: /cliente/cnae/get
 
 cidades:
     method: get

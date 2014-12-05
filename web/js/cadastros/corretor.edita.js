@@ -174,14 +174,14 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, CorretoresBus
     }
 
     $scope.zeraEndereco = function(indice) {
-        $('select[name="cliente[endereco]['+indice+'][uf]"], select[name="cliente[endereco]['+indice+'][cidade]"]').prop('disabled', false);
-        $scope.cliente.endereco[indice].cidade = '';
+        $('select[name="corretor[endereco]['+indice+'][uf]"], select[name="corretor[endereco]['+indice+'][cidade]"]').prop('disabled', false);
+        $scope.corretor.endereco[indice].cidade = '';
         $scope.cidades = [];
-        $scope.cliente.endereco[indice].logradouro = '';
-        $scope.cliente.endereco[indice].numero = '';
-        $scope.cliente.endereco[indice].bairro = '';
-        $scope.cliente.endereco[indice].uf = '';
-        $scope.cliente.endereco[indice].complemento = '';
+        $scope.corretor.endereco[indice].logradouro = '';
+        $scope.corretor.endereco[indice].numero = '';
+        $scope.corretor.endereco[indice].bairro = '';
+        $scope.corretor.endereco[indice].uf = '';
+        $scope.corretor.endereco[indice].complemento = '';
     }
 
     $scope.addTelefone = function() {
@@ -193,6 +193,10 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, CorretoresBus
         if($scope.corretor.telefones.length > 1) {
             $scope.corretor.telefones.splice(index, 1);
         }
+
+        if($scope.corretor.telefones.length == 1) {
+            $scope.corretor.telefones = [{}];
+        }
     }
 
     $scope.addEmail = function() {
@@ -203,6 +207,10 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, CorretoresBus
     $scope.removeEmail = function(index) {
         if($scope.corretor.emails.length > 1) {
             $scope.corretor.emails.splice(index, 1);
+        }
+
+        if($scope.corretor.emails.length == 1) {
+            $scope.corretor.emails = [{}];
         }
     }
 

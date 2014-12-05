@@ -16,6 +16,8 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
     ClientesBusca.get({ id: $('#cliente-id').val() }).$promise.then(function(data) {
         $scope.cliente = data.cliente;
         
+        $('input[name="cliente[cnae]"]').select2("data", data.cnae);
+
         if(data.cliente.telefones.length == 0) {
             $scope.cliente.telefones = [{}];
         }
@@ -150,6 +152,7 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
             $('input[name="cliente[conjuge][nacionalidade]"]').attr('required', true).attr('req', true);
             $('select[name="cliente[conjuge][naturalidade_uf]"]').attr('required', true).attr('req', true);
         } else {
+            delete $scope.cliente.conjuge;
             console.log('Estado civil: Solteiro');
             $('input[name="cliente[conjuge][cpf]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
             $('input[name="cliente[conjuge][nome]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
@@ -254,6 +257,10 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
         if($scope.cliente.telefones.length > 1) {
             $scope.cliente.telefones.splice(index, 1);
         }
+
+        if($scope.cliente.telefones.length == 1) {
+            $scope.cliente.telefones = [{}];
+        }
     }
 
     $scope.addEmail = function() {
@@ -264,6 +271,10 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
     $scope.removeEmail = function(index) {
         if($scope.cliente.emails.length > 1) {
             $scope.cliente.emails.splice(index, 1);
+        }
+
+        if($scope.cliente.emails.length == 1) {
+            $scope.cliente.emails = [{}];
         }
     }
 

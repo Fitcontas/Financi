@@ -155,6 +155,7 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
             $('select[name="cliente[conjuge][naturalidade_uf]"]').attr('required', true).attr('req', true);
         } else {
             console.log('Solteiro');
+            delete $scope.cliente.conjuge;
             $('input[name="cliente[conjuge][cpf]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
             $('input[name="cliente[conjuge][nome]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
             $('input[name="cliente[conjuge][data_nascimento]"]').removeAttr('required').removeAttr('req').closest('div').removeClass('has-error');;
@@ -261,6 +262,10 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
         if($scope.cliente.telefones.length > 1) {
             $scope.cliente.telefones.splice(index, 1);
         }
+
+        if($scope.cliente.telefones.length == 1) {
+            $scope.cliente.telefones = [{}];
+        }  
     }
 
     $scope.addEmail = function() {
@@ -271,6 +276,10 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
     $scope.removeEmail = function(index) {
         if($scope.cliente.emails.length > 1) {
             $scope.cliente.emails.splice(index, 1);
+        }
+
+        if($scope.cliente.emails.length == 1) {
+            $scope.cliente.emails = [{}];
         }
     }
 

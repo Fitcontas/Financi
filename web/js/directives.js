@@ -161,22 +161,22 @@ AppFinanci.directive("passwordVerify", function() {
       link: function($scope, element, attrs, controller) {
 
         element.select2({
-            placeholder: 'Enter name',
+            placeholder: 'Selecione...',
             //Does the user have to enter any data before sending the ajax request
-            minimumInputLength: 0,            
-            allowClear: true,
+            minimumInputLength: 3,            
             ajax: {
                 //How long the user has to pause their typing before sending the next request
                 quietMillis: 150,
                 //The url of the json service
-                url: '/cliente/cnae',
-                dataType: 'jsonp',
+                url: '/cliente/cnae/get',
+                dataType: 'JSON',
                 //Our search term and what page we are on
                 data: function (term, page) {
                     return {
                         pageSize: 20,
                         pageNum: page,
-                        searchTerm: term
+                        searchTerm: term,
+                        cnae: $scope.cliente.cnae
                     };
                 },
                 results: function (data, page) {
@@ -185,8 +185,12 @@ AppFinanci.directive("passwordVerify", function() {
                     var more = (page * 20) < data.Total; 
                     return { results: data.Results, more: more };
                 }
-            }
-        });
+            },
+
+            formatResult: function (item) { return ('<div>' + item.id + ' - ' + item.text + '</div>'); },
+            formatSelection: function (item) { return (item.text); },
+            escapeMarkup: function (m) { return m; }
+        })
 
       }
     };

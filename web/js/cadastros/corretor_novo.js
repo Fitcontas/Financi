@@ -209,6 +209,10 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
         if($scope.corretor.telefones.length > 1) {
             $scope.corretor.telefones.splice(index, 1);
         }
+
+        if($scope.corretor.telefones.length == 1) {
+            $scope.corretor.telefones = [{}];
+        }
     }
 
     $scope.addEmail = function() {
@@ -219,6 +223,10 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
     $scope.removeEmail = function(index) {
         if($scope.corretor.emails.length > 1) {
             $scope.corretor.emails.splice(index, 1);
+        }
+
+        if($scope.corretor.emails.length == 1) {
+            $scope.corretor.emails = [{}];
         }
     }
 

@@ -63,9 +63,6 @@ foreach($routes as $route) {
                 }
             } else {
                 if(\Financi\Auth::isAuth()) {
-                    if(\Financi\Auth::getUser()['grupo_id'] == 2) {
-                        $app->redirect('/corretor-lotes');
-                    }
                     $app->redirect('/');
                 }
             }
