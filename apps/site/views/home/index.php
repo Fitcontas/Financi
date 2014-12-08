@@ -1,4 +1,4 @@
-<div class="container-fluid" ng-view>
+<div ng-view class="container-fluid">
     
 </div>
 

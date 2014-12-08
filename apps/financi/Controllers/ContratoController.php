@@ -47,6 +47,11 @@ class ContratoController extends \SlimController\SlimController
 
         $get = $this->app->request->get();
 
+        $total_geral = \Contrato::find('one', [
+                'select' => 'count(*) as total',
+                'conditions' => ['contrato.status <> ?', 0]
+            ]);
+
         $conditions = ['contrato.status <> ?', 0];
 
         if($get['query']) {
@@ -55,8 +60,11 @@ class ContratoController extends \SlimController\SlimController
             if(count($pks)) {
                 $conditions = ['contrato.id in(?) AND contrato.status <> ?', $pks, 0];
             } else {
-                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1] )); 
+                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1, 'busca' => true, 'total_geral' => $total_geral->total] )); 
             }
+            $busca = true;
+        } else {
+            $busca = false;
         }
 
         $contratos_total = \Contrato::find('all', [
@@ -114,7 +122,7 @@ class ContratoController extends \SlimController\SlimController
             'total_geral'=>count($contratos_total)
         ];
 
-        return $this->app->response->setBody(json_encode( ['contratos' => $arr, 'pagination' => $pagination] ));
+        return $this->app->response->setBody(json_encode( ['contratos' => $arr, 'pagination' => $pagination, 'busca' => $busca, 'total_geral' => $total_geral->total] ));
     }
 
     public function parcelasAction()

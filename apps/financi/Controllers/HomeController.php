@@ -129,6 +129,13 @@ class HomeController extends \SlimController\SlimController
     {
         $this->app->contentType('application/json');
 
+        $get = $this->app->request->get();
+
+        if(isset($get['cidade']) && $get['cidade']) {
+            $cidade = WebServices::service('cidade/'.$get['cidade']);
+            return $this->app->response->setBody(json_encode( ['cidades' => [$cidade->rows]] )); 
+        }
+
         $cidades = WebServices::service('cidades_por_uf/' . $uf);
 
         return $this->app->response->setBody(json_encode( ['cidades' => $cidades->rows] )); 

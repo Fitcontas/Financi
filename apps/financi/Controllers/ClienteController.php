@@ -21,6 +21,11 @@ class ClienteController extends \SlimController\SlimController
 
         $get = $this->app->request->get();
 
+        $total_geral = \Clientes::find('one', [
+                'select' => 'count(*) as total',
+                'conditions' => ['cliente.status <> ?', 0]
+            ]);
+
         $conditions = ['cliente.status = ? OR cliente.status = ?', 1, 2];
 
         if($get['query']) {
@@ -29,8 +34,11 @@ class ClienteController extends \SlimController\SlimController
             if(count($pks)) {
                 $conditions = ['cliente.id in(?) AND cliente.status = ? OR cliente.status = ?', $pks, 1, 2];
             } else {
-                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1] )); 
+                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1, 'busca' =>true, 'total_geral' => $total_geral->total] )); 
             }
+            $busca = true;
+        } else {
+            $busca = false;
         }
 
         $clientes_total = \Clientes::find('all', [
@@ -80,7 +88,7 @@ class ClienteController extends \SlimController\SlimController
             $arr[] = $final_array;
         }
 
-        return $this->app->response->setBody(json_encode( [ 'search'=>true, 'clientes' => $arr, 'paginas' => $total_paginas] ));
+        return $this->app->response->setBody(json_encode( [ 'search'=>true, 'clientes' => $arr, 'paginas' => $total_paginas, 'busca' => $busca, 'total_geral' => $total_geral->total] ));
     }
 
     public function getClientesAction() {
@@ -239,7 +247,13 @@ class ClienteController extends \SlimController\SlimController
 
         $array = array_merge($array, ['telefones' => $telefones], ['emails' => $emails]);
 
-        return $this->app->response->setBody(json_encode( ['cliente' => $array, 'cnae' => ['id' => $cnae->id, 'text' => utf8_encode($cnae->descricao) ] ] )); 
+        if($cliente->naturalidade) {
+            $cidade_naturalidade = WebServices::service('cidade/'.$cliente->naturalidade);
+        } else {
+            $cidade_naturalidade = '';
+        }
+
+        return $this->app->response->setBody(json_encode( ['cliente' => $array, 'cnae' => ['id' => $cnae->id, 'text' => utf8_encode($cnae->descricao) ], 'cidade_naturalidade' => [ $cidade_naturalidade->rows ] ] )); 
     }
 
 

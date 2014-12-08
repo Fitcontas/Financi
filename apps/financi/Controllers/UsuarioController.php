@@ -25,6 +25,11 @@ class UsuarioController extends \SlimController\SlimController
 
         $get = $this->app->request->get();
 
+        $total_geral = \Usuario::find('one', [
+                'select' => 'count(*) as total',
+                'conditions' => ['usuario.status <> ?', 0]
+            ]);
+
         $conditions = ['usuario.status <> ?', 0];
 
         if($get['query']) {
@@ -33,8 +38,11 @@ class UsuarioController extends \SlimController\SlimController
             if(count($pks)) {
                 $conditions = ['usuario.id in(?) AND usuario.status <> ?', $pks, 0];
             } else {
-                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1] )); 
+                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1, 'busca' =>true, 'total_geral' => $total_geral->total] )); 
             }
+            $busca = true;
+        } else {
+            $busca = false;
         }
 
         $usuarios_total = \Usuario::find('all', [
@@ -85,7 +93,7 @@ class UsuarioController extends \SlimController\SlimController
             'total_geral'=>count($usuarios_total)
         ];
 
-        return $this->app->response->setBody(json_encode( ['usuarios' => $arr, 'pagination' => $pagination] ));
+        return $this->app->response->setBody(json_encode( ['usuarios' => $arr, 'pagination' => $pagination, 'busca' => $busca, 'total_geral' => $total_geral->total] ));
     }
 
     public function novoAction()

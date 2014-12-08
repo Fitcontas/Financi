@@ -108,6 +108,11 @@ class CorretorController extends \SlimController\SlimController
 
         $get = $this->app->request->get();
 
+        $total_geral = \Corretor::find('one', [
+                'select' => 'count(*) as total',
+                'conditions' => ['corretor.status <> ?', 0]
+            ]);
+
         $conditions = ['corretor.status = ? OR corretor.status = ?', 1, 2];
 
         if($get['query']) {
@@ -116,8 +121,11 @@ class CorretorController extends \SlimController\SlimController
             if(count($pks)) {
                 $conditions = ['corretor.id in(?) AND corretor.status = ? OR corretor.status = ?', $pks, 1, 2];
             } else {
-                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1] )); 
+                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1, 'busca' => true, $total_geral = $total_geral->total] )); 
             }
+            $busca = true;
+        } else {
+            $busca = false;
         }
 
         $corretores_total = \Corretor::find('all', [
@@ -178,7 +186,7 @@ class CorretorController extends \SlimController\SlimController
             $arr[] = $final_array;
         }
 
-        return $this->app->response->setBody(json_encode( [ 'search'=>true, 'corretores' => $arr, 'paginas' => $total_paginas] ));
+        return $this->app->response->setBody(json_encode( [ 'search'=>true, 'corretores' => $arr, 'paginas' => $total_paginas, 'busca' => $busca, $total_geral = $total_geral->total] ));
     }
 
     public function corretoresAction()

@@ -22,7 +22,7 @@
                 <!-- Conteúdo da mensagem -->
             </div>
 
-            <div class="block-flat" ng-show="!model.clientes.length && model.$resolved">
+            <div class="block-flat" ng-show="model.total_geral == 0 && model.$resolved">
                 <div class="header">
                     <h3>Clientes</h3>
                 </div>
@@ -40,7 +40,7 @@
                 </div>
             </div>
 
-            <div class="block-flat" ng-show="model.clientes.length && model.$resolved">
+            <div class="block-flat" ng-show="(model.clientes.length && model.$resolved) || model.busca">
                 <div class="header">
                     <h3>Relação de Clientes</h3>
                 </div>
@@ -120,7 +120,7 @@
                         <!-- /fim da paginação -->                          
                     </div>
                     
-                    <div class="table-responsive" ng-show="!model.clientes.length && model.$resolved">
+                    <div class="table-responsive" ng-show="!model.clientes.length && model.$resolved && model.busca">
                         <div class="alert alert-warning alert-white rounded">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
                             <div class="icon"><i class="fa fa-warning"></i></div>

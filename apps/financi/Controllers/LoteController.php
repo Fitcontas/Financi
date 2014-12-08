@@ -41,6 +41,11 @@ class LoteController extends \SlimController\SlimController
 
         $get = $this->app->request->get();
 
+        $total_geral = \Lote::find('one', [
+                'select' => 'count(*) as total',
+                'conditions' => ['lote.status <> ?', 0]
+            ]);
+
         $conditions = ['lote.status <> ?', 0];
 
         if($get['query']) {
@@ -49,7 +54,7 @@ class LoteController extends \SlimController\SlimController
             if(count($pks)) {
                 $conditions = ['lote.id in(?) AND lote.status <> ?', $pks, 0];
             } else {
-                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1, 'busca' =>true] )); 
+                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1, 'busca' =>true, 'total_geral' => $total_geral->total] ));
             }
             $busca = true;
         } else {
@@ -98,7 +103,7 @@ class LoteController extends \SlimController\SlimController
             $arr[] = $final_arr;
         }
 
-        return $this->app->response->setBody(json_encode( ['lotes' => $arr, 'paginas' => $total_paginas, 'busca' => $busca] ));
+        return $this->app->response->setBody(json_encode( ['lotes' => $arr, 'paginas' => $total_paginas, 'busca' => $busca, 'total_geral' => $total_geral->total ] ));
     }
 
     public function novoAction()

@@ -22,7 +22,7 @@
                 <!-- Conteúdo da mensagem -->
             </div>
 
-            <div class="block-flat" ng-show="!model.corretores.length && model.$resolved">
+            <div class="block-flat" ng-show="model.total_geral == 0 && model.$resolved">
                 <div class="header">
                     <h3>Corretores</h3>
                 </div>
@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <div class="block-flat" ng-show="model.corretores.length && model.$resolved">
+            <div class="block-flat" ng-show="(model.corretores.length && model.$resolved) || model.busca">
                 <div class="header">
                     <h3>Relação de Corretores</h3>
                 </div>
@@ -97,7 +97,7 @@
                     </div>
 
                     <!-- Início da mensagem caso não haja registro -->
-                    <div class="table-responsive" ng-show="!model.corretores.length && model.$resolved">
+                    <div class="table-responsive" ng-show="!model.corretores.length && model.$resolved && model.busca">
                         <div class="alert alert-warning alert-white rounded">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
                             <div class="icon"><i class="fa fa-warning"></i></div>

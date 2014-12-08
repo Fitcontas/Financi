@@ -46,6 +46,11 @@ class EmpreendimentoController extends \SlimController\SlimController
 
         $get = $this->app->request->get();
 
+        $total_geral = \Empreendimento::find('one', [
+                'select' => 'count(*) as total',
+                'conditions' => ['empreendimento.status <> ?', 0]
+            ]);
+
         $conditions = ['empreendimento.status <> ?', 0];
 
         if($get['query']) {
@@ -54,8 +59,11 @@ class EmpreendimentoController extends \SlimController\SlimController
             if(count($pks)) {
                 $conditions = ['empreendimento.id in(?) AND empreendimento.status <> ?', $pks, 0];
             } else {
-                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1] )); 
+                return $this->app->response->setBody(json_encode( [ 'search'=>false, 'paginas' => 1, 'busca' => true, 'total_geral' => $total_geral->total ] )); 
             }
+            $busca = true;
+        } else {
+            $busca = false;
         }
 
         $empreendimentos_total = \Empreendimento::find('all', [
@@ -101,7 +109,7 @@ class EmpreendimentoController extends \SlimController\SlimController
             $arr[] = $e_arr;
         }
 
-        return $this->app->response->setBody(json_encode( ['empreendimentos' => $arr, 'paginas' => $total_paginas] ));
+        return $this->app->response->setBody(json_encode( ['empreendimentos' => $arr, 'paginas' => $total_paginas, 'busca' => $busca, 'total_geral' => $total_geral->total] ));
     }
 
     public function novoAction()

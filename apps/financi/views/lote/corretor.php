@@ -18,7 +18,7 @@
                 <!-- Conteúdo da mensagem -->
             </div>
 
-            <div class="block-flat" ng-show="!model.lotes.length && model.$resolved && search.length == 0">
+            <div class="block-flat" ng-show="!model.total_geral && model.$resolved">
                 <div class="header">
                     <h3>Lotes</h3>
                 </div>

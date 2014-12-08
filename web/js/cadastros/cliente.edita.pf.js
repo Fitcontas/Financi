@@ -28,7 +28,11 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
 
         $scope.get_cidade('uf_endereco_principal', 'cidades_endereco_principal');
         $scope.get_cidade('uf_endereco_secundario', 'cidades_endereco_secundario');
-        $scope.get_cidade('naturalidade_uf', 'cidades');
+        //$scope.get_cidade('naturalidade_uf', 'cidades');
+        
+        $scope.cliente.naturalidade = parseInt($scope.cliente.naturalidade);
+        $scope.cidades = data.cidade_naturalidade;
+        
         $scope.get_cidade('conjuge_naturalidade_uf', 'cidades_conjuge');
 
         $http({
@@ -98,23 +102,29 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
     }
 
     $scope.get_cidade = function(id, destino) {
+        var cidade = 0;
         if(destino == 'cidades_endereco_principal') {
             var uf = $scope.cliente.endereco[0].uf;
+            cidade = $scope.cliente.endereco[0].cidade;
         } else if(destino == 'cidades_endereco_secundario') {
             var uf = $scope.cliente.endereco[1].uf;
+            cidade = $scope.cliente.endereco[1].cidade;
         } else if(destino == 'cidades') {
             var uf = $scope.cliente.naturalidade_uf;
+            cidade = $scope.cliente.naturalidade;
         } else if(destino == 'cidades_conjuge') {
             var uf = $scope.cliente.conjuge ? $scope.cliente.conjuge.naturalidade_uf : false;
+            cidade = $scope.cliente.conjuge.naturalidade;
         }
 
         console.log(destino)
 
         var destino = destino;
         console.log('('+uf, destino + ')');
+
         if(uf && uf.length > 0) {
             $('.loading').show();  
-            Cidades.get({'uf': uf }).$promise.then(function(data) {
+            Cidades.get({'uf': uf, 'cidade': cidade }).$promise.then(function(data) {
                 $('.loading').hide();
                 
                 if(destino == 'cidades') {

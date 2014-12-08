@@ -1,3 +1,4 @@
+<div ng-controller="ContatoCtrl">
     <div id="modal-contato" class="modal fade">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -6,53 +7,45 @@
             <h4 class="modal-title">Fale Conosco</h4>
           </div>
           <div class="modal-body">
-            <form class="form-horizontal" role="form">
-                    
-                        <div class="form-group">
-                            <label for="nome" class="col-sm-2 control-label">Nome</label>
-                            <div class="col-sm-10">
-                              <input type="text" class="form-control" ng-model="contato.nome">
-                            </div>
-                        </div>
+            <form class="form-horizontal" name="ContatoForm">
+              <div class="form-group">
+                  <label for="nome" class="col-sm-2 control-label">Nome</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" ng-model="contato.nome">
+                  </div>
+              </div>
 
-                        <div class="form-group">
-                            <label for="nome" class="col-sm-2 control-label">E-mail</label>
-                            <div class="col-sm-10">
-                              <input type="text" class="form-control" ng-model="contato.email">
-                            </div>
-                        </div>
-               
-                  
-                        <div class="form-group">
-                            <label for="nome" class="col-sm-2 control-label">Tel. Fixo</label>
-                            <div class="col-sm-4">
-                              <input type="text" class="form-control" ng-model="contato.telefone" mask="(99) 9999-9999">
-                            </div>
-                            <label for="nome" class="col-sm-2 control-label">Celular</label>
-                            <div class="col-sm-4">
-                              <input type="text" class="form-control" ng-model="contato.celular" mask="(99) 9999-9999">
-                            </div>
-                        </div>
+              <div class="form-group">
+                  <label for="nome" class="col-sm-2 control-label">E-mail</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" ng-model="contato.email">
+                  </div>
+              </div>
+        
+              <div class="form-group">
+                  <label for="nome" class="col-sm-2 control-label">Tel. Fixo</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="contato.telefone" mask="(99) 9999-9999">
+                  </div>
+                  <label for="nome" class="col-sm-2 control-label">Celular</label>
+                  <div class="col-sm-4">
+                    <input type="text" class="form-control" ng-model="contato.celular" mask="(99) 9999-9999">
+                  </div>
+              </div>
 
+              <div class="form-group">
+                  <label for="nome" class="col-sm-2 control-label">Assunto</label>
+                  <div class="col-sm-10">
+                    <textarea name="" id="" cols="30" rows="5" class="form-control" ng-model="contato.assunto"></textarea>
+                  </div>
+              </div>
 
-                        <div class="form-group">
-                            <label for="nome" class="col-sm-2 control-label">Assunto</label>
-                            <div class="col-sm-10">
-                              <textarea name="" id="" cols="30" rows="5" class="form-control" ng-model="contato.assunto"></textarea>
-                            </div>
-                        </div>
-
-   
-                    <div class="form-actions" style="margin-top:15px;">
-                        <input style="margin-left:10px;" type="button" value="Cancelar" class="btn btn-warning pull-right" data-dismiss="modal">
-                        <button class="btn btn-primary pull-right" type="buttom" ng-click="enviarContato()">Enviar</button> 
-                        
-                        
-                    </div>
-
-                    <div class="clearfix"></div>
-
-                </form>
+              <div class="form-actions" style="margin-top:15px;">
+                  <input style="margin-left:10px;" type="button" value="Cancelar" class="btn btn-default pull-right" data-dismiss="modal">
+                  <a class="btn btn-primary pull-right" ng-click="enviarContato()">Enviar</a>
+              </div>
+              <div class="clearfix"></div>
+            </form>
           </div>
           
         </div><!-- /.modal-content -->
@@ -75,5 +68,4 @@
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
-
+</div>

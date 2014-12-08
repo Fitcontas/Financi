@@ -2,6 +2,22 @@
 
 var AppFinanci = angular.module('Village', [ 'ngAnimate', 'ngResource', 'ngRoute', 'angular-loading-bar', 'ngMask']);
 
+AppFinanci.run(function($rootScope) {
+
+  $rootScope.images = [
+      'img/slide-1.jpg',
+      'img/slide-2.jpg',
+      'img/slide-3.jpg',
+      'img/slide-4.jpg'
+  ];
+
+  $rootScope.backstretch = function() {
+      $(".index").backstretch($rootScope.images, { duration: 4000, fade: 'slow' });
+  };
+
+  $rootScope.backstretch();
+});
+
 // configure our routes
 AppFinanci.config(function($routeProvider, $locationProvider) {
 
@@ -35,8 +51,6 @@ AppFinanci.config(function($routeProvider, $locationProvider) {
 });
 
 AppFinanci.controller('SlideCtrl', function($scope, $location) {
-
-  $.backstretch("destroy", true);
 
   $scope.images = [
       'img/slide-1.jpg',
@@ -101,11 +115,7 @@ AppFinanci.controller('SlideCtrl', function($scope, $location) {
     }
   }
 
-  $scope.backstretch = function() {
-      $(".index").backstretch($scope.images, { duration: 4000, fade: 'slow' });
-  }
-
-  $scope.backstretch();
+  
 })
 
 .controller('LocalizacaoCtrl', function($scope, $http, $window) {
@@ -174,19 +184,3 @@ AppFinanci.controller('SlideCtrl', function($scope, $location) {
 
   }
 })
-
-.directive('isActiveNav', [ '$location', function($location) {
-  return {
-   restrict: 'A',
-   link: function(scope, element) {
-     scope.location = $location;
-     scope.$watch('location.path()', function(currentPath) {
-        if('#' + currentPath === element[0].attributes['href'].nodeValue) {
-          element.parent().addClass('active');
-        } else {
-          element.parent().removeClass('active');
-        }
-     });
-   }
- };
-}]);

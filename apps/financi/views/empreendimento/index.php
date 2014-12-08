@@ -18,7 +18,7 @@
                 <!-- Conteúdo da mensagem -->
             </div>
 
-            <div class="block-flat" ng-show="!model.empreendimentos.length && model.$resolved">
+            <div class="block-flat" ng-show="model.total_geral == 0 && model.$resolved">
                 <div class="header">
                     <h3>Empreendimentos</h3>
                 </div>
@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <div class="block-flat" ng-show="model.empreendimentos.length && model.$resolved">
+            <div class="block-flat" ng-show="(model.empreendimentos.length && model.$resolved) || model.busca">
                 <div class="header">
                     <h3>Relação de Empreendimentos</h3>
                 </div>
@@ -92,7 +92,7 @@
                     <!-- /Fim data table content -->
 
                     <!-- Início da mensagem caso não haja registro -->
-                    <div class="table-responsive" ng-show="!model.empreendimentos.length && model.$resolved">
+                    <div class="table-responsive" ng-show="!model.empreendimentos.length && model.$resolved && model.busca">
                         <div class="alert alert-warning alert-white rounded">
                             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
                             <div class="icon"><i class="fa fa-warning"></i></div>
