@@ -111,6 +111,10 @@ class UsuarioController extends \SlimController\SlimController
             $usuario->nome = $data->nome;
             $usuario->grupo_id = $data->grupo_id;
             $usuario->trocar_senha = $data->trocar_senha;
+
+            if(isset($data->senha) && strlen($data->senha) >= 6) {
+                $usuario->senha = sha1($data->senha);
+            }
             
             if($usuario->save()) {
                 return $this->app->response->setBody(json_encode( ['success' => true] )); 

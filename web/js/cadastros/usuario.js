@@ -120,12 +120,36 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
         /*if(usuario.id) {
             $('#senha, #senha2').removeAttr('required');
         }*/
+
+        
         
         if(required('#UsuarioForm', true)) {
 
             chamaMsg('11', true);
             
         } else {
+
+            if($('#email').val().length > 0 && $('#email2').val().length > 0) {
+                if($('#email').val() != $('#email2').val()) {
+                    chamaMsg('165', true);
+                    $('#email2').closest('div').addClass('has-error');
+                    return false;
+                }
+            }
+
+            if($('#senha').val().length > 0 || $('#senha2').val().length > 0) {
+
+                if( $('#senha').val().length < 6 || $('#senha2').val().length < 6) {
+                    chamaMsg('24', true);
+                    $('#senha, #senha2').val('');
+                    return false;
+                } else if($('#senha').val() != $('#senha2').val()) {
+                    chamaMsg('26', true);
+                    $('#senha, #senha2').val('');
+                    return false;
+                }
+            }
+
             UsuarioNovo.save(usuario).$promise.then(function(data) {
                 if(data.success) {
                     $('#usuario_modal').modal('hide');

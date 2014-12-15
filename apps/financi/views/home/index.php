@@ -48,36 +48,38 @@
             
             <?php //dump_r(\Financi\Auth::getUser()); ?>
         </div>
+        <?php if(count($ultimos_contratos)): ?>
         <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Contrato</th>
-                        <th width="10%">Data</th>
-                        <th width="5%">Lote</th>
-                        <th width="5%">Quadra</th>
-                        <th width="30%">Empreendimento</th>
-                        <th width="15%">Valor</th>
-                        <th width="35%">Corretor</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($ultimos_contratos as $c): ?>
-                    <?php $data_emissao = $c->data_emissao->format('Y');
- ?>
-                    <tr>
-                        <td>
-                            <?php echo str_pad( $c->id.$data_emissao, 9, 0, STR_PAD_LEFT); ?>
-                        </td>
-                        <td><?php echo $c->data_emissao->format('d/m/Y') ?></td>
-                        <td><?php echo $c->lote->numero ?></td>
-                        <td><?php echo $c->lote->quadra ?></td>
-                        <td><?php echo $c->lote->empreendimento->empreendimento ?></td>
-                        <td><?php echo number_format($c->valor, 2, ',', '.') ?></td>
-                        <td><?php echo $c->contrato_corretor[0]->corretor->nome ?></td>
-                    </tr>
-                    <?php endforeach ?>
-                </tbody>
-            </table>
+            <thead>
+                <tr>
+                    <th>Contrato</th>
+                    <th width="10%">Data</th>
+                    <th width="5%">Lote</th>
+                    <th width="5%">Quadra</th>
+                    <th width="30%">Empreendimento</th>
+                    <th width="15%">Valor</th>
+                    <th width="35%">Corretor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($ultimos_contratos as $c): ?>
+                <?php $data_emissao = $c->data_emissao->format('Y');
+?>
+                <tr>
+                    <td>
+                        <?php echo str_pad( $c->id.$data_emissao, 9, 0, STR_PAD_LEFT); ?>
+                    </td>
+                    <td><?php echo $c->data_emissao->format('d/m/Y') ?></td>
+                    <td><?php echo $c->lote->numero ?></td>
+                    <td><?php echo $c->lote->quadra ?></td>
+                    <td><?php echo $c->lote->empreendimento->empreendimento ?></td>
+                    <td><?php echo number_format($c->valor, 2, ',', '.') ?></td>
+                    <td><?php echo $c->contrato_corretor[0]->corretor->nome ?></td>
+                </tr>
+                <?php endforeach ?>
+            </tbody>
+        </table>
+        <?php endif; ?>
     </div>
 </div>
 

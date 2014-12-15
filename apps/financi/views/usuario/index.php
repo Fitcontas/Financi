@@ -128,14 +128,14 @@
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="email">E-mail </label>
                     <div class="col-sm-14">
-                        <input type="email" value="" maxlength="150" req="" name="email" class="form-control" required data-ng-model="usuario.email">
+                        <input type="email" value="" maxlength="150" req="" name="email" id="email" class="form-control" required data-ng-model="usuario.email">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-sm-6 control-label" for="email">Confirme o E-mail </label>
                     <div class="col-sm-14">
-                        <input type="email" value="" maxlength="150" req="" name="email2" class="form-control" ng-model="usuario.email2" required data-password-verify="usuario.email">
+                        <input type="email" value="" maxlength="150" req="" name="email2" id="email2" class="form-control" ng-model="usuario.email2">
                     </div>
                 </div>
                 

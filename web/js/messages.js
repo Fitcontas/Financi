@@ -781,6 +781,11 @@ var FitMessage = (function() {
                 t: 'd',
                 tm: false
             },
+            165: {
+                b: 'Os e-mail´s não conferem. Favor digitar novamente.',
+                t: 'd',
+                tm: false
+            },
             
             500: {
                 b: 'Erro no processamento no servidor...',

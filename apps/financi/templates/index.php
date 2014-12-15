@@ -78,7 +78,7 @@
 				    </li>-->
 
 	                <li class="dropdown profile_menu">
-	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img alt="Avatar" width="30px" height="30px" src="<?php echo HOST . DS ?>images/avatar.png" /><?php echo $user['usuario'] ?> <b class="caret"></b></a>
+	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-top: 15px; padding-bottom: 15px;"><?php echo $user['apelido'] ?> <b class="caret"></b></a>
 	                    <ul class="dropdown-menu">
 				            <li><a data-toggle="modal" href="#" ng-click="showForm()"><i class="glyphicon glyphicon-cog"></i>  Minha conta</a></li>
 				            <li class="divider"></li>
@@ -141,14 +141,14 @@
 	                <div class="form-group">
 	                    <label class="col-sm-6 control-label" for="email">E-mail </label>
 	                    <div class="col-sm-14">
-	                        <input type="email" value="" maxlength="150" req name="email" class="form-control" required data-ng-model="usuario.email">
+	                        <input type="email" value="" maxlength="150" req name="email" id="email" class="form-control" required data-ng-model="usuario.email">
 	                    </div>
 	                </div>
 
 	                <div class="form-group">
 	                    <label class="col-sm-6 control-label" for="email">Confirme o E-mail </label>
 	                    <div class="col-sm-14">
-	                        <input type="email" value="" maxlength="150" req="" name="email2" class="form-control" ng-model="usuario.email2" required data-password-verify="usuario.email">
+	                        <input type="email" value="" maxlength="150" req="" name="email2" id="email2" class="form-control" ng-model="usuario.email2" required>
 	                    </div>
 	                </div>
 

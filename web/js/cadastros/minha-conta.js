@@ -42,6 +42,14 @@ AppFinanci.controller('ctrlMinhaConta', function($scope, $http, Usuarios, Usuari
             
         } else {
 
+            if($('#email').val().length > 0 && $('#email2').val().length > 0) {
+                if($('#email').val() != $('#email2').val()) {
+                    chamaMsg('165', true);
+                    $('#email2').closest('div').addClass('has-error');
+                    return false;
+                }
+            }
+
             if($('#minha_conta_senha_atual').val().length > 0 || $('#minha_conta_senha2').val().length > 0 || $('#minha_conta_senha').val().length > 0) {
                 
                 if($('#minha_conta_senha_atual').val().length < 6 || $('#minha_conta_senha_atual').val().length > 15) {
@@ -65,6 +73,7 @@ AppFinanci.controller('ctrlMinhaConta', function($scope, $http, Usuarios, Usuari
                 if($('#minha_conta_senha').val() != $('#minha_conta_senha2').val()) {
                     chamaMsg('26', false);
                     $('#minha_conta_senha').val('').focus();
+                    $('#minha_conta_senha2').val('');
                     return false;
                 }
 
