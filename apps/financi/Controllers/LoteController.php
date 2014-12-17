@@ -113,8 +113,12 @@ class LoteController extends \SlimController\SlimController
 
         $data = json_decode($this->app->request->getBody());
 
-
         $data->valor = \Financi\DataFormat::money($data->valor);
+        $data->area_total = \Financi\DataFormat::money($data->area_total);
+        $data->frente_metro = \Financi\DataFormat::money($data->frente_metro);
+        $data->fundo_metro = \Financi\DataFormat::money($data->fundo_metro);
+        $data->lateral_direita_metro = \Financi\DataFormat::money($data->lateral_direita_metro);
+        $data->lateral_esquerda_metro = \Financi\DataFormat::money($data->lateral_esquerda_metro);
 
         if(!isset($data->id)) {
             $lote = new \Lote($data);
