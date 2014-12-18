@@ -45,7 +45,7 @@
               <li><a href="#/contato">Fale Conosco</a></li>
             </ul>
             <div class="navbar-form navbar-right">
-                <a href="http://sistema.financi.com.br" class="btn btn-info"><i class="glyphicon glyphicon-lock" title="Acesse a área restrita"></i> Corretor</a>
+                <a href="http://sistema.villagedoslagos.com.br" class="btn btn-info"><i class="glyphicon glyphicon-lock" title="Acesse a área restrita"></i> Acesso</a>
             </div>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

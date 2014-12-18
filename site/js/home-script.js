@@ -1,6 +1,6 @@
 'use strict';
 
-var AppFinanci = angular.module('Village', [ 'ngAnimate', 'ngResource', 'ngRoute', 'angular-loading-bar', 'ngMask']);
+var AppFinanci = angular.module('Village', [ 'ngAnimate', 'ngResource', 'ngRoute', 'angular-loading-bar', 'ngMask' ]);
 
 AppFinanci.run(function($rootScope) {
 
@@ -129,11 +129,18 @@ AppFinanci.controller('SlideCtrl', function($scope, $location) {
 
 .controller('ContatoCtrl', function($scope, $http, $window) {
 
-  $('#modal-contato').modal({
+  /*$('#modal-contato').modal({
     show: true,
     backdrop: 'static'
   }).on('hidden.bs.modal', function() {
      $window.location = '#/'
+  });*/
+
+  $('#modal-contato').fadeIn('slow');
+
+  $('.close, .fechar').click(function() {
+    $('#modal-contato').fadeOut('slow');
+    $window.location = '#/';
   });
 
   $scope.contato = {
@@ -144,7 +151,7 @@ AppFinanci.controller('SlideCtrl', function($scope, $location) {
   };
 
   $scope.enviarContato = function() {
-    alert('teste');
+
     var contato = $scope.contato;
     if(contato.nome == '' || contato.email == '' || contato.telefone == '' || contato.assunto == '') {
       $scope.alert_modal_titulo = 'Error no Formulário'

@@ -90,6 +90,9 @@
                         <div class="row-fluid" ng-show="paginas.length>1">
                           <div class="span12">
                              <div>
+                              <div class="pagination pull-left">
+                                 Exibindo de {{pagination.inicio + 1}} a {{ pagination.inicio+pagination.limite > pagination.total_geral ? pagination.total_geral : pagination.inicio+pagination.limite }} de {{pagination.total_geral}} registros 
+                                </div>
                               <ul class="pagination pull-right">
                                 <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}">
                                   <a ng-click="start($index+1)" href="javascript:void(0)">{{$index+1}}</a>
@@ -296,7 +299,7 @@
                                             <input type="text" value="" name="lote[frente]" req="" class="form-control" ng-model="lote.frente" required maxlength="30">
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="text" name="lote[frente_metro]" req="" class="form-control mask-money" ng-model="lote.frente_metro" required maxlength="6" ng-only-numbers> 
+                                            <input type="text" name="lote[frente_metro]" req="" class="form-control mask-money" ng-model="lote.frente_metro" required maxlength="6" ng-only-numbers data-accept="true"> 
                                         </div>
                                         <div class="col-sm-2">
                                             <span>metros</span>
@@ -309,7 +312,7 @@
                                             <input type="text" value="" name="lote[fundo]" class="form-control" ng-model="lote.fundo" required req maxlength="30">
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="text" value="" name="lote[fundo_metro]" class="form-control mask-money" ng-model="lote.fundo_metro" required req maxlength="6" ng-only-numbers> 
+                                            <input type="text" value="" name="lote[fundo_metro]" class="form-control mask-money" ng-model="lote.fundo_metro" required req maxlength="6" ng-only-numbers data-accept="true"> 
                                         </div>
                                         <div class="col-sm-2">
                                             <span>metros</span>
@@ -322,7 +325,7 @@
                                             <input type="text" value="" name="lote[lateral_direita]" req="" class="form-control" ng-model="lote.lateral_direita" required maxlength="30">
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="text" value="" name="lote[lateral_direita_metro]" req="" class="form-control mask-money" ng-model="lote.lateral_direita_metro" required ng-only-numbers maxlength="6"> 
+                                            <input type="text" value="" name="lote[lateral_direita_metro]" req="" class="form-control mask-money" ng-model="lote.lateral_direita_metro" required ng-only-numbers maxlength="6" data-accept="true"> 
                                         </div>
                                         <div class="col-sm-2">
                                             <span>metros</span>
@@ -335,7 +338,7 @@
                                             <input type="text" value="" name="lote[lateral_esquerda]" req="" class="form-control" ng-model="lote.lateral_esquerda" required maxlength="30">
                                         </div>
                                         <div class="col-sm-4">
-                                            <input type="text" value="" name="lote[lateral_esquerda_metro]" req="" class="form-control mask-money" ng-model="lote.lateral_esquerda_metro" required ng-only-numbers maxlength="6"> 
+                                            <input type="text" value="" name="lote[lateral_esquerda_metro]" req="" class="form-control mask-money" ng-model="lote.lateral_esquerda_metro" required ng-only-numbers maxlength="6" data-accept="true"> 
                                         </div>
                                         <div class="col-sm-2">
                                             <span>metros</span>

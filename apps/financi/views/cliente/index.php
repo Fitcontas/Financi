@@ -107,8 +107,11 @@
                         <!-- início da paginação -->
                         <div class="row-fluid" ng-show="paginas.length>1">
                           <div class="span12">
-                             <div>
-                              <ul class="pagination pull-right">
+                            <div>
+                                <div class="pagination pull-left">
+                                 Exibindo de {{pagination.inicio + 1}} a {{ pagination.inicio+pagination.limite > pagination.total_geral ? pagination.total_geral : pagination.inicio+pagination.limite }} de {{pagination.total_geral}} registros 
+                                </div>
+                                <ul class="pagination pull-right">
                                 <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}">
                                   <a ng-click="start($index+1)" href="javascript:void(0)">{{$index+1}}</a>
                                 </li>

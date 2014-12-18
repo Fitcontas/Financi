@@ -103,7 +103,15 @@ class LoteController extends \SlimController\SlimController
             $arr[] = $final_arr;
         }
 
-        return $this->app->response->setBody(json_encode( ['lotes' => $arr, 'paginas' => $total_paginas, 'busca' => $busca, 'total_geral' => $total_geral->total ] ));
+        $pagination = [
+            'paginas' => $total_paginas, 
+            'limite' => $limite, 
+            'inicio' => $inicio, 
+            'total_pagina'=>count($lotes), 
+            'total_geral'=>count($lotes_total)
+        ];
+
+        return $this->app->response->setBody(json_encode( ['lotes' => $arr, 'pagination' => $pagination, 'paginas' => $total_paginas, 'busca' => $busca, 'total_geral' => $total_geral->total ] ));
     }
 
     public function novoAction()

@@ -101,6 +101,7 @@ AppFinanci.controller('FormLoteCtrl', function($scope, $http, Lotes, LoteNovo, E
         Lotes.get(termos).$promise.then(function(data){
             $scope.model = data;
             $scope.paginas = new Array(data.paginas);
+            $scope.pagination = data.pagination;
         });
     }
 

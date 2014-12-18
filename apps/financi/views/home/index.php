@@ -33,10 +33,12 @@
                     <div class="sub"><h2>Empreendimentos</h2><span><?php echo $empreendimentos->qtd ?></span></div>
                     <div class="stat"><span class="spk1"><canvas style="display: inline-block; width: 74px; height: 16px; vertical-align: top;" width="74" height="16"></canvas></span></div>
                 </div>  
+
                 <div class="butpro butstyle">
-                    <div class="sub"><h2>Reservas</h2><span>3%</span></div>
+                    <div class="sub"><h2>Reservas</h2><span>0%</span></div>
                     <div class="stat"><span class="spk2"><canvas style="display: inline-block; width: 80px; height: 16px; vertical-align: top;" width="80" height="16"></canvas></span></div>
                 </div>
+
                 <div class="butpro butstyle">
                     <div class="sub"><h2>Corretores</h2><span><?php echo $corretores->qtd ?></span></div>
                     <div class="stat"><span class="spk3"><canvas style="display: inline-block; width: 80px; height: 16px; vertical-align: top;" width="80" height="16"></canvas></span></div>
