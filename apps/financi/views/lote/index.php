@@ -94,9 +94,11 @@
                                  Exibindo de {{pagination.inicio + 1}} a {{ pagination.inicio+pagination.limite > pagination.total_geral ? pagination.total_geral : pagination.inicio+pagination.limite }} de {{pagination.total_geral}} registros 
                                 </div>
                               <ul class="pagination pull-right">
-                                <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}">
+                                <li ng-class="{'disabled':pagina == 1}"><a ng-click="start(1)" href="javascript:void(0)">«</a></li>
+                                <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}" ng-if="($index <= (pagina+2)) && ($index >= (pagina - 3))">
                                   <a ng-click="start($index+1)" href="javascript:void(0)">{{$index+1}}</a>
                                 </li>
+                                <li ng-class="{'disabled':paginas.length == pagina}"><a ng-click="start(paginas.length)" href="javascript:void(0)">»</a></li>
                               </ul>
                             </div>
                           </div>
