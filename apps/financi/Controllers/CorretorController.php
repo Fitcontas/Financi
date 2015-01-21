@@ -186,7 +186,7 @@ class CorretorController extends \SlimController\SlimController
             $arr[] = $final_array;
         }
 
-        return $this->app->response->setBody(json_encode( [ 'search'=>true, 'corretores' => $arr, 'paginas' => $total_paginas, 'busca' => $busca, $total_geral = $total_geral->total] ));
+        return $this->app->response->setBody(json_encode( [ 'search'=>true, 'corretores' => $arr, 'paginas' => $total_paginas, 'busca' => $busca, 'total_geral' => $total_geral->total] ));
     }
 
     public function corretoresAction()

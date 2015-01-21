@@ -92,12 +92,41 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
     $scope.validaCpf = function() {
         if($scope.cliente.cpf && !validaCpf($scope.cliente.cpf)) {
             chamaMsg('27', true);
+        } else {
+            $('.loading').show();
+            $http({
+                'method': 'get',
+                'url': '/cliente/cpf_cnpj/' + $scope.cliente.cpf,
+                'data': $scope.cliente,
+            }).success(function(data) {
+                if(data.success) {
+                    if(data.id != $('#cliente-id').val()) {
+                        window.location = '/cliente/edita/pf/'+data.id;
+                        $('.loading').show();
+                    }
+                }
+            })
         }
     }
 
     $scope.validaCnpj = function() {
         if($scope.cliente.cnpj && !validaCnpj($scope.cliente.cnpj)) {
             chamaMsg('29', true);
+        } else {
+            $('.loading').show();
+            $http({
+                'method': 'get',
+                'url': '/cliente/cpf_cnpj/' + $scope.cliente.cnpj,
+                'data': $scope.cliente,
+            }).success(function(data) {
+                $('.loading').hide();
+                if(data.success) {
+                    if(data.id != $('#cliente-id').val()) {
+                        window.location = '/cliente/edita/pj/'+data.id;
+                        $('.loading').show();
+                    }
+                }
+            })
         }
     }
 
@@ -114,7 +143,7 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, ClientesBusca
             cidade = $scope.cliente.naturalidade;
         } else if(destino == 'cidades_conjuge') {
             var uf = $scope.cliente.conjuge ? $scope.cliente.conjuge.naturalidade_uf : false;
-            cidade = $scope.cliente.conjuge.naturalidade;
+            cidade = uf ? $scope.cliente.conjuge.naturalidade : false;
         }
 
         console.log(destino)

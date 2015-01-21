@@ -786,6 +786,16 @@ var FitMessage = (function() {
                 t: 'd',
                 tm: false
             },
+            166: {
+                b: 'Já existe um usuário cadastrado com esse e-mail.',
+                t: 'd',
+                tm: 0
+            },
+            167: {
+                b: 'Já existe um outro usuário cadastrado com este e-mail.',
+                t: 'd',
+                tm: 0
+            },
             
             500: {
                 b: 'Erro no processamento no servidor...',

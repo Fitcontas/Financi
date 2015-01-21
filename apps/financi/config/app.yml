@@ -8,18 +8,18 @@ menunav:
             clientes:
                 descricao: Clientes
                 link: /cliente
-            usuarios:
-                descricao: Usuários
-                link: /usuario
-            corretores:
-                descricao: Corretores
-                link: /corretor
-            empreendimentos:
-                descricao: Empreendimentos
-                link: /empreendimento
             lotes:
                 descricao: Lotes
                 link: /lote
+            empreendimentos:
+                descricao: Empreendimentos
+                link: /empreendimento
+            corretores:
+                descricao: Corretores
+                link: /corretor
+            usuarios:
+                descricao: Usuários
+                link: /usuario
     lancamentos:
         descricao: Lançamentos
         items:

@@ -103,7 +103,16 @@ class UsuarioController extends \SlimController\SlimController
 
         $data = json_decode($this->app->request->getBody());
 
+        $test = \Usuario::find('one', [
+                'conditions' => ['usuario = ? OR email = ?', $data->email, $data->email]
+            ]);
+
         if(isset($data->id)) {
+            
+            if(count($test) && $test->id != $data->id) {
+                return $this->app->response->setBody(json_encode( ['success' => false, 'msg' => 167] ));
+            }
+
             $usuario = \Usuario::find($data->id);
             $usuario->usuario = $data->email;
             $usuario->email = $data->email;
@@ -120,6 +129,11 @@ class UsuarioController extends \SlimController\SlimController
                 return $this->app->response->setBody(json_encode( ['success' => true] )); 
             }
         } else {
+
+            if(count($test)) {
+                return $this->app->response->setBody(json_encode( ['success' => false, 'msg' => 166] ));
+            }
+
             $usuario = new \Usuario();
             $usuario->usuario = $data->email;
             $usuario->email = $data->email;

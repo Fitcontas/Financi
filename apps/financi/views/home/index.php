@@ -2,7 +2,7 @@
     <div class="mensagem"></div>
     <div class="block-flat clearfix">
         <div class="header">
-            <h3>Mural</h3>
+            <h3>Resumo</h3>
         </div>
 
         <div class="container">

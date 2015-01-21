@@ -59,7 +59,7 @@ class ClienteController extends \SlimController\SlimController
         if(isset($get['column']) && isset($get['sort'])) {
             $sort = $get['column'] . ' ' . $get['sort'];
         } else {
-            $sort = '';
+            $sort = 'nome asc';
         }
 
         $clientes = \Clientes::find('all', [
@@ -277,6 +277,7 @@ class ClienteController extends \SlimController\SlimController
             unset($data->emails);
 
             $data->expedicao = \Financi\DataFormat::DateDB($data->expedicao);
+            $data->data_nascimento = \Financi\DataFormat::DateDB($data->data_nascimento);
 
             $cliente = new \Clientes($data);
             

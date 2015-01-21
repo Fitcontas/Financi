@@ -161,6 +161,8 @@ AppFinanci.controller('FormUsuarioCtrl', function($scope, $http, Usuarios, Usuar
                     } else {
                         chamaMsg('1', true);
                     }
+                } else {
+                    chamaMsg(data.msg, false);
                 }
             });
         }

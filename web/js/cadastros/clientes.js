@@ -97,6 +97,7 @@ AppFinanci.controller('FormCtrl', function($scope, $http, Cidades, $window) {
                 $('.loading').hide();
                 if(data.success) {
                     window.location = '/cliente/edita/pj/'+data.id;
+                    $('.loading').show();
                 }
             })
         }

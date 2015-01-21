@@ -78,7 +78,7 @@ class LoteController extends \SlimController\SlimController
         if(isset($get['column']) && isset($get['sort'])) {
             $sort = $get['column'] . ' ' . $get['sort'];
         } else {
-            $sort = '';
+            $sort = 'lote.numero ASC, empreendimento.empreendimento ASC, lote.quadra ASC';
         }
 
         $lotes = \Lote::find('all', [

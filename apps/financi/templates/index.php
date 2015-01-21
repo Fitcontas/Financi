@@ -78,7 +78,7 @@
 				    </li>-->
 
 	                <li class="dropdown profile_menu">
-	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-top: 15px; padding-bottom: 15px;"><?php echo $user['apelido'] ?> <b class="caret"></b></a>
+	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-top: 15px; padding-bottom: 15px; text-transform: uppercase;"><?php echo $user['apelido'] ?> <b class="caret"></b></a>
 	                    <ul class="dropdown-menu">
 				            <li><a data-toggle="modal" href="#" ng-click="showForm()"><i class="glyphicon glyphicon-cog"></i>  Minha conta</a></li>
 				            <li class="divider"></li>
@@ -176,10 +176,11 @@
 	            </div>
 
 	            <div class="modal-footer">
+	                
+	                <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
 	                <div class="btn-group">
 	                    <button class="btn btn-primary" ng-click="salvar(usuario)" type="button">Salvar</button>
 	                </div>
-	                <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
 	            </div>
 	        </div><!-- /.modal-content -->
 	    </div><!-- /.modal-dialog -->

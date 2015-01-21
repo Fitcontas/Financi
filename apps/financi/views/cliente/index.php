@@ -82,7 +82,7 @@
                                             <label><input type="checkbox" name="checkall" class="checkall" ng-model="checkall" ng-check-all-test></label>
                                         </div>
                                     </th>
-                                    <th width="40%" class="sorting" data-column="nome" data-sort="asc" ng-sort="">Nome/Razão Social</th>
+                                    <th width="40%" class="sorting" data-column="nome" data-sort="asc" ng-sort="asc">Nome/Razão Social</th>
                                     <th width="150px">CPF/CNPJ</th>
                                     <th>Telefones</th>
                                 </tr>

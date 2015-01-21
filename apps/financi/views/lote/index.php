@@ -95,7 +95,7 @@
                                 </div>
                               <ul class="pagination pull-right">
                                 <li ng-class="{'disabled':pagina == 1}"><a ng-click="start(1)" href="javascript:void(0)">«</a></li>
-                                <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}" ng-if="($index <= (pagina+2)) && ($index >= (pagina - 3))">
+                                <li ng-repeat="i in paginas track by $index" ng-init="p=$index+1" ng-class="{'disabled':p==pagina}" ng-if="($index <= (pagina+1)) && ($index >= (pagina - 3))">
                                   <a ng-click="start($index+1)" href="javascript:void(0)">{{$index+1}}</a>
                                 </li>
                                 <li ng-class="{'disabled':paginas.length == pagina}"><a ng-click="start(paginas.length)" href="javascript:void(0)">»</a></li>
