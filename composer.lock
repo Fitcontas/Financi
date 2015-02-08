@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e026c85ddc2824d5f63064cafbcfd253",
+    "hash": "fc0f4432df65c35c8ebb15cb9bac7a9a",
     "packages": [
         {
             "name": "leeoniya/dump-r",
@@ -12,16 +12,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/leeoniya/dump_r.php.git",
-                "reference": "7f96104bc1b34c0a6d534a6175d2fd1ae4573e7d"
+                "reference": "e54056068a485c8789af4c2d32a9c7ba18ce3fe3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/leeoniya/dump_r.php/zipball/7f96104bc1b34c0a6d534a6175d2fd1ae4573e7d",
-                "reference": "7f96104bc1b34c0a6d534a6175d2fd1ae4573e7d",
+                "url": "https://api.github.com/repos/leeoniya/dump_r.php/zipball/e54056068a485c8789af4c2d32a9c7ba18ce3fe3",
+                "reference": "e54056068a485c8789af4c2d32a9c7ba18ce3fe3",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.4.0"
             },
             "suggest": {
                 "jdorn/sql-formatter": "Pretty-print dumped SQL strings"
@@ -57,7 +57,7 @@
                 "print_r",
                 "var_dump"
             ],
-            "time": "2014-05-07 18:19:19"
+            "time": "2015-01-12 08:52:00"
         },
         {
             "name": "opis/database",
@@ -175,20 +175,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/jpfuentes2/php-activerecord.git",
-                "reference": "60c4adb849c06d346e0b04d95808f41e4bdd0e2a"
+                "reference": "b2ed6fc64ef35c88fd30d71091df0d0765719901"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jpfuentes2/php-activerecord/zipball/60c4adb849c06d346e0b04d95808f41e4bdd0e2a",
-                "reference": "60c4adb849c06d346e0b04d95808f41e4bdd0e2a",
+                "url": "https://api.github.com/repos/jpfuentes2/php-activerecord/zipball/b2ed6fc64ef35c88fd30d71091df0d0765719901",
+                "reference": "b2ed6fc64ef35c88fd30d71091df0d0765719901",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0"
             },
             "require-dev": {
-                "pear/log": "dev-master",
-                "pear/pear_exception": "1.0.*@dev",
+                "pear/log": "~1.12",
+                "pear/pear_exception": "1.0-beta1",
                 "phpunit/phpunit": "3.7.*"
             },
             "type": "library",
@@ -207,7 +207,103 @@
                 "activerecord",
                 "orm"
             ],
-            "time": "2014-10-05 12:01:25"
+            "time": "2015-01-17 23:49:21"
+        },
+        {
+            "name": "phpoffice/phpword",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPOffice/PHPWord.git",
+                "reference": "3f136501b3dfea94766a704e17782c8a942a7b9b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPOffice/PHPWord/zipball/3f136501b3dfea94766a704e17782c8a942a7b9b",
+                "reference": "3f136501b3dfea94766a704e17782c8a942a7b9b",
+                "shasum": ""
+            },
+            "require": {
+                "ext-xml": "*",
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "dompdf/dompdf": "0.6.*",
+                "mpdf/mpdf": "5.*",
+                "phpdocumentor/phpdocumentor": "2.*",
+                "phploc/phploc": "2.*",
+                "phpmd/phpmd": "2.*",
+                "phpunit/phpunit": "3.7.*",
+                "sebastian/phpcpd": "2.*",
+                "squizlabs/php_codesniffer": "1.*",
+                "tecnick.com/tcpdf": "6.*"
+            },
+            "suggest": {
+                "dompdf/dompdf": "Used to write PDF",
+                "ext-gd2": "Used to add images",
+                "ext-xmlwriter": "Used to write DOCX and ODT",
+                "ext-xsl": "Used to apply XSL style sheet to main document part of OOXML template",
+                "ext-zip": "Used to write DOCX and ODT"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PhpOffice\\PhpWord\\": "src/PhpWord"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Franck Lefevre",
+                    "homepage": "http://blog.rootslabs.net"
+                },
+                {
+                    "name": "Gabriel Bull",
+                    "email": "me@gabrielbull.com",
+                    "homepage": "http://gabrielbull.com/"
+                },
+                {
+                    "name": "Ivan Lanin",
+                    "homepage": "http://ivan.lanin.org"
+                },
+                {
+                    "name": "Roman Syroeshko",
+                    "homepage": "http://ru.linkedin.com/pub/roman-syroeshko/34/a53/994/"
+                }
+            ],
+            "description": "PHPWord - A pure PHP library for reading and writing word processing documents (DOCX, ODT, RTF, HTML, PDF)",
+            "homepage": "http://phpoffice.github.io",
+            "keywords": [
+                "ISO IEC 29500",
+                "OOXML",
+                "Office Open XML",
+                "OpenDocument",
+                "OpenXML",
+                "PhpOffice",
+                "PhpWord",
+                "Rich Text Format",
+                "WordprocessingML",
+                "doc",
+                "docx",
+                "html",
+                "odt",
+                "office",
+                "pdf",
+                "php",
+                "reader",
+                "rtf",
+                "template",
+                "template processor",
+                "word",
+                "writer"
+            ],
+            "time": "2015-01-03 09:42:48"
         },
         {
             "name": "predis/predis",
@@ -307,16 +403,16 @@
         },
         {
             "name": "slimcontroller/slimcontroller",
-            "version": "0.4.1",
+            "version": "0.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fortrabbit/slimcontroller.git",
-                "reference": "f9306eac173671544025b3febe3c5f146ac973e8"
+                "reference": "648d63a8ab3391dd9e825053476b80fe9335994e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fortrabbit/slimcontroller/zipball/f9306eac173671544025b3febe3c5f146ac973e8",
-                "reference": "f9306eac173671544025b3febe3c5f146ac973e8",
+                "url": "https://api.github.com/repos/fortrabbit/slimcontroller/zipball/648d63a8ab3391dd9e825053476b80fe9335994e",
+                "reference": "648d63a8ab3391dd9e825053476b80fe9335994e",
                 "shasum": ""
             },
             "require": {
@@ -325,7 +421,7 @@
             },
             "require-dev": {
                 "mockery/mockery": "0.8.*",
-                "phpunit/phpunit": "3.7.*"
+                "phpunit/phpunit": "4.3.5"
             },
             "type": "library",
             "autoload": {
@@ -350,20 +446,20 @@
                 "controller",
                 "microframework"
             ],
-            "time": "2014-04-14 19:26:29"
+            "time": "2014-12-24 02:32:33"
         },
         {
             "name": "swiftmailer/swiftmailer",
-            "version": "v5.3.0",
+            "version": "v5.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swiftmailer/swiftmailer.git",
-                "reference": "b86b927dfefdb56ab0b22d1350033d9a38e9f205"
+                "reference": "c5f963e7f9d6f6438fda4f22d5cc2db296ec621a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/b86b927dfefdb56ab0b22d1350033d9a38e9f205",
-                "reference": "b86b927dfefdb56ab0b22d1350033d9a38e9f205",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/c5f963e7f9d6f6438fda4f22d5cc2db296ec621a",
+                "reference": "c5f963e7f9d6f6438fda4f22d5cc2db296ec621a",
                 "shasum": ""
             },
             "require": {
@@ -402,21 +498,21 @@
                 "mail",
                 "mailer"
             ],
-            "time": "2014-10-04 05:53:18"
+            "time": "2014-12-05 14:17:14"
         },
         {
             "name": "symfony/yaml",
-            "version": "dev-master",
+            "version": "2.6.x-dev",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml.git",
-                "reference": "f2db1e9df6e325a578dabb278e1c0be34676da88"
+                "reference": "60ed7751671113cf1ee7d7778e691642c2e9acd8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Yaml/zipball/f2db1e9df6e325a578dabb278e1c0be34676da88",
-                "reference": "f2db1e9df6e325a578dabb278e1c0be34676da88",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/60ed7751671113cf1ee7d7778e691642c2e9acd8",
+                "reference": "60ed7751671113cf1ee7d7778e691642c2e9acd8",
                 "shasum": ""
             },
             "require": {
@@ -425,7 +521,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "2.6-dev"
                 }
             },
             "autoload": {
@@ -449,7 +545,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "http://symfony.com",
-            "time": "2014-12-02 20:20:06"
+            "time": "2015-01-25 04:39:26"
         },
         {
             "name": "zf1/zend-exception",
@@ -613,9 +709,11 @@
         "php-activerecord/php-activerecord": 20,
         "symfony/yaml": 20,
         "leeoniya/dump-r": 20,
-        "swiftmailer/swiftmailer": 0
+        "swiftmailer/swiftmailer": 0,
+        "phpoffice/phpword": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }

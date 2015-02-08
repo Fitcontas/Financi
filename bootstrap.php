@@ -28,7 +28,7 @@ ActiveRecord\Config::initialize(function($cfg)
     $cfg->set_connections(
         array(
            'development' => 'mysql://root:123@localhost/financi_dev',
-           'test' => 'mysql://root:ilewraxl@localhost/financi',
+           //'test' => 'mysql://root:ilewraxl@localhost/financi',
            'production' => 'mysql://root:123@localhost/financi_dev'
         )
     );

@@ -29,7 +29,7 @@ class WebServices
     static function service($service, $key_value = false)
     {
 
-        $resource = json_decode(file_get_contents('http://fitcontas.com.br/fitservices/' . $service));
+        $resource = json_decode(file_get_contents('http://localhost:9000/' . $service));
 
         if($key_value) {
             return self::getKeyValue($resource->rows, $key_value['key'], $key_value['value']);

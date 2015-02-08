@@ -3,12 +3,22 @@
 namespace Controllers;
 
 use Opis\Session\Session,
-    \Financi\WebServices;
+    \Financi\WebServices,
+    \PhpOffice\PhpWord\TemplateProcessor;
 
 class HomeController extends \SlimController\SlimController 
 {
 	public function indexAction()
 	{
+
+        $templateProcessor = new TemplateProcessor(ROOT . DS . 'template.docx');
+        $templateProcessor->setValue('empresa', 'Financi Empreendimentos LTDA');
+
+        $templateProcessor->cloneBlock('CLIENTE', 3, true);
+
+        $templateProcessor->saveAs(ROOT . DS . 'Sample_07_TemplateCloneRow.docx');
+
+
 
 
         $usuario = \Usuario::find(\Financi\Auth::getUser()['id']);

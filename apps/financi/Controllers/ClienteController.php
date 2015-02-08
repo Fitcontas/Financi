@@ -243,7 +243,9 @@ class ClienteController extends \SlimController\SlimController
             $emails[] = $e->to_array();
         }
 
-        $cnae = \Cnae::find($cliente->cnae);
+        if($cliente->cnae){
+            $cnae = \Cnae::find($cliente->cnae);
+        }
 
         $array = array_merge($array, ['telefones' => $telefones], ['emails' => $emails]);
 
