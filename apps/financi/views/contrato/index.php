@@ -75,7 +75,7 @@
                                     <td><a ng-click="showFormEdit(c.id)">{{ c.contrato }}</a></td>
                                     <td>{{ c.clientes.length == 1 ? c.clientes[0].nome : c.clientes[0].nome + ' e outros' }}</td>
                                     <td class="text-right">{{ c.valor }}</td>
-                                    <td><a href="#"><i class="fa fa-print"></i></a></td>
+                                    <td><a href="/contrato/print/{{ c.id }}" target="_blank"><i class="fa fa-print"></i></a></td>
                                 </tr>
                             </tbody>
                         </table>

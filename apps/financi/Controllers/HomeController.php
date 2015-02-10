@@ -19,8 +19,6 @@ class HomeController extends \SlimController\SlimController
         $templateProcessor->saveAs(ROOT . DS . 'Sample_07_TemplateCloneRow.docx');
 
 
-
-
         $usuario = \Usuario::find(\Financi\Auth::getUser()['id']);
 
         $conditions = [ 'instituicao_id = ? and status <> 0', \Financi\Auth::getUser()['instituicao_id'] ];

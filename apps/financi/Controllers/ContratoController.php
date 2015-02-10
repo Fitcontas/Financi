@@ -4,7 +4,9 @@ namespace Controllers;
 
 use Opis\Session\Session,
     \Financi\WebServices,
-    \Financi\CalcFi;
+    \Financi\CalcFi,
+    \PhpOffice\PhpWord\TemplateProcessor,
+    \Financi\DataFormat;
 
 class ContratoController extends \SlimController\SlimController 
 {
@@ -39,6 +41,97 @@ class ContratoController extends \SlimController\SlimController
                 'foot_js' => [ 'js/maskMoney/jquery.maskMoney.min.js', 'js/mask.js', 'bower_components/lodash/dist/lodash.min.js', 'bower_components/accounting/accounting.min.js', 'bower_components/moment/min/moment.min.js', 'js/contrato/contrato.js' ]
             ]);
 
+    }
+
+    public function printAction($id) 
+    {
+        if($id) {
+
+            $estado_civil = [
+                '1' => 'Solteiro',
+                '2' => 'Casado',
+                '3' => 'Viúvo',
+                '4' => 'Divorciado'
+            ];
+
+            $escolaridade = [
+                '1' => 'Analfabeto',
+                '2' => 'Alfabetizado',
+                '3' => 'Médio Incompleto',
+                '4' => 'Médio Completo',
+                '5' => 'Superior Incompleto',
+                '6' => 'Superior Completo',
+                '7' => 'Pos-graduado',
+                '8' => 'Mestre',
+                '9' => 'Doutor'
+            ];
+
+            $contrato = \Contrato::find($id);
+            $templateProcessor = new TemplateProcessor(ROOT . DS . 'data' . DS . 'modelo_contrato.docx');
+
+            $data_emissao = DataFormat::showDate($contrato->data_emissao);
+            $numero_contrato = str_pad( $contrato->id.$contrato->data_emissao->format('Y'), 9, 0, STR_PAD_LEFT);
+
+            $templateProcessor->setValue('numero_contrato', $numero_contrato);
+            $templateProcessor->setValue('data_emissao', mb_strtoupper($data_emissao));
+            $templateProcessor->setValue('financi', 'FINANCI EMPREENDIMENTOS IMOBILIÁRIOS LTDA');
+
+            $templateProcessor->setValue('adquirente01', mb_strtoupper($contrato->contrato_cliente[0]->cliente->nome));
+
+            $array_contrato = $contrato->contrato_cliente[0]->cliente->to_array();
+
+            foreach ($array_contrato as $key => $value) {
+                //print_r($key);
+                if($key == 'cpf') {
+                    $templateProcessor->setValue('cliente01_cpf_cnpj', $array_contrato['cpf'] . $array_contrato['cnpj']);
+                } else if($key == 'estado_civil') {
+                    $templateProcessor->setValue('cliente01_estado_civil', $estado_civil[$value]);
+                } else if($key == 'naturalidade_uf') {
+                    $naturalidade = WebServices::service('cidade/'.$array_contrato['naturalidade']);
+                    $templateProcessor->setValue('cliente01_naturalidade_uf', $naturalidade->rows->nome . '/' . $value);
+                } else if($key == 'expedicao') {
+                    $templateProcessor->setValue('cliente01_expedicao', $contrato->contrato_cliente[0]->cliente->expedicao->format('d/m/Y'));
+                } else if($key == 'escolaridade') {
+                    $templateProcessor->setValue('cliente01_escolaridade', $escolaridade[$value]);
+                } else if($key == 'residencia') {
+                    $templateProcessor->setValue('cliente01_' . $key, $value == 1 ? 'PRÓPRIA' : 'ALUGADA');
+                } else {
+                    $templateProcessor->setValue('cliente01_' . $key, $value ? mb_strtoupper($value) : '');
+                }
+
+
+                
+                foreach ($contrato->contrato_cliente[0]->cliente->telefones as $t) {
+                    if($t->tipo == 1) {
+                        $cliente01_celular = '('. $t->ddd .') ' . $t->numero;
+                    } else if($t->tipo == 2) {
+                        $cliente01_comercial = '('. $t->ddd .') ' . $t->numero;
+                    } else if($t->tipo == 3) {
+                        $cliente01_residencial = '('. $t->ddd .') ' . $t->numero;
+                    }
+                }
+
+                $templateProcessor->setValue('cliente01_celular', isset($cliente01_celular) ? $cliente01_celular : '');
+                $templateProcessor->setValue('cliente01_comercial', isset($cliente01_comercial) ? $cliente01_comercial : '');
+                $templateProcessor->setValue('cliente01_residencial', isset($cliente01_residencial) ? $cliente01_residencial : '');
+
+                
+                foreach ($contrato->contrato_cliente[0]->cliente->emails as $e) {
+                    if($e->tipo == 1) {
+                        $cliente01_email_pessoal = $e->email;
+                    } else if($e->tipo == 2) {
+                        $cliente01_email_profissional = $e->email;
+                    }
+                }
+
+                $templateProcessor->setValue('cliente01_email01', isset($cliente01_email_pessoal) ? $cliente01_email_pessoal : '');
+                $templateProcessor->setValue('cliente01_email02', isset($cliente01_email_profissional) ? $cliente01_email_profissional : '');
+
+            }
+            
+            unlink(ROOT . DS . 'contrato.docx');
+            $templateProcessor->saveAs(ROOT . DS . 'contrato.docx');
+        }
     }
 
     public function allAction()

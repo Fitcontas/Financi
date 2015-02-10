@@ -262,6 +262,11 @@ contrato_all:
     route: Contrato:all
     url: /contrato/all(/:id)
 
+contrato_print:
+    method: get
+    route: Contrato:print
+    url: /contrato/print(/:id)
+
 contrato_acoes:
     method: post
     route: Contrato:acoes
