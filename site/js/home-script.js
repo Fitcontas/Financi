@@ -63,7 +63,7 @@ AppFinanci.controller('SlideCtrl', function($scope, $location) {
     1:'Avenida Comercial',
     2:'Infraestrutura Completa',
     3:'Áreas Públicas',
-    4:'Áreas Públicas'
+    4:'Vista Aérea'
   };
 
   //$scope.slide_atual = 1;
