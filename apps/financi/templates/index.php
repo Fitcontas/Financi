@@ -69,25 +69,7 @@
         </div>
 
         <div class="container-fluid" id="pcont">
-            <div class="page-head">
-				<h2>Empreendimentos</h2>
-				<ol class="breadcrumb">
-				  <li><a href="/">Home</a></li>
-				  <li class="active">Cadastro</li>
-				  <li class="active">Empreendimentos</li>
-				</ol>
-			</div>
-          
-            <div class="cl-mcont" ng-cloak>
-                <div class="no-margin-top">
-                    <div class="col-sm-24">
-                		<div class="new-msg"></div>
-                    </div> 
-                </div>
-
-
-                <?php require_once $content ?>
-            </div>
+            <?php require_once $content ?>
         </div>
     </div>
     

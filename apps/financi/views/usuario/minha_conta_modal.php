@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div role="dialog" id="minha_conta_modal" class="modal fade in" aria-hidden="false">
+<div role="dialog" id="minha_conta_modal" class="colored-header md-effect-10 md-show modal" aria-hidden="false">
     <form autocomplete="off" name="MinhaContaForm" id="MinhaContaForm" class="form-horizontal">
 	    <div class="modal-dialog">
 	        <div class="modal-content">
