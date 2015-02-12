@@ -1,6 +1,5 @@
 <div class="row margin-top-50" ng-cloak>
     <div class="mensagem"></div>
-    <div class="block-flat clearfix">
         <div class="header">
             <h3>Resumo</h3>
         </div>
@@ -82,6 +81,5 @@
             </tbody>
         </table>
         <?php endif; ?>
-    </div>
 </div>
 

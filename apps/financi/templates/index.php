@@ -38,140 +38,55 @@
 	    </div>
 	</div>
 
-	<div>
-
 	<div ng-controller="ctrlMinhaConta">
-	<!-- Fixed navbar -->
-	<div id="head-nav" class="navbar navbar-default navbar-fixed-top">
-	    <div class="container main-box">
-	        <div class="navbar-header">
-	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-	                <span class="fa fa-gear"></span>
-	            </button>
-	            <a class="navbar-brand" href="#"><span> </span></a>
-	        </div>
-	        <div class="navbar-collapse collapse">
-	            <?php if($user['grupo_id'] == 1): ?>
-	            <?php echo \Financi\Menu::render('menunav') ?>
-				<?php endif; ?>
-
-	            <ul class="nav navbar-nav navbar-right user-nav">
-
-	                <li class="dropdown profile_menu">
-	                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-top: 15px; padding-bottom: 15px; text-transform: uppercase;"><?php echo $user['apelido'] ?> <b class="caret"></b></a>
-	                    <ul class="dropdown-menu">
-				            <li><a data-toggle="modal" href="#" ng-click="showForm()"><i class="glyphicon glyphicon-cog"></i>  Minha conta</a></li>
-				            <li class="divider"></li>
-				            <li><a href="/sair"><i class="glyphicon glyphicon-off"></i>  Sair</a></li>
-				        </ul>
-	                </li>
-	            </ul>
-	        </div>
-
-	    </div>
-
-	    <div class="page-head">
-	        <div class="container main-box">
-	            <ol class="breadcrumb">
-	            	<?php if(isset($breadcrumb)): ?>
-	            		<?php foreach ($breadcrumb as $b): ?>
-	            			<li class="active"><?php echo $b ?></li>
-	            		<?php endforeach ?>
-	            	<?php else: ?>
-                    <li class="active">Cadastro</li>
-                    <li class="active">Dev</li>
-                	<?php endif ?>
-                </ol>
-	        </div>
-    	</div>
-	</div>
-	
-	<div class="container main-box">
-		<?php require_once $content ?>
+		<?php include APP_PATH . DS . 'templates' . DS . 'navbar.php' ?>
+		<?php include APP_PATH . DS . 'views' . DS . 'usuario' . DS . 'minha_conta_modal.php' ?>
 	</div>
 
-	<!-- Modal -->
-	<div role="dialog" id="minha_conta_modal" class="modal fade in" aria-hidden="false"><!-- Modal -->
-	    <form autocomplete="off" name="MinhaContaForm" id="MinhaContaForm" class="form-horizontal">
-	    <div class="modal-dialog">
-	        <div class="modal-content">
-	            <div class="modal-header">
-	                <h3>Minha Conta</h3>
-	                <span>Formulário de Cadastro</span>
-	                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-	            </div>
-	            <div class="modal-body">
-	                <div class="mensagem-modal">
-	                </div>
+	<div id="cl-wrapper">
+            
+        <div class="cl-sidebar">
+          
+            <div class="cl-toggle">
+                <i class="fa fa-bars"></i>
+            </div>
 
-	                <div class="form-group">
-	                    <label class="col-sm-6 control-label" for="nome">Nome  </label>
-	                    <div class="col-sm-18">
-	                        <input type="text" value="" name="nome" req="" class="form-control" ng-model="usuario.nome" disabled>
-	                    </div>
-	                </div>
+            <div class="cl-navblock">
+                <div class="menu-space">
+                    <div class="content">
+                        <ul class="cl-vnavigation">
+							<?php if($user['grupo_id'] == 1): ?>
+				            <?php echo \Financi\Menu::render('menunav') ?>
+							<?php endif; ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-	                <div class="form-group">
-	                    <label class="col-sm-6 control-label" for="nome">Apelido  </label>
-	                    <div class="col-sm-18">
-	                        <input type="text" value="" name="apelido" req class="form-control" ng-model="usuario.apelido" required>
-	                    </div>
-	                </div>
+        <div class="container-fluid" id="pcont">
+            <div class="page-head">
+				<h2>Empreendimentos</h2>
+				<ol class="breadcrumb">
+				  <li><a href="/">Home</a></li>
+				  <li class="active">Cadastro</li>
+				  <li class="active">Empreendimentos</li>
+				</ol>
+			</div>
+          
+            <div class="cl-mcont" ng-cloak>
+                <div class="no-margin-top">
+                    <div class="col-sm-24">
+                		<div class="new-msg"></div>
+                    </div> 
+                </div>
 
-	                <div class="form-group">
-	                    <label class="col-sm-6 control-label" for="email">E-mail </label>
-	                    <div class="col-sm-14">
-	                        <input type="email" value="" maxlength="150" req name="email" id="email" class="form-control" required data-ng-model="usuario.email">
-	                    </div>
-	                </div>
 
-	                <div class="form-group">
-	                    <label class="col-sm-6 control-label" for="email">Confirme o E-mail </label>
-	                    <div class="col-sm-14">
-	                        <input type="email" value="" maxlength="150" req="" name="email2" id="email2" class="form-control" ng-model="usuario.email2" required>
-	                    </div>
-	                </div>
-
-	                <div class="form-group">
-	                    <label class="col-sm-6 control-label" for="senha">Senha Atual </label>
-	                    <div class="col-sm-14">
-	                        <input type="password" ng-minlength="6" ng-maxlength="15" name="senha_atual" id="minha_conta_senha_atual" class="form-control" data-ng-model="usuario.senha_atual">
-	                    </div>
-	                </div>
-	                
-	                <div class="form-group">
-	                    <label class="col-sm-6 control-label" for="senha">Nova Senha </label>
-	                    <div class="col-sm-14">
-	                        <input type="password" ng-minlength="6" ng-maxlength="15" name="senha" id="minha_conta_senha" class="form-control" value="" data-ng-model="usuario.senha">
-	                    </div>
-	                </div>
-
-	                <div class="form-group">
-	                    <label class="col-sm-6 control-label" for="senha2">Confirme a Senha </label>
-	                    <div class="col-sm-14">
-	                        <input type="password" ng-minlength="6" ng-maxlength="15" name="senha2" id="minha_conta_senha2" class="form-control" value="" ng-model="usuario.senha2" data-password-verify="usuario.senha">
-	                    </div>
-	                </div>
-
-	            </div>
-
-	            <div class="modal-footer">
-	                
-	                <button data-dismiss="modal" class="btn btn-default" type="button">Cancelar</button>
-	                <div class="btn-group">
-	                    <button class="btn btn-primary" ng-click="salvar(usuario)" type="button">Salvar</button>
-	                </div>
-	            </div>
-	        </div><!-- /.modal-content -->
-	    </div><!-- /.modal-dialog -->
-	    </form>
-	</div>
-	</div>
-
-	</div>
-	<!-- fim ctrlMinhaConta -->
-
-	<div class="new-msg"></div>
+                <?php require_once $content ?>
+            </div>
+        </div>
+    </div>
+    
 
 	<?php if(isset($foot_css)): ?>
 	<?php foreach ($foot_css as $key => $value): ?>
@@ -189,8 +104,8 @@
 	<?php endforeach ?>
 	<?php endif; ?>
 	
-		<script>
+	<script>
 		var trocar_senha = <?php echo isset($trocar_senha) ? 1 : 0;  ?>;
-		</script>
+	</script>
 </body>
 </html>

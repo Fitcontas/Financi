@@ -4,17 +4,18 @@ AppFinanci.controller('ctrlMinhaConta', function($scope, $http, Usuarios, Usuari
 
     $scope.usuario = {};
 
+    $http({
+        'method': 'get',
+        'url': '/minha-conta',
+    }).success(function(data) {
+        if(data.success) {
+            $scope.usuario = data.usuario;
+        }
+    });
+    
     $scope.showForm = function() {
         //$scope.usuario = item ? item : {};
 
-        $http({
-            'method': 'get',
-            'url': '/minha-conta',
-        }).success(function(data) {
-            if(data.success) {
-                $scope.usuario = data.usuario;
-            }
-        });
 
         if($scope.usuario) {
             $('#senha, #senha2').removeAttr('req');

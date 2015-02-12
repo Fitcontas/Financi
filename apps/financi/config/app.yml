@@ -1,8 +1,10 @@
 menunav:
     inicio:
+        icon: home
         descricao: Mural
         link: /
     cadastros:
+        icon: folder-open-o
         descricao: Cadastros
         items:
             clientes:
@@ -21,11 +23,19 @@ menunav:
                 descricao: Usuários
                 link: /usuario
     lancamentos:
+        icon: exchange
         descricao: Lançamentos
         items:
             contrato:
                 descricao: Contrato
                 link: /contrato
+    relatorios:
+        icon: bar-chart-o
+        descricao: Relatórios
+        items:
+            teste:
+                descricao: Teste
+                link: /relatorio/teste
 
 pagination:
     limit: 10

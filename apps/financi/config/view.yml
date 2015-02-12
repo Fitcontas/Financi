@@ -3,7 +3,8 @@ default:
 
     stylesheets:
         - js/bootstrap/dist/css/bootstrap
-        - main
+        - cleanzone
+        - component
         - custom
         - fonts/font-awesome-4/css/font-awesome.min
         - bower_components/angular-loading-bar/src/loading-bar
@@ -25,6 +26,7 @@ default:
         - bower_components/angular-ui-select2/src/select2
         - js/mask
         - main
+        - cleanzone
         - messages
         - directives
         - services

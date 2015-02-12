@@ -1,6 +1,6 @@
 <div ng-controller="FormEmpreendimentoCtrl" ng-cloak>
 <form id="#grid_empreendimento" class="grid">
-    <div class="row margin-top-50">
+    <div class="row no-margin-top">
         <div id="no-reg" class="content" style="display: none">
             <div class="container">
                 <h5>No momento não existe nenhum registro cadastrado. <?php echo true ? 'Para inserir um novo clique em “Adicionar”.' : '' ?></h5>
@@ -18,22 +18,14 @@
                 <!-- Conteúdo da mensagem -->
             </div>
 
-            <div class="block-flat" ng-show="model.total_geral == 0 && model.$resolved">
-                <div class="header">
-                    <h3>Empreendimentos</h3>
-                </div>
-
+            <div ng-show="model.total_geral == 0 && model.$resolved">
                 <div class="content spacer0 process">
                     <p>Até o momento não existe nenhum empreendimento cadastro. Para inserir um novo registro clique no botão adicionar.</p>
                     <p><button type="button" class="btn btn-default" ng-click="showForm(false)" style="margin:5px 0 0 0 !important">Adicionar</button></p>
                 </div>
             </div>
 
-            <div class="block-flat" ng-show="(model.empreendimentos.length && model.$resolved) || model.busca">
-                <div class="header">
-                    <h3>Relação de Empreendimentos</h3>
-                </div>
-
+            <div ng-show="(model.empreendimentos.length && model.$resolved) || model.busca">
                 <div class="content spacer0 process">
                     <div class="toobar">
                         <div class="pull-left">

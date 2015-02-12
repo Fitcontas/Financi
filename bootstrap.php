@@ -1,5 +1,19 @@
 <?php
 
+function dd($in, $d = false) {
+
+    echo '<pre>';
+
+    if ($d) {
+        var_dump($in);
+    } else {
+        print_r($in);
+    }
+
+    echo '</pre>';
+    exit;
+}
+
 //configurando o PHP para mostrar os erros na tela
 ini_set('display_errors', 1);
 

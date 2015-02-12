@@ -32,45 +32,47 @@ class Menu
 
 	static public function render($menu)
 	{
-		$io_menu = new ioMenu();
-		$io_menu->setAttributes(['class'=>'nav navbar-nav']);
+        $elements = [
+            'li' => '<li>
+                        <a href="%s" class="navigation-link">
+                            <i class="hide toggle-icon fa fa-%s"></i>
+                            <span>%s</span>
+                        </a>
+                    </li>',
 
-		foreach (static::getMenu($menu) as $menu) {
-			$io_menu->addChild($menu['descricao'], isset($menu['link']) ? $menu['link'] : '#' );
+            'li-menu' => '<li data-position="%s">
+                            <a href="%s" class="navigation-link">
+                                <i class="hide toggle-icon fa fa-%s"></i>
+                                <i class="fa fa-angle-down pull-right"></i>
+                                <span>%s</span>
+                            </a>
+                            <ul class="sub-menu">%s</ul>
+                        </li>',
 
-			if (isset($menu['link']) && $menu['link'] !== '#') {
-				// if (!\Financi\User::isPermited($menu['link'])) {
-				// 	$io_menu->removeChild($menu['descricao']);
-				// 	continue;
-				// }
-			}
+            'li-sub' => '<li>
+                            <a href="%s" class="navigation-link">%s</a>
+                        </li>'
+        ];
 
-			if(isset($menu['items'])) {
-				$name = $menu['descricao'] . ' <b class="caret"></b>';
-				$io_menu[$menu['descricao']]->setName($name);
+        $html = '';
 
-				foreach ($menu['items'] as $item) {
+        foreach (static::getMenu($menu) as $name => $childs) {
 
-					// if (isset($item['link']) && $item['link'] !== '#') {
-					// 	if (!\Financi\User::isPermited($item['link'])) {
-					// 		continue;
-					// 	}
-					// }
+        	if (isset($childs['items'])) {
+        		
+        		$lis = '';
 
-					$io_menu[$name]->setAttributes(['class'=>'dropdown']);
-					$io_menu[$name]->setLinkOptions(['class'=>'dropdown-toggle', 'data-toggle'=>'dropdown']);
-					$io_menu[$name]->addChild($item['descricao'], $item['link']);
-				}
-			}
+                foreach ($childs['items'] as $child) {
+                    $lis .= sprintf($elements['li-sub'], $child['link'], $child['descricao']);
+                }
 
-			if(isset($menu['items'])) {
-				if ( ! count($io_menu[$menu['descricao'] . ' <b class="caret"></b>']->getChildren())) {
-					$io_menu->removeChild($menu['descricao'] . ' <b class="caret"></b>');
-				}
-			}
-		}
+                $html .= sprintf($elements['li-menu'], '', '#', $childs['icon'], $childs['descricao'], $lis);
+        	} else {
+        		$html .= sprintf($elements['li'], '#', $childs['icon'], $childs['descricao']);
+        	}
+        }
 
-		return $io_menu->render();
+        return $html;
 	}
 
 	static public function renderForAll()
